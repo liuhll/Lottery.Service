@@ -2282,7 +2282,6 @@ create table L_PlanKeyNumber (
    Id                   varchar(36)          not null,
    PlanInfoId           varchar(36)          null,
    PositionId           varchar(36)          null default '0',
-   NumberValue          int                  null default 0,
    constraint PK_L_PLANKEYNUMBER primary key (Id)
 )
 go
