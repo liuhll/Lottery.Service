@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     2017/11/21 20:32:30                          */
+/* Created on:     2017/11/23 20:41:05                          */
 /*==============================================================*/
 
 
@@ -118,30 +118,23 @@ go
 
 if exists (select 1
             from  sysobjects
-           where  id = object_id('LA_PlanNorm')
+           where  id = object_id('LA_NormConfig')
             and   type = 'U')
-   drop table LA_PlanNorm
+   drop table LA_NormConfig
 go
 
 if exists (select 1
             from  sysobjects
-           where  id = object_id('LA_PlanNorm_SystemDefault')
+           where  id = object_id('LC_DictionaryCatalogue')
             and   type = 'U')
-   drop table LA_PlanNorm_SystemDefault
+   drop table LC_DictionaryCatalogue
 go
 
 if exists (select 1
             from  sysobjects
-           where  id = object_id('LA_UserBasicNorm')
+           where  id = object_id('LC_DictionaryValue')
             and   type = 'U')
-   drop table LA_UserBasicNorm
-go
-
-if exists (select 1
-            from  sysobjects
-           where  id = object_id('LA_UserNorm')
-            and   type = 'U')
-   drop table LA_UserNorm
+   drop table LC_DictionaryValue
 go
 
 if exists (select 1
@@ -1128,14 +1121,15 @@ go
 /*==============================================================*/
 create table LA_LotteryPredictData (
    Id                   varchar(36)          not null,
-   PlanNormId           varchar(36)          null,
+   NormConfigId         varchar(36)          null,
    CurrentPredictPeriod int                  not null,
    StartPeriod          int                  null,
    EndPeriod            int                  null,
    MinorCycle           int                  null,
    PredictedData        varchar(200)         null,
    PredictedResult      int                  null,
-   CreatBy              varchar(36)          null,
+   CurrentScore         decimal(18,2)        null,
+   CreateBy             varchar(36)          null,
    CreateTime           datetime             null,
    UpdateBy             varchar(36)          null,
    UpdateTime           datetime             null,
@@ -1143,580 +1137,80 @@ create table LA_LotteryPredictData (
 )
 go
 
-/*==============================================================*/
-/* Table: LA_PlanNorm                                           */
-/*==============================================================*/
-create table LA_PlanNorm (
-   Id                   varchar(36)          not null,
-   LotteryId            varchar(36)          null,
-   PlanId               varchar(36)          null,
-   PlanCycle            int                  not null,
-   ForecastCount        int                  not null,
-   BasicHistoryCount    int                  not null,
-   UnitHistoryCount     int                  not null,
-   HotWeight            decimal(18,2)        null,
-   SizeWeight           decimal(18,2)        null,
-   ThreeRegionWeight    decimal(18,2)        null,
-   MissingValueWeight   decimal(18,2)        null,
-   OddEvenWeight        decimal(18,2)        null,
-   LastStartPeriod      int                  null,
-   CurrentAccuracy      decimal(18,2)        null,
-   IsEnable             bit                  null,
-   IsDefault            bit                  null,
-   CreatBy              varchar(36)          null,
-   CreateTime           datetime             null,
-   UpdateBy             varchar(36)          null,
-   UpdateTime           datetime             null,
-   constraint PK_LA_PLANNORM primary key (Id)
-)
-go
-
 if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Id')
+      p.major_id = object_id('LA_LotteryPredictData')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'PredictedResult')
 )
 begin
    declare @CurrentUser sysname
 select @CurrentUser = user_name()
 execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'Id'
+   'user', @CurrentUser, 'table', 'LA_LotteryPredictData', 'column', 'PredictedResult'
 
 end
 
 
 select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
-   '主键Id',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'Id'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'LotteryId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'LotteryId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '彩种编码',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'LotteryId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'PlanId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'PlanId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '计划Id',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'PlanId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'PlanCycle')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'PlanCycle'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '计划周期',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'PlanCycle'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'ForecastCount')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'ForecastCount'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '预测个数',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'ForecastCount'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'BasicHistoryCount')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'BasicHistoryCount'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '分析基数',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'BasicHistoryCount'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'UnitHistoryCount')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'UnitHistoryCount'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '分析单元数',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'UnitHistoryCount'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'HotWeight')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'HotWeight'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '冷热权重',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'HotWeight'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'SizeWeight')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'SizeWeight'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '大小权重',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'SizeWeight'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'ThreeRegionWeight')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'ThreeRegionWeight'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '三区间权重',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'ThreeRegionWeight'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'MissingValueWeight')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'MissingValueWeight'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '遗漏值权重',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'MissingValueWeight'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'OddEvenWeight')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'OddEvenWeight'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '奇偶权重',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'OddEvenWeight'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'LastStartPeriod')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'LastStartPeriod'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '指标开始周期',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'LastStartPeriod'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'CurrentAccuracy')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'CurrentAccuracy'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '当前正确了(计算最近10期)',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'CurrentAccuracy'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_PlanNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'IsEnable')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'IsEnable'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '是否可用',
-   'user', @CurrentUser, 'table', 'LA_PlanNorm', 'column', 'IsEnable'
+   '1.正确;2.错误,3,等待开奖',
+   'user', @CurrentUser, 'table', 'LA_LotteryPredictData', 'column', 'PredictedResult'
 go
 
 /*==============================================================*/
-/* Table: LA_PlanNorm_SystemDefault                             */
+/* Table: LA_NormConfig                                         */
 /*==============================================================*/
-create table LA_PlanNorm_SystemDefault (
-   Id                   varchar(36)          not null,
-   LotteryId            varchar(36)          null,
-   PlanId               varchar(36)          null,
-   PlanCycle            int                  not null,
-   ForecastCount        int                  not null,
-   BasicHistoryCount    int                  not null,
-   UnitHistoryCount     int                  not null,
-   HotWeight            decimal(18,2)        null,
-   SizeWeight           decimal(18,2)        null,
-   ThreeRegionWeight    decimal(18,2)        null,
-   MissingValueWeight   decimal(18,2)        null,
-   OddEvenWeight        decimal(18,2)        null,
-   LastStartPeriod      int                  null,
-   CurrentAccuracy      decimal(18,2)        null,
-   IsEnable             bit                  null default 1,
-   IsDefault            bit                  null default 1,
-   CreatBy              varchar(36)          null,
-   CreateTime           datetime             null,
-   UpdateBy             varchar(36)          null,
-   UpdateTime           datetime             null,
-   constraint PK_LA_PLANNORM_SYSTEMDEFAULT primary key (Id)
-)
-go
-
-/*==============================================================*/
-/* Table: LA_UserBasicNorm                                      */
-/*==============================================================*/
-create table LA_UserBasicNorm (
-   Id                   varchar(36)          not null,
-   UserId               varchar(36)          null,
-   LotteryId            varchar(36)          null,
-   PlanCycle            int                  not null,
-   ForecastCount        int                  not null,
-   BasicHistoryCount    int                  not null,
-   UnitHistoryCount     int                  not null,
-   HotWeight            decimal(18,2)        null,
-   SizeWeight           decimal(18,2)        null,
-   ThreeRegionWeight    decimal(18,2)        null,
-   MissingValueWeight   decimal(18,2)        null,
-   OddEvenWeight        decimal(18,2)        null,
-   LastStartPeriod      int                  null,
-   CurrentAccuracy      decimal(18,2)        null,
-   IsEnable             bit                  null default 1,
-   CreatBy              varchar(36)          null,
-   CreateTime           datetime             null,
-   UpdateBy             varchar(36)          null,
-   UpdateTime           datetime             null,
-   constraint PK_LA_USERBASICNORM primary key (Id)
-)
-go
-
-/*==============================================================*/
-/* Table: LA_UserNorm                                           */
-/*==============================================================*/
-create table LA_UserNorm (
+create table LA_NormConfig (
    Id                   varchar(36)          not null,
    UserId               varchar(36)          null,
    PlanId               varchar(36)          null,
-   PlanNormId           varchar(36)          null,
-   LotteryCode          varchar(36)          null,
-   PlanNormTable        varchar(200)         null,
+   PlanCycle            int                  not null,
+   ForecastCount        int                  not null,
+   UnitHistoryCount     int                  not null,
+   LastStartPeriod      int                  null,
+   MaxRightSeries       int                  null,
+   MaxErrortSeries      int                  null,
+   ExpectScore          int                  null,
+   IsEnable             bit                  null default 1,
+   IsDefualt            bit                  null default 0,
    CreateBy             varchar(36)          null,
    CreateTime           datetime             null,
    UpdateBy             varchar(36)          null,
    UpdateTime           datetime             null,
-   constraint PK_LA_USERNORM primary key (Id)
+   constraint PK_LA_NORMCONFIG primary key (Id)
 )
 go
 
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Id')
+/*==============================================================*/
+/* Table: LC_DictionaryCatalogue                                */
+/*==============================================================*/
+create table LC_DictionaryCatalogue (
+   Id                   varchar(36)          not null,
+   Code                 varchar(36)          null,
+   Describe             varchar(200)         null,
+   IsDefault            bit                  null,
+   CreateBy             varchar(36)          null,
+   CreateTime           datetime             null,
+   UpdateBy             varchar(36)          null,
+   UpdateTime           datetime             null,
+   constraint PK_LC_DICTIONARYCATALOGUE primary key (Id)
 )
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'Id'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '主键Id',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'Id'
 go
 
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'UserId')
+/*==============================================================*/
+/* Table: LC_DictionaryValue                                    */
+/*==============================================================*/
+create table LC_DictionaryValue (
+   Id                   varchar(36)          not null,
+   DicCode              varchar(36)          null,
+   Value                varchar(200)         null,
+   Remark               varchar(1000)        null,
+   Sort                 int                  null,
+   CreateBy             varchar(36)          null,
+   CreateTime           datetime             null,
+   UpdateBy             varchar(36)          null,
+   UpdateTime           datetime             null,
+   constraint PK_LC_DICTIONARYVALUE primary key (Id)
 )
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'UserId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '用户Id',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'UserId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'PlanId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'PlanId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '计划Id',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'PlanId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'PlanNormId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'PlanNormId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '计划分析指标Id',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'PlanNormId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'LotteryCode')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'LotteryCode'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '彩种编码',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'LotteryCode'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'PlanNormTable')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'PlanNormTable'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '计划分析存储的表',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'PlanNormTable'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'CreateBy')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'CreateBy'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '创建人',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'CreateBy'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'CreateTime')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'CreateTime'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '创建时间',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'CreateTime'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'UpdateBy')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'UpdateBy'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '修改人',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'UpdateBy'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('LA_UserNorm')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'UpdateTime')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'UpdateTime'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '时间时间',
-   'user', @CurrentUser, 'table', 'LA_UserNorm', 'column', 'UpdateTime'
 go
 
 /*==============================================================*/
@@ -2045,7 +1539,7 @@ create table L_NormGroup (
    LotteryId            varchar(36)          not null,
    GroupCode            varchar(36)          null,
    GroupName            varchar(36)          null,
-   Sort                 int                  null,  
+   Sort                 int                  null,
    constraint PK_L_NORMGROUP primary key (Id)
 )
 go
@@ -2282,6 +1776,7 @@ create table L_PlanKeyNumber (
    Id                   varchar(36)          not null,
    PlanInfoId           varchar(36)          null,
    PositionId           varchar(36)          null default '0',
+   NumberValue          int                  null default 0,
    constraint PK_L_PLANKEYNUMBER primary key (Id)
 )
 go
@@ -2607,10 +2102,10 @@ create table L_TimeRule (
    Id                   varchar(36)          not null,
    LotteryId            varchar(36)          null,
    Weekday              varchar(36)          null,
-   StartTime            datetime             null,
-   EndTime              datetime             null,
+   StartTime            time                 null,
+   EndTime              time                 null,
    Tick                 time                 null,
-   CreateBy             varchar(36)         null,
+   CreateBy             varchar(36)          null default 'system',
    CreateTime           datetime             null default getdate(),
    constraint PK_L_TIMERULE primary key (Id)
 )

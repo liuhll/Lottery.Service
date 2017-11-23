@@ -42,15 +42,31 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\DictionaryCatalogues\DictionaryCatalogue.cs" />
+    <Compile Include="Domain\DictionaryValues\DictionaryValue.cs" />
+    <Compile Include="Domain\LotteryDatas\LotteryData.cs" />
+    <Compile Include="Domain\LotteryFinalDatas\LotteryFinalData.cs" />
+    <Compile Include="Domain\LotteryInfos\LotteryInfo.cs" />
+    <Compile Include="Domain\LotteryPredictDatas\LotteryPredictData.cs" />
+    <Compile Include="Domain\NormConfigs\NormConfig.cs" />
+    <Compile Include="Domain\NormGroups\NormGroup.cs" />
+    <Compile Include="Domain\PlanInfos\PlanInfo.cs" />
+    <Compile Include="Domain\PlanKeyNumbers\PlanKeyNumber.cs" />
+    <Compile Include="Domain\PositionInfos\PositionInfo.cs" />
+    <Compile Include="Domain\Powers\Power.cs" />
+    <Compile Include="Domain\RolePowers\RolePower.cs" />
+    <Compile Include="Domain\Roles\Role.cs" />
+    <Compile Include="Domain\TimeRules\TimeRule.cs" />
+    <Compile Include="Domain\UserInfos\UserInfo.cs" />
+    <Compile Include="Domain\UserRoles\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Caching\" />
-    <Folder Include="Domain\" />
+    <Folder Include="Domain\SubLotteryPredictTableMaps\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
