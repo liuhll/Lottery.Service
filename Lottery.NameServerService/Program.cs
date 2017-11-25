@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Topshelf;
 
 namespace Lottery.NameServerService
@@ -23,7 +20,7 @@ namespace Lottery.NameServerService
                         s.WhenStopped((b, h) => b.Stop(h));
                     });
 
-                    x.RunAsLocalService();
+                    x.RunAsLocalSystem();
 
                     x.SetDescription("Lottery NameServer Service");
                     x.SetDisplayName("LotteryNameServer");

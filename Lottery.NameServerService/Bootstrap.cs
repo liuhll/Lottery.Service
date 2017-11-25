@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net;
 using ECommon.Configurations;
 using EQueue.Configurations;
 using EQueue.NameServer;
@@ -46,7 +45,7 @@ namespace Lottery.NameServerService
               ServiceConfigSettings.Initialize();
               var setting = new NameServerSetting()
               {
-                 BindingAddress = ServiceConfigSettings.NameServerServerEndpoint
+                 BindingAddress = ServiceConfigSettings.NameServerEndpoints.First()
               };
 
             _nameServer = new NameServerController(setting);

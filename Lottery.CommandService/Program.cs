@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Topshelf;
 
 namespace Lottery.CommandService
 {
@@ -10,6 +8,48 @@ namespace Lottery.CommandService
     {
         static void Main(string[] args)
         {
+            if (args.Any())
+            {
+                Bootstrap.Initialize();
+                HostFactory.Run(x =>
+                {
+                    x.Service<CommandServiceCrier>(s =>
+                    {
+                        s.ConstructUsing(() => new CommandServiceCrier());
+                        s.WhenStarted((b, h) => b.Start(h));
+                        s.WhenStopped((b, h) => b.Stop(h));
+                    });
+
+                    x.RunAsLocalSystem();
+
+                    x.SetDescription("Lottery Command Service");
+                    x.SetDisplayName("LotteryCommandService");
+                    x.SetServiceName("LotteryCommandService");
+                });
+
+
+            }
+            else
+            {
+
+                Bootstrap.Initialize();
+                Bootstrap.Start();
+
+                Console.WriteLine("Press enter to exit...");
+                var line = Console.ReadLine();
+                while (line != "exit")
+                {
+                    switch (line)
+                    {
+                        case "cls":
+                            Console.Clear();
+                            break;
+                        default:
+                            return;
+                    }
+                    line = Console.ReadLine();
+                }
+            }
         }
     }
 }

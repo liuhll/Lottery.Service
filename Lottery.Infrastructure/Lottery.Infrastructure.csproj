@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataSettings.cs" />
+    <Compile Include="DataConfigSettings.cs" />
+    <Compile Include="EQueueTopics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceConfigSettings.cs" />
   </ItemGroup>

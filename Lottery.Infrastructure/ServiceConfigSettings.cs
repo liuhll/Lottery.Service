@@ -22,13 +22,10 @@ namespace Lottery.Infrastructure
 
         public static IList<IPEndPoint> NameServerEndpoints { get; private set; }
 
-        public static IPEndPoint NameServerServerEndpoint { get; private set; }
 
         public static void Initialize()
         {
-            var nameServerServerEndpointStr = ConfigurationManager.AppSettings["NameServerServerAddress"].Split(':');
-            NameServerServerEndpoint = new IPEndPoint(IPAddress.Parse(nameServerServerEndpointStr[0]),int.Parse(nameServerServerEndpointStr[1]));
-
+       
             NameServerEndpoints = new List<IPEndPoint>();
             var nameServerAddressStr = ConfigurationManager.AppSettings["NameServerAddressList"].Split(';');
             foreach (var address in nameServerAddressStr)

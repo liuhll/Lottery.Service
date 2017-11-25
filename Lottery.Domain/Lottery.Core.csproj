@@ -48,6 +48,7 @@
     <Compile Include="Domain\DictionaryCatalogues\DictionaryCatalogue.cs" />
     <Compile Include="Domain\DictionaryValues\DictionaryValue.cs" />
     <Compile Include="Domain\LotteryDatas\LotteryData.cs" />
+    <Compile Include="Domain\LotteryDatas\RunNewLotteryEvent.cs" />
     <Compile Include="Domain\LotteryFinalDatas\LotteryFinalData.cs" />
     <Compile Include="Domain\LotteryInfos\LotteryInfo.cs" />
     <Compile Include="Domain\LotteryPredictDatas\LotteryPredictData.cs" />

@@ -2,13 +2,14 @@
 using ECommon.Logging;
 using Topshelf;
 
-namespace Lottery.NameServerService
+namespace Lottery.CommandService
 {
-    public class NameServerCrier : ServiceControl
+    public class CommandServiceCrier : ServiceControl
     {
+
         private readonly ILogger _logger = null;
 
-        public NameServerCrier()
+        public CommandServiceCrier()
         {
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Bootstrap).FullName);
         }
@@ -16,7 +17,7 @@ namespace Lottery.NameServerService
         public bool Start(HostControl hostControl)
         {
             Bootstrap.Start();
-            _logger.Info("NameServer 服务启动成功");
+            _logger.Info("EventService 服务启动成功");
             return true;
         }
 
@@ -24,7 +25,7 @@ namespace Lottery.NameServerService
         {
             Bootstrap.Stop();
             hostControl.Stop();
-            _logger.Info("NameServer 服务停止成功");
+            _logger.Info("EventService 服务停止成功");
             return true;
         }
     }

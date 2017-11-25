@@ -20,7 +20,7 @@ namespace Lottery.BrokerService
                         s.WhenStopped((b, h) => b.Stop(h));
                     });
 
-                    x.RunAsLocalService();
+                    x.RunAsLocalSystem();
 
                     x.SetDescription("Lottery Broker Service");        
                     x.SetDisplayName("LotteryBrokerService");                       
