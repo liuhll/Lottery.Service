@@ -10,7 +10,6 @@ namespace Lottery.BrokerService
         {
             if (args.Any())
             {
-                Console.WriteLine("this is demo eee");
                 Bootstrap.Initialize();
                 HostFactory.Run(x =>
                 {
@@ -21,7 +20,7 @@ namespace Lottery.BrokerService
                         s.WhenStopped((b, h) => b.Stop(h));
                     });
 
-                    x.RunAsNetworkService();
+                    x.RunAsLocalService();
 
                     x.SetDescription("Lottery Broker Service");        
                     x.SetDisplayName("LotteryBrokerService");                       

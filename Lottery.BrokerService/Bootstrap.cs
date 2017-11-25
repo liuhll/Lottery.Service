@@ -45,18 +45,16 @@ namespace Lottery.BrokerService
                 .RegisterEQueueComponents()
                 .BuildContainer();
 
-            ConfigSettings.Initialize();
-            var nameServerEndpoint = new IPEndPoint(IPAddress.Parse(ConfigSettings.NameServerIp), ConfigSettings.NameServerPort);
-            var nameServerEndpoints = new List<IPEndPoint> { nameServerEndpoint };
-
-            var brokerSetting = new BrokerSetting(false, ConfigSettings.EqueueStorePath)
+            ServiceConfigSettings.Initialize();
+           
+            var brokerSetting = new BrokerSetting(false, ServiceConfigSettings.EqueueStorePath)
             {
-                NameServerList = nameServerEndpoints
+                NameServerList = ServiceConfigSettings.NameServerEndpoints
             };
 
-            brokerSetting.BrokerInfo.ProducerAddress = new IPEndPoint(IPAddress.Parse(ConfigSettings.BrokerProducerServiceIp), ConfigSettings.BrokerProducerPort).ToAddress();
-            brokerSetting.BrokerInfo.ConsumerAddress = new IPEndPoint(IPAddress.Parse(ConfigSettings.BrokerConsumerServiceIp), ConfigSettings.BrokerConsumerPort).ToAddress();
-            brokerSetting.BrokerInfo.AdminAddress = new IPEndPoint(IPAddress.Parse(ConfigSettings.BrokerAdminServiceIp), ConfigSettings.BrokerAdminPort).ToAddress();
+            brokerSetting.BrokerInfo.ProducerAddress = ServiceConfigSettings.BrokerProducerServiceAddress;
+            brokerSetting.BrokerInfo.ConsumerAddress = ServiceConfigSettings.BrokerConsumerServiceAddress;
+            brokerSetting.BrokerInfo.AdminAddress = ServiceConfigSettings.BrokerAdminServiceAddress;
 
             _broker = BrokerController.Create(brokerSetting);
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Bootstrap).FullName).Info("Broker initialized.");
