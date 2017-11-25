@@ -3,13 +3,12 @@ using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
 using ENode.Configurations;
-using ENode.Infrastructure;
 using ENode.SqlServer;
 using EQueue.Configurations;
-using Lottery.Core.Domain.UserInfos;
+using Lottery.CommandService;
 using Lottery.Infrastructure;
 
-namespace Lottery.CommandService
+namespace Lottery.EventService
 {
     public class Bootstrap
     {
@@ -18,9 +17,7 @@ namespace Lottery.CommandService
         public static void Initialize()
         {
             InitializeENode();
-            InitializeCommandService();
         }
-
 
         private static void InitializeENode()
         {
@@ -33,9 +30,10 @@ namespace Lottery.CommandService
                 Assembly.Load("Lottery.Commands"),
                 Assembly.Load("Lottery.Core"),
                 Assembly.Load("Lottery.Denormalizers.Dapper"),
-                Assembly.Load("Lottery.CommandHandlers"),
-                Assembly.Load("Lottery.CommandService"),
+                Assembly.Load("Lottery.ProcessManagers"),
+                Assembly.Load("Lottery.EventService")
             };
+
             var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = Configuration
@@ -45,24 +43,17 @@ namespace Lottery.CommandService
                 .UseLog4Net()
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
-                .RegisterEQueueComponents()
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerEventStore()
-                .UseSqlServerLockService()
+                .UseSqlServerPublishedVersionStore()
                 .UseEQueue()
                 .BuildContainer()
-                .InitializeSqlServerEventStore()
-                .InitializeSqlServerLockService()
-                .RegisterBusinessComponents(assemblies);
+                .InitializeSqlServerPublishedVersionStore()
+                .InitializeBusinessAssemblies(assemblies);
 
-        }
+            ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("Event service initialized.");
 
-        private static void InitializeCommandService()
-        {
-            ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(UserInfo).Name);
-            ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("Command service initialized.");
         }
 
         public static void Start()

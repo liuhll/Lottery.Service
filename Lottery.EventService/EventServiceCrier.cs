@@ -2,14 +2,13 @@
 using ECommon.Logging;
 using Topshelf;
 
-namespace Lottery.CommandService
+namespace Lottery.EventService
 {
-    public class CommandServiceCrier : ServiceControl
+    public class EventServiceCrier : ServiceControl
     {
-
         private readonly ILogger _logger = null;
 
-        public CommandServiceCrier()
+        public EventServiceCrier()
         {
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Bootstrap).FullName);
         }
@@ -17,7 +16,7 @@ namespace Lottery.CommandService
         public bool Start(HostControl hostControl)
         {
             Bootstrap.Start();
-            _logger.Info("CommandService 服务启动成功");
+            _logger.Info("EventService 服务启动成功");
             return true;
         }
 
@@ -25,7 +24,7 @@ namespace Lottery.CommandService
         {
             Bootstrap.Stop();
             hostControl.Stop();
-            _logger.Info("CommandService 服务停止成功");
+            _logger.Info("EventService 服务停止成功");
             return true;
         }
     }

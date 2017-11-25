@@ -1,20 +1,21 @@
 ﻿using System;
-using ENode.Eventing;
+using ENode.Commanding;
 
-namespace Lottery.Core.Domain.LotteryDatas
+namespace Lottery.Commands.LotteryDatas
 {
-    public class RunNewLotteryEvent : DomainEvent<string>
+    public class RunNewLotteryCommand : Command
     {
-        private RunNewLotteryEvent()
+        private RunNewLotteryCommand()
         {
         }
 
-        public RunNewLotteryEvent(
+        public RunNewLotteryCommand(
+            string id,
             int period,
             string lotteryId,
             string data,
             DateTime? lotteryTime
-        )
+        ) : base(id)
         {
             Period = period;
             LotteryId = lotteryId;

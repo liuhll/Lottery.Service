@@ -1,19 +1,19 @@
 ﻿using System.Reflection;
+using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
-using ENode.Eventing;
-using ENode.Infrastructure;
 using EQueue.Clients.Consumers;
 using EQueue.Clients.Producers;
 using EQueue.Configurations;
 using Lottery.Infrastructure;
 
-namespace Lottery.CommandService
+
+namespace Lottery.EventService
 {
     public static class ENodeExtensions
     {
-        private static CommandConsumer _commandConsumer;
-        private static DomainEventPublisher _eventPublisher;
+        private static ENode.EQueue.CommandService _commandService;
+        private static DomainEventConsumer _eventConsumer;
 
         public static ENodeConfiguration BuildContainer(this ENodeConfiguration enodeConfiguration)
         {
@@ -26,35 +26,41 @@ namespace Lottery.CommandService
             var assemblies = new[] { Assembly.GetExecutingAssembly() };
             enodeConfiguration.RegisterTopicProviders(assemblies);
 
-            //var configuration = enodeConfiguration.GetCommonConfiguration();
-            //configuration.RegisterEQueueComponents();
+            var configuration = enodeConfiguration.GetCommonConfiguration();
+            configuration.RegisterEQueueComponents();
 
-            _eventPublisher = new DomainEventPublisher();
-            enodeConfiguration.GetCommonConfiguration().SetDefault<IMessagePublisher<DomainEventStreamMessage>, DomainEventPublisher>(_eventPublisher);
+            _commandService = new ENode.EQueue.CommandService();
+            enodeConfiguration.GetCommonConfiguration()
+                .SetDefault<ICommandService, ENode.EQueue.CommandService>(_commandService);
+
             return enodeConfiguration;
         }
 
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
-            _eventPublisher.Initialize(new ProducerSetting() { NameServerList = ServiceConfigSettings.NameServerEndpoints });
-            _commandConsumer = new CommandConsumer().Initialize(setting:new ConsumerSetting()
+            _commandService.Initialize(setting: new ProducerSetting
             {
                 NameServerList = ServiceConfigSettings.NameServerEndpoints
             });
 
-            _commandConsumer.
-                Subscribe(EQueueTopics.RunLotteryCommandTopic);
+            _eventConsumer = new DomainEventConsumer().Initialize(setting:new ConsumerSetting()
+            {
+                NameServerList = ServiceConfigSettings.NameServerEndpoints
+            });
 
-            _commandConsumer.Start();
-            _eventPublisher.Start();
+            _eventConsumer
+                .Subscribe(EQueueTopics.RunLotteryEventTopic);
+
+            _commandService.Start();
+            _eventConsumer.Start();
+
             return enodeConfiguration;
         }
 
-
         public static ENodeConfiguration ShutdownEQueue(this ENodeConfiguration enodeConfiguration)
         {
-            _commandConsumer.Shutdown();
-            _eventPublisher.Shutdown();
+            _eventConsumer.Shutdown();
+            _commandService.Shutdown();
 
             return enodeConfiguration;
         }
