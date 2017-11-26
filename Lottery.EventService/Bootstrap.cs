@@ -4,8 +4,6 @@ using ECommon.Configurations;
 using ECommon.Logging;
 using ENode.Configurations;
 using ENode.SqlServer;
-using EQueue.Configurations;
-using Lottery.CommandService;
 using Lottery.Infrastructure;
 
 namespace Lottery.EventService

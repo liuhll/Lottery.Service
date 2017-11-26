@@ -10,14 +10,12 @@ namespace Lottery.Core.Domain.LotteryDatas
         int period,
         string lotteryId,
         string data,
-        DateTime? insertTime,
         DateTime? lotteryTime
         ) : base(id)
       {
             Period = period;
             LotteryId = lotteryId;
             Data = data;
-            InsertTime = insertTime;
             LotteryTime = lotteryTime;
        
       }         

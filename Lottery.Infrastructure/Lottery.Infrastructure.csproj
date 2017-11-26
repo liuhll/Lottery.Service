@@ -45,6 +45,7 @@
     <Compile Include="EQueueTopics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceConfigSettings.cs" />
+    <Compile Include="TableNameConstants.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

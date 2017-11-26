@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Lottery.EventService;
 using Topshelf;
 
-namespace Lottery.CommandService
+namespace Lottery.EventService
 {
     class Program
     {

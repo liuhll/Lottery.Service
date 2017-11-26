@@ -6,6 +6,7 @@ using ENode.Configurations;
 using ENode.Infrastructure;
 using ENode.SqlServer;
 using EQueue.Configurations;
+using Lottery.Core.Domain.LotteryDatas;
 using Lottery.Core.Domain.UserInfos;
 using Lottery.Infrastructure;
 
@@ -45,7 +46,6 @@ namespace Lottery.CommandService
                 .UseLog4Net()
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
-                .RegisterEQueueComponents()
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
@@ -61,7 +61,7 @@ namespace Lottery.CommandService
 
         private static void InitializeCommandService()
         {
-            ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(UserInfo).Name);
+            ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(LotteryData).Name);
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("Command service initialized.");
         }
 

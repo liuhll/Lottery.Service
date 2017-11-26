@@ -26,8 +26,8 @@ namespace Lottery.CommandService
             var assemblies = new[] { Assembly.GetExecutingAssembly() };
             enodeConfiguration.RegisterTopicProviders(assemblies);
 
-            //var configuration = enodeConfiguration.GetCommonConfiguration();
-            //configuration.RegisterEQueueComponents();
+            var configuration = enodeConfiguration.GetCommonConfiguration();
+            configuration.RegisterEQueueComponents();
 
             _eventPublisher = new DomainEventPublisher();
             enodeConfiguration.GetCommonConfiguration().SetDefault<IMessagePublisher<DomainEventStreamMessage>, DomainEventPublisher>(_eventPublisher);
@@ -36,7 +36,11 @@ namespace Lottery.CommandService
 
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
-            _eventPublisher.Initialize(new ProducerSetting() { NameServerList = ServiceConfigSettings.NameServerEndpoints });
+            _eventPublisher.Initialize(new ProducerSetting()
+            {
+                NameServerList = ServiceConfigSettings.NameServerEndpoints
+            });
+
             _commandConsumer = new CommandConsumer().Initialize(setting:new ConsumerSetting()
             {
                 NameServerList = ServiceConfigSettings.NameServerEndpoints
@@ -47,6 +51,7 @@ namespace Lottery.CommandService
 
             _commandConsumer.Start();
             _eventPublisher.Start();
+
             return enodeConfiguration;
         }
 

@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using ECommon.Components;
 using ECommon.Configurations;
+using ECommon.Logging;
 using EQueue.Configurations;
 using EQueue.NameServer;
 using Lottery.Infrastructure;
@@ -49,7 +51,7 @@ namespace Lottery.NameServerService
               };
 
             _nameServer = new NameServerController(setting);
-
+            ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Bootstrap).FullName).Info("NameServer initialized.");
         }
 
 
