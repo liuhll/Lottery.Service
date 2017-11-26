@@ -22,9 +22,9 @@ namespace Lottery.EventService
 
                     x.RunAsLocalSystem();
 
-                    x.SetDescription("Lottery Command Service");
-                    x.SetDisplayName("LotteryCommandService");
-                    x.SetServiceName("LotteryCommandService");
+                    x.SetDescription("Lottery EventService");
+                    x.SetDisplayName("LotteryEventService");
+                    x.SetServiceName("LotteryEventService");
                 });
 
 
