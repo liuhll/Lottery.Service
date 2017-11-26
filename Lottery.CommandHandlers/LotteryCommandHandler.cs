@@ -22,10 +22,8 @@ namespace Lottery.CommandHandlers
 
         public void Handle(ICommandContext context, RunNewLotteryCommand command)
         {
-            _lockService.ExecuteInLock(typeof(LotteryData).Name, () =>
-            {
-                context.Add(new LotteryData(command.AggregateRootId, command.Period, command.LotteryId, command.Data, command.LotteryTime));
-            });
+            context.Add(new LotteryData(command.AggregateRootId, command.Period, command.LotteryId, command.Data, command.LotteryTime));
+
 
         }
     }

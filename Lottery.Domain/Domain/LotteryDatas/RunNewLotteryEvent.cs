@@ -10,17 +10,14 @@ namespace Lottery.Core.Domain.LotteryDatas
         }
 
         public RunNewLotteryEvent(
-            int period,
-            string lotteryId,
-            string data,
-            DateTime? lotteryTime
+           LotteryData lotteryData
         )
         {
-            Period = period;
-            LotteryId = lotteryId;
-            Data = data;
+            Period = lotteryData.Period;
+            LotteryId = lotteryData.LotteryId;
+            Data = lotteryData.Data;
             InsertTime = DateTime.Now;
-            LotteryTime = lotteryTime;
+            LotteryTime = lotteryData.LotteryTime;
 
         }
 

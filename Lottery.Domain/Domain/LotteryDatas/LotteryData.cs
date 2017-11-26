@@ -17,6 +17,8 @@ namespace Lottery.Core.Domain.LotteryDatas
             LotteryId = lotteryId;
             Data = data;
             LotteryTime = lotteryTime;
+
+            ApplyEvent(new RunNewLotteryEvent(this));
        
       }         
  
@@ -44,7 +46,14 @@ namespace Lottery.Core.Domain.LotteryDatas
       /// 
       /// </summary>
       public DateTime? LotteryTime { get; private set; }
-      
-      
+
+       private void Handle(RunNewLotteryEvent evnt)
+       {
+           Period = evnt.Period;
+           LotteryId = evnt.LotteryId;
+           Data = evnt.Data;
+           InsertTime = evnt.InsertTime;
+           LotteryTime = evnt.LotteryTime;
+       }
    }   
 }

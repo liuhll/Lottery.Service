@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lottery.Web", "Lottery.Web\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{77C4E8DF-7A0F-494F-A94B-1CEB9C8B5FDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lottery.Tests", "Lottery.Tests\Lottery.Tests.csproj", "{FFC6B8AD-4162-4647-99F8-6C803F3DF298}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{98712413-B6F9-42CB-BAA0-B7DBFFA9C54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98712413-B6F9-42CB-BAA0-B7DBFFA9C54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98712413-B6F9-42CB-BAA0-B7DBFFA9C54D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFC6B8AD-4162-4647-99F8-6C803F3DF298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFC6B8AD-4162-4647-99F8-6C803F3DF298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFC6B8AD-4162-4647-99F8-6C803F3DF298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFC6B8AD-4162-4647-99F8-6C803F3DF298}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +114,7 @@ Global
 		{D0AE0302-DFB9-4219-8A5D-B80880DC827B} = {8041B6B3-10FB-4C78-A3E6-B0629EF1E3A7}
 		{681150F0-59CD-4DC6-8796-0D2A304A20FD} = {8041B6B3-10FB-4C78-A3E6-B0629EF1E3A7}
 		{98712413-B6F9-42CB-BAA0-B7DBFFA9C54D} = {8041B6B3-10FB-4C78-A3E6-B0629EF1E3A7}
+		{FFC6B8AD-4162-4647-99F8-6C803F3DF298} = {77C4E8DF-7A0F-494F-A94B-1CEB9C8B5FDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {23D0D9A2-F467-4BAA-8E33-2DD55196B1C7}

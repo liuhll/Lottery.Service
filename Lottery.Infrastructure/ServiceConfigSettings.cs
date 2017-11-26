@@ -25,13 +25,36 @@ namespace Lottery.Infrastructure
 
         public static void Initialize()
         {
-       
+            //if (isDevEnv)
+            //{
+            //    NameServerEndpoints = new List<IPEndPoint>();
+            //    NameServerEndpoints.Add(new IPEndPoint(IPAddress.Loopback,10091 ));
+            //    BrokerProducerServiceAddress = new IPEndPoint(IPAddress.Loopback, 10092).ToString();
+            //    BrokerConsumerServiceAddress = new IPEndPoint(IPAddress.Loopback, 10093).ToString();
+            //    BrokerAdminServiceAddress = new IPEndPoint(IPAddress.Loopback, 10094).ToString();
+            //}
+            //else
+            //{
+            //    NameServerEndpoints = new List<IPEndPoint>();
+            //    var nameServerAddressStr = ConfigurationManager.AppSettings["NameServerAddressList"].Split(';');
+            //    foreach (var address in nameServerAddressStr)
+            //    {
+            //        var ipEndpoint = address.Split(':');
+            //        var nameServerAddress = new IPEndPoint(IPAddress.Parse(ipEndpoint[0]), int.Parse(ipEndpoint[1]));
+            //        NameServerEndpoints.Add(nameServerAddress);
+            //    }
+
+            //    BrokerProducerServiceAddress = ConfigurationManager.AppSettings["BrokerProducerServiceAddress"];
+            //    BrokerConsumerServiceAddress = ConfigurationManager.AppSettings["BrokerConsumerServiceAddress"];
+            //    BrokerAdminServiceAddress = ConfigurationManager.AppSettings["BrokerAdminServiceAddress"];
+            //    EqueueStorePath = ConfigurationManager.AppSettings["EqueueStorePath"];
+            //}
             NameServerEndpoints = new List<IPEndPoint>();
             var nameServerAddressStr = ConfigurationManager.AppSettings["NameServerAddressList"].Split(';');
             foreach (var address in nameServerAddressStr)
             {
                 var ipEndpoint = address.Split(':');
-                var nameServerAddress = new IPEndPoint(IPAddress.Parse(ipEndpoint[0]),int.Parse(ipEndpoint[1]));
+                var nameServerAddress = new IPEndPoint(IPAddress.Parse(ipEndpoint[0]), int.Parse(ipEndpoint[1]));
                 NameServerEndpoints.Add(nameServerAddress);
             }
 
@@ -39,7 +62,10 @@ namespace Lottery.Infrastructure
             BrokerConsumerServiceAddress = ConfigurationManager.AppSettings["BrokerConsumerServiceAddress"];
             BrokerAdminServiceAddress = ConfigurationManager.AppSettings["BrokerAdminServiceAddress"];
             EqueueStorePath = ConfigurationManager.AppSettings["EqueueStorePath"];
-        }
+        
+
+    }
+
 
 
     }

@@ -20,9 +20,7 @@ namespace Lottery.Denormalizers.Dapper
                     evnt.LotteryId,
                     InsertTime = evnt.Timestamp,
                     evnt.Period,
-                    evnt.LotteryTime,
-                    ReplyCount = 0,
-                    evnt.Version
+                    evnt.LotteryTime
                 }, TableNameConstants.LotteryDataTable);
             },GetLotteryConnection());
         }
