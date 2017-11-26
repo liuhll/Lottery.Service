@@ -1,4 +1,5 @@
-﻿using ENode.Commanding;
+﻿using System.Reflection;
+using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
 using EQueue.Clients.Consumers;
@@ -22,8 +23,8 @@ namespace Lottery.EventService
 
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {
-            //var assemblies = new[] { Assembly.GetExecutingAssembly() };
-            //enodeConfiguration.RegisterTopicProviders(assemblies);
+            var assemblies = new[] { Assembly.GetExecutingAssembly() };
+            enodeConfiguration.RegisterTopicProviders(assemblies);
 
             var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.RegisterEQueueComponents();

@@ -30,7 +30,7 @@ namespace Lottery.CommandService
             configuration.RegisterEQueueComponents();
 
             _eventPublisher = new DomainEventPublisher();
-            enodeConfiguration.GetCommonConfiguration().SetDefault<IMessagePublisher<DomainEventStreamMessage>, DomainEventPublisher>(_eventPublisher);
+            configuration.SetDefault<IMessagePublisher<DomainEventStreamMessage>, DomainEventPublisher>(_eventPublisher);
             return enodeConfiguration;
         }
 

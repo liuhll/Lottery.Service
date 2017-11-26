@@ -6,7 +6,6 @@ using Lottery.Infrastructure;
 
 namespace Lottery.RunApp.TopicProviders
 {
-    [Component]
     public class CommandTopicProvider : AbstractTopicProvider<ICommand>
     {
         public CommandTopicProvider()

@@ -38,9 +38,10 @@ namespace Lottery.RunApp
                 .UseEQueue()
                 .BuildContainer()
                 .InitializeBusinessAssemblies(assemblies)
-                .StartEQueue();
+                .StartEQueue()
+                .Start();
 
-            ObjectContainer.Resolve<ILoggerFactory>().Create("ENodeFramework").Info("ENode initialized.");
+            ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("ENode initialized.");
         }
     }
 }

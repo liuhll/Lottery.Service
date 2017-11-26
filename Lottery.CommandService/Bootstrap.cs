@@ -55,7 +55,8 @@ namespace Lottery.CommandService
                 .BuildContainer()
                 .InitializeSqlServerEventStore()
                 .InitializeSqlServerLockService()
-                .RegisterBusinessComponents(assemblies);
+                .InitializeBusinessAssemblies(assemblies)
+                .Start();
 
         }
 

@@ -16,9 +16,11 @@ namespace Lottery.RunApp
 
             var _commandService = ObjectContainer.Resolve<ICommandService>();
 
-           _commandService.ExecuteAsync(
+           var result = _commandService.Execute(
                 new RunNewLotteryCommand(Guid.NewGuid().ToString(), 10089, "ACB89F4E-7C71-4785-BA09-D7E73084B467",
-                    "1,2,3,4,5,6,7,8,9,10", DateTime.Now)).Wait();
+                    "1,2,3,4,5,6,7,8,9,10", DateTime.Now),10000);
+
+            Console.WriteLine(result.Status);
             Console.WriteLine("insert data");
 
             Console.ReadKey();
