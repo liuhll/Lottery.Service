@@ -36,6 +36,12 @@
     <Reference Include="ENode, Version=2.8.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ENode.2.8.5\lib\netstandard2.0\ENode.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis.StrongName, Version=1.1.0.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.StrongName.1.1.603\lib\net46\StackExchange.Redis.StrongName.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\CacheExtensions.cs" />
+    <Compile Include="Caching\ICacheManager.cs" />
+    <Compile Include="Caching\IRedisConnectionWrapper.cs" />
+    <Compile Include="Caching\RedisCacheManager.cs" />
+    <Compile Include="Caching\RedisConnectionWrapper.cs" />
     <Compile Include="Domain\DictionaryCatalogues\DictionaryCatalogue.cs" />
     <Compile Include="Domain\DictionaryValues\DictionaryValue.cs" />
     <Compile Include="Domain\LotteryDatas\LotteryData.cs" />
@@ -66,7 +77,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Caching\" />
     <Folder Include="Domain\SubLotteryPredictTableMaps\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
