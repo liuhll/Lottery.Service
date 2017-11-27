@@ -59,7 +59,7 @@ namespace Lottery.Tests
   
             var nameServerSetting = new NameServerSetting()
             {
-                BindingAddress = ServiceConfigSettings.NameServerEndpoints.First()
+                BindingAddress = ServiceConfigSettings.NameServerAddress
             };
             _nameServer = new NameServerController(nameServerSetting);
 

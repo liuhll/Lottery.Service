@@ -55,6 +55,8 @@ namespace Lottery.BrokerService
             brokerSetting.BrokerInfo.ProducerAddress = ServiceConfigSettings.BrokerProducerServiceAddress;
             brokerSetting.BrokerInfo.ConsumerAddress = ServiceConfigSettings.BrokerConsumerServiceAddress;
             brokerSetting.BrokerInfo.AdminAddress = ServiceConfigSettings.BrokerAdminServiceAddress;
+            brokerSetting.BrokerInfo.BrokerName = ServiceConfigSettings.BrokerName;
+            brokerSetting.BrokerInfo.GroupName = ServiceConfigSettings.BrokerGroup;
 
             _broker = BrokerController.Create(brokerSetting);
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program).FullName).Info("Broker initialized.");

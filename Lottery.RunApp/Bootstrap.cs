@@ -20,8 +20,8 @@ namespace Lottery.RunApp
             var assemblies = new[]
             {
                 Assembly.Load("Lottery.Commands"),
-                //Assembly.Load("Lottery.QueryServices"),
-                //Assembly.Load("Lottery.QueryServices.Dapper"),
+                Assembly.Load("Lottery.QueryServices"),
+                Assembly.Load("Lottery.QueryServices.Dapper"),
                 Assembly.Load("Lottery.RunApp")
             };
 
@@ -36,6 +36,7 @@ namespace Lottery.RunApp
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
                 .UseEQueue()
+                .UseRedisCache()
                 .BuildContainer()
                 .InitializeBusinessAssemblies(assemblies)
                 .StartEQueue()

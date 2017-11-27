@@ -47,7 +47,7 @@ namespace Lottery.NameServerService
               ServiceConfigSettings.Initialize();
               var setting = new NameServerSetting()
               {
-                 BindingAddress = ServiceConfigSettings.NameServerEndpoints.First()
+                 BindingAddress = ServiceConfigSettings.NameServerAddress
               };
 
             _nameServer = new NameServerController(setting);

@@ -22,6 +22,12 @@ namespace Lottery.Infrastructure
 
         public static IList<IPEndPoint> NameServerEndpoints { get; private set; }
 
+        public static IPEndPoint NameServerAddress { get; private set; }
+
+        public static string BrokerGroup { get; private set; }
+
+        public static string BrokerName { get; private set; }
+
 
         public static void Initialize()
         {
@@ -50,21 +56,25 @@ namespace Lottery.Infrastructure
             //    EqueueStorePath = ConfigurationManager.AppSettings["EqueueStorePath"];
             //}
             NameServerEndpoints = new List<IPEndPoint>();
-            var nameServerAddressStr = ConfigurationManager.AppSettings["NameServerAddressList"].Split(';');
-            foreach (var address in nameServerAddressStr)
+            var nameServerAddressListStr = ConfigurationManager.AppSettings["NameServerAddressList"].Split(';');
+            foreach (var address in nameServerAddressListStr)
             {
                 var ipEndpoint = address.Split(':');
                 var nameServerAddress = new IPEndPoint(IPAddress.Parse(ipEndpoint[0]), int.Parse(ipEndpoint[1]));
                 NameServerEndpoints.Add(nameServerAddress);
             }
+            var nameServerAddressStr = ConfigurationManager.AppSettings["NameServerServerAddress"].Split(':');
+            NameServerAddress = new IPEndPoint(IPAddress.Parse(nameServerAddressStr[0]), int.Parse(nameServerAddressStr[1]));
 
             BrokerProducerServiceAddress = ConfigurationManager.AppSettings["BrokerProducerServiceAddress"];
             BrokerConsumerServiceAddress = ConfigurationManager.AppSettings["BrokerConsumerServiceAddress"];
             BrokerAdminServiceAddress = ConfigurationManager.AppSettings["BrokerAdminServiceAddress"];
             EqueueStorePath = ConfigurationManager.AppSettings["EqueueStorePath"];
-        
+            BrokerGroup = ConfigurationManager.AppSettings["BrokerGroup"];
+            BrokerName = ConfigurationManager.AppSettings["BrokerName"];
 
-    }
+
+        }
 
 
 

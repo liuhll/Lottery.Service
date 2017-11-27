@@ -71,6 +71,7 @@
     <Compile Include="Domain\Powers\Power.cs" />
     <Compile Include="Domain\RolePowers\RolePower.cs" />
     <Compile Include="Domain\Roles\Role.cs" />
+    <Compile Include="Domain\ScheduleTasks\ScheduleTask.cs" />
     <Compile Include="Domain\TimeRules\TimeRule.cs" />
     <Compile Include="Domain\UserInfos\UserInfo.cs" />
     <Compile Include="Domain\UserRoles\UserRole.cs" />

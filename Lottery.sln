@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{77C4E8DF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lottery.Tests", "Lottery.Tests\Lottery.Tests.csproj", "{FFC6B8AD-4162-4647-99F8-6C803F3DF298}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lottery.Crawler", "Lottery.Crawler\Lottery.Crawler.csproj", "{E2F53492-08E6-46DB-A431-0131BA399C05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{FFC6B8AD-4162-4647-99F8-6C803F3DF298}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFC6B8AD-4162-4647-99F8-6C803F3DF298}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFC6B8AD-4162-4647-99F8-6C803F3DF298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2F53492-08E6-46DB-A431-0131BA399C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2F53492-08E6-46DB-A431-0131BA399C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2F53492-08E6-46DB-A431-0131BA399C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2F53492-08E6-46DB-A431-0131BA399C05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

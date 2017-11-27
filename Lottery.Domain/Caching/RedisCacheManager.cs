@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Text;
+using ECommon.Components;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace Lottery.Core.Caching
-{
+{  
     public partial class RedisCacheManager : ICacheManager
     {
         #region Fields
@@ -16,10 +17,10 @@ namespace Lottery.Core.Caching
 
         #region Ctor
 
-        public RedisCacheManager(string redisConnString, IRedisConnectionWrapper connectionWrapper)
+        public RedisCacheManager( IRedisConnectionWrapper connectionWrapper)
         {
-            if (String.IsNullOrEmpty(redisConnString))
-                throw new Exception("Redis connection string is empty");
+        //    if (String.IsNullOrEmpty(redisConnString))
+        //        throw new Exception("Redis connection string is empty");
 
             // ConnectionMultiplexer.Connect should only be called once and shared between callers
             this._connectionWrapper = connectionWrapper;
