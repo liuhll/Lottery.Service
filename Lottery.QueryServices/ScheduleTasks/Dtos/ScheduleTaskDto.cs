@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Lottery.QueryServices.Tasks.Dtos
+namespace Lottery.QueryServices.ScheduleTasks.Dtos
 {
-    public class ScheduleTaskInfo
+    public class ScheduleTaskDto
     {
         /// <summary>
         /// Gets or sets the name
@@ -29,15 +29,6 @@ namespace Lottery.QueryServices.Tasks.Dtos
         /// </summary>
         public bool StopOnError { get; set; }
 
-
-        /// <summary>
-        /// Gets or sets the machine name (instance) that leased this task. It's used when running in web farm (ensure that a task in run only on one machine). It could be null when not running in web farm.
-        /// </summary>
-        public string LeasedByMachineName { get; set; }
-        /// <summary>
-        /// Gets or sets the datetime until the task is leased by some machine (instance). It's used when running in web farm (ensure that a task in run only on one machine).
-        /// </summary>
-        public DateTime? LeasedUntil { get; set; }
 
         /// <summary>
         /// Gets or sets the datetime when it was started last time

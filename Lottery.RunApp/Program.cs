@@ -4,7 +4,7 @@ using ECommon.Socketing;
 using ENode.Commanding;
 using FluentScheduler;
 using Lottery.Commands.LotteryDatas;
-using Lottery.QueryServices.Dapper.Tasks;
+using Lottery.QueryServices.Dapper.ScheduleTasks;
 using Lottery.RunApp.Jobs;
 
 namespace Lottery.RunApp
@@ -26,11 +26,7 @@ namespace Lottery.RunApp
 
             Console.WriteLine(result.Status);
 
-            var tasks = taskQueryService.GetAllScheduleTaskInfos();
-            foreach (var task in tasks)
-            {
-                Console.WriteLine(task.Name);
-            }
+         
 
             JobManager.Initialize(new JobFactory());
 

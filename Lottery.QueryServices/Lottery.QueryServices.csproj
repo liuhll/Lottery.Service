@@ -40,13 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lotteries\Dtos\TimeRuleDto.cs" />
+    <Compile Include="Lotteries\ILotteryQueryService.cs" />
+    <Compile Include="Lotteries\Dtos\LotteryInfoDto.cs" />
+    <Compile Include="Lotteries\ITimeRuleQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tasks\Dtos\ScheduleTaskInfo.cs" />
-    <Compile Include="Tasks\IScheduleTaskQueryService.cs" />
+    <Compile Include="ScheduleTasks\Dtos\ScheduleTaskDto.cs" />
+    <Compile Include="ScheduleTasks\IScheduleTaskQueryService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Accounts\" />
-    <Folder Include="Lotteries\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">

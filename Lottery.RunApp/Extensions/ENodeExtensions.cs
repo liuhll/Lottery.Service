@@ -6,6 +6,7 @@ using System.Threading;
 using ECommon.Components;
 using ECommon.Logging;
 using ECommon.Scheduling;
+using ECommon.Socketing;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
@@ -43,7 +44,7 @@ namespace Lottery.RunApp
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
 
-            var commandResultProcessor = new CommandResultProcessor().Initialize(new IPEndPoint(IPAddress.Parse("192.168.31.115"), 9000));
+            var commandResultProcessor = new CommandResultProcessor().Initialize(new IPEndPoint(SocketUtils.GetLocalIPV4(), 9000));
 
             _commandService.Initialize(commandResultProcessor, new ProducerSetting
             {

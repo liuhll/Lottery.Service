@@ -35,8 +35,8 @@
     <Reference Include="Autofac, Version=4.6.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=2.5.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ECommon.2.5.3\lib\netstandard2.0\ECommon.dll</HintPath>
+    <Reference Include="ECommon, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ECommon.2.5.4\lib\netstandard2.0\ECommon.dll</HintPath>
     </Reference>
     <Reference Include="ECommon.Autofac, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.Autofac.2.5.0\lib\netstandard2.0\ECommon.Autofac.dll</HintPath>
@@ -78,7 +78,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
-    <Compile Include="ENodeExtensions.cs" />
+    <Compile Include="Extensions\ENodeExtensions.cs" />
+    <Compile Include="Jobs\AbstractJob.cs" />
+    <Compile Include="Jobs\RunLotteryAbstractJob.cs" />
+    <Compile Include="Jobs\BjpksJob.cs" />
     <Compile Include="Jobs\JobFactory.cs" />
     <Compile Include="Jobs\DemoJob.cs" />
     <Compile Include="Program.cs" />
@@ -106,9 +109,17 @@
       <Project>{8bad8a14-eec9-4f85-a8c2-b8ffdf9a11de}</Project>
       <Name>Lottery.Commands</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lottery.Crawler\Lottery.Crawler.csproj">
+      <Project>{e2f53492-08e6-46db-a431-0131ba399c05}</Project>
+      <Name>Lottery.Crawler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lottery.Domain\Lottery.Core.csproj">
       <Project>{0D9F8601-348D-48B6-B801-32A1B7217C3D}</Project>
       <Name>Lottery.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.Engine\Lottery.Engine.csproj">
+      <Project>{0e2b2a51-771a-4977-9b4d-1f120fd3604e}</Project>
+      <Name>Lottery.Engine</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
       <Project>{1c7ea739-6f02-4955-8ccd-f0f03477c546}</Project>
