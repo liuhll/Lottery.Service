@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lotteries\Dtos\LotteryFinalDataDto.cs" />
     <Compile Include="Lotteries\Dtos\TimeRuleDto.cs" />
+    <Compile Include="Lotteries\ILotteryFinalDataQueryService.cs" />
     <Compile Include="Lotteries\ILotteryQueryService.cs" />
     <Compile Include="Lotteries\Dtos\LotteryInfoDto.cs" />
     <Compile Include="Lotteries\ITimeRuleQueryService.cs" />

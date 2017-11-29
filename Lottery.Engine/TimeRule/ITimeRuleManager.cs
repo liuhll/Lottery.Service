@@ -8,11 +8,13 @@ namespace Lottery.Engine.TimeRule
     {
         ICollection<TimeRuleDto> TimeRules { get; }
 
-        DateTime NextLotteryTime();
+        DateTime? NextLotteryTime();
+
+        bool NextLotteryTime(out DateTime nextLotteryTime);
 
         int TodayTotalCount { get; }
 
-        int TodayCurrentCount { get; }
+        //int TodayCurrentCount { get; }
 
         bool IsLotteryDuration { get; }
 

@@ -13,5 +13,12 @@ namespace Lottery.Infrastructure.Extensions
         //    }
         //    return false;
         //}
+
+        public static DateTime StartTime(this DateTime dateTime)
+        {
+            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0); ;
+        }
+
+    
     }
 }

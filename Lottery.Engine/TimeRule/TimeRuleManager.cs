@@ -4,7 +4,10 @@ using System.Linq;
 using DateTimeExtensions;
 using DateTimeExtensions.TimeOfDay;
 using ECommon.Components;
+using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;
+using MathNet.Symbolics;
+using Expr = MathNet.Symbolics.Expression;
 
 namespace Lottery.Engine.TimeRule
 {
@@ -13,9 +16,12 @@ namespace Lottery.Engine.TimeRule
 
         private readonly ITimeRuleQueryService _timeRuleQueryService;
 
+
         private LotteryInfoDto _lotteryInfo;
 
         private ICollection<TimeRuleDto> _timeRules;
+
+        private LotteryFinalDataDto _lotteryFinalData;
 
         public TimeRuleManager(LotteryInfoDto lotteryInfo)
         {
@@ -32,30 +38,77 @@ namespace Lottery.Engine.TimeRule
 
         public ICollection<TimeRuleDto> TimeRules => _timeRules;
 
-        public DateTime NextLotteryTime()
+        public DateTime? NextLotteryTime()
         {
-            throw new NotImplementedException();
+            if (IsLotteryDuration)
+            {
+                var todayStartTime = DateTime.Now.StartTime();
+
+                var nextTimeInterval = TodayTimeRule.Tick.TotalSeconds * TodayCurrentCount;
+
+                return todayStartTime.Add(TodayTimeRule.StartTime).AddSeconds(nextTimeInterval);
+
+            }
+            else
+            {
+                if (TodayTimeRule != null)
+                {
+                    var todayStartTime = DateTime.Now.StartTime();
+                    return todayStartTime.Add(TodayTimeRule.StartTime);
+                }
+
+            }
+            return null;
+
         }
 
-        public int TodayTotalCount {
+        public bool NextLotteryTime(out DateTime nextLotteryTime)
+        {
+            var lotteryTime = NextLotteryTime();
+            if (lotteryTime == null)
+            {
+                nextLotteryTime = DateTime.MinValue;
+                return false;
+            }
+           
+            nextLotteryTime = lotteryTime.Value;
+            return true;
+
+        }
+
+        
+        public int TodayTotalCount
+        {
             get
             {
-                if (!IsLotteryDuration)
+                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
+                if (toadyTimeRule == null)
                 {
-                    return -1;
+                    return 0;
                 }
-                return 0;
+
+                var startTimePoint = toadyTimeRule.StartTime.TotalSeconds;
+                var endTimePoint = toadyTimeRule.EndTime.TotalSeconds;
+                var interval = toadyTimeRule.Tick.TotalSeconds;
+
+                return Convert.ToInt32((endTimePoint - startTimePoint) / interval);
             }
         }
-
-        public int TodayCurrentCount { get; }
+        
 
         public bool IsLotteryDuration
         {
             get
             {
-                InitTimeRule();
-                return  TodayTimeRule != null;
+                if (TodayTimeRule == null)
+                {
+                    return false;
+                }
+                if (DateTime.Now.IsBetween(Time.Parse(TodayTimeRule.StartTime.ToString()), Time.Parse(TodayTimeRule.EndTime.ToString())))
+                {
+                    return true;
+                }
+                return false;
             }
         }
 
@@ -63,18 +116,50 @@ namespace Lottery.Engine.TimeRule
         {
             get
             {
-                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int) DateTime.Now.DayOfWeek);
-                if (toadyTimeRule != null)
-                {
-                    if (DateTime.Now.IsBetween(Time.Parse(toadyTimeRule.StartTime.ToString()), Time.Parse(toadyTimeRule.EndTime.ToString())))
-                    {
-                        return toadyTimeRule;
-                    }
-                }
-              
-                return null;
+                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);            
+                return toadyTimeRule;
             }
 
+        }
+
+        private TimeRuleDto NextDayTimeRule(TimeRuleDto currentDay,int step = 1)
+        {
+            var nextWeekDay = currentDay.Weekday + step;
+            if (nextWeekDay >= 7)
+            {
+                nextWeekDay = 0;
+            }
+
+            var nextDay = TimeRules.FirstOrDefault(p => p.Weekday == nextWeekDay);
+            if (nextDay != null)
+            {
+                return nextDay;
+            }
+            return NextDayTimeRule(currentDay, step + 1);
+        }
+
+
+        private int TodayCurrentCount
+        {
+            get
+            {
+                if (!IsLotteryDuration)
+                {
+                    return 0;
+                }
+
+                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
+                if (toadyTimeRule == null)
+                {
+                    return 0;
+                }
+
+                var startTimePoint = toadyTimeRule.StartTime.TotalSeconds;
+                var endTimePoint = DateTime.Now.TimeOfDay.TotalSeconds;
+                var interval = toadyTimeRule.Tick.TotalSeconds;
+
+                return Convert.ToInt32(Math.Ceiling((endTimePoint - startTimePoint) / interval));
+            }
         }
     }
 }

@@ -7,7 +7,7 @@
         /// </summary>
         public string LotteryId { get; set; }
 
-        public string LotteryCode { get; set; }
+        //public string LotteryCode { get; set; }
 
         /// <summary>
         /// 星期
@@ -27,6 +27,6 @@
         /// <summary>
         /// 时间间隔
         /// </summary>
-        public System.TimeSpan? Tick { get; set; }
+        public System.TimeSpan Tick { get; set; }
     }
 }
