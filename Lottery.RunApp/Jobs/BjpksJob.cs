@@ -1,36 +1,24 @@
 ﻿using System;
 using FluentScheduler;
+using Lottery.Crawler;
 
 namespace Lottery.RunApp.Jobs
 {
     public class BjpksJob : RunLotteryAbstractJob
     {
-        private int count = 1;
-        private int count2 = 1;
+   
         public BjpksJob()
         {
-            count += 1;
-            count2 += 1;
         }
 
-        public override void Execute()
-        {
-            Console.WriteLine(_timeRuleManager.IsLotteryDuration);
-
-
-
-            Console.WriteLine(_timeRuleManager.TodayTotalCount);
-
-            Console.WriteLine(_timeRuleManager.NextLotteryTime().Value);
-            Console.WriteLine();
-            count2 += 1;
-            Console.WriteLine(count);
-            Console.WriteLine(count2);
-        }
-
-        protected override void PreinItialize()
+        protected override void PreInitialize()
         {
             _lotteryCode = "BJPKS";
+        }
+
+        protected override void PostinItialize()
+        {
+            _dataUpdateItems = DataUpdateContext.GetDataUpdateItems(_lotteryInfo.Id);
         }
     }
 }

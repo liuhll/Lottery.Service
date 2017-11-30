@@ -8,8 +8,11 @@
 
         public const string LOTTERY_TIME_RULE_KEY = "Lottery.TimeRule.{0}";
 
+        public const string LOTTERY_DATASITE_KEY = "Lottery.DataSite.{0}";
 
-        public const string SCHEDULE_TASK_ALL_KEY = "ScheduleTask.All.Key";
+        public const string LOTTERY_FINAL_DATA_KEY = "Lottery.FinalData.{0}";
+
+        public const string SCHEDULE_TASK_ALL_KEY = "ScheduleTask.All";
 
         
     }

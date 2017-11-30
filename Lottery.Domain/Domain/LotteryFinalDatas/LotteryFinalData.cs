@@ -8,6 +8,7 @@ namespace Lottery.Core.Domain.LotteryFinalDatas
       public LotteryFinalData(
         string id,
         string lotteryId,
+        int todayFirstPeriod,
         int finalPeriod,
         int planState,
         string data,
@@ -19,7 +20,9 @@ namespace Lottery.Core.Domain.LotteryFinalDatas
             PlanState = planState;
             Data = data;
             LotteryTime = lotteryTime;
-       
+          TodayFirstPeriod = todayFirstPeriod;
+
+
       }         
  
       /// <summary>
@@ -31,8 +34,13 @@ namespace Lottery.Core.Domain.LotteryFinalDatas
       /// 期数
       /// </summary>
       public int FinalPeriod { get; private set; }
-      
+
       /// <summary>
+      /// 今日开奖的第一期
+      /// </summary>
+      public int TodayFirstPeriod { get; private set; }
+
+       /// <summary>
       /// 计划追号状态
       /// </summary>
       public int PlanState { get; private set; }

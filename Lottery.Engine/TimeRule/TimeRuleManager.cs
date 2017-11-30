@@ -76,7 +76,30 @@ namespace Lottery.Engine.TimeRule
 
         }
 
-        
+        public int TodayCurrentCount
+        {
+            get
+            {
+                if (!IsLotteryDuration)
+                {
+                    return 0;
+                }
+
+                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
+                if (toadyTimeRule == null)
+                {
+                    return -1;
+                }
+
+                var startTimePoint = toadyTimeRule.StartTime.TotalSeconds;
+                var endTimePoint = DateTime.Now.TimeOfDay.TotalSeconds;
+                var interval = toadyTimeRule.Tick.TotalSeconds;
+
+                return Convert.ToInt32(Math.Ceiling((endTimePoint - startTimePoint) / interval));
+            }
+        }
+
+
         public int TodayTotalCount
         {
             get
@@ -122,6 +145,8 @@ namespace Lottery.Engine.TimeRule
 
         }
 
+        public bool IsFinalPeriod => TodayCurrentCount == TodayTotalCount;
+
         private TimeRuleDto NextDayTimeRule(TimeRuleDto currentDay,int step = 1)
         {
             var nextWeekDay = currentDay.Weekday + step;
@@ -138,28 +163,6 @@ namespace Lottery.Engine.TimeRule
             return NextDayTimeRule(currentDay, step + 1);
         }
 
-
-        private int TodayCurrentCount
-        {
-            get
-            {
-                if (!IsLotteryDuration)
-                {
-                    return 0;
-                }
-
-                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
-                if (toadyTimeRule == null)
-                {
-                    return 0;
-                }
-
-                var startTimePoint = toadyTimeRule.StartTime.TotalSeconds;
-                var endTimePoint = DateTime.Now.TimeOfDay.TotalSeconds;
-                var interval = toadyTimeRule.Tick.TotalSeconds;
-
-                return Convert.ToInt32(Math.Ceiling((endTimePoint - startTimePoint) / interval));
-            }
-        }
+       
     }
 }

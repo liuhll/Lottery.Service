@@ -2,6 +2,6 @@
 {
     public interface ILotteryFinalDataQueryService
     {
-        
+        LotteryFinalDataDto GetFinalData(string lotteryInfoId);
     }
 }

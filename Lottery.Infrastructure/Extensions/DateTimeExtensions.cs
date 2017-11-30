@@ -19,6 +19,13 @@ namespace Lottery.Infrastructure.Extensions
             return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0); ;
         }
 
-    
+        public static DateTime TimeStampConvetDateTime(long timestamp)
+        {
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
+            DateTime dt = startTime.AddSeconds(timestamp);
+            return dt;
+        }
+
+
     }
 }

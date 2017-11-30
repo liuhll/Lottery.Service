@@ -33,14 +33,17 @@
     <Reference Include="Autofac, Version=4.6.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="DotnetSpider.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotnetSpider2.Core.2.2.7\lib\net45\DotnetSpider.Core.dll</HintPath>
+    <Reference Include="EasyHttp, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyHttp.1.7.0\lib\net40\EasyHttp.dll</HintPath>
     </Reference>
-    <Reference Include="DotnetSpider.HtmlAgilityPack.Css, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotnetSpider2.Core.2.2.7\lib\net45\DotnetSpider.HtmlAgilityPack.Css.dll</HintPath>
+    <Reference Include="ECommon, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ECommon.2.5.4\lib\netstandard2.0\ECommon.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.6.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.6.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonFx, Version=2.0.1209.2802, Culture=neutral, PublicKeyToken=315052dd637f8a52, processorArchitecture=MSIL">
+      <HintPath>..\packages\JsonFx.2.0.1209.2802\lib\net40\JsonFx.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -58,11 +61,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bjpks\BjpksDataUpdateItem1.cs" />
+    <Compile Include="BaseDataUpdateItem.cs" />
+    <Compile Include="Bjpks\BjpksDataUpdateItem2.cs" />
+    <Compile Include="DataUpdateContext.cs" />
+    <Compile Include="IDataUpdateItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
+      <Project>{1c7ea739-6f02-4955-8ccd-f0f03477c546}</Project>
+      <Name>Lottery.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.QueryServices\Lottery.QueryServices.csproj">
+      <Project>{36ab2ac1-f647-426f-94b5-605ced19db3e}</Project>
+      <Name>Lottery.QueryServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

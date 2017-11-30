@@ -9,5 +9,9 @@
         public const string LotteryInfoTable = "L_LotteryInfo";
 
         public const string TimeRuleTable = "L_TimeRule";
+
+        public const string DataSiteTable = "L_DataSite";
+
+        public const string LotteryFinalDataTable = "L_LotteryFinalData";
     }
 }

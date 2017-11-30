@@ -15,6 +15,7 @@ using EQueue.Broker;
 using EQueue.Clients.Producers;
 using EQueue.Configurations;
 using Lottery.Core.Caching;
+using Lottery.Crawler;
 using Lottery.Infrastructure;
 
 namespace Lottery.RunApp
@@ -60,6 +61,12 @@ namespace Lottery.RunApp
             var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.SetDefault<ICacheManager, RedisCacheManager>(
                 new RedisCacheManager(new RedisConnectionWrapper("127.0.0.1:6379")));
+            return enodeConfiguration;
+        }
+
+        public static ENodeConfiguration SetUpDataUpdateItems(this ENodeConfiguration enodeConfiguration)
+        {
+            DataUpdateContext.Initialize();
             return enodeConfiguration;
         }
 

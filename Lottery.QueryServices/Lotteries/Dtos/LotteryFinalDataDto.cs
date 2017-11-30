@@ -14,6 +14,10 @@ namespace Lottery.QueryServices.Lotteries
         /// </summary>
         public int FinalPeriod { get; set; }
 
+        /// <summary>
+        /// 今日开奖的第一期
+        /// </summary>
+        public int TodayFirstPeriod { get; set; }
 
         /// <summary>
         /// 计划追号状态

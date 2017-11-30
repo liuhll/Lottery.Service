@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lotteries\Dtos\DataSiteDto.cs" />
+    <Compile Include="Lotteries\Dtos\LotteryDataDto.cs" />
     <Compile Include="Lotteries\Dtos\LotteryFinalDataDto.cs" />
     <Compile Include="Lotteries\Dtos\TimeRuleDto.cs" />
+    <Compile Include="Lotteries\IDataSiteQueryService.cs" />
     <Compile Include="Lotteries\ILotteryFinalDataQueryService.cs" />
     <Compile Include="Lotteries\ILotteryQueryService.cs" />
     <Compile Include="Lotteries\Dtos\LotteryInfoDto.cs" />

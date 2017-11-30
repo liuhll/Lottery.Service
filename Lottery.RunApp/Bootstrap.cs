@@ -39,6 +39,7 @@ namespace Lottery.RunApp
                 .UseRedisCache()
                 .BuildContainer()
                 .InitializeBusinessAssemblies(assemblies)
+                .SetUpDataUpdateItems()
                 .StartEQueue()
                 .Start();
 
