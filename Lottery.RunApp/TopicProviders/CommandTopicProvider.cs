@@ -10,7 +10,7 @@ namespace Lottery.RunApp.TopicProviders
     {
         public CommandTopicProvider()
         {
-            RegisterTopic(EQueueTopics.RunLotteryCommandTopic,typeof(RunNewLotteryCommand));
+            RegisterTopic(EQueueTopics.RunLotteryCommandTopic,typeof(NewLotteryCommand));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Lottery.Tests
             var insertTime = DateTime.Now;
             var period = 1000;
 
-            var result = ExecuteCommand(new RunNewLotteryCommand(id, period, lotteryId, lotteryData, insertTime));
+            var result = ExecuteCommand(new NewLotteryCommand(id, period, lotteryId, lotteryData, insertTime));
 
             Assert.AreEqual(CommandStatus.Success,result.Status);
 

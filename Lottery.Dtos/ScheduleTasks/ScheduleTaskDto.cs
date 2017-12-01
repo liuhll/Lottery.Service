@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lottery.QueryServices.ScheduleTasks.Dtos
+namespace Lottery.Dtos.ScheduleTasks
 {
     public class ScheduleTaskDto
     {

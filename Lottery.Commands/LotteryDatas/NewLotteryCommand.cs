@@ -3,13 +3,13 @@ using ENode.Commanding;
 
 namespace Lottery.Commands.LotteryDatas
 {
-    public class RunNewLotteryCommand : Command
+    public class NewLotteryCommand : Command
     {
-        private RunNewLotteryCommand()
+        private NewLotteryCommand()
         {
         }
 
-        public RunNewLotteryCommand(
+        public NewLotteryCommand(
             string id,
             int period,
             string lotteryId,

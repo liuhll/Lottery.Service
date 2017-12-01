@@ -18,7 +18,7 @@ namespace Lottery.RunApp.Jobs
 
         protected override void PostinItialize()
         {
-            _dataUpdateItems = DataUpdateContext.GetDataUpdateItems(_lotteryInfo.Id);
+            
         }
     }
 }

@@ -42,11 +42,12 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LotteryDatas\RunNewLotteryCommand.cs" />
+    <Compile Include="LotteryDatas\CreateLotteryDataCommand.cs" />
+    <Compile Include="LotteryDatas\RunLotteryCommand.cs" />
+    <Compile Include="LotteryDatas\NewLotteryCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

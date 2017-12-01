@@ -3,9 +3,9 @@ using System.Linq;
 using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
+using Lottery.Dtos.ScheduleTasks;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.ScheduleTasks;
-using Lottery.QueryServices.ScheduleTasks.Dtos;
 
 namespace Lottery.QueryServices.Dapper.ScheduleTasks
 {

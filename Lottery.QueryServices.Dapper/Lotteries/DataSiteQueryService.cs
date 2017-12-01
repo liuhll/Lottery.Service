@@ -3,6 +3,7 @@ using System.Linq;
 using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
+using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;

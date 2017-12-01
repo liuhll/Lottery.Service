@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Lottery.QueryServices.ScheduleTasks.Dtos;
+using Lottery.Dtos.ScheduleTasks;
 
 namespace Lottery.QueryServices.ScheduleTasks
 {

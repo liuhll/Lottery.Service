@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using ECommon.Components;
 using ECommon.Extensions;
-using Lottery.Core.Domain.LotteryInfos;
-using Lottery.Core.Domain.TimeRules;
+using ENode.Commanding;
+using Lottery.Commands.LotteryDatas;
 using Lottery.Crawler;
+using Lottery.Dtos.Lotteries;
 using Lottery.Engine.TimeRule;
 using Lottery.QueryServices.Lotteries;
 
@@ -20,6 +21,7 @@ namespace Lottery.RunApp.Jobs
         
         protected LotteryInfoDto _lotteryInfo;
         protected LotteryFinalDataDto _lotteryFinalData;
+        protected ICommandService _commandService;
 
         protected IList<IDataUpdateItem> _dataUpdateItems;
 
@@ -32,10 +34,12 @@ namespace Lottery.RunApp.Jobs
 
             _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();
             _lotteryFinalDataQueryService = ObjectContainer.Resolve<ILotteryFinalDataQueryService>();
+            _commandService = ObjectContainer.Resolve<ICommandService>();
 
             _lotteryInfo = _lotteryQueryService.GetLotteryInfoByCode(_lotteryCode);
             _timeRuleManager = new TimeRuleManager(_lotteryInfo);           
             _lotteryFinalData = _lotteryFinalDataQueryService.GetFinalData(_lotteryInfo.Id);
+            _dataUpdateItems = DataUpdateContext.GetDataUpdateItems(_lotteryInfo.Id);
 
             PostinItialize();
         }
@@ -56,9 +60,10 @@ namespace Lottery.RunApp.Jobs
                 {                 
                     if (!JudgeCurrentPeriodIsLottery())
                     {
+                        IList<LotteryDataDto> lotteryDatas = null;
                         if (!_isCrawling)
                         {
-                            _isCrawling = true;
+                            _isCrawling = true;                            
                             // 抓取新的数据
                             _dataUpdateItems.ForEach(updateItem =>
                             {
@@ -66,12 +71,22 @@ namespace Lottery.RunApp.Jobs
                                 var crawlNewDatas = updateItem.CrawlDatas(_lotteryFinalData.FinalPeriod);
                                 if (crawlNewDatas.Safe().Any())
                                 {
-                                    
+                                    lotteryDatas = crawlNewDatas;
                                 }
                                 
                             });
+
+                            if (lotteryDatas.Safe().Any())
+                            {
+                                var result = _commandService.ExecuteAsync(
+                                    new NewLotteryCommand(Guid.NewGuid().ToString(), lotteryDatas.First().Period,
+                                        lotteryDatas.First().LotteryId, lotteryDatas.First().Data,
+                                        lotteryDatas.First().LotteryTime)).Result;
+                            }
+
                             _isCrawling = false;
                         }
+                   
                       
 
                     }

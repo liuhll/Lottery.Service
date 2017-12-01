@@ -77,6 +77,10 @@
       <Project>{0d9f8601-348d-48b6-b801-32a1b7217c3d}</Project>
       <Name>Lottery.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lottery.Dtos\Lottery.Dtos.csproj">
+      <Project>{2D504FF2-EA5C-424D-99BD-99C1389F7E1C}</Project>
+      <Name>Lottery.Dtos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
       <Project>{1c7ea739-6f02-4955-8ccd-f0f03477c546}</Project>
       <Name>Lottery.Infrastructure</Name>

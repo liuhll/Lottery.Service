@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using ECommon.Components;
 using FluentScheduler;
+using Lottery.Dtos.ScheduleTasks;
 using Lottery.QueryServices.ScheduleTasks;
-using Lottery.QueryServices.ScheduleTasks.Dtos;
-
 
 namespace Lottery.RunApp.Jobs
 {

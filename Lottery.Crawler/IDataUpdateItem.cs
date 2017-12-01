@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Lottery.QueryServices.Lotteries;
+using Lottery.Dtos.Lotteries;
 
 namespace Lottery.Crawler
 {

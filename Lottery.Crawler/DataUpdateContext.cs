@@ -33,12 +33,16 @@ namespace Lottery.Crawler
                 var dataSites = dataSiteQueryService.GetDataSites(lotteryInfo.Id);
                 foreach (var dataSite in dataSites)
                 {
-                    var dataUpdateItemType = Type.GetType(dataSite.CrawlType);
-                    Debug.Assert(dataUpdateItemType != null, "dataUpdateItemType != null");
+                    if (dataSite.Status)
+                    {
+                        var dataUpdateItemType = Type.GetType(dataSite.CrawlType);
+                        Debug.Assert(dataUpdateItemType != null, "dataUpdateItemType != null");
 
-                    var dataUpdateItem =
-                        Activator.CreateInstance(dataUpdateItemType, new [] {dataSite}) as IDataUpdateItem;
-                    _lotteryDataUpdateItems[lotteryInfo.Id].Add(dataUpdateItem);
+                        var dataUpdateItem =
+                            Activator.CreateInstance(dataUpdateItemType, new[] { dataSite }) as IDataUpdateItem;
+                        _lotteryDataUpdateItems[lotteryInfo.Id].Add(dataUpdateItem);
+                    }
+                  
                 }
             }
         }

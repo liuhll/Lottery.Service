@@ -4,9 +4,9 @@ using System.Linq;
 using DateTimeExtensions;
 using DateTimeExtensions.TimeOfDay;
 using ECommon.Components;
+using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;
-using MathNet.Symbolics;
 using Expr = MathNet.Symbolics.Expression;
 
 namespace Lottery.Engine.TimeRule

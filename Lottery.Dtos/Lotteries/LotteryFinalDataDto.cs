@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lottery.QueryServices.Lotteries
+namespace Lottery.Dtos.Lotteries
 {
     public class LotteryFinalDataDto
     {

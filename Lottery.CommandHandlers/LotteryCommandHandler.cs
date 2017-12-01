@@ -11,7 +11,7 @@ using Lottery.Core.Domain.LotteryDatas;
 
 namespace Lottery.CommandHandlers
 {
-    public class LotteryCommandHandler : ICommandHandler<RunNewLotteryCommand>
+    public class LotteryCommandHandler : ICommandHandler<NewLotteryCommand>
     {
         private readonly ILockService _lockService;
 
@@ -20,11 +20,13 @@ namespace Lottery.CommandHandlers
             _lockService = lockService;
         }
 
-        public void Handle(ICommandContext context, RunNewLotteryCommand command)
+        public void Handle(ICommandContext context, NewLotteryCommand command)
         {
             context.Add(new LotteryData(command.AggregateRootId, command.Period, command.LotteryId, command.Data, command.LotteryTime));
 
 
         }
+
+       
     }
 }

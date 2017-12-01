@@ -1,4 +1,4 @@
-﻿namespace Lottery.QueryServices.Lotteries
+﻿namespace Lottery.Dtos.Lotteries
 {
     public class DataSiteDto
     {
