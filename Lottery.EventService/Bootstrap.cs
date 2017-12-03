@@ -46,6 +46,7 @@ namespace Lottery.EventService
                 .RegisterBusinessComponents(assemblies)
                 .UseSqlServerPublishedVersionStore()
                 .UseEQueue()
+                .UseRedisCache()
                 .BuildContainer()
                 .InitializeSqlServerPublishedVersionStore()
                 .InitializeBusinessAssemblies(assemblies);

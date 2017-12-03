@@ -6,6 +6,7 @@ using ENode.Infrastructure;
 using EQueue.Clients.Consumers;
 using EQueue.Clients.Producers;
 using EQueue.Configurations;
+using Lottery.Core.Caching;
 using Lottery.Infrastructure;
 
 namespace Lottery.CommandService
@@ -47,11 +48,19 @@ namespace Lottery.CommandService
             });
 
             _commandConsumer.
-                Subscribe(EQueueTopics.RunLotteryCommandTopic);
+                Subscribe(EQueueTopics.LotteryCommandTopic);
 
             _commandConsumer.Start();
             _eventPublisher.Start();
 
+            return enodeConfiguration;
+        }
+
+        public static ENodeConfiguration UseRedisCache(this ENodeConfiguration enodeConfiguration)
+        {
+            var configuration = enodeConfiguration.GetCommonConfiguration();
+            configuration.SetDefault<ICacheManager, RedisCacheManager>(
+                new RedisCacheManager(new RedisConnectionWrapper("127.0.0.1:6379")));
             return enodeConfiguration;
         }
 

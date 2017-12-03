@@ -43,18 +43,25 @@ namespace Lottery.Tests
             return _commandService.Execute(command, CommandReturnType.EventHandled,1000000);
         }
 
+        protected void SendCommand(ICommand command)
+        {
+            _commandService.Send(command);
+        }
+
         private static void InitializeENode()
         {
             var assemblies = new[]
             {
                 Assembly.Load("Lottery.Infrastructure"),
-                Assembly.Load("Lottery.Commands"),
-                Assembly.Load("Lottery.Core"),
+                Assembly.Load("Lottery.Commands"),                
                 Assembly.Load("Lottery.CommandHandlers"),
+                Assembly.Load("Lottery.Core"),
                 Assembly.Load("Lottery.Denormalizers.Dapper"),
                 Assembly.Load("Lottery.ProcessManagers"),
                 Assembly.Load("Lottery.QueryServices"),
                 Assembly.Load("Lottery.QueryServices.Dapper"),
+                Assembly.Load("Lottery.Crawler"),
+                Assembly.Load("Lottery.Dtos"), 
                 Assembly.Load("Lottery.Tests")
             };
             var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
@@ -71,13 +78,15 @@ namespace Lottery.Tests
                 .UseSqlServerEventStore()
                 .UseSqlServerPublishedVersionStore()
                 .UseSqlServerLockService()
-                .RegisterBusinessComponents(assemblies)
+                .RegisterBusinessComponents(assemblies)                
                 .UseEQueue()
+                .UseRedisCache()
                 .BuildContainer()
                 .InitializeSqlServerEventStore()
                 .InitializeSqlServerPublishedVersionStore()
                 .InitializeSqlServerLockService()
-                .InitializeBusinessAssemblies(assemblies)
+                .InitializeBusinessAssemblies(assemblies)              
+                .SetUpDataUpdateItems()
                 .StartEQueue()
                 .Start();
         }

@@ -1,59 +1,62 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using ENode.Domain;
+using Lottery.Core.Domain.LotteryFinalDatas;
+using Lottery.Core.Domain.LotteryPredictDatas;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Core.Domain.LotteryDatas
 {
    public class LotteryData : AggregateRoot<string>
    {
+       private LotteryDataInfo _lotteryDataInfo;
+        
       public LotteryData(
         string id,
-        int period,
         string lotteryId,
-        string data,
-        DateTime? lotteryTime
+        int peroid,
+        string data,   
+        DateTime lotteryTime
         ) : base(id)
       {
-            Period = period;
-            LotteryId = lotteryId;
-            Data = data;
-            LotteryTime = lotteryTime;
 
-            ApplyEvent(new RunNewLotteryEvent(this));
-       
-      }         
- 
-      /// <summary>
-      /// 
-      /// </summary>
-      public int Period { get; private set; }
-      
-      /// <summary>
-      /// 
-      /// </summary>
-      public string LotteryId { get; private set; }
-      
-      /// <summary>
-      /// 
-      /// </summary>
-      public string Data { get; private set; }
-      
-      /// <summary>
-      /// 
-      /// </summary>
-      public DateTime? InsertTime { get; private set; }
-      
-      /// <summary>
-      /// 
-      /// </summary>
-      public DateTime? LotteryTime { get; private set; }
+          if (string.IsNullOrEmpty(lotteryId))
+          {
+              throw new Exception("彩种Id不允许为空");
+          }
+          if (string.IsNullOrEmpty(data))
+          {
+              throw new Exception("开奖数据不允许为空");
+          }
+          ApplyEvents(
+              new LotteryDataAddedEvent(new LotteryDataInfo(Id, peroid, lotteryId, data, lotteryTime)),
+              new UpdateLotteryFinalDataEvent(lotteryId, peroid, data, lotteryTime));
 
-       private void Handle(RunNewLotteryEvent evnt)
+        }
+
+
+       #region Public Methods
+
+
+       #endregion
+
+
+       #region Private Methods
+
+        #endregion
+
+       #region Handler Methods
+       private void Handle(LotteryDataAddedEvent evnt)
        {
-           Period = evnt.Period;
-           LotteryId = evnt.LotteryId;
-           Data = evnt.Data;
-           InsertTime = evnt.InsertTime;
-           LotteryTime = evnt.LotteryTime;
+           _lotteryDataInfo = evnt.LotteryDataInfo;
        }
-   }   
+
+       private void Handle(UpdateLotteryFinalDataEvent evnt)
+       {
+
+       }
+
+       #endregion
+    }
 }

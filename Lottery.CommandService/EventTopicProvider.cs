@@ -2,6 +2,7 @@
 using ENode.EQueue;
 using ENode.Eventing;
 using Lottery.Core.Domain.LotteryDatas;
+using Lottery.Core.Domain.LotteryFinalDatas;
 using Lottery.Infrastructure;
 
 namespace Lottery.CommandService
@@ -11,7 +12,10 @@ namespace Lottery.CommandService
     {
         public EventTopicProvider()
         {
-            RegisterTopic(EQueueTopics.RunLotteryEventTopic,typeof(RunNewLotteryEvent));
+            RegisterTopic(EQueueTopics.LotteryEventTopic,
+                typeof(LotteryDataAddedEvent),
+                typeof(UpdateLotteryFinalDataEvent),
+                typeof(UpdateTodayFirstPeriodEvent));
         }
     }
 }

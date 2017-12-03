@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="CommandTopicProvider.cs" />
     <Compile Include="ENodeExtensions.cs" />
     <Compile Include="EventServiceCrier.cs" />
     <Compile Include="Program.cs" />

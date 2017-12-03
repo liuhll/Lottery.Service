@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using ENode.Domain;
+using Lottery.Core.Domain.NormGroups;
 
 namespace Lottery.Core.Domain.PlanInfos
 {
    public class PlanInfo : AggregateRoot<string>
    {
+
       public PlanInfo(
         string id,
         string normGroupId,
@@ -24,7 +27,9 @@ namespace Lottery.Core.Domain.PlanInfos
             DsType = dsType;
             Sort = sort;
        
-      }         
+      }
+        
+
  
       /// <summary>
       /// 所属组

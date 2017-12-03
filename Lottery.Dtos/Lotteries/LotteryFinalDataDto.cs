@@ -4,6 +4,8 @@ namespace Lottery.Dtos.Lotteries
 {
     public class LotteryFinalDataDto
     {
+        public string Id { get; set; }
+
         /// <summary>
         /// 彩种Id
         /// </summary>

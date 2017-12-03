@@ -14,7 +14,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
     [Component]
     public class TimeRuleQueryService : BaseQueryService, ITimeRuleQueryService
     {
-        protected readonly ICacheManager _cacheManager;
+        private readonly ICacheManager _cacheManager;
 
         public TimeRuleQueryService(ICacheManager cacheManager)
         {

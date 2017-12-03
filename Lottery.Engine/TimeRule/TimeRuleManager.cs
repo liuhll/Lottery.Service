@@ -62,7 +62,7 @@ namespace Lottery.Engine.TimeRule
 
         }
 
-        public bool NextLotteryTime(out DateTime nextLotteryTime)
+        public bool ParseNextLotteryTime(out DateTime nextLotteryTime)
         {
             var lotteryTime = NextLotteryTime();
             if (lotteryTime == null)

@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ENodeExtensions.cs" />
+    <Compile Include="LotteryDataTest.cs" />
     <Compile Include="Providers\CommandTopicProvider.cs" />
     <Compile Include="Providers\EventTopicProvider.cs" />
     <Compile Include="TestBase.cs" />
@@ -102,11 +103,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="appSettings.config" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="..\Lottery.Web\appSettings.config">
+    <None Include="appSettings.config">
       <Link>appSettings.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -125,6 +127,10 @@
       <Project>{8bad8a14-eec9-4f85-a8c2-b8ffdf9a11de}</Project>
       <Name>Lottery.Commands</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lottery.Crawler\Lottery.Crawler.csproj">
+      <Project>{e2f53492-08e6-46db-a431-0131ba399c05}</Project>
+      <Name>Lottery.Crawler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lottery.Denormalizers.Dapper\Lottery.Denormalizers.Dapper.csproj">
       <Project>{80d7ddfe-53aa-4c52-97d4-fe7f45e7341c}</Project>
       <Name>Lottery.Denormalizers.Dapper</Name>
@@ -132,6 +138,10 @@
     <ProjectReference Include="..\Lottery.Domain\Lottery.Core.csproj">
       <Project>{0d9f8601-348d-48b6-b801-32a1b7217c3d}</Project>
       <Name>Lottery.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.Dtos\Lottery.Dtos.csproj">
+      <Project>{2d504ff2-ea5c-424d-99bd-99c1389f7e1c}</Project>
+      <Name>Lottery.Dtos</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
       <Project>{1c7ea739-6f02-4955-8ccd-f0f03477c546}</Project>

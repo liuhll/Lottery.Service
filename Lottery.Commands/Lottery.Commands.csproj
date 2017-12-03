@@ -45,14 +45,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LotteryDatas\CreateLotteryDataCommand.cs" />
-    <Compile Include="LotteryDatas\RunLotteryCommand.cs" />
-    <Compile Include="LotteryDatas\NewLotteryCommand.cs" />
+    <Compile Include="LotteryDatas\AddLotteryDataCommand.cs" />
+    <Compile Include="LotteryDatas\UpdateNextDayFirstPeriodCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Lottery.Domain\Lottery.Core.csproj">
+      <Project>{0d9f8601-348d-48b6-b801-32a1b7217c3d}</Project>
+      <Name>Lottery.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.Dtos\Lottery.Dtos.csproj">
+      <Project>{2d504ff2-ea5c-424d-99bd-99c1389f7e1c}</Project>
+      <Name>Lottery.Dtos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
+      <Project>{1c7ea739-6f02-4955-8ccd-f0f03477c546}</Project>
+      <Name>Lottery.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

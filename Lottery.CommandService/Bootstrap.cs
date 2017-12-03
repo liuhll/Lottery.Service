@@ -5,9 +5,7 @@ using ECommon.Logging;
 using ENode.Configurations;
 using ENode.Infrastructure;
 using ENode.SqlServer;
-using EQueue.Configurations;
 using Lottery.Core.Domain.LotteryDatas;
-using Lottery.Core.Domain.UserInfos;
 using Lottery.Infrastructure;
 
 namespace Lottery.CommandService
@@ -52,6 +50,7 @@ namespace Lottery.CommandService
                 .UseSqlServerEventStore()
                 .UseSqlServerLockService()
                 .UseEQueue()
+                .UseRedisCache()
                 .BuildContainer()
                 .InitializeSqlServerEventStore()
                 .InitializeSqlServerLockService()
@@ -59,6 +58,7 @@ namespace Lottery.CommandService
                 .Start();
 
         }
+
 
         private static void InitializeCommandService()
         {

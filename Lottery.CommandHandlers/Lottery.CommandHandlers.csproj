@@ -42,11 +42,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LotteryCommandHandler.cs" />
+    <Compile Include="LotteryDataCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +59,14 @@
     <ProjectReference Include="..\Lottery.Domain\Lottery.Core.csproj">
       <Project>{0d9f8601-348d-48b6-b801-32a1b7217c3d}</Project>
       <Name>Lottery.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.Dtos\Lottery.Dtos.csproj">
+      <Project>{2d504ff2-ea5c-424d-99bd-99c1389f7e1c}</Project>
+      <Name>Lottery.Dtos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
+      <Project>{1C7EA739-6F02-4955-8CCD-F0F03477C546}</Project>
+      <Name>Lottery.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

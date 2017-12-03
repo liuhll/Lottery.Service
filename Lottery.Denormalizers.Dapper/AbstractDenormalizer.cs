@@ -23,6 +23,7 @@ namespace Lottery.Denormalizers.Dapper
                 }
                 using (connection)
                 {
+                    connection.Open();
                     await action(connection);
                     return AsyncTaskResult.Success;
                 }
@@ -46,6 +47,7 @@ namespace Lottery.Denormalizers.Dapper
                 }
                 using (connection)
                 {
+                    connection.Open();
                     await action(connection);
                     return AsyncTaskResult.Success;
                 }

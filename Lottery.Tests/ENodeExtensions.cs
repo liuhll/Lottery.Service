@@ -18,6 +18,8 @@ using EQueue.Clients.Consumers;
 using EQueue.Clients.Producers;
 using EQueue.Configurations;
 using EQueue.NameServer;
+using Lottery.Core.Caching;
+using Lottery.Crawler;
 using Lottery.Infrastructure;
 
 namespace Lottery.Tests
@@ -97,11 +99,11 @@ namespace Lottery.Tests
             });
 
             _commandConsumer
-                .Subscribe(EQueueTopics.RunLotteryCommandTopic)
+                .Subscribe(EQueueTopics.LotteryCommandTopic)
                 ;
 
             _eventConsumer
-                .Subscribe(EQueueTopics.RunLotteryEventTopic)
+                .Subscribe(EQueueTopics.LotteryEventTopic)
                 ;
 
             _nameServer.Start();
@@ -123,6 +125,20 @@ namespace Lottery.Tests
             _eventConsumer.Shutdown();
             _broker.Shutdown();
             _nameServer.Shutdown();
+            return enodeConfiguration;
+        }
+
+        public static ENodeConfiguration SetUpDataUpdateItems(this ENodeConfiguration enodeConfiguration)
+        {
+            DataUpdateContext.Initialize();
+            return enodeConfiguration;
+        }
+
+        public static ENodeConfiguration UseRedisCache(this ENodeConfiguration enodeConfiguration)
+        {
+            var configuration = enodeConfiguration.GetCommonConfiguration();
+            configuration.SetDefault<ICacheManager, RedisCacheManager>(
+                new RedisCacheManager(new RedisConnectionWrapper("127.0.0.1:6379")));
             return enodeConfiguration;
         }
 

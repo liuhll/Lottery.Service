@@ -21,7 +21,7 @@ namespace Lottery.Engine.TimeRule
         /// </summary>
         /// <param name="nextLotteryTime"></param>
         /// <returns></returns>
-        bool NextLotteryTime(out DateTime nextLotteryTime);
+        bool ParseNextLotteryTime(out DateTime nextLotteryTime);
 
         /// <summary>
         /// 今日总共将开出

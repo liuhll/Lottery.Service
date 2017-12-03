@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Dapper;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
@@ -23,7 +23,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         public LotteryFinalDataDto GetFinalData(string lotteryId)
         {
             var lotteryFinalDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, lotteryId.RemoveStrike());
-            return _cacheManager.Get<LotteryFinalDataDto>(lotteryFinalDataKey, () =>
+            return _cacheManager.Get(lotteryFinalDataKey, () =>
             {
                 using (var conn = GetLotteryConnection())
                 {

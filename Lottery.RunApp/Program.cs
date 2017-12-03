@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using ECommon.Components;
 using ECommon.Socketing;
 using ENode.Commanding;
@@ -13,7 +14,18 @@ namespace Lottery.RunApp
     {
         static void Main(string[] args)
         {
-
+            int minWorker, minIOC;
+            // Get the current settings.
+            ThreadPool.GetMinThreads(out minWorker, out minIOC);
+            // Change the minimum number of worker threads to four, but
+            // keep the old setting for minimum asynchronous I/O 
+            // completion threads.
+            if (ThreadPool.SetMinThreads(250, minIOC))
+            {
+                Console.WriteLine(minWorker);
+                Console.WriteLine(minIOC);
+            }
+            
 
             Bootstrap.InitializeFramework();
 

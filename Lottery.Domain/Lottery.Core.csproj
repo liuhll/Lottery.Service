@@ -59,12 +59,17 @@
     <Compile Include="Domain\DataSites\DataSite.cs" />
     <Compile Include="Domain\DictionaryCatalogues\DictionaryCatalogue.cs" />
     <Compile Include="Domain\DictionaryValues\DictionaryValue.cs" />
+    <Compile Include="Domain\LotteryDatas\LotteryDataInfo.cs" />
     <Compile Include="Domain\LotteryDatas\LotteryData.cs" />
-    <Compile Include="Domain\LotteryDatas\RunNewLotteryEvent.cs" />
+    <Compile Include="Domain\LotteryDatas\LotteryDataAddedEvent.cs" />
     <Compile Include="Domain\LotteryFinalDatas\LotteryFinalData.cs" />
+    <Compile Include="Domain\LotteryFinalDatas\UpdateLotteryFinalDataEvent.cs" />
+    <Compile Include="Domain\LotteryFinalDatas\UpdateTodayFirstPeriodEvent.cs" />
     <Compile Include="Domain\LotteryInfos\LotteryInfo.cs" />
     <Compile Include="Domain\LotteryPredictDatas\LotteryPredictData.cs" />
+    <Compile Include="Domain\LotteryPredictDatas\UpdateLotteryPredictDataEvent.cs" />
     <Compile Include="Domain\NormConfigs\NormConfig.cs" />
+    <Compile Include="Domain\NormGroups\NormConfigInfo.cs" />
     <Compile Include="Domain\NormGroups\NormGroup.cs" />
     <Compile Include="Domain\PlanInfos\PlanInfo.cs" />
     <Compile Include="Domain\PlanKeyNumbers\PlanKeyNumber.cs" />
@@ -84,6 +89,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
+      <Project>{1C7EA739-6F02-4955-8CCD-F0F03477C546}</Project>
+      <Name>Lottery.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

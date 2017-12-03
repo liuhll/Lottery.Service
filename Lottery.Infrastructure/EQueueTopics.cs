@@ -2,10 +2,12 @@
 {
     public class EQueueTopics
     {
-        public const string RunLotteryEventTopic = "RunLotteryEventTopic";
+        public const string LotteryEventTopic = "LotteryEventTopic";
 
 
 
-        public const string RunLotteryCommandTopic = "RunLotteryCommandTopic";
+        public const string LotteryCommandTopic = "LotteryCommandTopic";
+
+        public const string LotteryCommandPostTopic = "LotteryCommandPostTopic";
     }
 }
