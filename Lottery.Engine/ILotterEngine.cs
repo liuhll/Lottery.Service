@@ -1,13 +1,18 @@
-﻿namespace Lottery.Engine
+﻿using Lottery.Dtos.Lotteries;
+using Lottery.Engine.LotteryNorm;
+using Lottery.Engine.Predictor;
+using Lottery.Engine.TimeRule;
+
+namespace Lottery.Engine
 {
     public interface ILotterEngine
     {
-        object[] Perdictor(object config);
 
+        LotteryInfoDto LotteryInfo { get; }
 
-        bool GetPerdictResult();
+        ITimeRuleManager TimeRuleManager { get; }
 
-        object DataAnalyse();
+        IPerdictor GetPerdictor(string predictCode);
 
     }
 }

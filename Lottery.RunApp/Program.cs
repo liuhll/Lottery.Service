@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Threading;
-using ECommon.Components;
 using ECommon.Socketing;
-using ENode.Commanding;
 using FluentScheduler;
-using Lottery.Commands.LotteryDatas;
-using Lottery.QueryServices.Dapper.ScheduleTasks;
 using Lottery.RunApp.Jobs;
 
 namespace Lottery.RunApp
@@ -20,14 +16,10 @@ namespace Lottery.RunApp
             // Change the minimum number of worker threads to four, but
             // keep the old setting for minimum asynchronous I/O 
             // completion threads.
-            if (ThreadPool.SetMinThreads(250, minIOC))
-            {
-                Console.WriteLine(minWorker);
-                Console.WriteLine(minIOC);
-            }
-            
+            ThreadPool.SetMinThreads(250, minIOC);
 
             Bootstrap.InitializeFramework();
+
 
             //var _commandService = ObjectContainer.Resolve<ICommandService>();
 
@@ -38,11 +30,14 @@ namespace Lottery.RunApp
 
             //Console.WriteLine(result.Status);
 
-         
+
 
             JobManager.Initialize(new JobFactory());
 
             //Console.WriteLine(result.Status);
+
+        
+
             Console.WriteLine(SocketUtils.GetLocalIPV4());
 
             Console.ReadKey();

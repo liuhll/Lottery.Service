@@ -16,6 +16,7 @@ using EQueue.Clients.Producers;
 using EQueue.Configurations;
 using Lottery.Core.Caching;
 using Lottery.Crawler;
+using Lottery.Engine;
 using Lottery.Infrastructure;
 
 namespace Lottery.RunApp
@@ -67,6 +68,8 @@ namespace Lottery.RunApp
         public static ENodeConfiguration SetUpDataUpdateItems(this ENodeConfiguration enodeConfiguration)
         {
             DataUpdateContext.Initialize();
+
+            EngineContext.Initialize();
             return enodeConfiguration;
         }
 

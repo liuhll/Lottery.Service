@@ -87,6 +87,7 @@ namespace Lottery.Tests
                 .InitializeSqlServerLockService()
                 .InitializeBusinessAssemblies(assemblies)              
                 .SetUpDataUpdateItems()
+                .InitLotteryEngine()
                 .StartEQueue()
                 .Start();
         }

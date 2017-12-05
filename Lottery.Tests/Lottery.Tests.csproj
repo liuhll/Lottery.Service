@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ENodeExtensions.cs" />
+    <Compile Include="LotteryCalculateTest.cs" />
     <Compile Include="LotteryDataTest.cs" />
     <Compile Include="Providers\CommandTopicProvider.cs" />
     <Compile Include="Providers\EventTopicProvider.cs" />
@@ -142,6 +143,10 @@
     <ProjectReference Include="..\Lottery.Dtos\Lottery.Dtos.csproj">
       <Project>{2d504ff2-ea5c-424d-99bd-99c1389f7e1c}</Project>
       <Name>Lottery.Dtos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.Engine\Lottery.Engine.csproj">
+      <Project>{0e2b2a51-771a-4977-9b4d-1f120fd3604e}</Project>
+      <Name>Lottery.Engine</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
       <Project>{1c7ea739-6f02-4955-8ccd-f0f03477c546}</Project>
