@@ -64,10 +64,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiscreteMarkov\DiscreteMarkov.cs" />
     <Compile Include="EngineContext.cs" />
+    <Compile Include="Exceptions\LotteryDataException.cs" />
+    <Compile Include="Exceptions\LotteryException.cs" />
     <Compile Include="ILotterEngine.cs" />
     <Compile Include="LotterEngine.cs" />
-    <Compile Include="LotteryNorm\NormConfig.cs" />
+    <Compile Include="LotteryData\ILotteryDataList.cs" />
+    <Compile Include="LotteryData\ILotteryNumber.cs" />
+    <Compile Include="LotteryData\LotteryDataList.cs" />
+    <Compile Include="LotteryData\LotteryNumber.cs" />
+    <Compile Include="Services\LotteryData\ILotteryDataService.cs" />
+    <Compile Include="Services\LotteryData\LotteryDataService.cs" />
+    <Compile Include="Services\NormConfig\INormConfigService.cs" />
+    <Compile Include="Services\Plan\IPlanInfoService.cs" />
+    <Compile Include="Services\Plan\PlanInfoService.cs" />
     <Compile Include="Predictor\BasePredictor.cs" />
     <Compile Include="Predictor\IPredictor.cs" />
     <Compile Include="Predictor\LhPredictor.cs" />
@@ -102,7 +113,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="PlanInfo\" />
+    <Folder Include="AlgorithmPolicy\" />
+    <Folder Include="Dtos\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

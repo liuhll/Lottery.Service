@@ -41,8 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lotteries\IDataSiteQueryService.cs" />
+    <Compile Include="Lotteries\ILotteryDataQueryService.cs" />
     <Compile Include="Lotteries\ILotteryFinalDataQueryService.cs" />
     <Compile Include="Lotteries\ILotteryQueryService.cs" />
+    <Compile Include="Lotteries\INormConfigQueryService.cs" />
+    <Compile Include="Lotteries\IPlanInfoQueryService.cs" />
+    <Compile Include="Lotteries\IPositionInfoQueryService.cs" />
     <Compile Include="Lotteries\ITimeRuleQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleTasks\IScheduleTaskQueryService.cs" />

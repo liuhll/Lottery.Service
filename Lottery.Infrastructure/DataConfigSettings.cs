@@ -26,6 +26,7 @@ namespace Lottery.Infrastructure
 
             ENodeConnectionString = ConfigurationManager.ConnectionStrings["enode"].ConnectionString;
             LotteryConnectionString = ConfigurationManager.ConnectionStrings["lottery"].ConnectionString;
+            ForecastLotteryConnectionString = ConfigurationManager.ConnectionStrings["forecastlottery"].ConnectionString;
         }
           
     }

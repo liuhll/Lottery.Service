@@ -1,7 +1,7 @@
 ﻿using ENode.Commanding;
 using ENode.EQueue;
 using Lottery.Commands.LotteryDatas;
-using Lottery.Core.Domain.LotteryDatas;
+using Lottery.Commands.LotteryPredicts;
 using Lottery.Infrastructure;
 
 namespace Lottery.Tests.Providers
@@ -11,7 +11,8 @@ namespace Lottery.Tests.Providers
         public CommandTopicProvider()
         {
             RegisterTopic(EQueueTopics.LotteryCommandTopic,
-                typeof(AddLotteryDataCommand));
+                typeof(AddLotteryDataCommand),
+                typeof(InitPredictTableCommand));
         }
     }
 }

@@ -5,7 +5,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommon.Components;
 using ECommon.IO;
+using ECommon.Logging;
 using Lottery.Infrastructure;
 using IOException = System.IO.IOException;
 
@@ -13,6 +15,8 @@ namespace Lottery.Denormalizers.Dapper
 {
     public abstract class AbstractDenormalizer
     {
+        protected readonly ILogger logger =
+            ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(AbstractDenormalizer));
         protected async Task<AsyncTaskResult> TryInsertRecordAsync(Func<IDbConnection, Task<long>> action, IDbConnection connection = null)
         {
             try
@@ -57,6 +61,38 @@ namespace Lottery.Denormalizers.Dapper
                 throw new IOException("Update record failed.", ex);
             }
         }
+
+        protected AsyncTaskResult TryTransactionAsync(Func<IDbConnection, IDbTransaction,ICollection<Action>> func, IDbConnection conn = null)
+        {
+            if (conn == null)
+            {
+                conn = GetLotteryConnection();
+            }
+            using (var connection = conn)
+            {
+                connection.Open();
+                var transaction = connection.BeginTransaction();
+                try
+                {
+
+                    var actions = func(conn, transaction);
+
+                    foreach (var action in actions)
+                    {
+                        action();
+                    }
+
+                    transaction.Commit();
+                    return AsyncTaskResult.Success;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+        }
+
         protected IDbConnection GetLotteryConnection()
         {
             return new SqlConnection(DataConfigSettings.LotteryConnectionString);

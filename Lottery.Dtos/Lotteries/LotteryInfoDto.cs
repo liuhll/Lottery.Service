@@ -27,7 +27,7 @@ namespace Lottery.Dtos.Lotteries
         /// <summary>
         /// 是否完成动态分表的配置
         /// </summary>
-        public bool? IsCompleteDynamicTable { get; set; }
+        public bool IsCompleteDynamicTable { get; set; }
 
         /// <summary>
         /// 创建人

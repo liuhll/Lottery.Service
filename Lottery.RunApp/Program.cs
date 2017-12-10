@@ -20,6 +20,7 @@ namespace Lottery.RunApp
 
             Bootstrap.InitializeFramework();
 
+            Bootstrap.InitializePredictTable();
 
             //var _commandService = ObjectContainer.Resolve<ICommandService>();
 

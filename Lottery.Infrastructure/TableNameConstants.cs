@@ -13,5 +13,9 @@
         public const string DataSiteTable = "L_DataSite";
 
         public const string LotteryFinalDataTable = "L_LotteryFinalData";
+
+        public const string PositionInfoTable = "L_PositionInfo";
+
+        public const string NormConfigTable = "LA_NormConfig";
     }
 }

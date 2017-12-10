@@ -2,6 +2,7 @@
 using ENode.Commanding;
 using ENode.EQueue;
 using Lottery.Commands.LotteryDatas;
+using Lottery.Commands.LotteryPredicts;
 using Lottery.Infrastructure;
 
 namespace Lottery.RunApp.TopicProviders
@@ -12,7 +13,8 @@ namespace Lottery.RunApp.TopicProviders
         {
             RegisterTopic(EQueueTopics.LotteryCommandTopic,
                 typeof(AddLotteryDataCommand),
-                typeof(UpdateNextDayFirstPeriodCommand)
+                typeof(UpdateNextDayFirstPeriodCommand),
+                typeof(InitPredictTableCommand)
                );
         }
     }

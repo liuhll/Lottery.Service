@@ -1,17 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Reflection;
-using System.Threading;
-using ECommon.Components;
-using ECommon.Logging;
-using ECommon.Scheduling;
-using ECommon.Socketing;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
-using ENode.Eventing;
-using EQueue.Broker;
 using EQueue.Clients.Producers;
 using EQueue.Configurations;
 using Lottery.Core.Caching;
@@ -68,7 +59,11 @@ namespace Lottery.RunApp
         public static ENodeConfiguration SetUpDataUpdateItems(this ENodeConfiguration enodeConfiguration)
         {
             DataUpdateContext.Initialize();
+            return enodeConfiguration;
+        }
 
+        public static ENodeConfiguration InitLotteryEngine(this ENodeConfiguration enodeConfiguration)
+        {
             EngineContext.Initialize();
             return enodeConfiguration;
         }

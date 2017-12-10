@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="LotteryDatas\AddLotteryDataCommand.cs" />
     <Compile Include="LotteryDatas\UpdateNextDayFirstPeriodCommand.cs" />
+    <Compile Include="LotteryPredicts\InitPredictTableCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

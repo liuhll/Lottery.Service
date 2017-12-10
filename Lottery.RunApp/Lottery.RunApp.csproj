@@ -91,6 +91,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LotteryAppCrier.cs" />
+    <Compile Include="Services\ILotteryPredictTableService.cs" />
+    <Compile Include="Services\LotteryPredictTableService.cs" />
     <Compile Include="TopicProviders\CommandTopicProvider.cs" />
   </ItemGroup>
   <ItemGroup>

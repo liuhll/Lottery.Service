@@ -96,10 +96,10 @@
     <Compile Include="ENodeExtensions.cs" />
     <Compile Include="LotteryCalculateTest.cs" />
     <Compile Include="LotteryDataTest.cs" />
+    <Compile Include="PredictTableTest.cs" />
     <Compile Include="Providers\CommandTopicProvider.cs" />
     <Compile Include="Providers\EventTopicProvider.cs" />
     <Compile Include="TestBase.cs" />
-    <Compile Include="LotteryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +163,10 @@
     <ProjectReference Include="..\Lottery.QueryServices\Lottery.QueryServices.csproj">
       <Project>{36ab2ac1-f647-426f-94b5-605ced19db3e}</Project>
       <Name>Lottery.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.RunApp\Lottery.RunApp.csproj">
+      <Project>{681150f0-59cd-4dc6-8796-0d2a304a20fd}</Project>
+      <Name>Lottery.RunApp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

@@ -50,9 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\ArrayExtention.cs" />
     <Compile Include="Collections\CollectionExtensions.cs" />
     <Compile Include="DataConfigSettings.cs" />
     <Compile Include="Enums\LotteryRunStatus.cs" />
+    <Compile Include="Enums\NumberType.cs" />
+    <Compile Include="Enums\PlanPosition.cs" />
+    <Compile Include="Enums\PositionType.cs" />
+    <Compile Include="Enums\PredictType.cs" />
     <Compile Include="EQueueTopics.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Collections\DictionaryExtensions.cs" />
@@ -69,6 +74,7 @@
     <Compile Include="Reflection\TypeFinder.cs" />
     <Compile Include="ServiceConfigSettings.cs" />
     <Compile Include="Singleton.cs" />
+    <Compile Include="SqlConstants.cs" />
     <Compile Include="TableNameConstants.cs" />
     <Compile Include="Tools\RandomHelper.cs" />
   </ItemGroup>

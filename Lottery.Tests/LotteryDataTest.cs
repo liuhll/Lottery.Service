@@ -25,7 +25,7 @@ namespace Lottery.Tests
             var insertTime = DateTime.Now;
             var period = 1000;
 
-            var result = ExecuteCommand(new AddLotteryDataCommand(Guid.NewGuid().ToString(),new LotteryDataDto()
+            var result = ExecuteCommand(new AddLotteryDataCommand(Guid.NewGuid().ToString(), new LotteryDataDto()
             {
                 Data = lotteryData,
                 LotteryId = lotteryId,

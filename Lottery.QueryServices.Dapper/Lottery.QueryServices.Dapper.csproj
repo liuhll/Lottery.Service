@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="ECommon, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.2.5.4\lib\netstandard2.0\ECommon.dll</HintPath>
@@ -50,7 +50,11 @@
   <ItemGroup>
     <Compile Include="BaseQueryService.cs" />
     <Compile Include="Lotteries\DataSiteQueryService.cs" />
+    <Compile Include="Lotteries\LotteryDataQueryService.cs" />
     <Compile Include="Lotteries\LotteryFinalDataQueryService.cs" />
+    <Compile Include="Lotteries\NormConfigQueryService.cs" />
+    <Compile Include="Lotteries\PlanInfoQueryService.cs" />
+    <Compile Include="Lotteries\PositionInfoQueryService.cs" />
     <Compile Include="Lotteries\TimeRuleQueryService.cs" />
     <Compile Include="Lotteries\LotteryQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -41,10 +41,10 @@ namespace Lottery.Crawler.Bjpks
                     };
                     resultDatas.Add(data);
                     count++;
-                    if (count > _dataSite.Count)
-                    {
-                        break;
-                    }
+                    //if (count > _dataSite.Count)
+                    //{
+                    //    break;
+                    //}
                 }
 
                 return resultDatas;

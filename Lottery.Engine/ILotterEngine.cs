@@ -1,5 +1,4 @@
 ﻿using Lottery.Dtos.Lotteries;
-using Lottery.Engine.LotteryNorm;
 using Lottery.Engine.Predictor;
 using Lottery.Engine.TimeRule;
 

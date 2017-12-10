@@ -12,7 +12,22 @@
 
         public const string LOTTERY_FINAL_DATA_KEY = "Lottery.FinalData.{0}";
 
+        public const string LOTTERY_PLAN_ALL_KEY = "Lottery.Plan.All";
+
+        public const string LOTTERY_PLAN_KEY = "Lottery.Plan.{0}";
+
+        public const string LOTTERY_POSITION_ALL_KEY = "Lottery.Position.All";
+
+        public const string LOTTERY_NORMCONFIG_DEFAULT_KEY = "Lottery.NormConfig.Default";
+
+        public const string LOTTERY_NORMCONFIG_KEY = "Lottery.NormConfig.{0}";
+
+        public const string LOTTERY_DATA_ALL_KEY = "Lottery.Data.{0}.All";
+
+
         public const string SCHEDULE_TASK_ALL_KEY = "ScheduleTask.All";
+
+       
 
         
     }

@@ -44,10 +44,19 @@
     <Compile Include="Lotteries\LotteryDataDto.cs" />
     <Compile Include="Lotteries\LotteryFinalDataDto.cs" />
     <Compile Include="Lotteries\LotteryInfoDto.cs" />
+    <Compile Include="Lotteries\NormConfigDto.cs" />
+    <Compile Include="Lotteries\PlanInfoDto.cs" />
+    <Compile Include="Lotteries\PositionInfoDto.cs" />
+    <Compile Include="Lotteries\PredictDataDto.cs" />
     <Compile Include="Lotteries\TimeRuleDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleTasks\ScheduleTaskDto.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
+      <Project>{1c7ea739-6f02-4955-8ccd-f0f03477c546}</Project>
+      <Name>Lottery.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

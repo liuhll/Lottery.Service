@@ -61,7 +61,9 @@ namespace Lottery.Tests
                 Assembly.Load("Lottery.QueryServices"),
                 Assembly.Load("Lottery.QueryServices.Dapper"),
                 Assembly.Load("Lottery.Crawler"),
+                Assembly.Load("Lottery.Engine"),
                 Assembly.Load("Lottery.Dtos"), 
+                Assembly.Load("Lottery.RunApp"), 
                 Assembly.Load("Lottery.Tests")
             };
             var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
