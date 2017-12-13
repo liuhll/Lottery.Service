@@ -31,6 +31,15 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             });
         }
 
+        public PlanInfoDto GetPlanInfoById(string planId)
+        {
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_PLAN_KEY, planId);
+            return _cacheManager.Get<PlanInfoDto>(redisKey, () =>
+            {
+                return GetAll().FirstOrDefault(p => p.Id == planId);
+            });
+        }
+
         //public PlanInfoDto GetPlanInfoById(string planId)
         //{
         //    var redisKey = string.Format(RedisKeyConstants.LOTTERY_PLAN_KEY, planId);
@@ -76,7 +85,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
 
         public ICollection<PlanInfoDto> GetPlanInfoByLotteryId(string lotteryId)
         {
-            var redisKey = string.Format(RedisKeyConstants.LOTTERY_PLAN_KEY, lotteryId.RemoveStrike());
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_PLAN_KEY, lotteryId);
             return _cacheManager.Get<ICollection<PlanInfoDto>>(redisKey, () =>
             {
                 return GetAll().Where(p => p.LotteryInfo.Id == lotteryId).ToList();

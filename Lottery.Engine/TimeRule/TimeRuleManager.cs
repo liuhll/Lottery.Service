@@ -11,6 +11,7 @@ using Expr = MathNet.Symbolics.Expression;
 
 namespace Lottery.Engine.TimeRule
 {
+    [Component]
     public class TimeRuleManager : ITimeRuleManager
     {
 

@@ -5,16 +5,20 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
 using ECommon.Components;
+using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
+using Lottery.Core.Domain.LotteryInfos;
 using Lottery.Core.Domain.LotteryPredictDatas;
 using Lottery.Infrastructure;
 
 namespace Lottery.Denormalizers.Dapper
 {
     [Component]
-    public class PredictTableDenormalizer : AbstractDenormalizer, IMessageHandler<InitPredictTableEvent>
-        
+    public class PredictTableDenormalizer : AbstractDenormalizer,
+        IMessageHandler<InitPredictTableEvent>,
+        IMessageHandler<CompleteDynamicTableEvent>
+
     {
         public async Task<AsyncTaskResult> HandleAsync(InitPredictTableEvent evnt)
         {
@@ -56,6 +60,16 @@ namespace Lottery.Denormalizers.Dapper
 
             return AsyncTaskResult.Success;
            
+        }
+
+        public Task<AsyncTaskResult> HandleAsync(CompleteDynamicTableEvent evnt)
+        {
+            return TryUpdateRecordAsync(conn =>
+            {
+                var sql = "UPDATE dbo.L_LotteryInfo SET IsCompleteDynamicTable=@IsCompleteDynamicTable WHERE Id=@Id";
+                conn.Open();
+                return conn.ExecuteAsync(sql, new { IsCompleteDynamicTable = evnt.IsCompleteDynamicTable,Id=evnt.AggregateRootStringId });
+            }, GetLotteryConnection());
         }
     }
 }

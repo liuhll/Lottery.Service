@@ -14,7 +14,8 @@ namespace Lottery.RunApp.TopicProviders
             RegisterTopic(EQueueTopics.LotteryCommandTopic,
                 typeof(AddLotteryDataCommand),
                 typeof(UpdateNextDayFirstPeriodCommand),
-                typeof(InitPredictTableCommand)
+                typeof(InitPredictTableCommand),
+                typeof(CompleteDynamicTableCommand)
                );
         }
     }

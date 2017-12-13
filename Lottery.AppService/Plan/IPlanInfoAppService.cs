@@ -1,8 +1,8 @@
 ﻿using Lottery.Dtos.Lotteries;
 
-namespace Lottery.Engine.Services
+namespace Lottery.AppService.Plan
 {
-    public interface IPlanInfoService
+    public interface IPlanInfoAppService
     {
         PlanInfoDto GetPlanInfo(string planCode);
     }

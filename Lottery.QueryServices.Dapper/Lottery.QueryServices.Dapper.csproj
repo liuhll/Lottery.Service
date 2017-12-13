@@ -52,6 +52,7 @@
     <Compile Include="Lotteries\DataSiteQueryService.cs" />
     <Compile Include="Lotteries\LotteryDataQueryService.cs" />
     <Compile Include="Lotteries\LotteryFinalDataQueryService.cs" />
+    <Compile Include="Lotteries\LotteryPredictDataQueryService.cs" />
     <Compile Include="Lotteries\NormConfigQueryService.cs" />
     <Compile Include="Lotteries\PlanInfoQueryService.cs" />
     <Compile Include="Lotteries\PositionInfoQueryService.cs" />

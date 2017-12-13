@@ -5,11 +5,11 @@ namespace Lottery.QueryServices.Lotteries
 {
     public interface INormConfigQueryService
     {
-        ICollection<NormConfigDto> GetDefaultNormConfigs();
+        ICollection<NormConfigDto> GetDefaultNormConfigs(string lotteryId);
 
-        ICollection<NormConfigDto> GetUserOrDefaultNormConfigs(string userId = "");
+        ICollection<NormConfigDto> GetUserOrDefaultNormConfigs(string lotteryId,string userId = "");
 
-        ICollection<NormConfigDto> GetUserNormConfig(string userId);
+        ICollection<NormConfigDto> GetUserNormConfig(string lotteryId,string userId);
 
         ICollection<NormConfigDto> GetPlanConfigDtos(string planId);
     }

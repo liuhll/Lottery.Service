@@ -57,6 +57,7 @@
     <Compile Include="Enums\NumberType.cs" />
     <Compile Include="Enums\PlanPosition.cs" />
     <Compile Include="Enums\PositionType.cs" />
+    <Compile Include="Enums\PredictedResult.cs" />
     <Compile Include="Enums\PredictType.cs" />
     <Compile Include="EQueueTopics.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />

@@ -2,10 +2,9 @@
 using System.Diagnostics;
 using System.Linq;
 using ECommon.Components;
+using Lottery.AppService.LotteryData;
+using Lottery.AppService.Plan;
 using Lottery.Engine;
-using Lottery.Engine.Services;
-using Lottery.Engine.Services.LotteryData;
-using Lottery.QueryServices.Lotteries;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lottery.Tests
@@ -35,8 +34,8 @@ namespace Lottery.Tests
         [TestMethod]
         public void PlanInfo_Test()
         {
-            var planService = ObjectContainer.Resolve<IPlanInfoService>();
-            var lotteryDataService = ObjectContainer.Resolve<ILotteryDataService>();
+            var planService = ObjectContainer.Resolve<IPlanInfoAppService>();
+            var lotteryDataService = ObjectContainer.Resolve<ILotteryDataAppService>();
 
             var planInfo = planService.GetPlanInfo("WUMC");
             var datas = lotteryDataService.LotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467");

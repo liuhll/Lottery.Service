@@ -6,6 +6,8 @@
 
         public string UserId { get; set; }
 
+        public string PlanId { get; set; }
+
         public int PlanCycle { get; set; }
         public int ForecastCount { get; set; }
 
@@ -24,6 +26,8 @@
         public double ExpectMinScore { get; set; }
 
         public double ActualScore { get; set; }
+
+        public int LookupPeriodCount { get; set; }
 
         public string CustomNumbers { get; set; }
 

@@ -5,7 +5,8 @@ namespace Lottery.Dtos.Lotteries
 {
     public class PlanInfoDto
     {
-   
+        public string Id { get; set; }
+
         public string PlanCode { get; set; }
 
         public string PlanNormTable { get; set; }

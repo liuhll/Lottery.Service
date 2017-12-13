@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8BAD8A14-EEC9-4F85-A8C2-B8FFDF9A11DE}</ProjectGuid>
+    <ProjectGuid>{A7187810-E992-428B-BA29-AB53BCA3CFFE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lottery.Commands</RootNamespace>
-    <AssemblyName>Lottery.Commands</AssemblyName>
+    <RootNamespace>Lottery.AppService</RootNamespace>
+    <AssemblyName>Lottery.AppService</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,40 +33,56 @@
     <Reference Include="ECommon, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.2.5.4\lib\netstandard2.0\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.8.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ENode.2.8.5\lib\netstandard2.0\ENode.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LotteryDatas\AddLotteryDataCommand.cs" />
-    <Compile Include="LotteryDatas\CompleteDynamicTableCommand.cs" />
-    <Compile Include="LotteryDatas\UpdateNextDayFirstPeriodCommand.cs" />
-    <Compile Include="LotteryPredicts\InitPredictTableCommand.cs" />
+    <Compile Include="LotteryData\ILotteryDataAppService.cs" />
+    <Compile Include="LotteryData\LotteryDataAppService.cs" />
+    <Compile Include="Norm\INormConfigAppService.cs" />
+    <Compile Include="Norm\NormConfigAppService.cs" />
+    <Compile Include="Plan\IPlanInfoAppService.cs" />
+    <Compile Include="Plan\PlanInfoAppService.cs" />
+    <Compile Include="Predict\ILotteryPredictDataService.cs" />
+    <Compile Include="Predict\LotteryPredictDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lottery.Domain\Lottery.Core.csproj">
-      <Project>{0d9f8601-348d-48b6-b801-32a1b7217c3d}</Project>
-      <Name>Lottery.Core</Name>
+    <ProjectReference Include="..\Lottery.CommandHandlers\Lottery.CommandHandlers.csproj">
+      <Project>{d5a0a02a-5f74-4cb3-8df2-2155dd1e9f11}</Project>
+      <Name>Lottery.CommandHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lottery.Commands\Lottery.Commands.csproj">
+      <Project>{8bad8a14-eec9-4f85-a8c2-b8ffdf9a11de}</Project>
+      <Name>Lottery.Commands</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lottery.Dtos\Lottery.Dtos.csproj">
       <Project>{2d504ff2-ea5c-424d-99bd-99c1389f7e1c}</Project>
       <Name>Lottery.Dtos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lottery.Engine\Lottery.Engine.csproj">
+      <Project>{0e2b2a51-771a-4977-9b4d-1f120fd3604e}</Project>
+      <Name>Lottery.Engine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
       <Project>{1c7ea739-6f02-4955-8ccd-f0f03477c546}</Project>
       <Name>Lottery.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lottery.QueryServices\Lottery.QueryServices.csproj">
+      <Project>{36ab2ac1-f647-426f-94b5-605ced19db3e}</Project>
+      <Name>Lottery.QueryServices</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lottery.Dtos", "Lottery.Dto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lottery.WebApi", "Lottery.WebApi\Lottery.WebApi.csproj", "{E68B18FF-AED4-425E-8B39-E27626A259BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lottery.AppService", "Lottery.AppService\Lottery.AppService.csproj", "{A7187810-E992-428B-BA29-AB53BCA3CFFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{E68B18FF-AED4-425E-8B39-E27626A259BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E68B18FF-AED4-425E-8B39-E27626A259BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E68B18FF-AED4-425E-8B39-E27626A259BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7187810-E992-428B-BA29-AB53BCA3CFFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7187810-E992-428B-BA29-AB53BCA3CFFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7187810-E992-428B-BA29-AB53BCA3CFFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7187810-E992-428B-BA29-AB53BCA3CFFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

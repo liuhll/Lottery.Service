@@ -2,17 +2,17 @@
 using Lottery.Dtos.Lotteries;
 using Lottery.QueryServices.Lotteries;
 
-namespace Lottery.Engine.Services
+namespace Lottery.AppService.Plan
 {
     [Component]
-    public class PlanInfoService : IPlanInfoService
+    public class PlanInfoAppService : IPlanInfoAppService
     {
         private readonly IPlanInfoQueryService _planInfoQueryService;
 
-        public PlanInfoService(IPlanInfoQueryService planInfoQueryService)
+        public PlanInfoAppService(IPlanInfoQueryService planInfoQueryService)
         {
             _planInfoQueryService = planInfoQueryService;
-          
+
         }
 
         public PlanInfoDto GetPlanInfo(string planCode)

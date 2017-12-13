@@ -43,7 +43,7 @@ namespace Lottery.Denormalizers.Dapper
         {
             return TryUpdateRecordAsync(conn =>
             {
-                var lotteryFianlDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, evnt.LotteryId.RemoveStrike());
+                var lotteryFianlDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, evnt.LotteryId);
                 _cacheManager.Remove(lotteryFianlDataKey);
                 return conn.UpdateAsync(new
                 {
@@ -62,7 +62,7 @@ namespace Lottery.Denormalizers.Dapper
         {
             return TryUpdateRecordAsync(conn =>
             {
-                var lotteryFianlDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, evnt.LotteryId.RemoveStrike());
+                var lotteryFianlDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, evnt.LotteryId);
                 _cacheManager.Remove(lotteryFianlDataKey);
                 return conn.UpdateAsync(new
                 {

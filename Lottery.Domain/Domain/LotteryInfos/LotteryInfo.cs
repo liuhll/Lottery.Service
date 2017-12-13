@@ -21,9 +21,14 @@ namespace Lottery.Core.Domain.LotteryInfos
             CreateBy = createBy;
             CreateTime = DateTime.Now;
        
-      }         
- 
-      /// <summary>
+      }
+
+       public LotteryInfo(string id) : base(id)
+       {
+
+       }
+
+       /// <summary>
       /// 彩种编码
       /// </summary>
       public string LotteryCode { get; private set; }
@@ -52,7 +57,22 @@ namespace Lottery.Core.Domain.LotteryInfos
       /// 日期
       /// </summary>
       public DateTime? CreateTime { get; private set; }
-      
-      
-   }   
+
+
+       public void CompleteDynamicTable(bool isComplteDynamicTable)
+       {
+          ApplyEvent(new CompleteDynamicTableEvent(isComplteDynamicTable));
+       }
+
+
+       #region Handle Methods
+
+       private void Handle(CompleteDynamicTableEvent evnt)
+       {
+           IsCompleteDynamicTable = evnt.IsCompleteDynamicTable;
+       }
+
+       #endregion
+
+    }   
 }

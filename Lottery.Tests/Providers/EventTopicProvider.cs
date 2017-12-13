@@ -2,6 +2,7 @@
 using ENode.Eventing;
 using Lottery.Core.Domain.LotteryDatas;
 using Lottery.Core.Domain.LotteryFinalDatas;
+using Lottery.Core.Domain.LotteryInfos;
 using Lottery.Core.Domain.LotteryPredictDatas;
 using Lottery.Infrastructure;
 
@@ -14,7 +15,8 @@ namespace Lottery.Tests.Providers
             RegisterTopic(EQueueTopics.LotteryEventTopic,
                 typeof(LotteryDataAddedEvent),
                 typeof(UpdateLotteryFinalDataEvent),
-                typeof(InitPredictTableEvent));
+                typeof(InitPredictTableEvent),
+                typeof(CompleteDynamicTableEvent));
         }
     }
 }

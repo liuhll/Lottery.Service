@@ -22,7 +22,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
 
         public ICollection<LotteryDataDto> GetAllDatas(string lotteryId, int count = 10000)
         {
-            var redisKey = string.Format(RedisKeyConstants.LOTTERY_DATA_ALL_KEY, lotteryId.RemoveStrike());
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_DATA_ALL_KEY, lotteryId);
             return _cacheManager.Get<ICollection<LotteryDataDto>>(redisKey, () =>
             {
                 using (var conn = GetLotteryConnection())

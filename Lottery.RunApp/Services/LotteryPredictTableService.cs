@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using ECommon.Components;
 using ECommon.Extensions;
+using ECommon.IO;
 using ENode.Commanding;
+using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.Lotteries;
@@ -31,17 +34,21 @@ namespace Lottery.RunApp.Services
             {
                 if (!lotteryInfo.IsCompleteDynamicTable)
                 {
-                    InitLotteryPredictTable(lotteryInfo.Id);
+                    InitLotteryPredictTable(lotteryInfo.Id).Wait();
                 }
             }
         }
 
-        private void InitLotteryPredictTable(string lotteryId)
+        private async Task InitLotteryPredictTable(string lotteryId)
         {
             var lotteryPlans = _planInfoQueryService.GetPlanInfoByLotteryId(lotteryId);
             var predictTables = lotteryPlans.Select(p => p.PlanNormTable).ToList();
             var predictDbName = AanalyseDbName();
-            var result = _commandService.Execute(new InitPredictTableCommand(Guid.NewGuid().ToString(), predictDbName, predictTables),50000);
+            var result =await _commandService.SendAsync(new InitPredictTableCommand(Guid.NewGuid().ToString(), predictDbName, predictTables));
+            if (result.Status == AsyncTaskStatus.Success)
+            {
+                await _commandService.SendAsync(new CompleteDynamicTableCommand(lotteryId,true));
+            }
         }
 
         private string AanalyseDbName()

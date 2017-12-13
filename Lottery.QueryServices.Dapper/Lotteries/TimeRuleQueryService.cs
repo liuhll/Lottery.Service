@@ -23,7 +23,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
 
         public ICollection<TimeRuleDto> GetTimeRules(string lotteryId)
         {
-            var lotteryTimeRuleKey = string.Format(RedisKeyConstants.LOTTERY_TIME_RULE_KEY, lotteryId.RemoveStrike());
+            var lotteryTimeRuleKey = string.Format(RedisKeyConstants.LOTTERY_TIME_RULE_KEY, lotteryId);
 
             return _cacheManager.Get<ICollection<TimeRuleDto>>(lotteryTimeRuleKey, () =>
             {

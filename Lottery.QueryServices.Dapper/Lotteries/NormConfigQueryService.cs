@@ -22,9 +22,10 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         }
 
 
-        public ICollection<NormConfigDto> GetDefaultNormConfigs()
+        public ICollection<NormConfigDto> GetDefaultNormConfigs(string lotteryId)
         {
-            return _cacheManager.Get<ICollection<NormConfigDto>>(RedisKeyConstants.LOTTERY_NORMCONFIG_DEFAULT_KEY,
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_NORMCONFIG_DEFAULT_KEY, lotteryId);
+            return _cacheManager.Get<ICollection<NormConfigDto>>( redisKey,
                 () =>
                 {
                     using (var conn = GetLotteryConnection())
@@ -34,30 +35,30 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                 });
         }
 
-        public ICollection<NormConfigDto> GetUserOrDefaultNormConfigs(string userId = "")
+        public ICollection<NormConfigDto> GetUserOrDefaultNormConfigs(string lotteryId,string userId = "")
         {
             if (string.IsNullOrEmpty(userId))
             {
-                return GetDefaultNormConfigs();
+                return GetDefaultNormConfigs(lotteryId);
             }
-            var userNormConfigs = GetUserNormConfig(userId);
+            var userNormConfigs = GetUserNormConfig(lotteryId,userId);
             if (userNormConfigs.Safe().Any())
             {
                 return userNormConfigs;
             }
-            return GetDefaultNormConfigs();
+            return GetDefaultNormConfigs(lotteryId);
         }
 
 
-        public ICollection<NormConfigDto> GetUserNormConfig(string userId)
+        public ICollection<NormConfigDto> GetUserNormConfig(string lotteryId,string userId)
         {
-            var redisKey = string.Format(RedisKeyConstants.LOTTERY_NORMCONFIG_KEY, userId);
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_NORMCONFIG_LOTTERY_KEY,lotteryId, userId);
             return _cacheManager.Get<ICollection<NormConfigDto>>(redisKey,
                 () =>
                 {
                     using (var conn = GetLotteryConnection())
                     {
-                        return conn.QueryList<NormConfigDto>(new { UserId = userId }, TableNameConstants.NormConfigTable).ToList();
+                        return conn.QueryList<NormConfigDto>(new { LotteryId = lotteryId, UserId = userId  }, TableNameConstants.NormConfigTable).ToList();
                     }
                 });
         }

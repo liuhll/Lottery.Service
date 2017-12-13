@@ -63,7 +63,7 @@ namespace Lottery.EventService
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.SetDefault<ICacheManager, RedisCacheManager>(
-                new RedisCacheManager(new RedisConnectionWrapper("192.168.19.1:6379")));
+                new RedisCacheManager(new RedisConnectionWrapper(DataConfigSettings.RedisServiceAddress)));
             return enodeConfiguration;
         }
 

@@ -8,6 +8,8 @@ namespace Lottery.Infrastructure
         public static string LotteryConnectionString { get; private set; }
         public static string ForecastLotteryConnectionString { get;private set; }
 
+        public static string RedisServiceAddress { get; private set; }
+
         public static void Initialize()
         {
             //if (isDevEnv)
@@ -27,6 +29,8 @@ namespace Lottery.Infrastructure
             ENodeConnectionString = ConfigurationManager.ConnectionStrings["enode"].ConnectionString;
             LotteryConnectionString = ConfigurationManager.ConnectionStrings["lottery"].ConnectionString;
             ForecastLotteryConnectionString = ConfigurationManager.ConnectionStrings["forecastlottery"].ConnectionString;
+
+            RedisServiceAddress = ConfigurationManager.AppSettings["RedisServiceAddress"];
         }
           
     }

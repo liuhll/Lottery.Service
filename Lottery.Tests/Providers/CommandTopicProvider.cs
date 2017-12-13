@@ -12,7 +12,8 @@ namespace Lottery.Tests.Providers
         {
             RegisterTopic(EQueueTopics.LotteryCommandTopic,
                 typeof(AddLotteryDataCommand),
-                typeof(InitPredictTableCommand));
+                typeof(InitPredictTableCommand),
+                typeof(CompleteDynamicTableCommand));
         }
     }
 }

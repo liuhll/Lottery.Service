@@ -120,6 +120,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Lottery.AppService\Lottery.AppService.csproj">
+      <Project>{a7187810-e992-428b-ba29-ab53bca3cffe}</Project>
+      <Name>Lottery.AppService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lottery.CommandHandlers\Lottery.CommandHandlers.csproj">
       <Project>{d5a0a02a-5f74-4cb3-8df2-2155dd1e9f11}</Project>
       <Name>Lottery.CommandHandlers</Name>

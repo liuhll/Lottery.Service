@@ -22,7 +22,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
 
         public LotteryFinalDataDto GetFinalData(string lotteryId)
         {
-            var lotteryFinalDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, lotteryId.RemoveStrike());
+            var lotteryFinalDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, lotteryId);
             return _cacheManager.Get(lotteryFinalDataKey, () =>
             {
                 using (var conn = GetLotteryConnection())
