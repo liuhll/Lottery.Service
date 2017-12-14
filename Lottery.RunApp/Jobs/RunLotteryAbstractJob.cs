@@ -90,6 +90,10 @@ namespace Lottery.RunApp.Jobs
 
                                 if (lotteryDatas.Safe().Any())
                                 {
+                                    var crawlFinalData = lotteryDatas.Last();
+
+                                    VerifyTodayFirstPeriod(crawlFinalData);
+
                                     foreach (var lotteryData in lotteryDatas)
                                     {
                                         if (lotteryData.Period > LotteryFinalData.FinalPeriod)
@@ -102,11 +106,11 @@ namespace Lottery.RunApp.Jobs
 
                                     }
 
-                                    int dayFirstPeriod = 0;
-                                    if (IsNeedSetFirstPeriod(out dayFirstPeriod))
-                                    {
-                                        SendCommandAsync(new UpdateNextDayFirstPeriodCommand(LotteryFinalData.Id, LotteryFinalData.LotteryId, dayFirstPeriod));
-                                    }
+                                    //int dayFirstPeriod = 0;
+                                    //if (IsNeedSetFirstPeriod(out dayFirstPeriod))
+                                    //{
+                                    //    SendCommandAsync(new UpdateNextDayFirstPeriodCommand(LotteryFinalData.Id, LotteryFinalData.LotteryId, dayFirstPeriod));
+                                    //}
                                 }
                             }
 
@@ -116,6 +120,29 @@ namespace Lottery.RunApp.Jobs
 
                     }
                 }
+            }
+        }
+
+        private void VerifyTodayFirstPeriod(LotteryDataDto crawlFinalData)
+        {
+
+            var startTimePoint = _timeRuleManager.TodayTimeRule.StartTime.TotalSeconds;
+            var endTimePoint = crawlFinalData.LotteryTime.TimeOfDay.TotalSeconds;
+            var interval = _timeRuleManager.TodayTimeRule.Tick.TotalSeconds;
+
+            var currentCount = Convert.ToInt32(Math.Ceiling((endTimePoint - startTimePoint) / interval));
+            var computeTodayFirstPeriod = crawlFinalData.Period - currentCount + 1;
+
+            if (_timeRuleManager.IsFinalPeriod)
+            {
+                var nextDayFirstPeriod = crawlFinalData.Period + 1;
+                SendCommandAsync(new UpdateNextDayFirstPeriodCommand(LotteryFinalData.Id, crawlFinalData.LotteryId, nextDayFirstPeriod));
+                return;
+            }
+
+            if (computeTodayFirstPeriod != _lotteryFinalData.TodayFirstPeriod)
+            {
+                SendCommandAsync(new UpdateNextDayFirstPeriodCommand(LotteryFinalData.Id, crawlFinalData.LotteryId,computeTodayFirstPeriod));
             }
         }
 
@@ -143,6 +170,13 @@ namespace Lottery.RunApp.Jobs
             {
                 return false;
             }
+
+            // 超过一天未开奖，服务器意外停止
+            if (TodayActualLotteryCount >= _timeRuleManager.TodayTotalCount)
+            {
+                return false;
+            }
+
             // 当前期数还未开奖
             if (TodayActualLotteryCount < todayCurrentCount)
             {
