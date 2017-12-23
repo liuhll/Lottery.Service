@@ -5,6 +5,7 @@ using ENode.Commanding;
 using Lottery.AppService.LotteryData;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Dtos.Lotteries;
+using Lottery.Engine.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lottery.Tests
@@ -44,8 +45,15 @@ namespace Lottery.Tests
         {
             var lotteryDataService = ObjectContainer.Resolve<ILotteryDataAppService>();
 
-            var newPredictDatas =
-                lotteryDataService.NewLotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467", 1100, "");
+
+            Assert.ThrowsException<LotteryDataException>(()=> {
+                var newPredictDatas1 =
+               lotteryDataService.NewLotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467", 657323, "");
+            });
+
+            var newPredictDatas2 =
+              lotteryDataService.NewLotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467", 657383, "");
+
         }
     }
 }

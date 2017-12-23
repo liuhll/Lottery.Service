@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Lottery.Infrastructure.Collections
 {
@@ -38,5 +39,7 @@ namespace Lottery.Infrastructure.Collections
             source.Add(item);
             return true;
         }
+
+        
     }
 }

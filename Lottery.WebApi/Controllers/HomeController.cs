@@ -12,7 +12,7 @@ namespace Lottery.WebApi.Controllers
         {
             ViewBag.Title = "Home Page";
 
-            return View();
+            return Redirect("/swagger/ui/index#/");
         }
     }
 }

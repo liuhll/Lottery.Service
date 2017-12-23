@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Lottery.Dtos.Lotteries;
 using Lottery.Engine.Exceptions;
+using Lottery.Infrastructure.Collections;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Engine.LotteryData
 {
@@ -17,7 +19,7 @@ namespace Lottery.Engine.LotteryData
             _lotteryNumbers = new Dictionary<int, ILotteryNumber>();
             foreach (var lotteryData in lotteryDatas)
             {
-                _lotteryNumbers.Add(new KeyValuePair<int, ILotteryNumber>(lotteryData.Period,new LotteryNumber(lotteryData)));
+                _lotteryNumbers.AddIfNotContains(new KeyValuePair<int, ILotteryNumber>(lotteryData.Period,new LotteryNumber(lotteryData)));
             }
         }
 
@@ -132,13 +134,22 @@ namespace Lottery.Engine.LotteryData
             _lotteryNumbers.Remove(period);
         }
 
-        public ICollection<int> LotteryDatas(int position)
+        public ICollection<int> LotteryDatas(int position, NumberType numberType = NumberType.Number)
         {
             var result = new List<int>();
-
-            foreach (var lotteryNumber in _lotteryNumbers)
+            if (numberType == NumberType.Number)
             {
-                result.Add(lotteryNumber.Value[position]);
+                foreach (var lotteryNumber in _lotteryNumbers)
+                {
+                    result.Add(lotteryNumber.Value[position]);
+                }
+            }
+            else
+            {
+                foreach (var lotteryNumber in _lotteryNumbers)
+                {
+                    result.Add(lotteryNumber.Value.Datas.IndexOf(position));
+                }
             }
             return result;
         }
@@ -154,7 +165,7 @@ namespace Lottery.Engine.LotteryData
             return result;
         }
 
-        public ICollection<int> LotteryDatas(params int[] position)
+        public ICollection<int> LotteryDatas(NumberType numberType = NumberType.Number,params int[] position)
         {
             var result = new List<int>();
             foreach (var ps in position)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Lottery.Dtos.Lotteries;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Engine.LotteryData
 {
@@ -16,11 +17,11 @@ namespace Lottery.Engine.LotteryData
 
         void RemoveLotteryData(int period);
 
-        ICollection<int> LotteryDatas(int position);
+        ICollection<int> LotteryDatas(int position, NumberType numberType = NumberType.Number);
 
         ICollection<int> LotteryDatas(int position, int step);
 
-        ICollection<int> LotteryDatas(params int[] position);
+        ICollection<int> LotteryDatas(NumberType numberType = NumberType.Number,params int[] position);
 
         ICollection<int> LotteryDatas(int step,params int[] position);
 

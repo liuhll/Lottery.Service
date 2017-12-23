@@ -27,11 +27,23 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 using (var conn = GetLotteryConnection())
                 {
-                    var sql = $"SELECT TOP {count} * FROM dbo.L_LotteryData ORDER BY Period DESC";
+                    var sql = $"SELECT TOP {count} * FROM dbo.L_LotteryData WHERE lotteryId=@lotteryId ORDER BY Period DESC";
 
-                    return conn.Query<LotteryDataDto>(sql).ToList();
+                    return conn.Query<LotteryDataDto>(sql,new { @lotteryId = lotteryId}).ToList();
                 }
             });
+        }
+
+        public ICollection<LotteryDataDto> GetPredictPeriodDatas(string lotteryId, int predictPeriod, int userNormHistoryCount)
+        {
+            var result = GetAllDatas(lotteryId).Where(p => p.Period < predictPeriod).Take(userNormHistoryCount).ToList();
+
+            return result;
+        }
+
+        public LotteryDataDto GetPredictPeriodData(string lotteryId, int period)
+        {
+            return GetAllDatas(lotteryId).FirstOrDefault(p=>p.Period == period);
         }
     }
 }

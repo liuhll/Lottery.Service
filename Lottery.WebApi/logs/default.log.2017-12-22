@@ -1,0 +1,34 @@
+2017-12-22 21:48:12,152  INFO ASP.global_asax - ECommon initialized.
+2017-12-22 21:50:47,959  INFO ASP.global_asax - ECommon initialized.
+2017-12-22 21:53:04,316  INFO ASP.global_asax - ECommon initialized.
+2017-12-22 22:02:12,327  INFO ASP.global_asax - ECommon initialized.
+2017-12-22 22:14:26,350  INFO ASP.global_asax - ECommon initialized.
+2017-12-22 22:17:20,082  INFO ASP.global_asax - ECommon initialized.
+2017-12-22 22:24:30,546  INFO ASP.global_asax - ECommon initialized.
+2017-12-22 22:30:16,228  INFO ASP.global_asax - ECommon initialized.
+2017-12-22 22:51:01,022  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-22 22:51:01,059  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-22 22:51:01,066  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:38130
+2017-12-22 22:51:01,126  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:38131
+2017-12-22 22:51:01,126  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:38132
+2017-12-22 22:51:01,126  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-22 22:51:01,126  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-22 22:51:01,126  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-22 22:52:40,879  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-22 22:52:40,892  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-22 22:52:40,900  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:38257
+2017-12-22 22:52:40,972  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:38258
+2017-12-22 22:52:40,972  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:38259
+2017-12-22 22:52:40,973  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-22 22:52:40,973  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-22 22:52:40,973  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-22 22:52:40,993  INFO ASP.global_asax - ENode initialized.
+2017-12-22 22:58:07,224  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-22 22:58:07,241  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-22 22:58:07,299  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:38745
+2017-12-22 22:58:07,384  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:38746
+2017-12-22 22:58:07,384  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:38747
+2017-12-22 22:58:07,385  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-22 22:58:07,385  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-22 22:58:07,385  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-22 22:58:07,402  INFO ASP.global_asax - ENode initialized.

@@ -7,5 +7,8 @@ namespace Lottery.QueryServices.Lotteries
     {
         ICollection<LotteryDataDto> GetAllDatas(string lotteryId, int count = 10000);
 
+        ICollection<LotteryDataDto> GetPredictPeriodDatas(string lotteryId, int predictPeriod, int userNormHistoryCount);
+
+        LotteryDataDto GetPredictPeriodData(string lotteryId, int period);
     }
 }

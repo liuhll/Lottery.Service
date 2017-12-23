@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Lottery.Infrastructure.Collections
 {
@@ -57,6 +58,16 @@ namespace Lottery.Infrastructure.Collections
             return condition
                 ? source.Where(predicate)
                 : source;
+        }
+
+        public static string ToString<T>(this IEnumerable<T> source, string split)
+        {
+            var sb = new StringBuilder();
+            foreach (var item in source)
+            {
+                sb.AppendFormat($"{item},");
+            }
+            return sb.ToString().Remove(sb.Length - 1);
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace Lottery.Infrastructure.Collections
+﻿using System;
+using System.Linq;
+
+namespace Lottery.Infrastructure.Collections
 {
     public static class ArrayExtention
     {
@@ -10,6 +13,34 @@
                 for (int j = 0; j < data[i].Length; j++) res[i, j] = data[i][j];
             }
             return res;
+        }
+
+        public static int IndexOf<T>(this T[] source, T item)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            int index = 0;
+
+            int step = 0;
+
+            foreach (var k in source)
+            {
+                step++;
+                if (k.Equals(item))
+                {
+                    index = step + 1;
+                    break;
+                }
+            }
+
+            if (index == 0)
+            {
+                throw new Exception($"该数组不包含{item}元素");
+            }
+            return index;
         }
     }
 }

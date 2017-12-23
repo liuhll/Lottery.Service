@@ -32,5 +32,29 @@ namespace Lottery.Engine.LotteryData
         public int Period {
             get { return _lotteryData.Period; }
         }
+
+        public int[] GetLotteryNumbers(int[] positions)
+        {
+            var numbers = new List<int>();
+            foreach (var position in positions)
+            {
+                numbers.Add(this[position]);
+            }
+            return numbers.ToArray();
+        }
+
+        public int GetRankNumber(int rank)
+        {
+            var numberRank = 1;
+            foreach (var data in _datas)
+            {
+                if (data == rank)
+                {
+                    break;
+                }
+                numberRank++;
+            }
+            return numberRank;
+        }
     }
 }

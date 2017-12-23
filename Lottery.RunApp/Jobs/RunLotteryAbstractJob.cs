@@ -32,6 +32,8 @@ namespace Lottery.RunApp.Jobs
         protected static bool _isCrawling = false;
         protected static object _objLock = new object();
 
+        protected static bool _isStart;
+
         protected RunLotteryAbstractJob()
         {
             PreInitialize();
@@ -44,6 +46,7 @@ namespace Lottery.RunApp.Jobs
             _timeRuleManager = new TimeRuleManager(_lotteryInfo);
             _lotteryFinalData = _lotteryFinalDataQueryService.GetFinalData(_lotteryInfo.Id);
             _dataUpdateItems = DataUpdateContext.GetDataUpdateItems(_lotteryInfo.Id);
+            _isStart = true;
             PostinItialize();
         }
 
@@ -67,7 +70,7 @@ namespace Lottery.RunApp.Jobs
                 if (_timeRuleManager.ParseNextLotteryTime(out nextDateTime))
                 {
                 
-                    if (!JudgeCurrentPeriodIsLottery())
+                    if (!JudgeCurrentPeriodIsLottery() || _isStart)
                     {
                         IList<LotteryDataDto> lotteryDatas = null;
                         if (!_isCrawling)
@@ -115,6 +118,10 @@ namespace Lottery.RunApp.Jobs
                             }
 
                             _isCrawling = false;
+                            if (_isStart)
+                            {
+                                _isStart = false;
+                            }
 
                         }
 

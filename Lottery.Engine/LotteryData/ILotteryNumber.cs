@@ -12,6 +12,9 @@ namespace Lottery.Engine.LotteryData
 
         int Period { get; }
 
-        
+        int[] GetLotteryNumbers(int[] positions);
+
+        int GetRankNumber(int rank);
+
     }
 }
