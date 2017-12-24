@@ -87,6 +87,7 @@ namespace Lottery.WebApi
             // OPTIONAL: Register the Autofac model binder provider.
             builder.RegisterWebApiModelBinderProvider();
 
+            builder.Update(container);
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }

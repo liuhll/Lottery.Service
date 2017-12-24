@@ -40,11 +40,22 @@ namespace Lottery.Core.Caching
         }
         protected virtual T Deserialize<T>(byte[] serializedObject)
         {
-            if (serializedObject == null)
-                return default(T);
+            try
+            {
+                if (serializedObject == null)
+                    return default(T);
 
-            var jsonString = Encoding.UTF8.GetString(serializedObject);
-            return JsonConvert.DeserializeObject<T>(jsonString);
+                var jsonString = Encoding.UTF8.GetString(serializedObject);
+                if (jsonString == "[]")
+                {
+                    return default(T);
+                }
+                return JsonConvert.DeserializeObject<T>(jsonString);
+            }
+            catch (Exception e)
+            {
+                return default(T);
+            }
         }
 
         #endregion

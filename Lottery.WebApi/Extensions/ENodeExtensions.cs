@@ -32,7 +32,7 @@ namespace Lottery.WebApi.Extensions
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
 
-            var commandResultProcessor = new CommandResultProcessor().Initialize(new IPEndPoint(SocketUtils.GetLocalIPV4(), 9000));
+            var commandResultProcessor = new CommandResultProcessor().Initialize(new IPEndPoint(SocketUtils.GetLocalIPV4(), 9001));
 
             _commandService.Initialize(commandResultProcessor, new ProducerSetting
             {

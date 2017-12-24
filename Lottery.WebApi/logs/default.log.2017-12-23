@@ -1,0 +1,223 @@
+2017-12-23 16:15:42,140  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 16:15:42,332  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 16:15:42,339  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:5913
+2017-12-23 16:15:42,383  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:5914
+2017-12-23 16:15:42,384  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:5915
+2017-12-23 16:15:42,384  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 16:15:42,385  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 16:15:42,385  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 16:15:42,407  INFO ASP.global_asax - ENode initialized.
+2017-12-23 16:18:39,119  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 16:18:39,132  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 16:18:39,143  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:6088
+2017-12-23 16:18:39,205  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:6089
+2017-12-23 16:18:39,206  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:6090
+2017-12-23 16:18:39,206  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 16:18:39,206  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 16:18:39,206  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 16:18:39,224  INFO ASP.global_asax - ENode initialized.
+2017-12-23 18:16:50,324  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 18:16:50,347  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 18:16:50,355  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:13806
+2017-12-23 18:16:50,397  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:13807
+2017-12-23 18:16:50,397  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:13808
+2017-12-23 18:16:50,397  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 18:16:50,397  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 18:16:50,397  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 18:16:50,417  INFO ASP.global_asax - ENode initialized.
+2017-12-23 18:29:37,511  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 18:29:37,527  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 18:29:37,555  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:15434
+2017-12-23 18:29:37,625  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:15435
+2017-12-23 18:29:37,625  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:15436
+2017-12-23 18:29:37,625  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 18:29:37,625  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 18:29:37,625  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 18:29:37,646  INFO ASP.global_asax - ENode initialized.
+2017-12-23 18:31:48,472  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 18:31:48,486  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 18:31:48,516  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:15587
+2017-12-23 18:31:48,583  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:15588
+2017-12-23 18:31:48,583  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:15589
+2017-12-23 18:31:48,583  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 18:31:48,583  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 18:31:48,583  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 18:32:25,435  INFO ASP.global_asax - ENode initialized.
+2017-12-23 18:39:52,531  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 18:39:52,569  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 18:39:52,587  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:16482
+2017-12-23 18:39:52,650  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:16483
+2017-12-23 18:39:52,651  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:16484
+2017-12-23 18:39:52,652  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 18:39:52,652  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 18:39:52,652  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 18:41:45,508  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 18:41:45,533  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 18:41:45,562  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:16681
+2017-12-23 18:41:45,624  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:16682
+2017-12-23 18:41:45,624  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:16683
+2017-12-23 18:41:45,625  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 18:41:45,625  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 18:41:45,625  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 18:41:54,751  INFO ASP.global_asax - ENode initialized.
+2017-12-23 18:43:58,726  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 18:43:59,728  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 18:43:59,728  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:16682
+2017-12-23 18:48:21,901  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 18:48:21,916  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 18:48:21,946  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:17206
+2017-12-23 18:48:22,011  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:17207
+2017-12-23 18:48:22,012  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:17208
+2017-12-23 18:48:22,012  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 18:48:22,012  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 18:48:22,012  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 18:48:27,910  INFO ASP.global_asax - ENode initialized.
+2017-12-23 18:54:32,455  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 18:54:33,968  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 18:54:34,230  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:17207
+2017-12-23 18:54:34,231 ERROR EQueue.Clients.Producers.Producer - Send producer heartbeat has exception, brokerInfo: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+ECommon.Remoting.Exceptions.RemotingServerUnAvailableException: Remoting server is unavailable, server address:127.0.0.1:9072
+   在 ECommon.Remoting.SocketRemotingClient.EnsureClientStatus() 位置 D:\MyProjects\ecommon\src\ECommon\Remoting\SocketRemotingClient.cs:行号 318
+   在 ECommon.Remoting.SocketRemotingClient.InvokeOneway(RemotingRequest request) 位置 D:\MyProjects\ecommon\src\ECommon\Remoting\SocketRemotingClient.cs:行号 164
+   在 EQueue.Clients.Producers.Producer.SendHeartbeat() 位置 D:\MyProjects\equeue\src\EQueue\Clients\Producers\Producer.cs:行号 355
+2017-12-23 18:57:24,794  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 18:57:26,357  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 18:57:26,358  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:17207
+2017-12-23 18:59:44,246  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 18:59:45,596  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 18:59:45,597  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:17207
+2017-12-23 20:16:47,273  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 20:16:47,312  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 20:16:47,318  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:23067
+2017-12-23 20:16:47,359  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:23068
+2017-12-23 20:16:47,359  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:23069
+2017-12-23 20:16:47,359  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 20:16:47,359  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 20:16:47,359  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 20:16:47,390  INFO ASP.global_asax - ENode initialized.
+2017-12-23 20:19:42,296  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 20:19:47,888  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 20:19:47,889  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:23068
+2017-12-23 20:21:27,214  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 20:21:43,334  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 20:21:49,963  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:23068
+2017-12-23 20:23:48,161  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 20:23:48,176  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 20:23:48,184  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:23415
+2017-12-23 20:23:48,248  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:23418
+2017-12-23 20:23:48,249  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:23419
+2017-12-23 20:23:48,249  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 20:23:48,249  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 20:23:48,249  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 20:23:48,282  INFO ASP.global_asax - ENode initialized.
+2017-12-23 20:25:04,473  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 20:25:13,501  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 20:25:13,507  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:23418
+2017-12-23 20:28:19,888  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 20:28:21,558  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 20:28:21,562  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:23418
+2017-12-23 20:37:55,740  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 20:37:55,754  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 20:37:55,762  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:23969
+2017-12-23 20:37:55,827  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:23970
+2017-12-23 20:37:55,827  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:23971
+2017-12-23 20:37:55,828  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 20:37:55,828  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 20:37:55,828  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 20:37:55,859  INFO ASP.global_asax - ENode initialized.
+2017-12-23 20:52:18,758  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 20:52:18,773  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 20:52:18,806  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:24731
+2017-12-23 20:52:18,875  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:24732
+2017-12-23 20:52:18,876  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:24733
+2017-12-23 20:52:18,876  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 20:52:18,876  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 20:52:18,876  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 20:52:18,909  INFO ASP.global_asax - ENode initialized.
+2017-12-23 20:52:47,991  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 20:52:48,006  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 20:52:48,036  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:24798
+2017-12-23 20:52:48,097  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:24799
+2017-12-23 20:52:48,097  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:24800
+2017-12-23 20:52:48,098  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 20:52:48,098  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 20:52:48,098  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 20:52:48,129  INFO ASP.global_asax - ENode initialized.
+2017-12-23 20:53:02,113  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 20:53:02,149  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 20:53:02,156  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:24837
+2017-12-23 20:53:02,223  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:24838
+2017-12-23 20:53:02,223  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:24839
+2017-12-23 20:53:02,224  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 20:53:02,224  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 20:53:02,224  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 20:53:02,256  INFO ASP.global_asax - ENode initialized.
+2017-12-23 20:58:06,424  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 20:58:06,438  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 20:58:06,449  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:25066
+2017-12-23 20:58:06,516  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:25067
+2017-12-23 20:58:06,516  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:25068
+2017-12-23 20:58:06,517  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 20:58:06,517  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 20:58:06,517  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 20:58:06,553  INFO ASP.global_asax - ENode initialized.
+2017-12-23 21:00:56,058  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 21:00:56,072  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 21:00:56,080  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:25270
+2017-12-23 21:00:56,150  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:25271
+2017-12-23 21:00:56,150  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:25272
+2017-12-23 21:00:56,150  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 21:00:56,150  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 21:00:56,150  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 21:00:56,183  INFO ASP.global_asax - ENode initialized.
+2017-12-23 21:05:56,375  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 21:05:56,390  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 21:05:56,421  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:25503
+2017-12-23 21:05:56,489  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:25504
+2017-12-23 21:05:56,489  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:25505
+2017-12-23 21:05:56,489  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 21:05:56,489  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 21:05:56,489  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 21:05:56,521  INFO ASP.global_asax - ENode initialized.
+2017-12-23 21:56:10,249  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 21:56:11,260  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 21:56:11,261  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:25504
+2017-12-23 21:58:35,377  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 21:58:38,834  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 21:58:38,896  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:25504
+2017-12-23 22:01:27,002  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 22:01:27,040  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 22:01:27,048  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:28378
+2017-12-23 22:01:27,089  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:28379
+2017-12-23 22:01:27,090  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:28380
+2017-12-23 22:01:27,090  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 22:01:27,090  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 22:01:27,090  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 22:01:27,120  INFO ASP.global_asax - ENode initialized.
+2017-12-23 22:03:31,190  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-23 22:03:42,968  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-23 22:03:42,977  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:28379
+2017-12-23 22:06:27,913  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 22:06:27,934  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9000
+2017-12-23 22:06:27,941  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:28740
+2017-12-23 22:06:28,017  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:28741
+2017-12-23 22:06:28,017  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:28742
+2017-12-23 22:06:28,017  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 22:06:28,017  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 22:06:28,017  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 22:06:28,052  INFO ASP.global_asax - ENode initialized.
+2017-12-23 23:23:17,879  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9000.
+2017-12-23 23:23:17,891 ERROR ECommon.Socketing.ServerSocket - Failed to listen on TCP endpoint: 192.168.19.1:9000.
+System.Net.Sockets.SocketException (0x80004005): 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。
+   在 System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   在 System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   在 ECommon.Socketing.ServerSocket.Start() 位置 D:\MyProjects\ecommon\src\ECommon\Socketing\ServerSocket.cs:行号 62
+2017-12-23 23:24:52,197  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9001.
+2017-12-23 23:24:52,290  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9001
+2017-12-23 23:24:52,299  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:34256
+2017-12-23 23:24:52,377  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:34258
+2017-12-23 23:24:52,377  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:34259
+2017-12-23 23:24:52,377  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-23 23:24:52,377  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-23 23:24:52,377  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-23 23:24:52,411  INFO ASP.global_asax - ENode initialized.

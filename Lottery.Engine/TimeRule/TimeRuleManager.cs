@@ -115,7 +115,7 @@ namespace Lottery.Engine.TimeRule
                 var endTimePoint = toadyTimeRule.EndTime.TotalSeconds;
                 var interval = toadyTimeRule.Tick.TotalSeconds;
 
-                return Convert.ToInt32((endTimePoint - startTimePoint) / interval);
+                return Convert.ToInt32((endTimePoint - startTimePoint + interval) / interval);
             }
         }
         

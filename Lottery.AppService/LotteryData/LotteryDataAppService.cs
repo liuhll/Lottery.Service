@@ -41,10 +41,15 @@ namespace Lottery.AppService.LotteryData
             return new LotteryDataList(datas);
         }
 
-        public IList<PredictDataDto> NewLotteryDataList(string lotteryId, int predictPeroid, string userId)
+        public IList<PredictDataDto> NewLotteryDataList(string lotteryId, int? predictPeroid, string userId)
         {
             //  var lotteryInfo = _lotteryQueryService.GetLotteryInfoByCode(lotteryId);
             var finalLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
+
+            if (!predictPeroid.HasValue)
+            {
+                predictPeroid = finalLotteryData.FinalPeriod + 1;
+            }
 
             if (finalLotteryData.FinalPeriod >= predictPeroid)
             {
@@ -55,7 +60,7 @@ namespace Lottery.AppService.LotteryData
             var userNorms = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryId, userId);
             foreach (var userNorm in userNorms)
             {
-                predictDatas.AddRange(PredictNormData(lotteryId, userNorm, predictPeroid));
+                predictDatas.AddRange(PredictNormData(lotteryId, userNorm, predictPeroid.Value));
             }
             return predictDatas;
         }

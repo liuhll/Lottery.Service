@@ -38,7 +38,12 @@ namespace Lottery.QueryServices.Dapper.Lotteries
 
         public PredictDataDto GetPredictDataByStartPeriod(int startPeriod, string normId, string predictTable)
         {
-            return GetNormPredictDatas(normId, predictTable).FirstOrDefault(p => p.StartPeriod == startPeriod);
+            var predictDatas = GetNormPredictDatas(normId, predictTable);
+            if (predictDatas == null)
+            {
+                return null;
+            }
+            return predictDatas.FirstOrDefault(p => p.StartPeriod == startPeriod);
         }
 
         public ICollection<PredictDataDto> GetNormPredictDatas(string normId, string predictTable)
