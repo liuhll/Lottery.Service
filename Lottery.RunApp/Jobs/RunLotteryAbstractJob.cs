@@ -25,7 +25,7 @@ namespace Lottery.RunApp.Jobs
         protected LotteryFinalDataDto _lotteryFinalData;
         protected LotteryInfoDto _lotteryInfo;
         protected ICommandService _commandService;
-        protected const int LotteryDataDelay = 2000;
+        protected const int LotteryDataDelay = 300;
 
         protected IList<IDataUpdateItem> _dataUpdateItems;
 
