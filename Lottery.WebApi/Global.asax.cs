@@ -23,10 +23,10 @@ namespace Lottery.WebApi
         {
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            GlobalConfiguration.Configure(FilterConfig.RegisterGlobalFilters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-           // BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+  
             InitializeENode();
 
         }

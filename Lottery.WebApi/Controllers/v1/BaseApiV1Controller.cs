@@ -2,7 +2,7 @@
 
 namespace Lottery.WebApi.Controllers.v1
 {
-    public class BaseApiV1Controller : ApiController
+    public abstract class BaseApiV1Controller : BaseApiController
     {
     }
 }

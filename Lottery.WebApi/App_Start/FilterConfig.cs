@@ -1,13 +1,13 @@
-﻿using System.Web;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 
 namespace Lottery.WebApi
 {
     public class FilterConfig
     {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        public static void RegisterGlobalFilters(HttpConfiguration config)
         {
-            filters.Add(new HandleErrorAttribute());
+            config.Filters.Add(new System.Web.Http.AuthorizeAttribute());
         }
     }
 }

@@ -108,6 +108,12 @@ namespace Lottery.RunApp.Jobs
                                         }
 
                                     }
+                                    if (_timeRuleManager.IsFinalPeriod)
+                                    {
+                                        var todayLastLotteryData =
+                                            lotteryDatas.OrderByDescending(p => p.Period).First();
+                                        UpdateNextFirstPeriod(todayLastLotteryData);
+                                    }
 
                                     //int dayFirstPeriod = 0;
                                     //if (IsNeedSetFirstPeriod(out dayFirstPeriod))
@@ -140,17 +146,16 @@ namespace Lottery.RunApp.Jobs
             var currentCount = Convert.ToInt32(Math.Ceiling((endTimePoint - startTimePoint) / interval));
             var computeTodayFirstPeriod = crawlFinalData.Period - currentCount + 1;
 
-            if (_timeRuleManager.IsFinalPeriod)
-            {
-                var nextDayFirstPeriod = crawlFinalData.Period + 1;
-                SendCommandAsync(new UpdateNextDayFirstPeriodCommand(LotteryFinalData.Id, crawlFinalData.LotteryId, nextDayFirstPeriod));
-                return;
-            }
-
             if (computeTodayFirstPeriod != _lotteryFinalData.TodayFirstPeriod)
             {
                 SendCommandAsync(new UpdateNextDayFirstPeriodCommand(LotteryFinalData.Id, crawlFinalData.LotteryId,computeTodayFirstPeriod));
             }
+        }
+
+        private void UpdateNextFirstPeriod(LotteryDataDto crawlFinalData)
+        {
+            var nextDayFirstPeriod = crawlFinalData.Period + 1;
+            SendCommandAsync(new UpdateNextDayFirstPeriodCommand(LotteryFinalData.Id, crawlFinalData.LotteryId, nextDayFirstPeriod));
         }
 
         protected int TodayActualLotteryCount => LotteryFinalData.FinalPeriod - LotteryFinalData.TodayFirstPeriod + 1;
