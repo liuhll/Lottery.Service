@@ -6,7 +6,9 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Exceptions;
 using Lottery.WebApi.Extensions;
+using Lottery.WebApi.RunTime.Security;
 using Lottery.WebApi.ViewModels;
 
 namespace Lottery.WebApi.Controllers
@@ -37,30 +39,31 @@ namespace Lottery.WebApi.Controllers
             // if credentials are valid
             if (isUsernamePasswordValid)
             {
-                string token = createToken(login.UserName);
+                string token = CreateToken(login.UserName);
                 //return the token
                 return token;
             }
             else
             {
-                throw new HttpRequestValidationException("错误");
+                throw new LotteryAuthorizationException($"${login.UserName}登录密码错误,请确认您的输入密码是否正确");
             }
         }
 
-        private string createToken(string username)
+        private string CreateToken(string username)
         {
             //Set issued at date
             DateTime issuedAt = DateTime.UtcNow;
             //set the time when it expires
             DateTime expires = DateTime.UtcNow.AddDays(7);
 
-            //http://stackoverflow.com/questions/18223868/how-to-encrypt-jwt-security-token
+            // http://stackoverflow.com/questions/18223868/how-to-encrypt-jwt-security-token
             var tokenHandler = new JwtSecurityTokenHandler();
 
             //create a identity and add claims to the user which we want to log in
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.Name, username)
+                new Claim(LotteryClaimTypes.UserName, username),
+                new Claim(LotteryClaimTypes.UserId,"userId"), 
             });
 
             var now = DateTime.UtcNow;

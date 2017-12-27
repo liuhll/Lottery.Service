@@ -5,7 +5,7 @@ using ENode.Commanding;
 using Lottery.AppService.LotteryData;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Dtos.Lotteries;
-using Lottery.Engine.Exceptions;
+using Lottery.Infrastructure.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lottery.Tests

@@ -21,13 +21,14 @@ namespace Lottery.WebApi
         private ENodeConfiguration _enodeConfiguration;
         protected void Application_Start()
         {
+            InitializeENode();
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             GlobalConfiguration.Configure(FilterConfig.RegisterGlobalFilters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-  
-            InitializeENode();
+
 
         }
 
@@ -91,5 +92,7 @@ namespace Lottery.WebApi
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
+
+       
     }
 }

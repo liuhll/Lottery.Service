@@ -234,7 +234,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AuthenticationHeaderFilter.cs" />
+    <Compile Include="Authentication\AuthenticationHeaderFilter.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -243,18 +243,38 @@
     <Compile Include="App_Start\SwaggerOptionalParameter .cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\TokenValidationHandler .cs" />
+    <Compile Include="Configration\ILotteryApiConfiguration.cs" />
+    <Compile Include="Configration\LotteryApiConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\v1\BaseApiV1Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\v1\LotteryController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Dynamic\LotteryApiControllerActionSelector.cs" />
     <Compile Include="Extensions\ENodeExtensions.cs" />
     <Compile Include="Extensions\HttpRequestExtensions.cs" />
+    <Compile Include="Filter\LotteryApiExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\ResultWrapperHandler.cs" />
+    <Compile Include="Helper\HttpActionDescriptorHelper.cs" />
     <Compile Include="Providers\CommandTopicProvider.cs" />
+    <Compile Include="Result\DontWrapResultAttribute.cs" />
+    <Compile Include="Result\Models\ErrorInfo.cs" />
+    <Compile Include="Result\Models\ResponseMessage.cs" />
+    <Compile Include="Result\Models\ResponseMessageBase.cs" />
+    <Compile Include="Result\Models\ResponseMessageOfTResult.cs" />
+    <Compile Include="Result\WrapResultAttribute.cs" />
+    <Compile Include="RunTime\Security\LotteryClaimTypes.cs" />
+    <Compile Include="RunTime\Session\ClaimsLotterySession.cs" />
+    <Compile Include="RunTime\Session\DefaultPrincipalAccessor.cs" />
+    <Compile Include="RunTime\Session\ILotterySession.cs" />
+    <Compile Include="RunTime\Session\IPrincipalAccessor.cs" />
+    <Compile Include="RunTime\Session\LotterySessionBase.cs" />
+    <Compile Include="RunTime\Session\NullLotterySession.cs" />
+    <Compile Include="RunTime\Session\WebApiPrincipalAccessor.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <None Include="log4net.config">
@@ -285,7 +305,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

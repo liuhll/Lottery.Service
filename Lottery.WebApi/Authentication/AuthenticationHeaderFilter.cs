@@ -5,7 +5,7 @@ using System.Web.Http.Description;
 using System.Web.Http.Filters;
 using Swashbuckle.Swagger;
 
-namespace Lottery.WebApi
+namespace Lottery.WebApi.Authentication
 {
     public class AuthenticationHeaderFilter : IOperationFilter
     {

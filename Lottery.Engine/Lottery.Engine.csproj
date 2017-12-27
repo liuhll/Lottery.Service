@@ -66,8 +66,6 @@
   <ItemGroup>
     <Compile Include="DiscreteMarkov\DiscreteMarkov.cs" />
     <Compile Include="EngineContext.cs" />
-    <Compile Include="Exceptions\LotteryDataException.cs" />
-    <Compile Include="Exceptions\LotteryException.cs" />
     <Compile Include="ILotterEngine.cs" />
     <Compile Include="LotterEngine.cs" />
     <Compile Include="LotteryData\ILotteryDataList.cs" />
@@ -110,7 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AlgorithmPolicy\" />
-    <Folder Include="Dtos\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

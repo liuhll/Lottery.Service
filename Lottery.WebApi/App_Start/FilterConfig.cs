@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using System.Web.Mvc;
+using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi
 {
@@ -7,7 +7,8 @@ namespace Lottery.WebApi
     {
         public static void RegisterGlobalFilters(HttpConfiguration config)
         {
-            config.Filters.Add(new System.Web.Http.AuthorizeAttribute());
+            config.Filters.Add(new System.Web.Http.AuthorizeAttribute());         
+            config.Filters.Add(new LotteryApiExceptionFilterAttribute());
         }
     }
 }

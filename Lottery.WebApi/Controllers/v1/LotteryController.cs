@@ -2,6 +2,9 @@
 using System.Web.Http;
 using Lottery.AppService.LotteryData;
 using Lottery.Dtos.Lotteries;
+using Lottery.Infrastructure.Exceptions;
+using Lottery.WebApi.Result;
+using Lottery.WebApi.RunTime.Session;
 using Swashbuckle.Swagger.Annotations;
 
 namespace Lottery.WebApi.Controllers.v1
@@ -10,10 +13,12 @@ namespace Lottery.WebApi.Controllers.v1
     public class LotteryController : BaseApiV1Controller
     {
         private readonly ILotteryDataAppService _lotteryDataAppService;
+        private readonly ILotterySession _lotterySession;
 
         public LotteryController(ILotteryDataAppService lotteryDataAppService)
         {
             _lotteryDataAppService = lotteryDataAppService;
+            _lotterySession = NullLotterySession.Instance;
         }
 
         /// <summary>
@@ -27,6 +32,7 @@ namespace Lottery.WebApi.Controllers.v1
         [SwaggerOptionalParameter("predictPeriod")]
         public ICollection<PredictDataDto> GetPredictDatas(string lotteryId,int? predictPeriod = null)
         {
+            var userInfo = _lotterySession.UserId;
             var data = _lotteryDataAppService.NewLotteryDataList(lotteryId, predictPeriod, "");
             return data;
         }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lottery.Engine.Exceptions
+﻿namespace Lottery.Infrastructure.Exceptions
 {
     public class LotteryDataException : LotteryException
     {

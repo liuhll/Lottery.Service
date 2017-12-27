@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Lottery.Dtos.Lotteries;
-using Lottery.Engine.Exceptions;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
+using Lottery.Infrastructure.Exceptions;
 
 namespace Lottery.Engine.LotteryData
 {

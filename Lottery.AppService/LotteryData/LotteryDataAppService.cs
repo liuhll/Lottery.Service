@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using ECommon.Components;
 using Lottery.AppService.Predict;
 using Lottery.Dtos.Lotteries;
-using Lottery.Engine.Exceptions;
 using Lottery.Engine.LotteryData;
+using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.AppService.LotteryData

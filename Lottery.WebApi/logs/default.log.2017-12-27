@@ -1,0 +1,185 @@
+2017-12-27 22:56:25,073  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9001.
+2017-12-27 22:56:25,119  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9001
+2017-12-27 22:56:25,135  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:52872
+2017-12-27 22:56:25,180  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:52875
+2017-12-27 22:56:25,180  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:52876
+2017-12-27 22:56:25,181  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-27 22:56:25,181  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-27 22:56:25,181  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-27 22:56:25,216  INFO ASP.global_asax - ENode initialized.
+2017-12-27 22:59:38,132  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9001.
+2017-12-27 22:59:38,156  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9001
+2017-12-27 22:59:38,175  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:54094
+2017-12-27 22:59:38,239  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:54095
+2017-12-27 22:59:38,240  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:54096
+2017-12-27 22:59:38,240  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-27 22:59:38,240  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-27 22:59:38,240  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-27 22:59:38,273  INFO ASP.global_asax - ENode initialized.
+2017-12-27 23:26:32,022  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9001.
+2017-12-27 23:26:32,049  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9001
+2017-12-27 23:26:32,064  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:55642
+2017-12-27 23:26:32,135  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:55643
+2017-12-27 23:26:32,135  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:55644
+2017-12-27 23:26:32,136  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-27 23:26:32,136  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-27 23:26:32,136  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-27 23:26:32,167  INFO ASP.global_asax - ENode initialized.
+2017-12-27 23:32:13,007  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9001.
+2017-12-27 23:32:13,035  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9001
+2017-12-27 23:32:13,050  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:56269
+2017-12-27 23:32:13,120  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:56270
+2017-12-27 23:32:13,121  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:56271
+2017-12-27 23:32:13,121  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-27 23:32:13,121  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-27 23:32:13,121  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-27 23:32:13,152  INFO ASP.global_asax - ENode initialized.
+2017-12-27 23:33:01,315 ERROR LotteryApi - System.Web.HttpRequestValidationException (0x80004005): 错误
+   在 Lottery.WebApi.Controllers.AccountController.Login(LoginViewModel login) 位置 D:\Users\Administrator\Desktop\MyCode\dotnet\Lottery.FA\Lottery.WebApi\Controllers\AccountController.cs:行号 47
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+2017-12-27 23:36:56,991  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9001.
+2017-12-27 23:36:57,014  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9001
+2017-12-27 23:36:57,031  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:56453
+2017-12-27 23:36:57,102  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:56455
+2017-12-27 23:36:57,103  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:56456
+2017-12-27 23:36:57,104  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-27 23:36:57,104  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-27 23:36:57,104  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-27 23:36:57,138  INFO ASP.global_asax - ENode initialized.
+2017-12-27 23:37:09,590 ERROR LotteryApi - Lottery.Infrastructure.Exceptions.LotteryAuthorizationException: $string登录密码错误,请确认您的输入密码是否正确
+   在 Lottery.WebApi.Controllers.AccountController.Login(LoginViewModel login) 位置 D:\Users\Administrator\Desktop\MyCode\dotnet\Lottery.FA\Lottery.WebApi\Controllers\AccountController.cs:行号 48
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+2017-12-27 23:38:14,050  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9001.
+2017-12-27 23:38:14,078  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9001
+2017-12-27 23:38:14,094  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:56547
+2017-12-27 23:38:14,161  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:56548
+2017-12-27 23:38:14,161  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:56549
+2017-12-27 23:38:14,161  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-27 23:38:14,161  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-27 23:38:14,161  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-27 23:38:14,194  INFO ASP.global_asax - ENode initialized.
+2017-12-27 23:38:30,216 ERROR LotteryApi - Lottery.Infrastructure.Exceptions.LotteryAuthorizationException: $string登录密码错误,请确认您的输入密码是否正确
+   在 Lottery.WebApi.Controllers.AccountController.Login(LoginViewModel login) 位置 D:\Users\Administrator\Desktop\MyCode\dotnet\Lottery.FA\Lottery.WebApi\Controllers\AccountController.cs:行号 48
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+2017-12-27 23:41:22,421  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9001.
+2017-12-27 23:41:22,447  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9001
+2017-12-27 23:41:22,466  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:56955
+2017-12-27 23:41:22,532  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:56956
+2017-12-27 23:41:22,532  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:56957
+2017-12-27 23:41:22,533  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-27 23:41:22,533  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-27 23:41:22,533  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-27 23:41:22,564  INFO ASP.global_asax - ENode initialized.
+2017-12-27 23:41:48,622 ERROR LotteryApi - Lottery.Infrastructure.Exceptions.LotteryAuthorizationException: $string登录密码错误,请确认您的输入密码是否正确
+   在 Lottery.WebApi.Controllers.AccountController.Login(LoginViewModel login) 位置 D:\Users\Administrator\Desktop\MyCode\dotnet\Lottery.FA\Lottery.WebApi\Controllers\AccountController.cs:行号 48
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+2017-12-27 23:43:33,654 ERROR LotteryApi - Lottery.Infrastructure.Exceptions.LotteryAuthorizationException: $admin登录密码错误,请确认您的输入密码是否正确
+   在 Lottery.WebApi.Controllers.AccountController.Login(LoginViewModel login) 位置 D:\Users\Administrator\Desktop\MyCode\dotnet\Lottery.FA\Lottery.WebApi\Controllers\AccountController.cs:行号 48
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+2017-12-27 23:44:12,381  INFO ECommon.Socketing.TcpConnection - Socket closed, remote endpoint:127.0.0.1:9072, socketError:Success, reason:Socket normal close, ex:
+2017-12-27 23:44:13,401  INFO ECommon.Remoting.SocketRemotingClient - Try to reconnect to server, address: 127.0.0.1:9072
+2017-12-27 23:44:13,426  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:56956
+2017-12-27 23:50:09,562  INFO ECommon.Socketing.ServerSocket - Socket server is starting, listening on TCP endpoint: 192.168.19.1:9001.
+2017-12-27 23:50:09,585  INFO ENode.EQueue.CommandResultProcessor - Command result processor started, bindingAddress: 192.168.19.1:9001
+2017-12-27 23:50:09,602  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:10071, local endpoint:127.0.0.1:57190
+2017-12-27 23:50:09,666  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9072, local endpoint:127.0.0.1:57191
+2017-12-27 23:50:09,667  INFO ECommon.Socketing.ClientSocket - Socket connected, remote endpoint:127.0.0.1:9074, local endpoint:127.0.0.1:57192
+2017-12-27 23:50:09,667  INFO EQueue.Clients.ClientService - Added broker: [BrokerName=Broker2,GroupName=BrokerGroup,ClusterName=DefaultCluster,BrokerRole=0,ProducerAddress=127.0.0.1:9072,ConsumerAddress=127.0.0.1:9073,AdminAddress=127.0.0.1:9074]
+2017-12-27 23:50:09,667  INFO EQueue.Clients.ClientService - ClientService startted.
+2017-12-27 23:50:09,667  INFO EQueue.Clients.Producers.Producer - Producer startted.
+2017-12-27 23:50:09,700  INFO ASP.global_asax - ENode initialized.

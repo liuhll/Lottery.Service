@@ -1,7 +1,10 @@
 ﻿using System.Web.Http;
-using System.Net.Http;
+using System.Web.Http.Controllers;
+using ECommon.Components;
 using Lottery.WebApi.Authentication;
-using Microsoft.Owin.Security.OAuth;
+using Lottery.WebApi.Configration;
+using Lottery.WebApi.Dynamic;
+using Lottery.WebApi.Handlers;
 
 namespace Lottery.WebApi
 {
@@ -11,11 +14,13 @@ namespace Lottery.WebApi
         {
             // Web API 配置和服务
             // 将 Web API 配置为仅使用不记名令牌身份验证。
+            config.Services.Replace(typeof(IHttpActionSelector),new LotteryApiControllerActionSelector(ObjectContainer.Resolve<ILotteryApiConfiguration>()));
 
             // Web API 路由
             config.MapHttpAttributeRoutes();
 
             config.MessageHandlers.Add(new TokenValidationHandler());
+            config.MessageHandlers.Add(new ResultWrapperHandler(ObjectContainer.Resolve<ILotteryApiConfiguration>()));
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

@@ -8,7 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Exceptions;
 using Lottery.WebApi.Extensions;
+using Lottery.WebApi.Result.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Lottery.WebApi.Authentication
@@ -34,6 +36,8 @@ namespace Lottery.WebApi.Authentication
         {
             HttpStatusCode statusCode;
             string token;
+
+            string errorMessage;
             //determine whether a jwt exists or not
             if (!TryRetrieveToken(request, out token))
             {
@@ -45,7 +49,9 @@ namespace Lottery.WebApi.Authentication
             try
             {
                 var now = DateTime.UtcNow;
-                var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
+                var securityKey =
+                    new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+                        System.Text.Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
 
                 SecurityToken securityToken;
                 JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
@@ -56,7 +62,7 @@ namespace Lottery.WebApi.Authentication
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     LifetimeValidator = this.LifetimeValidator,
-                    IssuerSigningKey = securityKey
+                    IssuerSigningKey = securityKey,
                 };
                 //extract and assign the user of the jwt
                 Thread.CurrentPrincipal = handler.ValidateToken(token, validationParameters, out securityToken);
@@ -64,15 +70,25 @@ namespace Lottery.WebApi.Authentication
 
                 return base.SendAsync(request, cancellationToken);
             }
-            catch (SecurityTokenValidationException e)
+            catch (SecurityTokenValidationException ex)
             {
                 statusCode = HttpStatusCode.Unauthorized;
+                errorMessage = ex.Message;
+            }
+            catch (LotteryAuthorizationException ex)
+            {
+                statusCode = HttpStatusCode.Unauthorized;
+                errorMessage = ex.Message;
             }
             catch (Exception ex)
             {
                 statusCode = HttpStatusCode.InternalServerError;
+                errorMessage = "无效的Token";
             }
-            return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(statusCode) { });
+
+            var response = request.CreateResponse(statusCode,new ResponseMessage(new ErrorInfo(errorMessage),true));
+
+            return Task<HttpResponseMessage>.Factory.StartNew(() => response);
         }
 
         public bool LifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
