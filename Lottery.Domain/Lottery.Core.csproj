@@ -84,6 +84,10 @@
     <Compile Include="Domain\TimeRules\TimeRule.cs" />
     <Compile Include="Domain\UserInfos\UserInfo.cs" />
     <Compile Include="Domain\UserRoles\UserRole.cs" />
+    <Compile Include="Domain\UserTicket\AddUserTicketEvent.cs" />
+    <Compile Include="Domain\UserTicket\InvalidAccessTokenEvent.cs" />
+    <Compile Include="Domain\UserTicket\UpdateUserTicketEvent.cs" />
+    <Compile Include="Domain\UserTicket\UserTicket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -60,16 +60,16 @@
     <Compile Include="Lotteries\LotteryQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleTasks\ScheduleTaskQueryService.cs" />
+    <Compile Include="UserInfos\UserInfoService.cs" />
+    <Compile Include="UserInfos\UserTicketService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Accounts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Lottery.Domain\Lottery.Core.csproj">
-      <Project>{0d9f8601-348d-48b6-b801-32a1b7217c3d}</Project>
+      <Project>{0D9F8601-348D-48B6-B801-32A1B7217C3D}</Project>
       <Name>Lottery.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lottery.Dtos\Lottery.Dtos.csproj">

@@ -3,6 +3,7 @@ using ENode.Commanding;
 using ENode.EQueue;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
+using Lottery.Commands.UserInfos;
 using Lottery.Infrastructure;
 
 namespace Lottery.WebApi.Providers
@@ -18,6 +19,11 @@ namespace Lottery.WebApi.Providers
                 typeof(InitPredictTableCommand),
                 typeof(CompleteDynamicTableCommand)
             );
+
+            RegisterTopic(EQueueTopics.LotteryAccountCommandTopic,
+                typeof(InvalidAccessTokenCommand),
+                typeof(AddAccessTokenCommand),
+                typeof(UpdateAccessTokenCommand));
         }
     }
 }

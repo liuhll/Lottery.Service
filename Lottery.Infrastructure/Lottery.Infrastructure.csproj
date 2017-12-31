@@ -65,6 +65,7 @@
     <Compile Include="Exceptions\LotteryAuthorizationException.cs" />
     <Compile Include="Exceptions\LotteryDataException.cs" />
     <Compile Include="Exceptions\LotteryException.cs" />
+    <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Collections\DictionaryExtensions.cs" />
     <Compile Include="Collections\EnumerableExtensions.cs" />
@@ -79,10 +80,12 @@
     <Compile Include="Reflection\IAssemblyFinder.cs" />
     <Compile Include="Reflection\ITypeFinder.cs" />
     <Compile Include="Reflection\TypeFinder.cs" />
+    <Compile Include="RegexConstants.cs" />
     <Compile Include="ServiceConfigSettings.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="SqlConstants.cs" />
     <Compile Include="TableNameConstants.cs" />
+    <Compile Include="Tools\ConfigHelper.cs" />
     <Compile Include="Tools\RandomHelper.cs" />
   </ItemGroup>
   <ItemGroup />

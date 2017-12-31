@@ -50,6 +50,9 @@
     <Compile Include="LotteryDatas\UpdateNextDayFirstPeriodCommand.cs" />
     <Compile Include="LotteryPredicts\InitPredictTableCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInfos\AddAccessTokenCommand.cs" />
+    <Compile Include="UserInfos\InvalidAccessTokenCommand.cs" />
+    <Compile Include="UserInfos\UpdateAccessTokenCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

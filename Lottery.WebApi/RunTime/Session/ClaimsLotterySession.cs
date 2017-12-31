@@ -21,6 +21,22 @@ namespace Lottery.WebApi.RunTime.Session
             }
         }
 
+        //public override string TicketId
+        //{
+        //    get
+        //    {
+        //        var ticketClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.TicketId);
+        //        if (string.IsNullOrEmpty(ticketClaim?.Value))
+        //        {
+        //            return null;
+        //        }
+
+        //        string ticketId = ticketClaim.Value;
+
+        //        return ticketId;
+        //    }
+        //}
+
         public override string UserName
         {
             get
@@ -36,6 +52,36 @@ namespace Lottery.WebApi.RunTime.Session
                 return userName;
             }
 
+        }
+
+        public override string Email {
+            get
+            {
+                var emailClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.Email);
+                if (string.IsNullOrEmpty(emailClaim?.Value))
+                {
+                    return null;
+                }
+
+                string email = emailClaim.Value;
+
+                return email;
+            }
+        }
+
+        public override string Phone {
+            get
+            {
+                var phoneClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.Phone);
+                if (string.IsNullOrEmpty(phoneClaim?.Value))
+                {
+                    return null;
+                }
+
+                string phone = phoneClaim.Value;
+
+                return phone;
+            }
         }
 
         protected IPrincipalAccessor PrincipalAccessor { get; }

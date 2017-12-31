@@ -46,7 +46,7 @@ namespace Lottery.Core.Domain.LotteryFinalDatas
            if (string.IsNullOrEmpty(lotteryId))
            {
                throw new Exception("LotteryId 不允许为空");
-            }
+           }
            ApplyEvent(new UpdateTodayFirstPeriodEvent(todayFirstPeriod, lotteryId));
            
        }

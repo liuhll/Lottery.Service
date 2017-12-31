@@ -3,10 +3,17 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using ECommon.IO;
+using ENode.Commanding;
+using Lottery.AppService.Account;
+using Lottery.Commands.UserInfos;
+using Lottery.Dtos.Account;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Tools;
 using Lottery.WebApi.Extensions;
 using Lottery.WebApi.RunTime.Security;
 using Lottery.WebApi.ViewModels;
@@ -16,6 +23,14 @@ namespace Lottery.WebApi.Controllers
     [RoutePrefix("account")]
     public class AccountController : BaseApiController
     {
+        private readonly IUserManager _userManager;
+
+        public AccountController(IUserManager userManager,
+            ICommandService commandService) : base(commandService)
+        {
+            _userManager = userManager;
+        }
+
         /// <summary>
         /// 用户登录接口
         /// </summary>
@@ -23,38 +38,48 @@ namespace Lottery.WebApi.Controllers
         [Route("login")]
         [AllowAnonymous]
         [HttpPost]
-        public string Login(LoginViewModel login)
+        public async Task<string> Login(LoginViewModel loginModel)
         {
-            //var loginResponse = new LoginResponse { };
-           // LoginRequest loginrequest = new LoginRequest { };
-            //loginrequest.Username = login.UserName.ToLower();
-            //loginrequest.Password = login.Password;
+            var userInfo = await _userManager.SignInAsync(loginModel.UserName, loginModel.Password);
+            string token = CreateToken(userInfo);
+            var ticketInfo = await _userManager.GetValidTiectInfo(userInfo.Id);
 
-            IHttpActionResult response;
-            HttpResponseMessage responseMsg = new HttpResponseMessage();
-            bool isUsernamePasswordValid = false;
-
-            if (login != null)
-                isUsernamePasswordValid = login.Password == "admin" ? true : false;
-            // if credentials are valid
-            if (isUsernamePasswordValid)
+            if (ticketInfo == null)
             {
-                string token = CreateToken(login.UserName);
-                //return the token
-                return token;
+                await SendCommandAsync(new AddAccessTokenCommand(Guid.NewGuid().ToString(), userInfo.Id, token,
+                        userInfo.Id));
             }
             else
             {
-                throw new LotteryAuthorizationException($"${login.UserName}登录密码错误,请确认您的输入密码是否正确");
+                await SendCommandAsync(
+                        new UpdateAccessTokenCommand(ticketInfo.Id, userInfo.Id, token, userInfo.Id));
+
             }
+            return token;
         }
 
-        private string CreateToken(string username)
+        /// <summary>
+        /// 用户登出接口
+        /// </summary>
+        /// <returns></returns>
+        [Route("logout")]
+        public async Task<string> Logout()
+        {
+            if (string.IsNullOrEmpty(_lotterySession.UserId))
+            {
+                throw new LotteryAuthorizationException("用户未登录，或已登出,无法调用该接口");
+            }
+            var ticketInfo = await _userManager.GetValidTiectInfo(_lotterySession.UserId);
+            await SendCommandAsync(new InvalidAccessTokenCommand(ticketInfo.Id));
+            return "用户登出成功";
+        }
+
+        private string CreateToken(UserInfoViewModel userInfo)
         {
             //Set issued at date
             DateTime issuedAt = DateTime.UtcNow;
             //set the time when it expires
-            DateTime expires = DateTime.UtcNow.AddDays(7);
+            DateTime expires = DateTime.UtcNow.AddDays(ConfigHelper.ValueInt("passwordExpire"));
 
             // http://stackoverflow.com/questions/18223868/how-to-encrypt-jwt-security-token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -62,11 +87,12 @@ namespace Lottery.WebApi.Controllers
             //create a identity and add claims to the user which we want to log in
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
             {
-                new Claim(LotteryClaimTypes.UserName, username),
-                new Claim(LotteryClaimTypes.UserId,"userId"), 
+                new Claim(LotteryClaimTypes.UserName, userInfo.UserName),
+                new Claim(LotteryClaimTypes.UserId,userInfo.Id),
+                new Claim(LotteryClaimTypes.Email,userInfo.Email),
+                new Claim(LotteryClaimTypes.Phone,userInfo.Phone),    
             });
 
-            var now = DateTime.UtcNow;
             var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
             var signingCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(securityKey, Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature);
 

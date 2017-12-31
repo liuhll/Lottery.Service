@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Lottery.WebApi.RunTime.Session
+﻿namespace Lottery.WebApi.RunTime.Session
 {
     public class NullLotterySession : LotterySessionBase
     {
@@ -14,5 +9,9 @@ namespace Lottery.WebApi.RunTime.Session
 
         public override string UserId => null;
         public override string UserName => null;
+        public override string Email => null;
+        public override string Phone => null;
+
+  
     }
 }

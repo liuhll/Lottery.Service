@@ -4,6 +4,7 @@ using Lottery.Core.Domain.LotteryDatas;
 using Lottery.Core.Domain.LotteryFinalDatas;
 using Lottery.Core.Domain.LotteryInfos;
 using Lottery.Core.Domain.LotteryPredictDatas;
+using Lottery.Core.Domain.UserTicket;
 using Lottery.Infrastructure;
 
 namespace Lottery.Tests.Providers
@@ -17,6 +18,12 @@ namespace Lottery.Tests.Providers
                 typeof(UpdateLotteryFinalDataEvent),
                 typeof(InitPredictTableEvent),
                 typeof(CompleteDynamicTableEvent));
+
+            RegisterTopic(EQueueTopics.LotteryAccountEventTopic,
+                typeof(AddUserTicketEvent),
+                typeof(UpdateUserTicketEvent),
+                typeof(InvalidAccessTokenEvent));
+
         }
     }
 }

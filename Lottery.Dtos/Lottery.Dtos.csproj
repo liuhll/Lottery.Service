@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\UserInfoViewModel.cs" />
+    <Compile Include="Account\UserInfoDto.cs" />
+    <Compile Include="Account\UserTicketDto.cs" />
     <Compile Include="Lotteries\DataSiteDto.cs" />
     <Compile Include="Lotteries\LotteryDataDto.cs" />
     <Compile Include="Lotteries\LotteryFinalDataDto.cs" />

@@ -14,6 +14,12 @@ namespace Lottery.WebApi.RunTime.Session
         /// </summary>
         string UserId { get; }
 
+        //string TicketId { get; }
+
         string UserName { get; }
+
+        string Email { get; }
+
+        string Phone { get; }
     }
 }

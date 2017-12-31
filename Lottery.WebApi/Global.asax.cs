@@ -18,7 +18,7 @@ namespace Lottery.WebApi
     public class WebApiApplication : System.Web.HttpApplication
     {
         private ILogger _logger;
-        private ENodeConfiguration _enodeConfiguration;
+  
         protected void Application_Start()
         {
             InitializeENode();
@@ -29,6 +29,7 @@ namespace Lottery.WebApi
             GlobalConfiguration.Configure(FilterConfig.RegisterGlobalFilters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
+            RegisterControllers();
 
         }
 
@@ -48,7 +49,7 @@ namespace Lottery.WebApi
                 Assembly.Load("Lottery.WebApi")
             };
 
-            _enodeConfiguration = Configuration
+            Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
@@ -65,8 +66,7 @@ namespace Lottery.WebApi
                 .InitLotteryEngine()
                 .StartEQueue()
                 .Start(); 
-
-            RegisterControllers();
+           
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType());
             _logger.Info("ENode initialized.");
         }

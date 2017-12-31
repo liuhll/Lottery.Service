@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDenormalizer.cs" />
+    <Compile Include="Account\AccountDenormalizer.cs" />
     <Compile Include="Lotteries\LotteryDataDenormalizer.cs" />
     <Compile Include="Predict\PredictTableDenormalizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

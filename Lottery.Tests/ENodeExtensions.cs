@@ -74,7 +74,8 @@ namespace Lottery.Tests
 
             var brokerSetting = new BrokerSetting(false, brokerStorePath)
             {
-                NameServerList = ServiceConfigSettings.NameServerEndpoints
+                NameServerList = ServiceConfigSettings.NameServerEndpoints,
+                
             };
 
             brokerSetting.BrokerInfo.ProducerAddress = ServiceConfigSettings.BrokerProducerServiceAddress;
@@ -84,7 +85,7 @@ namespace Lottery.Tests
 
             _commandService.Initialize(new CommandResultProcessor().Initialize(new IPEndPoint(IPAddress.Loopback, 9000)), new ProducerSetting
             {
-                NameServerList = ServiceConfigSettings.NameServerEndpoints
+                NameServerList = ServiceConfigSettings.NameServerEndpoints,
             });
             _eventPublisher.Initialize(new ProducerSetting
             {
@@ -101,11 +102,12 @@ namespace Lottery.Tests
 
             _commandConsumer
                 .Subscribe(EQueueTopics.LotteryCommandTopic)
+                .Subscribe(EQueueTopics.LotteryAccountCommandTopic)
                 ;
 
             _eventConsumer
                 .Subscribe(EQueueTopics.LotteryEventTopic)
-                ;
+                .Subscribe(EQueueTopics.LotteryAccountEventTopic);
 
             _nameServer.Start();
             _broker.Start();
