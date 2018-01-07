@@ -7,6 +7,7 @@ using ECommon.Components;
 using Effortless.Net.Encryption;
 using Lottery.Dtos.Account;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.UserInfos;
 
@@ -58,20 +59,45 @@ namespace Lottery.AppService.Account
                Phone = !string.IsNullOrEmpty(userInfo.Phone) ? userInfo.Phone : "",
                IsActive = userInfo.IsActive,
                Id = userInfo.Id,
-               UserRegistType = userInfo.UserRegistType,
+               AccountRegistType = userInfo.AccountRegistType,
             };
 
 
         }
 
-        public Task<UserTicketDto> GetValidTiectInfo(string userId)
+        public Task<UserTicketDto> GetValidTicketInfo(string userId)
         {
             return _userTicketService.GetValidTicketInfo(userId);
         }
 
+        public async Task<bool> IsExistAccount(string account)
+        {
+            var userInfo = await _userInfoService.GetUserInfo(account);
+            if (userInfo == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         private bool VerifyPassword(UserInfoDto userInfo, string inputPassword)
         {
-            var h1 = Hash.Create(HashType.MD5, inputPassword, userInfo.Id, true);
+            //var h1 = Hash.Create(HashType.MD5, inputPassword, userInfo.Id, true);
+            var account = string.Empty;
+            switch (userInfo.AccountRegistType)
+            {
+                case AccountRegistType.UserName:
+                    account = userInfo.UserName;
+                    break;
+                case AccountRegistType.Email:
+                    account = userInfo.Email;
+                    break;
+                case AccountRegistType.Phone:
+                    account = userInfo.Phone;
+                    break;
+
+            }
+            var h1 = Hash.Create(HashType.MD5, account + inputPassword, userInfo.AccountRegistType.ToString(), true);
             return h1.Equals(userInfo.Password);
 
         }

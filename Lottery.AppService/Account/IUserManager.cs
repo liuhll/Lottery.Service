@@ -7,6 +7,8 @@ namespace Lottery.AppService.Account
     {
         Task<UserInfoViewModel> SignInAsync(string userName, string password);
 
-        Task<UserTicketDto> GetValidTiectInfo(string userId);
+        Task<UserTicketDto> GetValidTicketInfo(string userId);
+
+        Task<bool> IsExistAccount(string userAccount);
     }
 }

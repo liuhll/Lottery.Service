@@ -44,12 +44,15 @@ namespace Lottery.CommandService
 
             _commandConsumer = new CommandConsumer().Initialize(setting:new ConsumerSetting()
             {
-                NameServerList = ServiceConfigSettings.NameServerEndpoints
+                NameServerList = ServiceConfigSettings.NameServerEndpoints,
+
             });
 
-            _commandConsumer.
-                Subscribe(EQueueTopics.LotteryCommandTopic)
-                .Subscribe(EQueueTopics.LotteryAccountCommandTopic);
+            _commandConsumer
+                .Subscribe(EQueueTopics.LotteryCommandTopic)
+                .Subscribe(EQueueTopics.LotteryAccountCommandTopic)
+                .Subscribe(EQueueTopics.LotteryProcessManagerTopic)
+                .Subscribe(EQueueTopics.UserInfoCommandTopic);
 
             _commandConsumer.Start();
             _eventPublisher.Start();

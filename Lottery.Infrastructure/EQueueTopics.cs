@@ -13,5 +13,11 @@
         public const string LotteryAccountCommandTopic = "LotteryAccountCommandTopic";
 
         public const string LotteryAccountEventTopic = "LotteryAccountEventTopic";
+
+        public const string LotteryProcessManagerTopic = "LotteryProcessManagerTopic";
+
+        public const string UserInfoCommandTopic = "UserInfoCommandTopic";
+
+        public const string UserInfoEventTopic = "UserInfoEventTopic";
     }
 }

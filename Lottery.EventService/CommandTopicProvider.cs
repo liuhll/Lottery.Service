@@ -2,6 +2,7 @@
 using ENode.Commanding;
 using ENode.EQueue;
 using Lottery.Commands.LotteryDatas;
+using Lottery.Commands.UserInfos;
 using Lottery.Infrastructure;
 
 namespace Lottery.EventService
@@ -11,7 +12,8 @@ namespace Lottery.EventService
     {
         public CommandTopicProvider()
         {
-            RegisterTopic(EQueueTopics.LotteryCommandPostTopic);
+            RegisterTopic(EQueueTopics.LotteryProcessManagerTopic,
+                typeof(UpdateLastLoginTimeCommand));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Dtos.Account
 {
@@ -22,6 +23,6 @@ namespace Lottery.Dtos.Account
 
         public string Wechat { get; set; }
 
-        public int UserRegistType { get; set; }
+        public AccountRegistType AccountRegistType { get; set; }
     }
 }

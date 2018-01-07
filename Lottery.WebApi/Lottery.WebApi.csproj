@@ -66,6 +66,9 @@
     <Reference Include="ECommon.Log4Net, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.Log4Net.2.5.2\lib\netstandard2.0\ECommon.Log4Net.dll</HintPath>
     </Reference>
+    <Reference Include="Effortless.Net.Encryption, Version=2.0.1.37, Culture=neutral, PublicKeyToken=603f9a8e5bb15e51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Effortless.Net.Encryption.2.0.1.37\lib\net40\Effortless.Net.Encryption.dll</HintPath>
+    </Reference>
     <Reference Include="ENode, Version=2.8.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ENode.2.8.7\lib\netstandard2.0\ENode.dll</HintPath>
     </Reference>
@@ -74,6 +77,9 @@
     </Reference>
     <Reference Include="EQueue, Version=2.5.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EQueue.2.5.5.1\lib\netstandard2.0\EQueue.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.3.4\lib\net45\FluentValidation.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -276,7 +282,11 @@
     <Compile Include="RunTime\Session\NullLotterySession.cs" />
     <Compile Include="RunTime\Session\WebApiPrincipalAccessor.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Validations\UserInfoInputValidator.cs" />
+    <Compile Include="Validations\UserProfileInputValidator.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\UserInfoInput.cs" />
+    <Compile Include="ViewModels\UserProfileInput.cs" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

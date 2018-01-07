@@ -11,13 +11,11 @@ namespace Lottery.WebApi.Controllers.v1
     public class LotteryController : BaseApiV1Controller
     {
         private readonly ILotteryDataAppService _lotteryDataAppService;
-        private readonly ILotterySession _lotterySession;
 
         public LotteryController(ILotteryDataAppService lotteryDataAppService,ICommandService commandService) 
             : base(commandService)
         {
             _lotteryDataAppService = lotteryDataAppService;
-            _lotterySession = NullLotterySession.Instance;
         }
 
         /// <summary>

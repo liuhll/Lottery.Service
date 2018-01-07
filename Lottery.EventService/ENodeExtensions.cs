@@ -52,7 +52,8 @@ namespace Lottery.EventService
 
             _eventConsumer
                 .Subscribe(EQueueTopics.LotteryEventTopic)
-                .Subscribe(EQueueTopics.LotteryAccountEventTopic);
+                .Subscribe(EQueueTopics.LotteryAccountEventTopic)
+                .Subscribe(EQueueTopics.UserInfoEventTopic);
 
             _commandService.Start();
             _eventConsumer.Start();

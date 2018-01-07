@@ -19,7 +19,11 @@ namespace Lottery.Tests.Providers
             RegisterTopic(EQueueTopics.LotteryAccountCommandTopic,
                 typeof(InvalidAccessTokenCommand),
                 typeof(AddAccessTokenCommand),
-                typeof(UpdateAccessTokenCommand));
+                typeof(UpdateAccessTokenCommand),
+                typeof(AddUserInfoCommand),
+                typeof(BindUserEmailCommand),
+                typeof(BindUserPhoneCommand),
+                typeof(UpdateLastLoginTimeCommand));
 
 
         }

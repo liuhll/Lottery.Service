@@ -51,8 +51,12 @@
     <Compile Include="LotteryPredicts\InitPredictTableCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInfos\AddAccessTokenCommand.cs" />
+    <Compile Include="UserInfos\AddUserInfoCommand.cs" />
+    <Compile Include="UserInfos\BindUserEmailCommand.cs" />
+    <Compile Include="UserInfos\BindUserPhoneCommand.cs" />
     <Compile Include="UserInfos\InvalidAccessTokenCommand.cs" />
     <Compile Include="UserInfos\UpdateAccessTokenCommand.cs" />
+    <Compile Include="UserInfos\UpdateLastLoginTimeCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

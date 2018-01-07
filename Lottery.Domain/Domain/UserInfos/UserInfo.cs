@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Domain;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Core.Domain.UserInfos
 {
@@ -8,39 +9,25 @@ namespace Lottery.Core.Domain.UserInfos
       public UserInfo(
         string id,
         string userName,
-        string surName,
         string email,
         string phone,
         string password,
         bool isActive,
-        string tokenId,
-        DateTime? lastLoginTime,
-        string qQCode,
-        string wechat,
-        string wechatOpenId,
-        int? userRegistType,
-        DateTime? updateBy,
-        string createby,
-        bool? isDelete
+        ClientRegistType clientRegistType,
+        AccountRegistType accountRegistType     
         ) : base(id)
       {
             UserName = userName;
-            SurName = surName;
             Email = email;
             Phone = phone;
             Password = password;
             IsActive = isActive;
-            TokenId = tokenId;
-            LastLoginTime = lastLoginTime;
-            QQCode = qQCode;
-            Wechat = wechat;
-            WechatOpenId = wechatOpenId;
-            UserRegistType = userRegistType;
-            UpdateBy = updateBy;
-            Createby = createby;
+            ClientRegistType = clientRegistType;
             CreateTime = DateTime.Now;
-            IsDelete = isDelete;
-       
+            IsDelete = false;
+            AccountRegistType = accountRegistType;
+
+            ApplyEvent(new AddUserInfoEvent(UserName, Email, Phone, Password, IsActive, ClientRegistType, IsDelete, AccountRegistType));
       }         
  
       /// <summary>
@@ -68,25 +55,23 @@ namespace Lottery.Core.Domain.UserInfos
       /// </summary>
       public string Password { get; private set; }
       
-      /// <summary>
+
+       /// <summary>
       /// 是否激活:1,有效；0.冻结
       /// </summary>
-      public bool IsActive { get; private set; }
+       public bool IsActive { get; private set; }
+
+       public AccountRegistType AccountRegistType { get; private set; }
+
+        /// <summary>
+        /// 最后登录时间
+        /// </summary>
+        public DateTime? LastLoginTime { get; private set; }
       
-      /// <summary>
-      /// 票据Id
-      /// </summary>
-      public string TokenId { get; private set; }
-      
-      /// <summary>
-      /// 最后登录时间
-      /// </summary>
-      public DateTime? LastLoginTime { get; private set; }
-      
-      /// <summary>
-      /// qq
-      /// </summary>
-      public string QQCode { get; private set; }
+       /// <summary>
+       /// qq
+       /// </summary>
+       public string QQCode { get; private set; }
       
       /// <summary>
       /// 微信
@@ -101,7 +86,7 @@ namespace Lottery.Core.Domain.UserInfos
       /// <summary>
       /// 用户注册来源
       /// </summary>
-      public int? UserRegistType { get; private set; }
+      public ClientRegistType ClientRegistType { get; private set; }
       
       /// <summary>
       /// 最后修改人
@@ -126,8 +111,58 @@ namespace Lottery.Core.Domain.UserInfos
       /// <summary>
       /// 
       /// </summary>
-      public bool? IsDelete { get; private set; }
-      
-      
-   }   
+      public bool IsDelete { get; private set; }
+
+
+
+       #region public method
+
+       public void BindUserEmail(string email)
+       {
+           ApplyEvent(new BindUserEmailEvent(email));
+       }
+
+       public void BindUserPhone(string phone)
+       {
+           ApplyEvent(new BindUserPhoneEvent(phone));
+       }
+       public void UpdateLastLoginTime()
+       {
+           ApplyEvent(new UpdateLoginTimeEvent());
+       }
+        #endregion
+
+        #region Handle Method
+
+        private void Handle(AddUserInfoEvent evnt)
+        {
+           Email = evnt.Email;
+           Password = evnt.Password;
+           Phone = evnt.Phone;
+           AccountRegistType = evnt.AccountRegistType;
+           ClientRegistType = evnt.ClientRegistType;
+           CreateTime = evnt.CreateTime;
+           IsActive = evnt.IsActive;
+           IsDelete = evnt.IsDelete;
+         
+        }
+
+       private void Handle(BindUserEmailEvent evnt)
+       {
+           Email = evnt.Email;
+       }
+       private void Handle(BindUserPhoneEvent evnt)
+       {
+           Phone = evnt.Phone;
+       }
+
+       private void Handle(UpdateLoginTimeEvent evnt)
+       {
+           LastLoginTime = evnt.Timestamp;
+       }
+        #endregion
+
+
+
+    }   
 }

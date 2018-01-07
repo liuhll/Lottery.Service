@@ -82,6 +82,11 @@
     <Compile Include="Domain\Roles\Role.cs" />
     <Compile Include="Domain\ScheduleTasks\ScheduleTask.cs" />
     <Compile Include="Domain\TimeRules\TimeRule.cs" />
+    <Compile Include="Domain\UserInfos\AddUserInfoEvent.cs" />
+    <Compile Include="Domain\UserInfos\BindUserEmailEvent.cs" />
+    <Compile Include="Domain\UserInfos\BindUserPhoneEvent.cs" />
+    <Compile Include="Domain\UserInfos\UpdateLastLoginTimeEvent.cs" />
+    <Compile Include="Domain\UserInfos\UpdateLoginTimeEvent.cs" />
     <Compile Include="Domain\UserInfos\UserInfo.cs" />
     <Compile Include="Domain\UserRoles\UserRole.cs" />
     <Compile Include="Domain\UserTicket\AddUserTicketEvent.cs" />

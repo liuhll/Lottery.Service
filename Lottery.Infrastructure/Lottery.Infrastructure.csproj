@@ -54,6 +54,8 @@
     <Compile Include="Collections\ArrayExtention.cs" />
     <Compile Include="Collections\CollectionExtensions.cs" />
     <Compile Include="DataConfigSettings.cs" />
+    <Compile Include="Enums\AccountRegistType.cs" />
+    <Compile Include="Enums\ClientRegistType.cs" />
     <Compile Include="Enums\LotteryResult.cs" />
     <Compile Include="Enums\LotteryRunStatus.cs" />
     <Compile Include="Enums\NumberType.cs" />

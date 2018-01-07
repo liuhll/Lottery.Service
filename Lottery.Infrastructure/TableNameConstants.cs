@@ -19,5 +19,7 @@
         public const string NormConfigTable = "LA_NormConfig";
 
         public const string UserTicketTable = "F_UserTicket";
+
+        public const string UserInfoTable = "F_UserInfo";
     }
 }

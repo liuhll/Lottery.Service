@@ -6,6 +6,7 @@ using Lottery.Core.Domain.LotteryDatas;
 using Lottery.Core.Domain.LotteryFinalDatas;
 using Lottery.Core.Domain.LotteryInfos;
 using Lottery.Core.Domain.LotteryPredictDatas;
+using Lottery.Core.Domain.UserInfos;
 using Lottery.Core.Domain.UserTicket;
 using Lottery.Infrastructure;
 
@@ -26,7 +27,15 @@ namespace Lottery.CommandService
             RegisterTopic(EQueueTopics.LotteryAccountEventTopic,
                 typeof(AddUserTicketEvent),
                 typeof(UpdateUserTicketEvent),
-                typeof(InvalidAccessTokenEvent));
+                typeof(InvalidAccessTokenEvent)
+                );
+
+           RegisterTopic(EQueueTopics.UserInfoEventTopic, 
+               typeof(AddUserInfoEvent),
+               typeof(BindUserEmailEvent),
+               typeof(BindUserPhoneEvent),
+               typeof(UpdateLastLoginTimeEvent),
+               typeof(UpdateLoginTimeEvent));
         }
     }
 }

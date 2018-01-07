@@ -23,7 +23,13 @@ namespace Lottery.WebApi.Providers
             RegisterTopic(EQueueTopics.LotteryAccountCommandTopic,
                 typeof(InvalidAccessTokenCommand),
                 typeof(AddAccessTokenCommand),
-                typeof(UpdateAccessTokenCommand));
+                typeof(UpdateAccessTokenCommand)
+                );
+
+            RegisterTopic(EQueueTopics.UserInfoCommandTopic,
+                typeof(AddUserInfoCommand),
+                typeof(BindUserEmailCommand),
+                typeof(BindUserPhoneCommand));
         }
     }
 }

@@ -38,9 +38,9 @@ namespace Lottery.WebApi.Controllers
         /// <param name="command"></param>
         /// <param name="millisecondsDelay"></param>
         /// <returns></returns>
-        protected void CommandExecute(ICommand command, int millisecondsDelay = 5000)
+        protected CommandResult CommandExecute(ICommand command, int millisecondsDelay = 50000)
         {
-            _commandService.Execute(command, millisecondsDelay);
+            return _commandService.Execute(command, millisecondsDelay);
         }
     }
 }

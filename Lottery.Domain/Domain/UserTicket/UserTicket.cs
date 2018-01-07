@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Domain;
+using Lottery.Core.Domain.UserInfos;
 
 namespace Lottery.Core.Domain.UserTicket
 {
@@ -13,6 +14,7 @@ namespace Lottery.Core.Domain.UserTicket
             CreateTime = DateTime.Now;
 
             ApplyEvent(new AddUserTicketEvent(UserId,AccessToken,CreateBy));
+            ApplyEvent(new UpdateLastLoginTimeEvent(UserId));
         }
 
         public string UserId { get; private set; }
@@ -30,6 +32,7 @@ namespace Lottery.Core.Domain.UserTicket
         public void UpdateAccessToken(string userId, string accessToken, string updateBy)
         {
             ApplyEvent(new UpdateUserTicketEvent(userId,accessToken,updateBy));
+            ApplyEvent(new UpdateLastLoginTimeEvent(userId));
         }
 
         public void InvalidAccessToken()
@@ -58,6 +61,10 @@ namespace Lottery.Core.Domain.UserTicket
         private void Handle(InvalidAccessTokenEvent evt)
         {
             AccessToken = evt.AccessToken;  
+        }
+
+        private void Handle(UpdateLastLoginTimeEvent evt)
+        {
         }
 
         #endregion

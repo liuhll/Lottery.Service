@@ -20,14 +20,25 @@ namespace Lottery.QueryServices.Dapper.UserInfos
 
         public Task<UserInfoDto> GetUserInfo(string account)
         {
-            var userInfoRedisKey = string.Format(RedisKeyConstants.USERINFO_KEY, account);
+            using (var conn = GetLotteryConnection())
+            {
+                conn.Open();
+                var sql = "SELECT * FROM [dbo].[F_UserInfo] WHERE (UserName=@UserName OR Email=@UserName OR Phone=@UserName) AND ISDELETE=0";
+                var userInfo = conn.QueryFirstOrDefault<UserInfoDto>(sql, new { @UserName = account });
+                return Task.FromResult(userInfo);
+            }
+           
+        }
 
-            var userInfo = _cacheManager.Get<UserInfoDto>(userInfoRedisKey,  () =>
+        public Task<UserInfoDto> GetUserInfoById(string id)
+        {
+            var userInfoRedisKey = string.Format(RedisKeyConstants.USERINFO_KEY, id);
+            var userInfo = _cacheManager.Get<UserInfoDto>(userInfoRedisKey, () =>
             {
                 using (var conn = GetLotteryConnection())
                 {
-                    var sql = "SELECT * FROM [dbo].[F_UserInfo] WHERE (UserName=@UserName OR Email=@UserName OR Phone=@UserName) AND ISDELETE=0";
-                    return  conn.QueryFirstOrDefault<UserInfoDto>(sql,new { @UserName = account});
+                    var sql = "SELECT * FROM [dbo].[F_UserInfo] WHERE Id=@Id AND ISDELETE=0";
+                    return conn.QueryFirstOrDefault<UserInfoDto>(sql, new { @Id = id });
                 }
             });
             return Task.FromResult(userInfo);

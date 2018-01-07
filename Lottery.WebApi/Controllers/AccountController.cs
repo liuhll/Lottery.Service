@@ -1,22 +1,29 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Net.Http;
+using System.Linq;
 using System.Security.Claims;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using ECommon.IO;
+using Effortless.Net.Encryption;
 using ENode.Commanding;
+using FluentValidation.Results;
 using Lottery.AppService.Account;
 using Lottery.Commands.UserInfos;
 using Lottery.Dtos.Account;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Collections;
+using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Tools;
+using Lottery.QueryServices.UserInfos;
 using Lottery.WebApi.Extensions;
 using Lottery.WebApi.RunTime.Security;
+using Lottery.WebApi.Validations;
 using Lottery.WebApi.ViewModels;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Lottery.WebApi.Controllers
 {
@@ -24,11 +31,17 @@ namespace Lottery.WebApi.Controllers
     public class AccountController : BaseApiController
     {
         private readonly IUserManager _userManager;
+        private readonly UserInfoInputValidator _userInfoInputValidator;
+        private readonly UserProfileInputValidator _userProfileInputValidator;
 
         public AccountController(IUserManager userManager,
-            ICommandService commandService) : base(commandService)
+            ICommandService commandService,
+            UserInfoInputValidator userInfoInputValidator,
+            UserProfileInputValidator userProfileInputValidator) : base(commandService)
         {
             _userManager = userManager;
+            _userInfoInputValidator = userInfoInputValidator;
+            _userProfileInputValidator = userProfileInputValidator;
         }
 
         /// <summary>
@@ -42,7 +55,7 @@ namespace Lottery.WebApi.Controllers
         {
             var userInfo = await _userManager.SignInAsync(loginModel.UserName, loginModel.Password);
             string token = CreateToken(userInfo);
-            var ticketInfo = await _userManager.GetValidTiectInfo(userInfo.Id);
+            var ticketInfo = await _userManager.GetValidTicketInfo(userInfo.Id);
 
             if (ticketInfo == null)
             {
@@ -69,9 +82,105 @@ namespace Lottery.WebApi.Controllers
             {
                 throw new LotteryAuthorizationException("用户未登录，或已登出,无法调用该接口");
             }
-            var ticketInfo = await _userManager.GetValidTiectInfo(_lotterySession.UserId);
+            var ticketInfo = await _userManager.GetValidTicketInfo(_lotterySession.UserId);
             await SendCommandAsync(new InvalidAccessTokenCommand(ticketInfo.Id));
             return "用户登出成功";
+        }
+
+        /// <summary>
+        /// 用户注册
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [Route("userinfo")]
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<string> CreateUser(UserInfoInput user)
+        {
+            ValidationResult validationResult = _userInfoInputValidator.Validate(user);
+            if (!validationResult.IsValid)
+            {
+                throw new LotteryDataException(validationResult.Errors.Select(p => p.ErrorMessage).ToList().ToString(";"));
+            }
+            var isReg = await _userManager.IsExistAccount(user.Account);
+            if (isReg)
+            {
+                throw new LotteryDataException("该账号已经存在");
+            }
+            var accountRegType = ReferAccountRegType(user.Account);
+            var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account, EncryptPassword(user.Account, user.Password, accountRegType),
+                user.ClientRegistType, accountRegType);
+
+            var commandResult = await SendCommandAsync(userInfoCommand);
+            if (commandResult.Status != AsyncTaskStatus.Success)
+            {
+                throw new LotteryDataException("创建用户失败");
+            }
+            return "创建用户成功";
+        }
+
+        /// <summary>
+        /// 绑定用户邮箱或手机号
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [Route("userprofie")]
+        [HttpPut]
+        public async Task<string> BindUserProfile(UserProfileInput input)
+        {
+            ValidationResult validationResult = _userProfileInputValidator.Validate(input);
+            if (!validationResult.IsValid)
+            {
+                throw new LotteryDataException(validationResult.Errors.Select(p => p.ErrorMessage).ToList().ToString(";"));
+            }
+
+            // :todo 手机号码验证码 | 电子邮箱验证码
+            var isReg = await _userManager.IsExistAccount(input.Profile);
+            if (isReg)
+            {
+                throw new LotteryDataException("已经存在该账号,不允许被绑定");
+            }
+            //var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
+            if (input.ProfileType == AccountRegistType.Email)
+            {
+                var bindUserEmailCommand = new BindUserEmailCommand(_lotterySession.UserId, input.Profile);
+                await SendCommandAsync(bindUserEmailCommand);
+            }
+            else if (input.ProfileType == AccountRegistType.Phone)
+            {
+
+                var bindUserPhoneCommand = new BindUserPhoneCommand(_lotterySession.UserId, input.Profile);
+                await SendCommandAsync(bindUserPhoneCommand);
+            }
+
+          
+            return "用户信息绑定成功";
+        }
+
+        #region 私有方法
+
+        private string EncryptPassword(string userAccount, string userPassword, AccountRegistType accountRegType)
+        {
+            var pwd = Hash.Create(HashType.MD5, userAccount + userPassword, accountRegType.ToString(), true);
+            return pwd;
+        }
+
+        private AccountRegistType ReferAccountRegType(string userAccount)
+        {
+            if (Regex.IsMatch(userAccount, RegexConstants.UserName))
+            {
+                return AccountRegistType.UserName;
+            }
+            if (Regex.IsMatch(userAccount, RegexConstants.Email))
+            {
+                return AccountRegistType.Email;
+            }
+            if (Regex.IsMatch(userAccount, RegexConstants.Phone))
+            {
+                return AccountRegistType.Phone;
+            }
+            throw new LotteryDataException("注册账号不合法");
+
         }
 
         private string CreateToken(UserInfoViewModel userInfo)
@@ -90,11 +199,11 @@ namespace Lottery.WebApi.Controllers
                 new Claim(LotteryClaimTypes.UserName, userInfo.UserName),
                 new Claim(LotteryClaimTypes.UserId,userInfo.Id),
                 new Claim(LotteryClaimTypes.Email,userInfo.Email),
-                new Claim(LotteryClaimTypes.Phone,userInfo.Phone),    
+                new Claim(LotteryClaimTypes.Phone,userInfo.Phone),
             });
 
-            var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
-            var signingCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(securityKey, Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature);
+            var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
+            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
 
             //create the jwt
@@ -106,5 +215,7 @@ namespace Lottery.WebApi.Controllers
 
             return tokenString;
         }
+
+        #endregion
     }
 }

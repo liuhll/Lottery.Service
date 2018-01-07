@@ -56,6 +56,7 @@
     <Compile Include="Lotteries\LotteryDataDenormalizer.cs" />
     <Compile Include="Predict\PredictTableDenormalizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInfo\UserInfoDenormalizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
