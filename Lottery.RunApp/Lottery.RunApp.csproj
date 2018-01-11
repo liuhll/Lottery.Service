@@ -35,8 +35,8 @@
     <Reference Include="Autofac, Version=4.6.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ECommon.2.5.4\lib\netstandard2.0\ECommon.dll</HintPath>
+    <Reference Include="ECommon, Version=2.5.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ECommon.2.5.7\lib\netstandard2.0\ECommon.dll</HintPath>
     </Reference>
     <Reference Include="ECommon.Autofac, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.Autofac.2.5.0\lib\netstandard2.0\ECommon.Autofac.dll</HintPath>
@@ -47,14 +47,14 @@
     <Reference Include="ECommon.Log4Net, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.Log4Net.2.5.2\lib\netstandard2.0\ECommon.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.8.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ENode.2.8.5\lib\netstandard2.0\ENode.dll</HintPath>
+    <Reference Include="ENode, Version=2.8.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ENode.2.8.7\lib\netstandard2.0\ENode.dll</HintPath>
     </Reference>
-    <Reference Include="ENode.EQueue, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ENode.EQueue.2.0.0\lib\netstandard2.0\ENode.EQueue.dll</HintPath>
+    <Reference Include="ENode.EQueue, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ENode.EQueue.2.0.1\lib\netstandard2.0\ENode.EQueue.dll</HintPath>
     </Reference>
-    <Reference Include="EQueue, Version=2.5.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EQueue.2.5.3\lib\netstandard2.0\EQueue.dll</HintPath>
+    <Reference Include="EQueue, Version=2.5.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EQueue.2.5.5.1\lib\netstandard2.0\EQueue.dll</HintPath>
     </Reference>
     <Reference Include="FluentScheduler, Version=5.3.0.0, Culture=neutral, PublicKeyToken=b76503528a14ebd1, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>

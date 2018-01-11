@@ -45,7 +45,7 @@ namespace Lottery.Tests
         [TestMethod]
         public void CreateUser_Test()
         {
-            var account = "test242";
+            var account = "liuhl3";
             var pwd = "123qwe";
             var accountRegType = ReferAccountRegType(account);
             var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), account, EncryptPassword(account, pwd, accountRegType),
@@ -59,9 +59,10 @@ namespace Lottery.Tests
         [TestMethod]
         public void BindUserProfile_Test()
         {
-            var userProfile = "13292929292";
+            var userProfile = "13292929292@qq.com";
+            var userId = "08b4c537-08aa-40f9-9d24-ab6ccd1b189c";
 
-            var userProfileCommand = new BindUserPhoneCommand("6e8c2fe6-a9eb-4fcd-b4b1-4127e1b3f8a7", userProfile);
+            var userProfileCommand = new BindUserEmailCommand(userId, userProfile);
 
             var commandResult = ExecuteCommand(userProfileCommand);
             Assert.AreEqual(commandResult.Status, CommandStatus.Success);

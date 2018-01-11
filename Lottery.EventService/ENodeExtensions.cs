@@ -7,6 +7,7 @@ using ENode.EQueue;
 using EQueue.Clients.Consumers;
 using EQueue.Clients.Producers;
 using EQueue.Configurations;
+using EQueue.Protocols;
 using Lottery.Core.Caching;
 using Lottery.Infrastructure;
 
@@ -47,7 +48,9 @@ namespace Lottery.EventService
 
             _eventConsumer = new DomainEventConsumer().Initialize(setting:new ConsumerSetting()
             {
-                NameServerList = ServiceConfigSettings.NameServerEndpoints
+                NameServerList = ServiceConfigSettings.NameServerEndpoints,
+                ConsumeFromWhere = ConsumeFromWhere.LastOffset,
+                MessageHandleMode = MessageHandleMode.Parallel,
             });
 
             _eventConsumer

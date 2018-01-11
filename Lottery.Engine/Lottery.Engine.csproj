@@ -33,8 +33,8 @@
     <Reference Include="DateTimeExtensions, Version=5.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DateTimeExtensions.5.0.2\lib\net45\DateTimeExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ECommon.2.5.4\lib\netstandard2.0\ECommon.dll</HintPath>
+    <Reference Include="ECommon, Version=2.5.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ECommon.2.5.7\lib\netstandard2.0\ECommon.dll</HintPath>
     </Reference>
     <Reference Include="FParsec, Version=1.0.0.0, Culture=neutral, PublicKeyToken=40ccfc0a09edbb5d, processorArchitecture=MSIL">
       <HintPath>..\packages\FParsec.1.0.1\lib\net40-client\FParsec.dll</HintPath>

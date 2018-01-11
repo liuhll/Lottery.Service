@@ -6,6 +6,7 @@ using ENode.Infrastructure;
 using EQueue.Clients.Consumers;
 using EQueue.Clients.Producers;
 using EQueue.Configurations;
+using EQueue.Protocols;
 using Lottery.Core.Caching;
 using Lottery.Infrastructure;
 
@@ -45,6 +46,8 @@ namespace Lottery.CommandService
             _commandConsumer = new CommandConsumer().Initialize(setting:new ConsumerSetting()
             {
                 NameServerList = ServiceConfigSettings.NameServerEndpoints,
+                ConsumeFromWhere = ConsumeFromWhere.LastOffset,
+                MessageHandleMode = MessageHandleMode.Parallel,
 
             });
 

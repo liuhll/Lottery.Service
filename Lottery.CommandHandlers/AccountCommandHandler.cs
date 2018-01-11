@@ -14,6 +14,7 @@ namespace Lottery.CommandHandlers
         ICommandHandler<UpdateLastLoginTimeCommand>,
         ICommandHandler<BindUserEmailCommand>,
         ICommandHandler<BindUserPhoneCommand>
+
     {
         public void Handle(ICommandContext context, AddAccessTokenCommand command)
         {
@@ -29,11 +30,9 @@ namespace Lottery.CommandHandlers
         {
             context.Get<UserTicket>(command.AggregateRootId).InvalidAccessToken();
         }
-
-
         public void Handle(ICommandContext context, AddUserInfoCommand command)
         {
-            context.Add(new UserInfo(command.AggregateRootId,command.UserName,command.Email,command.Phone,command.Password,true,command.ClientRegistType,command.AccountRegistType));
+            context.Add(new UserInfo(command.AggregateRootId, command.UserName, command.Email, command.Phone, command.Password, true, command.ClientRegistType, command.AccountRegistType));
         }
 
 
@@ -54,5 +53,6 @@ namespace Lottery.CommandHandlers
             context.Get<UserInfo>(command.AggregateRootId)
                 .BindUserPhone(command.Phone);
         }
+
     }
 }

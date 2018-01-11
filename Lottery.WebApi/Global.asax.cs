@@ -10,6 +10,7 @@ using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
 using ENode.Configurations;
+using ENode.SqlServer;
 using Lottery.Infrastructure;
 using Lottery.WebApi.Extensions;
 
@@ -61,9 +62,11 @@ namespace Lottery.WebApi
                 .RegisterBusinessComponents(assemblies)
                 .UseEQueue()
                 .UseRedisCache()
+                .UseSqlServerPublishedVersionStore()
                 .BuildContainer()
                 .InitializeBusinessAssemblies(assemblies)
                 .InitLotteryEngine()
+                .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)
                 .StartEQueue()
                 .Start(); 
            

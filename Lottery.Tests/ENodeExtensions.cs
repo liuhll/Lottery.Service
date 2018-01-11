@@ -18,6 +18,7 @@ using EQueue.Clients.Consumers;
 using EQueue.Clients.Producers;
 using EQueue.Configurations;
 using EQueue.NameServer;
+using EQueue.Protocols;
 using Lottery.Core.Caching;
 using Lottery.Crawler;
 using Lottery.Engine;
@@ -93,11 +94,19 @@ namespace Lottery.Tests
             });
             _commandConsumer = new CommandConsumer().Initialize(setting: new ConsumerSetting
             {
-                NameServerList = ServiceConfigSettings.NameServerEndpoints
+                NameServerList = ServiceConfigSettings.NameServerEndpoints,
+                ConsumeFromWhere = ConsumeFromWhere.LastOffset,
+                MessageHandleMode = MessageHandleMode.Sequential,
+                IgnoreLastConsumedOffset = true,
+                AutoPull = true
             });
             _eventConsumer = new DomainEventConsumer().Initialize(setting: new ConsumerSetting
             {
-                NameServerList = ServiceConfigSettings.NameServerEndpoints
+                NameServerList = ServiceConfigSettings.NameServerEndpoints,
+                ConsumeFromWhere = ConsumeFromWhere.LastOffset,
+                MessageHandleMode = MessageHandleMode.Sequential,
+                IgnoreLastConsumedOffset = true,
+                AutoPull = true
             });
 
             _commandConsumer

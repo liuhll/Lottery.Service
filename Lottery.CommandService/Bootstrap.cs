@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
@@ -35,7 +36,8 @@ namespace Lottery.CommandService
                 Assembly.Load("Lottery.CommandHandlers"),
                 Assembly.Load("Lottery.CommandService"),
             };
-            var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
+            // var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
+
 
             _enodeConfiguration = Configuration
                 .Create()
@@ -44,7 +46,7 @@ namespace Lottery.CommandService
                 .UseLog4Net()
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
-                .CreateENode(setting)
+                .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
                 .UseSqlServerEventStore()
@@ -52,9 +54,9 @@ namespace Lottery.CommandService
                 .UseEQueue()
                 .UseRedisCache()
                 .BuildContainer()
-                .InitializeSqlServerEventStore()
-                .InitializeSqlServerLockService()
                 .InitializeBusinessAssemblies(assemblies)
+                .InitializeSqlServerEventStore(DataConfigSettings.ENodeConnectionString)
+                .InitializeSqlServerLockService(DataConfigSettings.ENodeConnectionString)
                 .Start();
 
         }

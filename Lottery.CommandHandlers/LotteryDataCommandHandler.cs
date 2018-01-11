@@ -10,21 +10,21 @@ namespace Lottery.CommandHandlers
         ICommandHandler<AddLotteryDataCommand>,
         ICommandHandler<UpdateNextDayFirstPeriodCommand>
     {
-        private readonly ILockService _lockService;
+       // private readonly ILockService _lockService;
 
 
-        public LotteryDataCommandHandler(ILockService lockService)
+        public LotteryDataCommandHandler(/*ILockService lockService*/)
         {
-            _lockService = lockService;
+            //_lockService = lockService;
         }
 
         public void Handle(ICommandContext context, AddLotteryDataCommand command)
         {
-            _lockService.ExecuteInLock(typeof(LotteryData).Name, () =>
-            {
-                context.Add(new LotteryData(command.AggregateRootId, command.LotteryId,command.Period,command.Data,command.LotteryTime));
-            });
-                
+            //_lockService.ExecuteInLock(typeof(LotteryData).Name, () =>
+            //{
+            //    context.Add(new LotteryData(command.AggregateRootId, command.LotteryId,command.Period,command.Data,command.LotteryTime));
+            //});
+            context.Add(new LotteryData(command.AggregateRootId, command.LotteryId, command.Period, command.Data, command.LotteryTime));
         }
 
 

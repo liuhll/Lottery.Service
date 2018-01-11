@@ -32,23 +32,21 @@ namespace Lottery.EventService
                 Assembly.Load("Lottery.EventService")
             };
 
-            var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
-
-            _enodeConfiguration = Configuration
+          _enodeConfiguration = Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
                 .UseLog4Net()
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
-                .CreateENode(setting)
+                .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
                 .UseSqlServerPublishedVersionStore()
                 .UseEQueue()
                 .UseRedisCache()
                 .BuildContainer()
-                .InitializeSqlServerPublishedVersionStore()
+                .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)
                 .InitializeBusinessAssemblies(assemblies);
 
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("Event service initialized.");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -141,20 +142,25 @@ namespace Lottery.WebApi.Controllers
                 throw new LotteryDataException("已经存在该账号,不允许被绑定");
             }
             //var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
+            AsyncTaskResult result = null;
             if (input.ProfileType == AccountRegistType.Email)
             {
                 var bindUserEmailCommand = new BindUserEmailCommand(_lotterySession.UserId, input.Profile);
-                await SendCommandAsync(bindUserEmailCommand);
+                result = await SendCommandAsync(bindUserEmailCommand);
             }
             else if (input.ProfileType == AccountRegistType.Phone)
             {
 
                 var bindUserPhoneCommand = new BindUserPhoneCommand(_lotterySession.UserId, input.Profile);
-                await SendCommandAsync(bindUserPhoneCommand);
+                result = await SendCommandAsync(bindUserPhoneCommand);
             }
 
-          
-            return "用户信息绑定成功";
+            Debug.Assert(result != null, "result != null");
+            if (result.Status == AsyncTaskStatus.Success)
+            {
+                return "用户信息绑定成功";
+            }
+            throw new LotteryDataException("绑定失败");
         }
 
         #region 私有方法

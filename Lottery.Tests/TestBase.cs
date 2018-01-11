@@ -67,7 +67,7 @@ namespace Lottery.Tests
                 Assembly.Load("Lottery.AppService"), 
                 Assembly.Load("Lottery.Tests")
             };
-            var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
+            //var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = Configuration
                 .Create()
@@ -76,7 +76,7 @@ namespace Lottery.Tests
                 .UseLog4Net()
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
-                .CreateENode(setting)
+                .CreateENode()
                 .RegisterENodeComponents()
                 .UseSqlServerEventStore()
                 .UseSqlServerPublishedVersionStore()
@@ -85,9 +85,9 @@ namespace Lottery.Tests
                 .UseEQueue()
                 .UseRedisCache()
                 .BuildContainer()
-                .InitializeSqlServerEventStore()
-                .InitializeSqlServerPublishedVersionStore()
-                .InitializeSqlServerLockService()
+                .InitializeSqlServerEventStore(DataConfigSettings.ENodeConnectionString)
+                .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)
+                .InitializeSqlServerLockService(DataConfigSettings.ENodeConnectionString)
                 .InitializeBusinessAssemblies(assemblies)              
                 .SetUpDataUpdateItems()
                 .InitLotteryEngine()
