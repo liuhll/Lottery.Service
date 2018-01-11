@@ -65,6 +65,12 @@ namespace Lottery.AppService.LotteryData
             return predictDatas;
         }
 
+        public ICollection<LotteryDataDto> GetList(string lotteryId)
+        {
+            var datas = _lotteryDataQueryService.GetAllDatas(lotteryId);
+            return datas;
+
+        }
 
 
         #region 私有方法

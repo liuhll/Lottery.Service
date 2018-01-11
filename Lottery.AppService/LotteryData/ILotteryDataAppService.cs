@@ -16,5 +16,7 @@ namespace Lottery.AppService.LotteryData
         /// <param name="userId"></param>
         /// <returns></returns>
         IList<PredictDataDto> NewLotteryDataList(string lotteryId, int? peroid, string userId);
+
+        ICollection<LotteryDataDto> GetList(string lotteryId);
     }
 }

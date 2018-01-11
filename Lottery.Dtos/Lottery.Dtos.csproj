@@ -52,6 +52,8 @@
     <Compile Include="Lotteries\PositionInfoDto.cs" />
     <Compile Include="Lotteries\PredictDataDto.cs" />
     <Compile Include="Lotteries\TimeRuleDto.cs" />
+    <Compile Include="PageList\IPageList.cs" />
+    <Compile Include="PageList\PageList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleTasks\ScheduleTaskDto.cs" />
   </ItemGroup>
