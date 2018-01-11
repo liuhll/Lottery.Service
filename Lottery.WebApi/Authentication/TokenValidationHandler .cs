@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
@@ -16,7 +17,11 @@ using Lottery.QueryServices.UserInfos;
 using Lottery.WebApi.Extensions;
 using Lottery.WebApi.Result.Models;
 using Lottery.WebApi.RunTime.Session;
+using Microsoft.Ajax.Utilities;
 using Microsoft.IdentityModel.Tokens;
+using Thinktecture.IdentityModel.Extensions;
+using SecurityToken = Microsoft.IdentityModel.Tokens.SecurityToken;
+using SecurityTokenValidationException = Microsoft.IdentityModel.Tokens.SecurityTokenValidationException;
 
 namespace Lottery.WebApi.Authentication
 {
@@ -102,6 +107,7 @@ namespace Lottery.WebApi.Authentication
             }
             catch (SecurityTokenValidationException ex)
             {
+
                 statusCode = HttpStatusCode.Unauthorized;
                 errorMessage = ex.Message;
             }
@@ -123,17 +129,18 @@ namespace Lottery.WebApi.Authentication
 
         public bool LifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
         {
-            if (expires != null)
+            //if (expires != null)
+            //{
+            //    if (DateTime.UtcNow < expires)
+            //        return true;
+            //}
+            var jwtsecurityToken = (JwtSecurityToken) securityToken;
+            var userId = jwtsecurityToken.Payload["nameid"].ToString();
+            if (!string.IsNullOrEmpty(userId))
             {
-                if (DateTime.UtcNow < expires)
-                    return true;
-            }
-            if (!string.IsNullOrEmpty(_lotterySession.UserId))
-            {
-                var userTicket = _userTicketService.GetValidTicketInfo(_lotterySession.UserId).Result;
+                var userTicket = _userTicketService.GetValidTicketInfo(userId).Result;
                 _commandService.Send(new InvalidAccessTokenCommand(userTicket.Id));
             }
-           
             return false;
         }
     }

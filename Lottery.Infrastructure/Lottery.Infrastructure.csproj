@@ -67,6 +67,7 @@
     <Compile Include="Exceptions\LotteryAuthorizationException.cs" />
     <Compile Include="Exceptions\LotteryDataException.cs" />
     <Compile Include="Exceptions\LotteryException.cs" />
+    <Compile Include="Exceptions\TokenTimeoutValidationException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Collections\DictionaryExtensions.cs" />
