@@ -5,6 +5,7 @@ using ECommon.Dapper;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Lotteries;
 
@@ -36,6 +37,15 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                         }).ToList();
                     }
                 });
+        }
+
+        public ICollection<PositionInfoDto> GetLotteryPositions(string lotteryId)
+        {
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_POSITION_LOTTERY_KEY, lotteryId);
+            return _cacheManager.Get<ICollection<PositionInfoDto>>(redisKey, () =>
+            {
+                return GetAll().Where(p => p.LotteryId == lotteryId).ToList();
+            });
         }
     }
 }

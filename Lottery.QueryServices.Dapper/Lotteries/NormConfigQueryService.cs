@@ -6,6 +6,7 @@ using ECommon.Dapper;
 using ECommon.Extensions;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
+using Lottery.Dtos.Norms;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.Lotteries;
 
@@ -75,5 +76,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                     }
                 });
         }
+
+       
     }
 }

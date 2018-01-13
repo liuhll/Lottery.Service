@@ -21,5 +21,7 @@
         public const string UserTicketTable = "F_UserTicket";
 
         public const string UserInfoTable = "F_UserInfo";
+
+        public const string UserNormDefaultConfigTable = "LA_UserNormDefaultConfig";
     }
 }

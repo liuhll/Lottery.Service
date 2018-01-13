@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Lottery.Dtos.Lotteries;
+using Lottery.Dtos.Norms;
 
 namespace Lottery.QueryServices.Lotteries
 {
@@ -12,5 +13,6 @@ namespace Lottery.QueryServices.Lotteries
         ICollection<NormConfigDto> GetUserNormConfig(string lotteryId,string userId);
 
         ICollection<NormConfigDto> GetPlanConfigDtos(string planId);
+       
     }
 }

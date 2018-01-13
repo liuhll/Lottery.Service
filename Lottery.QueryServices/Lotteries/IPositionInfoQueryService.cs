@@ -6,5 +6,7 @@ namespace Lottery.QueryServices.Lotteries
     public interface IPositionInfoQueryService
     {
         ICollection<PositionInfoDto> GetAll();
+
+        ICollection<PositionInfoDto> GetLotteryPositions(string lotteryId);
     }
 }

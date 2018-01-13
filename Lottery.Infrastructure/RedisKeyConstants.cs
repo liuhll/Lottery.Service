@@ -18,6 +18,8 @@
 
         public const string LOTTERY_POSITION_ALL_KEY = "Lottery.Position.All";
 
+        public const string LOTTERY_POSITION_LOTTERY_KEY = "Lottery.Position.{0}";
+
         public const string LOTTERY_NORMCONFIG_DEFAULT_KEY = "Lottery.NormConfig.{0}.Default";
 
         public const string LOTTERY_NORMCONFIG_LOTTERY_KEY = "Lottery.NormConfig.{0}.{1}";
@@ -29,6 +31,10 @@
         public const string LOTTERY_PREDICT_DATA_KEY = "Lottery.Predict.Data.{0}.{1}";
 
         public const string LOTTERY_NORMGROUP_ALL_KEY = "Lottery.NormGroup.All";
+
+        public const string LOTTERY_USERNORM_DEFAULT_KEY = "Lottery.UserNorm.{0}.Default";
+
+        public const string LOTTERY_USERNORM_KEY = "Lottery.UserNorm..{0}.{1}";
 
         public const string SCHEDULE_TASK_ALL_KEY = "ScheduleTask.All";
 

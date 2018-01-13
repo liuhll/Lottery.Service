@@ -53,6 +53,8 @@
     <Compile Include="Lotteries\PositionInfoDto.cs" />
     <Compile Include="Lotteries\PredictDataDto.cs" />
     <Compile Include="Lotteries\TimeRuleDto.cs" />
+    <Compile Include="Norms\LotteryNumber.cs" />
+    <Compile Include="Norms\UserNormDefaultConfigDto.cs" />
     <Compile Include="PageList\IPageList.cs" />
     <Compile Include="PageList\PageList.cs" />
     <Compile Include="Plans\NormGroupOutput.cs" />

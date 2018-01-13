@@ -4,6 +4,8 @@ namespace Lottery.Dtos.Lotteries
 {
     public class PositionInfoDto
     {
+        public string LotteryId { get; set; }
+
         public string Name { get; set; }
 
         public PositionType PositionType { get; set; }

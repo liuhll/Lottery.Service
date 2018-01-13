@@ -265,6 +265,7 @@
     <Compile Include="Controllers\v1\BaseApiV1Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\v1\LotteryController.cs" />
+    <Compile Include="Controllers\v1\NormController.cs" />
     <Compile Include="Controllers\v1\PlanController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Dynamic\LotteryApiControllerActionSelector.cs" />
