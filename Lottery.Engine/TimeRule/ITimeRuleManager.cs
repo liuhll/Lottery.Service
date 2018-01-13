@@ -46,8 +46,8 @@ namespace Lottery.Engine.TimeRule
         /// <summary>
         /// 是否是最后一期
         /// </summary>
-        bool IsFinalPeriod { get; }
+        bool IsTodayFinalPeriod { get; }
 
-
+        bool FinalPeriodIsLottery(LotteryFinalDataDto finalData);
     }
 }

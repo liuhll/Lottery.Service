@@ -46,5 +46,20 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                 }
             });
         }
+
+        public LotteryInfoDto GetLotteryInfoById(string lotteryId)
+        {
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_INFO_KEY, lotteryId);
+
+            return _cacheManager.Get<LotteryInfoDto>(redisKey, () =>
+            {
+                if (GetAllLotteryInfo().Any())
+                {
+                    return GetAllLotteryInfo().First(p => p.Id == lotteryId);
+                }
+                return null;
+
+            });
+        }
     }
 }

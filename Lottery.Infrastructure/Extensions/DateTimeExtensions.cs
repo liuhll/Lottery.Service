@@ -16,7 +16,7 @@ namespace Lottery.Infrastructure.Extensions
 
         public static DateTime StartTime(this DateTime dateTime)
         {
-            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0); ;
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0); ;
         }
 
         public static DateTime TimeStampConvetDateTime(long timestamp)

@@ -9,7 +9,7 @@ namespace Lottery.AppService.LotteryData
         ILotteryDataList LotteryDataList(string lotteryId);
 
         /// <summary>
-        /// 获取新一期的开奖数据
+        /// 获取新一期的预测数据
         /// </summary>
         /// <param name="lotteryId"></param>
         /// <param name="peroid"></param>
@@ -18,5 +18,7 @@ namespace Lottery.AppService.LotteryData
         IList<PredictDataDto> NewLotteryDataList(string lotteryId, int? peroid, string userId);
 
         ICollection<LotteryDataDto> GetList(string lotteryId);
+
+        FinalLotteryDataOutput GetFinalLotteryData(string lotteryId);
     }
 }

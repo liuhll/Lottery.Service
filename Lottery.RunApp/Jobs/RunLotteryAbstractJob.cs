@@ -63,7 +63,7 @@ namespace Lottery.RunApp.Jobs
         public override void Execute()
         {
             // 处于开奖期间,或是最后一期开奖
-            if (_timeRuleManager.IsLotteryDuration || _timeRuleManager.IsFinalPeriod)
+            if (_timeRuleManager.IsLotteryDuration || _timeRuleManager.IsTodayFinalPeriod)
             {
                 DateTime nextDateTime;
 
@@ -108,7 +108,7 @@ namespace Lottery.RunApp.Jobs
                                         }
 
                                     }
-                                    if (_timeRuleManager.IsFinalPeriod)
+                                    if (_timeRuleManager.IsTodayFinalPeriod)
                                     {
                                         var todayLastLotteryData =
                                             lotteryDatas.OrderByDescending(p => p.Period).First();
@@ -200,7 +200,7 @@ namespace Lottery.RunApp.Jobs
 
         private bool IsNeedSetFirstPeriod(out int todayFirstPeriod)
         {
-            if (_timeRuleManager.IsFinalPeriod)
+            if (_timeRuleManager.IsTodayFinalPeriod)
             {
                 todayFirstPeriod = LotteryFinalData.FinalPeriod + 1;
                 return true;

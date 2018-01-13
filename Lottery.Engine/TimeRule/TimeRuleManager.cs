@@ -54,12 +54,17 @@ namespace Lottery.Engine.TimeRule
             {
                 if (TodayTimeRule != null)
                 {
-                    var todayStartTime = DateTime.Now.StartTime();
-                    return todayStartTime.Add(TodayTimeRule.StartTime);
+                    if (DateTime.Now.TimeOfDay.TotalSeconds > TodayTimeRule.EndTime.TotalSeconds)
+                    {
+                        var todayStartTime1 = DateTime.Now.AddDays(1).StartTime();
+                        return todayStartTime1.Add(TodayTimeRule.StartTime);
+                    }
+                    var todayStartTime2 = DateTime.Now.StartTime();
+                    return todayStartTime2.Add(TodayTimeRule.StartTime);
                 }
-
+                // Todo: 解析其他可能性
+                return null;
             }
-            return null;
 
         }
 
@@ -146,7 +151,18 @@ namespace Lottery.Engine.TimeRule
 
         }
 
-        public bool IsFinalPeriod => TodayCurrentCount == TodayTotalCount;
+        public bool IsTodayFinalPeriod => TodayCurrentCount == TodayTotalCount;
+
+        public bool FinalPeriodIsLottery(LotteryFinalDataDto finalData)
+        {
+            var todayActLotteryCount = finalData.FinalPeriod - finalData.TodayFirstPeriod + 1;
+            // 当前期数还未开奖
+            if (todayActLotteryCount < TodayCurrentCount)
+            {
+                return false;
+            }
+            return true;
+        }
 
         private TimeRuleDto NextDayTimeRule(TimeRuleDto currentDay,int step = 1)
         {

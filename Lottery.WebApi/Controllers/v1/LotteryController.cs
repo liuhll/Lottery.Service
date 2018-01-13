@@ -48,5 +48,17 @@ namespace Lottery.WebApi.Controllers.v1
             var list = _lotteryDataAppService.GetList(lotteryId);
             return new PageList<LotteryDataDto>(list,pageIndex);
         }
+
+        /// <summary>
+        /// 获取最后一期开奖数据
+        /// </summary>
+        /// <param name="lotteryId">彩种Id</param>
+        /// <returns>最后一期开奖数据</returns>
+        [HttpGet]
+        [Route("finallotterydata")]
+        public FinalLotteryDataOutput GetFinalLotteryData(string lotteryId)
+        {
+            return _lotteryDataAppService.GetFinalLotteryData(lotteryId);
+        }
     }
 }

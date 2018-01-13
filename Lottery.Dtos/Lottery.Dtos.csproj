@@ -44,6 +44,7 @@
     <Compile Include="Account\UserInfoDto.cs" />
     <Compile Include="Account\UserTicketDto.cs" />
     <Compile Include="Lotteries\DataSiteDto.cs" />
+    <Compile Include="Lotteries\FinalLotteryDataOutput.cs" />
     <Compile Include="Lotteries\LotteryDataDto.cs" />
     <Compile Include="Lotteries\LotteryFinalDataDto.cs" />
     <Compile Include="Lotteries\LotteryInfoDto.cs" />

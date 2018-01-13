@@ -11,5 +11,6 @@ namespace Lottery.QueryServices.Lotteries
         ICollection<LotteryInfoDto> GetAllLotteryInfo();
 
 
+        LotteryInfoDto GetLotteryInfoById(string lotteryId);
     }
 }
