@@ -129,11 +129,11 @@ namespace Lottery.WebApi.Authentication
 
         public bool LifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
         {
-            //if (expires != null)
-            //{
-            //    if (DateTime.UtcNow < expires)
-            //        return true;
-            //}
+            if (expires != null)
+            {
+                if (DateTime.UtcNow < expires)
+                    return true;
+            }
             var jwtsecurityToken = (JwtSecurityToken) securityToken;
             var userId = jwtsecurityToken.Payload["nameid"].ToString();
             if (!string.IsNullOrEmpty(userId))

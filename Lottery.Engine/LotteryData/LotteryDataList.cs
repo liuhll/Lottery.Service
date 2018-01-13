@@ -19,6 +19,10 @@ namespace Lottery.Engine.LotteryData
             _lotteryNumbers = new Dictionary<int, ILotteryNumber>();
             foreach (var lotteryData in lotteryDatas)
             {
+                if (_lotteryNumbers.ContainsKey(lotteryData.Period))
+                {
+                    continue;
+                }
                 _lotteryNumbers.AddIfNotContains(new KeyValuePair<int, ILotteryNumber>(lotteryData.Period,new LotteryNumber(lotteryData)));
             }
         }
