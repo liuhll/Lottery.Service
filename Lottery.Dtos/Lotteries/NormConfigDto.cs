@@ -4,6 +4,8 @@
     {
         public string Id { get; set; }
 
+        public string LotteryId { get; set; }
+
         public string UserId { get; set; }
 
         public string PlanId { get; set; }

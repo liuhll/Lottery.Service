@@ -54,6 +54,9 @@
     <Compile Include="Lotteries\TimeRuleDto.cs" />
     <Compile Include="PageList\IPageList.cs" />
     <Compile Include="PageList\PageList.cs" />
+    <Compile Include="Plans\NormGroupOutput.cs" />
+    <Compile Include="Plans\PlanInfoOutput.cs" />
+    <Compile Include="Plans\UserPlanInfoDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleTasks\ScheduleTaskDto.cs" />
   </ItemGroup>

@@ -28,6 +28,7 @@
 
         public const string LOTTERY_PREDICT_DATA_KEY = "Lottery.Predict.Data.{0}.{1}";
 
+        public const string LOTTERY_NORMGROUP_ALL_KEY = "Lottery.NormGroup.All";
 
         public const string SCHEDULE_TASK_ALL_KEY = "ScheduleTask.All";
 

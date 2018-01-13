@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Lottery.WebApi.Result.Models
 {
-    [Serializable]
+    //[Serializable]
     public class ErrorInfo
     {
         /// <summary>
@@ -27,7 +27,7 @@ namespace Lottery.WebApi.Result.Models
         /// <summary>
         /// Creates a new instance of <see cref="ErrorInfo"/>.
         /// </summary>
-        public ErrorInfo()
+        private ErrorInfo()
         {
 
         }

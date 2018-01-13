@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BaseQueryService.cs" />
     <Compile Include="Lotteries\DataSiteQueryService.cs" />
+    <Compile Include="Lotteries\NormGroupQueryService.cs" />
     <Compile Include="Lotteries\LotteryDataQueryService.cs" />
     <Compile Include="Lotteries\LotteryFinalDataQueryService.cs" />
     <Compile Include="Lotteries\LotteryPredictDataQueryService.cs" />

@@ -8,6 +8,7 @@ namespace Lottery.Core.Domain.NormConfigs
       public NormConfig(
         string id,
         string userId,
+        string lotteryId,
         string planId,
         int planCycle,
         int forecastCount,
@@ -24,6 +25,7 @@ namespace Lottery.Core.Domain.NormConfigs
       {
             UserId = userId;
             PlanId = planId;
+            LotteryId = lotteryId;
             PlanCycle = planCycle;
             ForecastCount = forecastCount;
             UnitHistoryCount = unitHistoryCount;
@@ -43,8 +45,10 @@ namespace Lottery.Core.Domain.NormConfigs
       /// 
       /// </summary>
       public string UserId { get; private set; }
-      
-      /// <summary>
+
+       public string LotteryId { get; private set; }
+
+       /// <summary>
       /// 
       /// </summary>
       public string PlanId { get; private set; }

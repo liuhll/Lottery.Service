@@ -46,6 +46,7 @@
     <Compile Include="Lotteries\ILotteryPredictDataQueryService.cs" />
     <Compile Include="Lotteries\ILotteryQueryService.cs" />
     <Compile Include="Lotteries\INormConfigQueryService.cs" />
+    <Compile Include="Lotteries\INormGroupQueryService.cs" />
     <Compile Include="Lotteries\IPlanInfoQueryService.cs" />
     <Compile Include="Lotteries\IPositionInfoQueryService.cs" />
     <Compile Include="Lotteries\ITimeRuleQueryService.cs" />
