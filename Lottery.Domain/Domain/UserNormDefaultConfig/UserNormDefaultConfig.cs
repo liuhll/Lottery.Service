@@ -87,6 +87,16 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         /// </summary>
         public string CustomNumbers { get; private set; }
 
+
+        #region public Methods
+
+        public void UpdateUserNormDefaultConfig(int planCycle, int forecastCount, int unitHistoryCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries, int lookupPeriodCount, int expectMinScore, int expectMaxScore)
+        {
+            ApplyEvent(new UpdateUserNormDefaultConfigEvent(UserId,LotteryId,planCycle,forecastCount,unitHistoryCount, minRightSeries, maxRightSeries, minErrortSeries, maxErrortSeries, lookupPeriodCount,expectMinScore,expectMaxScore));
+        }
+
+        #endregion
+
         #region Handler Methods
 
         private void Handle(AddUserNormDefaultConfigEvent evnt)
@@ -103,9 +113,24 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             LookupPeriodCount = evnt.LookupPeriodCount;
             ExpectMaxScore = evnt.ExpectMaxScore;
             ExpectMinScore = evnt.ExpectMinScore;
+            CustomNumbers = evnt.CustomNumbers;
         }
-    
+        private void Handle(UpdateUserNormDefaultConfigEvent evnt)
+        {
+            PlanCycle = evnt.PlanCycle;
+            ForecastCount = evnt.ForecastCount;
+            UnitHistoryCount = evnt.UnitHistoryCount;
+            MaxRightSeries = evnt.MaxRightSeries;
+            MinRightSeries = evnt.MinRightSeries;
+            MaxErrortSeries = evnt.MaxErrortSeries;
+            MinErrortSeries = evnt.MinErrortSeries;
+            LookupPeriodCount = evnt.LookupPeriodCount;
+            ExpectMaxScore = evnt.ExpectMaxScore;
+            ExpectMinScore = evnt.ExpectMinScore;
+        }
 
         #endregion
+
+
     }
 }

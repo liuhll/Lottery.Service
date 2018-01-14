@@ -54,6 +54,7 @@
     <Compile Include="Lotteries\PredictDataDto.cs" />
     <Compile Include="Lotteries\TimeRuleDto.cs" />
     <Compile Include="Norms\LotteryNumber.cs" />
+    <Compile Include="Norms\UserNormDefaultConfigDto.cs" />
     <Compile Include="Norms\UserNormDefaultConfigOutput.cs" />
     <Compile Include="Norms\UserNormDefaultConfigInput.cs" />
     <Compile Include="PageList\IPageList.cs" />

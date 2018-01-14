@@ -89,6 +89,7 @@
     <Compile Include="Domain\UserInfos\UpdateLoginTimeEvent.cs" />
     <Compile Include="Domain\UserInfos\UserInfo.cs" />
     <Compile Include="Domain\UserNormDefaultConfig\AddUserNormDefaultConfigEvent.cs" />
+    <Compile Include="Domain\UserNormDefaultConfig\UpdateUserNormDefaultConfigEvent.cs" />
     <Compile Include="Domain\UserNormDefaultConfig\UserNormDefaultConfig.cs" />
     <Compile Include="Domain\UserRoles\UserRole.cs" />
     <Compile Include="Domain\UserTicket\AddUserTicketEvent.cs" />

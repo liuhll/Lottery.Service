@@ -31,7 +31,8 @@ namespace Lottery.WebApi.Providers
                 );
 
             RegisterTopic(EQueueTopics.NormCommandTopic,
-                typeof(AddUserNormDefaultConfigCommand));
+                typeof(AddUserNormDefaultConfigCommand),
+                typeof(UpdateUserNormDefaultConfigCommand));
            
         }
     }

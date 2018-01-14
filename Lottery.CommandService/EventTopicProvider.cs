@@ -1,6 +1,7 @@
 ﻿using ECommon.Components;
 using ENode.EQueue;
 using ENode.Eventing;
+using Lottery.Commands.Norms;
 using Lottery.Commands.UserInfos;
 using Lottery.Core.Domain.LotteryDatas;
 using Lottery.Core.Domain.LotteryFinalDatas;
@@ -37,7 +38,8 @@ namespace Lottery.CommandService
                 );
 
             RegisterTopic(EQueueTopics.NormEventTopic,
-                typeof(AddUserNormDefaultConfigEvent));
+                typeof(AddUserNormDefaultConfigEvent),
+                typeof(UpdateUserNormDefaultConfigEvent));
         }
     }
 }

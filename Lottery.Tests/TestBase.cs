@@ -40,7 +40,7 @@ namespace Lottery.Tests
 
         protected CommandResult ExecuteCommand(ICommand command)
         {
-            return _commandService.Execute(command, CommandReturnType.EventHandled,150000);
+            return _commandService.Execute(command, CommandReturnType.EventHandled,550000);
         }
 
         protected void SendCommand(ICommand command)

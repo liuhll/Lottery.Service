@@ -8,7 +8,8 @@ using Lottery.Infrastructure;
 
 namespace Lottery.Denormalizers.Dapper.Norms
 {
-    public class NormDenormalizer : AbstractDenormalizer, IMessageHandler<AddUserNormDefaultConfigEvent>
+    public class NormDenormalizer : AbstractDenormalizer, IMessageHandler<AddUserNormDefaultConfigEvent>,
+        IMessageHandler<UpdateUserNormDefaultConfigEvent>
     {
         private readonly ICacheManager _cacheManager;
 
@@ -43,6 +44,33 @@ namespace Lottery.Denormalizers.Dapper.Norms
                     CreateTime = evnt.Timestamp,
 
                 }, TableNameConstants.UserNormDefaultConfigTable);
+            });
+        }
+
+        public Task<AsyncTaskResult> HandleAsync(UpdateUserNormDefaultConfigEvent evnt)
+        {
+
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_USERNORM_KEY, evnt.LotteryId, evnt.UserId);
+            _cacheManager.Remove(redisKey);
+            return TryUpdateRecordAsync(conn =>
+            {
+                return conn.UpdateAsync(new
+                    {
+                        evnt.ExpectMaxScore,
+                        evnt.ExpectMinScore,
+                        evnt.LookupPeriodCount,
+                        evnt.MaxErrortSeries,
+                        evnt.MinErrortSeries,
+                        evnt.MaxRightSeries,
+                        evnt.MinRightSeries,
+                        evnt.PlanCycle,
+                        evnt.ForecastCount,
+                        evnt.UnitHistoryCount,
+                        UpdateBy = evnt.UserId,
+                        UpdateTime = evnt.Timestamp,
+
+                    }, new {Id = evnt.AggregateRootId}, TableNameConstants.UserNormDefaultConfigTable
+                );
             });
         }
     }

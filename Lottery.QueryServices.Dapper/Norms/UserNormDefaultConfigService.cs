@@ -18,7 +18,7 @@ namespace Lottery.QueryServices.Dapper.Norms
             _cacheManager = cacheManager;
         }
 
-        public UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId)
+        public UserNormDefaultConfigOutput GetUserNormOrDefaultConfig(string userId, string lotteryId)
         {
             var userNormDefaultRedisKey = string.Format(RedisKeyConstants.LOTTERY_USERNORM_DEFAULT_KEY, lotteryId);
             var userNormRedisKey = string.Format(RedisKeyConstants.LOTTERY_USERNORM_KEY, lotteryId, userId);
@@ -42,6 +42,17 @@ namespace Lottery.QueryServices.Dapper.Norms
                 });
             }
             return userNormConfig;
+        }
+
+        public UserNormDefaultConfigDto GetUserNormConfig(string userId, string lotteryId)
+        {
+
+            using (var conn = GetLotteryConnection())
+            {
+                return conn.QueryList<UserNormDefaultConfigDto>(new { UserId = userId, LotteryId = lotteryId },
+                    TableNameConstants.UserNormDefaultConfigTable).FirstOrDefault();
+            }
+            
         }
     }
 }

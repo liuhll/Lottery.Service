@@ -151,7 +151,7 @@ namespace Lottery.Engine.TimeRule
 
         }
 
-        public bool IsTodayFinalPeriod => TodayCurrentCount == TodayTotalCount;
+        public bool IsTodayFinalPeriod => TodayCurrentCount == TodayTotalCount || TodayTotalCount + 1 == TodayTotalCount;
 
         public bool FinalPeriodIsLottery(LotteryFinalDataDto finalData)
         {

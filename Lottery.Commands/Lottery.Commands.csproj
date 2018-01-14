@@ -50,6 +50,7 @@
     <Compile Include="LotteryDatas\UpdateNextDayFirstPeriodCommand.cs" />
     <Compile Include="LotteryPredicts\InitPredictTableCommand.cs" />
     <Compile Include="Norms\AddUserNormDefaultConfigCommand.cs" />
+    <Compile Include="Norms\UpdateUserNormDefaultConfigCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInfos\AddAccessTokenCommand.cs" />
     <Compile Include="UserInfos\AddUserInfoCommand.cs" />

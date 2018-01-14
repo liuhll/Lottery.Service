@@ -28,7 +28,8 @@ namespace Lottery.Tests.Providers
                 typeof(UpdateLastLoginTimeCommand));
 
             RegisterTopic(EQueueTopics.NormCommandTopic,typeof(
-                AddUserNormDefaultConfigCommand));
+                AddUserNormDefaultConfigCommand),
+                typeof(UpdateUserNormDefaultConfigCommand));
         }
     }
 }

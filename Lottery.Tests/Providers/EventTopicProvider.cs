@@ -32,7 +32,8 @@ namespace Lottery.Tests.Providers
                 typeof(UpdateLoginTimeEvent));
 
             RegisterTopic(EQueueTopics.NormEventTopic,
-                typeof(AddUserNormDefaultConfigEvent));
+                typeof(AddUserNormDefaultConfigEvent),
+                typeof(UpdateUserNormDefaultConfigEvent));
 
         }
     }

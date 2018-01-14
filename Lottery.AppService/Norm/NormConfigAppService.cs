@@ -33,7 +33,7 @@ namespace Lottery.AppService.Norm
 
         public UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId)
         {
-            var userDefaultConfig = _normDefaultConfigService.GetUserNormDefaultConfig(userId,lotteryId);
+            var userDefaultConfig = _normDefaultConfigService.GetUserNormOrDefaultConfig(userId,lotteryId);
             var lotteryPositions = _positionInfoQueryService.GetLotteryPositions(lotteryId);
             var minNumber = lotteryPositions.OrderByDescending(p => p.MinValue).First().MinValue;
             var maxNumber = lotteryPositions.OrderBy(p => p.MaxValue).First().MaxValue;

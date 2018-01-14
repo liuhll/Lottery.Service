@@ -34,7 +34,7 @@
 
         public const string LOTTERY_USERNORM_DEFAULT_KEY = "Lottery.UserNorm.{0}.Default";
 
-        public const string LOTTERY_USERNORM_KEY = "Lottery.UserNorm..{0}.{1}";
+        public const string LOTTERY_USERNORM_KEY = "Lottery.UserNorm.{0}.{1}";
 
         public const string SCHEDULE_TASK_ALL_KEY = "ScheduleTask.All";
 

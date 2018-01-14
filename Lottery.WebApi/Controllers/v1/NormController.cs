@@ -11,6 +11,7 @@ using Lottery.Commands.Norms;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.QueryServices.Norms;
 using Lottery.WebApi.Validations;
 
 namespace Lottery.WebApi.Controllers.v1
@@ -22,15 +23,18 @@ namespace Lottery.WebApi.Controllers.v1
     public class NormController : BaseApiV1Controller
     {
         private readonly INormConfigAppService _normConfigAppService;
+        private readonly IUserNormDefaultConfigService _userNormDefaultConfigService;
         private readonly UserNormDefaultConfigInputValidator _userNormDefaultConfigInputValidator;
 
         public NormController(ICommandService commandService, 
             INormConfigAppService normConfigAppService,
-            UserNormDefaultConfigInputValidator userNormDefaultConfigInputValidator) 
+            UserNormDefaultConfigInputValidator userNormDefaultConfigInputValidator, 
+            IUserNormDefaultConfigService userNormDefaultConfigService) 
             : base(commandService)
         {
             _normConfigAppService = normConfigAppService;
             _userNormDefaultConfigInputValidator = userNormDefaultConfigInputValidator;
+            _userNormDefaultConfigService = userNormDefaultConfigService;
         }
 
         /// <summary>
@@ -59,9 +63,20 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 throw new LotteryDataException(validatorResult.Errors.Select(p=>p.ErrorMessage + "</br>").ToString(";"));
             }
-            var command = new AddUserNormDefaultConfigCommand(Guid.NewGuid().ToString(),_lotterySession.UserId,input.LotteryId,input.PlanCycle,input.ForecastCount,input.UnitHistoryCount,
-                input.MinRightSeries,input.MaxRightSeries,input.MinErrortSeries,input.MaxErrortSeries,input.LookupPeriodCount,input.ExpectMinScore,input.ExpectMaxScore);
-            CommandExecute(command);
+            var userNormConfig =
+                _userNormDefaultConfigService.GetUserNormConfig(_lotterySession.UserId, input.LotteryId);
+            if (userNormConfig == null)
+            {
+                var command = new AddUserNormDefaultConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId, input.LotteryId, input.PlanCycle, input.ForecastCount, input.UnitHistoryCount,
+                    input.MinRightSeries, input.MaxRightSeries, input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount, input.ExpectMinScore, input.ExpectMaxScore);
+                CommandExecute(command);
+            }
+            else
+            {
+                var command = new UpdateUserNormDefaultConfigCommand(userNormConfig.Id,  input.PlanCycle, input.ForecastCount, input.UnitHistoryCount,
+                    input.MinRightSeries, input.MaxRightSeries, input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount, input.ExpectMinScore, input.ExpectMaxScore);
+                CommandExecute(command);
+            }         
             return "设置默认的公式指标成功";
         }
     }
