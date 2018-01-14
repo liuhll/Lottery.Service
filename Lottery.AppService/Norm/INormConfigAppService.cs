@@ -8,6 +8,6 @@ namespace Lottery.AppService.Norm
     {
         ICollection<NormConfigDto> GetNormConfigsByUserIdOrDefault(string userId = "");
 
-        UserNormDefaultConfigDto GetUserNormDefaultConfig(string userId, string lotteryId);
+        UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId);
     }
 }

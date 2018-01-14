@@ -65,7 +65,7 @@ namespace Lottery.Infrastructure.Collections
             var sb = new StringBuilder();
             foreach (var item in source)
             {
-                sb.AppendFormat($"{item},");
+                sb.AppendFormat($"{item}" + split);
             }
             return sb.ToString().Remove(sb.Length - 1);
         }

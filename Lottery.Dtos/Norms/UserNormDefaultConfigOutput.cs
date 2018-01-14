@@ -2,7 +2,7 @@
 
 namespace Lottery.Dtos.Norms
 {
-    public class UserNormDefaultConfigDto
+    public class UserNormDefaultConfigOutput
     {
         /// <summary>
         /// 周期数

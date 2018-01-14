@@ -2,7 +2,9 @@
 using ENode.EQueue;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
+using Lottery.Commands.Norms;
 using Lottery.Commands.UserInfos;
+using Lottery.Core.Domain.UserNormDefaultConfig;
 using Lottery.Infrastructure;
 
 namespace Lottery.Tests.Providers
@@ -25,7 +27,8 @@ namespace Lottery.Tests.Providers
                 typeof(BindUserPhoneCommand),
                 typeof(UpdateLastLoginTimeCommand));
 
-
+            RegisterTopic(EQueueTopics.NormCommandTopic,typeof(
+                AddUserNormDefaultConfigCommand));
         }
     }
 }

@@ -19,5 +19,10 @@
         public const string UserInfoCommandTopic = "UserInfoCommandTopic";
 
         public const string UserInfoEventTopic = "UserInfoEventTopic";
+
+        public const string NormCommandTopic = "NormCommandTopic";
+
+        public const string NormEventTopic = "NormEventTopic";
+
     }
 }

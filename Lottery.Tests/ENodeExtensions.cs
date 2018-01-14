@@ -112,11 +112,13 @@ namespace Lottery.Tests
             _commandConsumer
                 .Subscribe(EQueueTopics.LotteryCommandTopic)
                 .Subscribe(EQueueTopics.LotteryAccountCommandTopic)
+                .Subscribe(EQueueTopics.NormCommandTopic)
                 ;
 
             _eventConsumer
                 .Subscribe(EQueueTopics.LotteryEventTopic)
-                .Subscribe(EQueueTopics.LotteryAccountEventTopic);
+                .Subscribe(EQueueTopics.LotteryAccountEventTopic)
+                .Subscribe(EQueueTopics.NormEventTopic);
 
             _nameServer.Start();
             _broker.Start();

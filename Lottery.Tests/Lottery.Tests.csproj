@@ -106,6 +106,7 @@
     <Compile Include="ENodeExtensions.cs" />
     <Compile Include="LotteryCalculateTest.cs" />
     <Compile Include="LotteryDataTest.cs" />
+    <Compile Include="Norm_Test.cs" />
     <Compile Include="PredictTableTest.cs" />
     <Compile Include="Providers\CommandTopicProvider.cs" />
     <Compile Include="Providers\EventTopicProvider.cs" />

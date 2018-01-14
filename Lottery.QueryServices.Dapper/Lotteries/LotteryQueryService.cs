@@ -55,7 +55,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 if (GetAllLotteryInfo().Any())
                 {
-                    return GetAllLotteryInfo().First(p => p.Id == lotteryId);
+                    return GetAllLotteryInfo().FirstOrDefault(p => p.Id == lotteryId);
                 }
                 return null;
 

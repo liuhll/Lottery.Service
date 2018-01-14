@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using ENode.Commanding;
 using Lottery.AppService.Norm;
+using Lottery.Commands.Norms;
 using Lottery.Dtos.Norms;
+using Lottery.Infrastructure.Collections;
+using Lottery.Infrastructure.Exceptions;
+using Lottery.WebApi.Validations;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -17,12 +22,15 @@ namespace Lottery.WebApi.Controllers.v1
     public class NormController : BaseApiV1Controller
     {
         private readonly INormConfigAppService _normConfigAppService;
+        private readonly UserNormDefaultConfigInputValidator _userNormDefaultConfigInputValidator;
 
         public NormController(ICommandService commandService, 
-            INormConfigAppService normConfigAppService) 
+            INormConfigAppService normConfigAppService,
+            UserNormDefaultConfigInputValidator userNormDefaultConfigInputValidator) 
             : base(commandService)
         {
             _normConfigAppService = normConfigAppService;
+            _userNormDefaultConfigInputValidator = userNormDefaultConfigInputValidator;
         }
 
         /// <summary>
@@ -32,9 +40,29 @@ namespace Lottery.WebApi.Controllers.v1
         /// <returns></returns>
         [Route("usernormdefaultconfig")]
         [HttpGet]
-        public UserNormDefaultConfigDto GetUserNormDefaultConfig(string lotteryId)
+        public UserNormDefaultConfigOutput GetUserNormDefaultConfig(string lotteryId)
         {
             return _normConfigAppService.GetUserNormDefaultConfig(_lotterySession.UserId, lotteryId);
+        }
+
+        /// <summary>
+        /// 修改用户默认的公式指标
+        /// </summary>
+        /// <param name="input">用户配置的默认公式指标</param>
+        /// <returns></returns>
+        [Route("usernormdefaultconfig")]
+        [HttpPut]
+        public async Task<string> GetUserNormDefaultConfig(UserNormDefaultConfigInput input)
+        {
+            var validatorResult = await _userNormDefaultConfigInputValidator.ValidateAsync(input);
+            if (!validatorResult.IsValid)
+            {
+                throw new LotteryDataException(validatorResult.Errors.Select(p=>p.ErrorMessage + "</br>").ToString(";"));
+            }
+            var command = new AddUserNormDefaultConfigCommand(Guid.NewGuid().ToString(),_lotterySession.UserId,input.LotteryId,input.PlanCycle,input.ForecastCount,input.UnitHistoryCount,
+                input.MinRightSeries,input.MaxRightSeries,input.MinErrortSeries,input.MaxErrortSeries,input.LookupPeriodCount,input.ExpectMinScore,input.ExpectMaxScore);
+            CommandExecute(command);
+            return "设置默认的公式指标成功";
         }
     }
 }

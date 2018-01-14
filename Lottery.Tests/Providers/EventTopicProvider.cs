@@ -5,6 +5,7 @@ using Lottery.Core.Domain.LotteryFinalDatas;
 using Lottery.Core.Domain.LotteryInfos;
 using Lottery.Core.Domain.LotteryPredictDatas;
 using Lottery.Core.Domain.UserInfos;
+using Lottery.Core.Domain.UserNormDefaultConfig;
 using Lottery.Core.Domain.UserTicket;
 using Lottery.Infrastructure;
 
@@ -29,6 +30,9 @@ namespace Lottery.Tests.Providers
                 typeof(BindUserPhoneEvent),
                 typeof(UpdateLastLoginTimeEvent),
                 typeof(UpdateLoginTimeEvent));
+
+            RegisterTopic(EQueueTopics.NormEventTopic,
+                typeof(AddUserNormDefaultConfigEvent));
 
         }
     }

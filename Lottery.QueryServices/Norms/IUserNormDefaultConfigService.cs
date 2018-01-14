@@ -4,6 +4,6 @@ namespace Lottery.QueryServices.Norms
 {
     public interface IUserNormDefaultConfigService
     {
-        UserNormDefaultConfigDto GetUserNormDefaultConfig(string userId, string lotteryId);
+        UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId);
     }
 }

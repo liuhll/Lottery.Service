@@ -31,7 +31,7 @@ namespace Lottery.AppService.Norm
             return _normConfigQueryService.GetUserOrDefaultNormConfigs(userId);
         }
 
-        public UserNormDefaultConfigDto GetUserNormDefaultConfig(string userId, string lotteryId)
+        public UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId)
         {
             var userDefaultConfig = _normDefaultConfigService.GetUserNormDefaultConfig(userId,lotteryId);
             var lotteryPositions = _positionInfoQueryService.GetLotteryPositions(lotteryId);
