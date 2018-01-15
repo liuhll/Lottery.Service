@@ -3,13 +3,16 @@ using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Caching;
+using Lottery.Core.Domain.NormConfigs;
 using Lottery.Core.Domain.UserNormDefaultConfig;
 using Lottery.Infrastructure;
 
 namespace Lottery.Denormalizers.Dapper.Norms
 {
     public class NormDenormalizer : AbstractDenormalizer, IMessageHandler<AddUserNormDefaultConfigEvent>,
-        IMessageHandler<UpdateUserNormDefaultConfigEvent>
+        IMessageHandler<UpdateUserNormDefaultConfigEvent>,
+        IMessageHandler<AddNormConfigEvent>,
+        IMessageHandler<DeleteNormConfigEvent>
     {
         private readonly ICacheManager _cacheManager;
 
@@ -72,6 +75,53 @@ namespace Lottery.Denormalizers.Dapper.Norms
                     }, new {Id = evnt.AggregateRootId}, TableNameConstants.UserNormDefaultConfigTable
                 );
             });
+        }
+
+        public Task<AsyncTaskResult> HandleAsync(AddNormConfigEvent evnt)
+        {
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_NORMCONFIG_LOTTERY_KEY, evnt.LotteryId, evnt.UserId);
+            _cacheManager.Remove(redisKey);
+            return TryInsertRecordAsync(conn =>
+            {
+                return conn.InsertAsync(new
+                {
+                    evnt.LotteryId,
+                    evnt.UserId,
+                    evnt.PlanId,
+                    evnt.LastStartPeriod,
+                    evnt.ExpectMaxScore,
+                    evnt.ExpectMinScore,
+                    evnt.LookupPeriodCount,
+                    evnt.MaxErrorSeries,
+                    evnt.MinErrorSeries,
+                    evnt.MaxRightSeries,
+                    evnt.MinRightSeries,
+                    evnt.PlanCycle,
+                    evnt.ForecastCount,
+                    evnt.UnitHistoryCount,
+                    HistoryCount = evnt.UnitHistoryCount * evnt.PlanCycle,
+                    evnt.IsDefualt,
+                    evnt.IsEnable,
+                    Id = evnt.AggregateRootId,
+                    CreateBy = evnt.UserId,
+                    CreateTime = evnt.Timestamp,
+
+                }, TableNameConstants.NormConfigTable);
+            });
+        }
+
+        public async Task<AsyncTaskResult> HandleAsync(DeleteNormConfigEvent evnt)
+        {
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_NORMCONFIG_LOTTERY_KEY, evnt.LotteryId, evnt.UserId);
+            _cacheManager.Remove(redisKey);
+
+            var sql = "DELETE FROM dbo.LA_NormConfig WHERE Id=@Id";
+            using (var conn = GetLotteryConnection())
+            {
+                conn.Open();
+                await conn.DeleteAsync(new {Id = evnt.AggregateRootId}, TableNameConstants.NormConfigTable);
+            }
+            return AsyncTaskResult.Success;
         }
     }
 }

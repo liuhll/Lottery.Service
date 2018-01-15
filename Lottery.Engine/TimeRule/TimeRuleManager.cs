@@ -22,8 +22,6 @@ namespace Lottery.Engine.TimeRule
 
         private ICollection<TimeRuleDto> _timeRules;
 
-        private LotteryFinalDataDto _lotteryFinalData;
-
         public TimeRuleManager(LotteryInfoDto lotteryInfo)
         {
             _lotteryInfo = lotteryInfo;

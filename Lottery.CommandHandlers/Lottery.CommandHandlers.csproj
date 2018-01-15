@@ -48,6 +48,7 @@
     <Compile Include="AccountCommandHandler.cs" />
     <Compile Include="LotteryDataCommandHandler.cs" />
     <Compile Include="NormCommandHandler.cs" />
+    <Compile Include="PlanCommandHandler.cs" />
     <Compile Include="PredictTableCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

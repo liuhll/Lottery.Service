@@ -1,11 +1,14 @@
 ﻿using ENode.Commanding;
 using Lottery.Commands.Norms;
+using Lottery.Core.Domain.NormConfigs;
 using Lottery.Core.Domain.UserNormDefaultConfig;
 
 namespace Lottery.CommandHandlers
 {
     public class NormCommandHandler : ICommandHandler<AddUserNormDefaultConfigCommand>,
-        ICommandHandler<UpdateUserNormDefaultConfigCommand>
+        ICommandHandler<UpdateUserNormDefaultConfigCommand>,
+        ICommandHandler<AddNormConfigCommand>,
+        ICommandHandler<DeteteNormConfigCommand>
     {
         public void Handle(ICommandContext context, AddUserNormDefaultConfigCommand command)
         {
@@ -19,6 +22,18 @@ namespace Lottery.CommandHandlers
                 command.ForecastCount, command.UnitHistoryCount, command.MinRightSeries, command.MaxRightSeries,
                 command.MinErrortSeries, command.MaxErrortSeries, command.LookupPeriodCount, command.ExpectMinScore,
                 command.ExpectMaxScore);
+        }
+
+        public void Handle(ICommandContext context, AddNormConfigCommand command)
+        {
+            context.Add(new NormConfig(command.AggregateRootId,command.UserId,command.LotteryId,command.PlanId,command.LastStartPeriod,
+                command.PlanCycle,command.ForecastCount,command.UnitHistoryCount,command.MinRightSeries,command.MaxRightSeries,command.MinErrortSeries,
+                command.MaxErrortSeries,command.LookupPeriodCount,command.ExpectMinScore,command.ExpectMaxScore));
+        }
+
+        public void Handle(ICommandContext context, DeteteNormConfigCommand command)
+        {
+            context.Get<NormConfig>(command.AggregateRootId).DeleteNormConfig(command.AggregateRootId);
         }
     }
 }

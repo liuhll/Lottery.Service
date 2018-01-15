@@ -7,6 +7,7 @@ using Lottery.Core.Domain.LotteryDatas;
 using Lottery.Core.Domain.LotteryFinalDatas;
 using Lottery.Core.Domain.LotteryInfos;
 using Lottery.Core.Domain.LotteryPredictDatas;
+using Lottery.Core.Domain.NormConfigs;
 using Lottery.Core.Domain.UserInfos;
 using Lottery.Core.Domain.UserNormDefaultConfig;
 using Lottery.Core.Domain.UserTicket;
@@ -39,7 +40,9 @@ namespace Lottery.CommandService
 
             RegisterTopic(EQueueTopics.NormEventTopic,
                 typeof(AddUserNormDefaultConfigEvent),
-                typeof(UpdateUserNormDefaultConfigEvent));
+                typeof(UpdateUserNormDefaultConfigEvent),
+                typeof(AddNormConfigEvent),
+                typeof(DeleteNormConfigEvent));
         }
     }
 }

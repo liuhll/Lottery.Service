@@ -9,6 +9,8 @@ namespace Lottery.Dtos.Norms
         /// </summary>
         public int PlanCycle { get; set; }
 
+        public int ForecastCount { get; set; }
+
         /// <summary>
         /// 历史期数
         /// </summary>

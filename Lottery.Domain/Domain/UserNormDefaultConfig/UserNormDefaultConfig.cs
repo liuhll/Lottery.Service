@@ -22,8 +22,8 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             ExpectMinScore = expectMinScore;
             CustomNumbers = null;
 
-            //ApplyEvent(new AddUserNormDefaultConfigEvent(UserId, LotteryId, PlanCycle, ForecastCount, UnitHistoryCount, MaxRightSeries, MinRightSeries, MaxErrortSeries,
-            //    MinErrortSeries, LookupPeriodCount, ExpectMaxScore, ExpectMinScore, CustomNumbers));
+            //ApplyEvent(new AddUserNormDefaultConfigEvent(UserId, LotteryId, PlanCycle, ForecastCount, UnitHistoryCount, MaxRightSeries, MinRightSeries, MaxErrorSeries,
+            //    MinErrorSeries, LookupPeriodCount, ExpectMaxScore, ExpectMinScore, CustomNumbers));
 
             ApplyEvent(new AddUserNormDefaultConfigEvent(this));
         }

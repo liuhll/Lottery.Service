@@ -4,7 +4,6 @@ using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
 using Lottery.Commands.Norms;
 using Lottery.Commands.UserInfos;
-using Lottery.Core.Domain.UserNormDefaultConfig;
 using Lottery.Infrastructure;
 
 namespace Lottery.Tests.Providers
@@ -29,7 +28,9 @@ namespace Lottery.Tests.Providers
 
             RegisterTopic(EQueueTopics.NormCommandTopic,typeof(
                 AddUserNormDefaultConfigCommand),
-                typeof(UpdateUserNormDefaultConfigCommand));
+                typeof(UpdateUserNormDefaultConfigCommand),
+                typeof(AddNormConfigCommand),
+                typeof(UpdateNormConfigCommand));
         }
     }
 }

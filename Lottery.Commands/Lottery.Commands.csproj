@@ -50,7 +50,10 @@
     <Compile Include="LotteryDatas\UpdateNextDayFirstPeriodCommand.cs" />
     <Compile Include="LotteryPredicts\InitPredictTableCommand.cs" />
     <Compile Include="Norms\AddUserNormDefaultConfigCommand.cs" />
+    <Compile Include="Norms\DeteteNormConfigCommand.cs" />
     <Compile Include="Norms\UpdateUserNormDefaultConfigCommand.cs" />
+    <Compile Include="Norms\AddNormConfigCommand.cs" />
+    <Compile Include="Norms\UpdateNormConfigCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInfos\AddAccessTokenCommand.cs" />
     <Compile Include="UserInfos\AddUserInfoCommand.cs" />
@@ -76,6 +79,9 @@
       <Project>{1c7ea739-6f02-4955-8ccd-f0f03477c546}</Project>
       <Name>Lottery.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plans\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
