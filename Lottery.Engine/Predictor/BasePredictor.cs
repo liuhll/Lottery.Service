@@ -17,7 +17,7 @@ namespace Lottery.Engine.Predictor
 
         public abstract string PredictCode { get; }
 
-        public IDictionary<int,double> Predictor(List<int> data, int count,int k)
+        public virtual IDictionary<int,double> Predictor(List<int> data, int count,int k)
         {
             var result = new DiscreteMarkov.DiscreteMarkov(data, count, k);
 
