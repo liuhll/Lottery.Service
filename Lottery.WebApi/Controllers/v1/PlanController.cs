@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using ENode.Commanding;
 using Lottery.AppService.LotteryData;
+using Lottery.AppService.Norm;
 using Lottery.AppService.Plan;
 using Lottery.Commands.Norms;
+using Lottery.Dtos.Norms;
 using Lottery.Dtos.Plans;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
@@ -25,20 +27,20 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly IUserNormDefaultConfigService _userNormDefaultConfigService;
         private readonly UserPlanInfoInputValidator _planInfoInputValidator;
         private readonly ILotteryDataAppService _lotteryDataAppService;
-        private readonly INormConfigQueryService _normConfigQueryService;
+        private readonly INormConfigAppService _normConfigAppService;
 
         public PlanController(ICommandService commandService, 
             IPlanInfoAppService planInfoAppService,
             IUserNormDefaultConfigService userNormDefaultConfigService,
             UserPlanInfoInputValidator planInfoInputValidator,
             ILotteryDataAppService lotteryDataAppService,
-            INormConfigQueryService normConfigQueryService) : base(commandService)
+            INormConfigAppService normConfigAppService) : base(commandService)
         {
             _planInfoAppService = planInfoAppService;
             _userNormDefaultConfigService = userNormDefaultConfigService;
             _planInfoInputValidator = planInfoInputValidator;
             _lotteryDataAppService = lotteryDataAppService;
-            _normConfigQueryService = normConfigQueryService;
+            _normConfigAppService = normConfigAppService;
         }
 
         /// <summary>
@@ -75,7 +77,7 @@ namespace Lottery.WebApi.Controllers.v1
             var userDefaultNormConfig = 
                 _userNormDefaultConfigService.GetUserNormOrDefaultConfig(_lotterySession.UserId, input.LotteryId);
 
-            var userNormConfigs = _normConfigQueryService.GetUserNormConfig(input.LotteryId, _lotterySession.UserId);
+            var userNormConfigs = _normConfigAppService.GetUserNormConfig(input.LotteryId, _lotterySession.UserId);
             if (userNormConfigs!= null && userNormConfigs.Any())
             {
                 var deleteUserNormConfigsPlanIds = userNormConfigs.Select(p => p.PlanId).Except(input.PlanIds);
@@ -106,6 +108,45 @@ namespace Lottery.WebApi.Controllers.v1
             }
 
             return "更改计划成功";
+        }
+
+        /// <summary>
+        /// 获取计划指标配置接口1
+        /// </summary>
+        /// <remarks>通过指标Id获取计划公式指标配置</remarks>
+        /// <param name="normId">指标Id</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("userplannorm1")]
+        public UserPlanNormOutput GetUserPlanNorm(string normId)
+        {
+            return _normConfigAppService.GetUserNormConfigById(_lotterySession.UserId, normId);
+        }
+
+        /// <summary>
+        /// 获取计划指标配置接口2
+        /// </summary>
+        /// <remarks>通过彩种Id和计划Id获取计划公式指标配置</remarks>
+        /// <param name="lotteryId">彩种Id</param>
+        /// <param name="planId">计划Id</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("userplannorm2")]
+        public UserPlanNormOutput GetUserPlanNorm(string lotteryId, string planId)
+        {
+            return _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, lotteryId, planId);
+        }
+
+        /// <summary>
+        /// 更新用户指定的计划公式指标
+        /// </summary>
+        /// <param name="userPlanNorm"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("userplannorm")]
+        public string UpdateUserPlanNorm(object userPlanNorm)
+        {
+            return "";
         }
     }
 }

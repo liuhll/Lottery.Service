@@ -9,5 +9,12 @@ namespace Lottery.AppService.Norm
         ICollection<NormConfigDto> GetNormConfigsByUserIdOrDefault(string userId = "");
 
         UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId);
+
+
+        ICollection<NormConfigDto> GetUserNormConfig(string lotteryId, string userId);
+
+        UserPlanNormOutput GetUserNormConfigById(string userId, string normId);
+
+        UserPlanNormOutput GetUserNormConfigByPlanId(string userId, string lotteryId, string planId);
     }
 }

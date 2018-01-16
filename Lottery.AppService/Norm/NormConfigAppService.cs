@@ -5,6 +5,7 @@ using ECommon.Components;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure.Collections;
+using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Norms;
 
@@ -34,38 +35,78 @@ namespace Lottery.AppService.Norm
         public UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId)
         {
             var userDefaultConfig = _normDefaultConfigService.GetUserNormOrDefaultConfig(userId,lotteryId);
+            SetSelectedLotteryNumbers(lotteryId, userDefaultConfig);
+            return userDefaultConfig;
+        }
+
+       
+        public ICollection<NormConfigDto> GetUserNormConfig(string lotteryId, string userId)
+        {
+            return _normConfigQueryService.GetUserNormConfig(lotteryId, userId);
+        }
+
+        public UserPlanNormOutput GetUserNormConfigById(string userId, string normId)
+        {
+            try
+            {
+                var userplanNorm = _normConfigQueryService.GetUserNormConfigById(userId, normId);
+                SetSelectedLotteryNumbers(userplanNorm.LotteryId,userplanNorm);
+                return userplanNorm;
+            }
+            catch
+            {
+                throw new LotteryDataException("获取公式指标配置异常");
+            }           
+        }
+
+        public UserPlanNormOutput GetUserNormConfigByPlanId(string userId, string lotteryId, string planId)
+        {
+            try
+            {
+                var userplanNorm = _normConfigQueryService.GetUserNormConfigByPlanId(userId, lotteryId,planId);
+                SetSelectedLotteryNumbers(userplanNorm.LotteryId, userplanNorm);
+                return userplanNorm;
+            }
+            catch
+            {
+                throw new LotteryDataException("获取公式指标配置异常");
+            }
+        }
+
+        #region private methods
+        private void SetSelectedLotteryNumbers(string lotteryId, UserNormDefaultConfigOutput normConfig)
+        {
             var lotteryPositions = _positionInfoQueryService.GetLotteryPositions(lotteryId);
             var minNumber = lotteryPositions.OrderByDescending(p => p.MinValue).First().MinValue;
             var maxNumber = lotteryPositions.OrderBy(p => p.MaxValue).First().MaxValue;
-            if (string.IsNullOrEmpty(userDefaultConfig.CustomNumbers))
+            if (string.IsNullOrEmpty(normConfig.CustomNumbers))
             {
-                
-                userDefaultConfig.LotteryNumbers = new List<LotteryNumber>();
+                normConfig.LotteryNumbers = new List<LotteryNumber>();
                 for (int i = minNumber; i <= maxNumber; i++)
                 {
-                    userDefaultConfig.LotteryNumbers.Add(new LotteryNumber()
+                    normConfig.LotteryNumbers.Add(new LotteryNumber()
                     {
                         Number = i,
                         IsSelected = true,
                     });
                 }
-                var customerNums = userDefaultConfig.LotteryNumbers.Select(p => p.Number).ToString(",");
-                userDefaultConfig.CustomNumbers = customerNums.Substring(0, customerNums.Length - 1);
+                var customerNums = normConfig.LotteryNumbers.Select(p => p.Number).ToString(",");
+                normConfig.CustomNumbers = customerNums.Substring(0, customerNums.Length - 1);
             }
             else
             {
-                var selectedNumbers = userDefaultConfig.CustomNumbers.Split(',').Select(p => Convert.ToInt32(p));
-                userDefaultConfig.LotteryNumbers = new List<LotteryNumber>();
+                var selectedNumbers = normConfig.CustomNumbers.Split(',').Select(p => Convert.ToInt32(p));
+                normConfig.LotteryNumbers = new List<LotteryNumber>();
                 for (int i = minNumber; i <= maxNumber; i++)
                 {
-                    userDefaultConfig.LotteryNumbers.Add(new LotteryNumber()
+                    normConfig.LotteryNumbers.Add(new LotteryNumber()
                     {
                         Number = i,
-                        IsSelected = selectedNumbers.Any(p=> p == i),
+                        IsSelected = selectedNumbers.Any(p => p == i),
                     });
                 }
             }
-            return userDefaultConfig;
         }
+        #endregion
     }
 }

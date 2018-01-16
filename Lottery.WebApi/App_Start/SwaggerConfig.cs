@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Web.Http;
 using WebActivatorEx;
 using Lottery.WebApi;
@@ -35,9 +36,11 @@ namespace Lottery.WebApi
                         //
                         c.SingleApiVersion("v1", "Lottery.WebApi");
 
+                        c.ResolveConflictingActions(q => q.First());
+
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //
-                        //c.PrettyPrint();
+                        c.PrettyPrint();
 
                         // If your API has multiple versions, use "MultipleApiVersions" instead of "SingleApiVersion".
                         // In this case, you must provide a lambda that tells Swashbuckle which actions should be
@@ -62,7 +65,7 @@ namespace Lottery.WebApi
                         //c.BasicAuth("basic")
                         //    .Description("Basic HTTP Authentication");
                         //
-						// NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
+                        // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                         //c.ApiKey("apiKey")
                         //    .Description("API Key Authentication")
                         //    .Name("apiKey")
@@ -80,7 +83,7 @@ namespace Lottery.WebApi
                         //    });
 
                         // Set this flag to omit descriptions for any actions decorated with the Obsolete attribute
-                        //c.IgnoreObsoleteActions();
+                        c.IgnoreObsoleteActions();
 
                         // Each operation be assigned one or more tags which are then used by consumers for various reasons.
                         // For example, the swagger-ui groups operations according to the first tag of each operation.
@@ -137,7 +140,7 @@ namespace Lottery.WebApi
 
                         // Set this flag to omit schema property descriptions for any type properties decorated with the
                         // Obsolete attribute
-                        //c.IgnoreObsoleteProperties();
+                        c.IgnoreObsoleteProperties();
 
                         // In accordance with the built in JsonSerializer, Swashbuckle will, by default, describe enums as integers.
                         // You can change the serializer behavior by configuring the StringToEnumConverter globally or for a given
@@ -185,7 +188,7 @@ namespace Lottery.WebApi
                         // Use the "DocumentTitle" option to change the Document title.
                         // Very helpful when you have multiple Swagger pages open, to tell them apart.
                         //
-                        //c.DocumentTitle("My Swagger UI");
+                        c.DocumentTitle("Fast Lottery Analyse Swagger UI");
 
                         // Use the "InjectStylesheet" option to enrich the UI with one or more additional CSS stylesheets.
                         // The file must be included in your project as an "Embedded Resource", and then the resource's

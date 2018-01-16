@@ -8,6 +8,7 @@ using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.QueryServices.Dapper.Lotteries
@@ -77,6 +78,20 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                 });
         }
 
-       
+        public UserPlanNormOutput GetUserNormConfigById(string userId,string normId)
+        {
+            using (var conn = GetLotteryConnection())
+            {
+                return conn.QueryList<UserPlanNormOutput>(new { Id = normId, UserId = userId }, TableNameConstants.NormConfigTable).First();
+            }
+        }
+
+        public UserPlanNormOutput GetUserNormConfigByPlanId(string userId, string lotteryId, string planId)
+        {
+            using (var conn = GetLotteryConnection())
+            {
+                return conn.QueryList<UserPlanNormOutput>(new { LotteryId = lotteryId, PlanId= planId, UserId = userId }, TableNameConstants.NormConfigTable).First();
+            }
+        }
     }
 }
