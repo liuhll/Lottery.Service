@@ -12,7 +12,8 @@ namespace Lottery.Denormalizers.Dapper.Norms
     public class NormDenormalizer : AbstractDenormalizer, IMessageHandler<AddUserNormDefaultConfigEvent>,
         IMessageHandler<UpdateUserNormDefaultConfigEvent>,
         IMessageHandler<AddNormConfigEvent>,
-        IMessageHandler<DeleteNormConfigEvent>
+        IMessageHandler<DeleteNormConfigEvent>,
+        IMessageHandler<UpdateNormConfigEvent>
     {
         private readonly ICacheManager _cacheManager;
 
@@ -122,6 +123,33 @@ namespace Lottery.Denormalizers.Dapper.Norms
                 await conn.DeleteAsync(new {Id = evnt.AggregateRootId}, TableNameConstants.NormConfigTable);
             }
             return AsyncTaskResult.Success;
+        }
+
+        public Task<AsyncTaskResult> HandleAsync(UpdateNormConfigEvent evnt)
+        {
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_NORMCONFIG_LOTTERY_KEY, evnt.LotteryId, evnt.UserId);
+            _cacheManager.Remove(redisKey);
+            return TryUpdateRecordAsync(conn =>
+            {
+                return conn.UpdateAsync(new
+                {
+                    evnt.LastStartPeriod,
+                    evnt.ExpectMaxScore,
+                    evnt.ExpectMinScore,
+                    evnt.LookupPeriodCount,
+                    evnt.MaxErrorSeries,
+                    evnt.MinErrorSeries,
+                    evnt.MaxRightSeries,
+                    evnt.MinRightSeries,
+                    evnt.PlanCycle,
+                    evnt.ForecastCount,
+                    evnt.UnitHistoryCount,
+                    HistoryCount = evnt.UnitHistoryCount * evnt.PlanCycle,
+                    UpdateBy = evnt.UserId,
+                    UpdateTime = evnt.Timestamp,
+
+                }, new {Id = evnt.AggregateRootId}, TableNameConstants.NormConfigTable);
+            });
         }
     }
 }

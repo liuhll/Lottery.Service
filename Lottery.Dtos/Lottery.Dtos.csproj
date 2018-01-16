@@ -57,6 +57,7 @@
     <Compile Include="Norms\UserNormDefaultConfigDto.cs" />
     <Compile Include="Norms\UserNormDefaultConfigOutput.cs" />
     <Compile Include="Norms\UserNormDefaultConfigInput.cs" />
+    <Compile Include="Norms\UserNormPlanConfigInput.cs" />
     <Compile Include="Norms\UserPlanNormOutput.cs" />
     <Compile Include="PageList\IPageList.cs" />
     <Compile Include="PageList\PageList.cs" />

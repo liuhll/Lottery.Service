@@ -24,11 +24,11 @@ namespace Lottery.WebApi.Controllers.v1
     {
         private readonly INormConfigAppService _normConfigAppService;
         private readonly IUserNormDefaultConfigService _userNormDefaultConfigService;
-        private readonly UserNormDefaultConfigInputValidator _userNormDefaultConfigInputValidator;
+        private readonly UserNormConfigInputValidator _userNormDefaultConfigInputValidator;
 
         public NormController(ICommandService commandService, 
             INormConfigAppService normConfigAppService,
-            UserNormDefaultConfigInputValidator userNormDefaultConfigInputValidator, 
+            UserNormConfigInputValidator userNormDefaultConfigInputValidator, 
             IUserNormDefaultConfigService userNormDefaultConfigService) 
             : base(commandService)
         {

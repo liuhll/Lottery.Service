@@ -74,6 +74,7 @@
     <Compile Include="Domain\NormConfigs\AddNormConfigEvent.cs" />
     <Compile Include="Domain\NormConfigs\DeleteNormConfigEvent.cs" />
     <Compile Include="Domain\NormConfigs\NormConfig.cs" />
+    <Compile Include="Domain\NormConfigs\UpdateNormConfigEvent.cs" />
     <Compile Include="Domain\NormGroups\NormConfigInfo.cs" />
     <Compile Include="Domain\NormGroups\NormGroup.cs" />
     <Compile Include="Domain\PlanInfos\PlanInfo.cs" />

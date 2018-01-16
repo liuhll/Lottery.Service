@@ -6,10 +6,10 @@ using Lottery.QueryServices.Lotteries;
 namespace Lottery.WebApi.Validations
 {
     [Component]
-    public class UserNormDefaultConfigInputValidator : AbstractValidator<UserNormDefaultConfigInput>
+    public class UserNormConfigInputValidator : AbstractValidator<UserNormDefaultConfigInput>
     {
         private readonly ILotteryQueryService _lotteryQueryService;
-        public UserNormDefaultConfigInputValidator()
+        public UserNormConfigInputValidator()
         {
             _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();
 

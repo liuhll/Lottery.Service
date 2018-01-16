@@ -8,7 +8,8 @@ namespace Lottery.CommandHandlers
     public class NormCommandHandler : ICommandHandler<AddUserNormDefaultConfigCommand>,
         ICommandHandler<UpdateUserNormDefaultConfigCommand>,
         ICommandHandler<AddNormConfigCommand>,
-        ICommandHandler<DeteteNormConfigCommand>
+        ICommandHandler<DeteteNormConfigCommand>,
+        ICommandHandler<UpdateNormConfigCommand>
     {
         public void Handle(ICommandContext context, AddUserNormDefaultConfigCommand command)
         {
@@ -34,6 +35,13 @@ namespace Lottery.CommandHandlers
         public void Handle(ICommandContext context, DeteteNormConfigCommand command)
         {
             context.Get<NormConfig>(command.AggregateRootId).DeleteNormConfig(command.AggregateRootId);
+        }
+
+        public void Handle(ICommandContext context, UpdateNormConfigCommand command)
+        {
+            context.Get<NormConfig>(command.AggregateRootId).UpdateNormConfig(command.LastStartPeriod,
+                command.PlanCycle, command.ForecastCount, command.UnitHistoryCount, command.MinRightSeries, command.MaxRightSeries, command.MinErrortSeries,
+                command.MaxErrortSeries, command.LookupPeriodCount, command.ExpectMinScore, command.ExpectMaxScore,command.CustomNumbers);
         }
     }
 }

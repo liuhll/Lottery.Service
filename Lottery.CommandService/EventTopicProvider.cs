@@ -42,7 +42,8 @@ namespace Lottery.CommandService
                 typeof(AddUserNormDefaultConfigEvent),
                 typeof(UpdateUserNormDefaultConfigEvent),
                 typeof(AddNormConfigEvent),
-                typeof(DeleteNormConfigEvent));
+                typeof(DeleteNormConfigEvent),
+                typeof(UpdateNormConfigEvent));
         }
     }
 }

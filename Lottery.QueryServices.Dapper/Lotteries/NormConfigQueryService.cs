@@ -65,18 +65,18 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                 });
         }
 
-        public ICollection<NormConfigDto> GetPlanConfigDtos(string planId)
-        {
-            var redisKey = string.Format(RedisKeyConstants.LOTTERY_NORMCONFIG_KEY, planId);
-            return _cacheManager.Get<ICollection<NormConfigDto>>(redisKey,
-                () =>
-                {
-                    using (var conn = GetLotteryConnection())
-                    {
-                        return conn.QueryList<NormConfigDto>(new { PlanId = planId }, TableNameConstants.NormConfigTable).ToList();
-                    }
-                });
-        }
+        //public ICollection<NormConfigDto> GetPlanConfigDtos(string planId)
+        //{
+        //    var redisKey = string.Format(RedisKeyConstants.LOTTERY_NORMCONFIG_KEY, planId);
+        //    return _cacheManager.Get<ICollection<NormConfigDto>>(redisKey,
+        //        () =>
+        //        {
+        //            using (var conn = GetLotteryConnection())
+        //            {
+        //                return conn.QueryList<NormConfigDto>(new { PlanId = planId }, TableNameConstants.NormConfigTable).ToList();
+        //            }
+        //        });
+        //}
 
         public UserPlanNormOutput GetUserNormConfigById(string userId,string normId)
         {

@@ -28,19 +28,22 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly UserPlanInfoInputValidator _planInfoInputValidator;
         private readonly ILotteryDataAppService _lotteryDataAppService;
         private readonly INormConfigAppService _normConfigAppService;
+        private readonly UserNormConfigInputValidator _userNormConfigInputValidator;
 
         public PlanController(ICommandService commandService, 
             IPlanInfoAppService planInfoAppService,
             IUserNormDefaultConfigService userNormDefaultConfigService,
             UserPlanInfoInputValidator planInfoInputValidator,
             ILotteryDataAppService lotteryDataAppService,
-            INormConfigAppService normConfigAppService) : base(commandService)
+            INormConfigAppService normConfigAppService,
+            UserNormConfigInputValidator userNormConfigInputValidator) : base(commandService)
         {
             _planInfoAppService = planInfoAppService;
             _userNormDefaultConfigService = userNormDefaultConfigService;
             _planInfoInputValidator = planInfoInputValidator;
             _lotteryDataAppService = lotteryDataAppService;
             _normConfigAppService = normConfigAppService;
+            _userNormConfigInputValidator = userNormConfigInputValidator;
         }
 
         /// <summary>
@@ -140,13 +143,30 @@ namespace Lottery.WebApi.Controllers.v1
         /// <summary>
         /// 更新用户指定的计划公式指标
         /// </summary>
-        /// <param name="userPlanNorm"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         [HttpPut]
         [Route("userplannorm")]
-        public string UpdateUserPlanNorm(object userPlanNorm)
+        public async Task<string> UpdateUserPlanNorm(UserNormPlanConfigInput input)
         {
-            return "";
+            var validatorResult = await _userNormConfigInputValidator.ValidateAsync(input);
+            if (!validatorResult.IsValid)
+            {
+                throw new LotteryDataException(validatorResult.Errors.Select(p => p.ErrorMessage + "</br>").ToString(";"));
+            }
+
+            // todo: 更严格的指标公式验证
+
+            var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, input.LotteryId, input.PlanId);
+            var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(input.LotteryId);
+            var command = new UpdateNormConfigCommand(userPlanNorm.Id, _lotterySession.UserId,input.LotteryId,input.PlanId,
+                input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
+                input.UnitHistoryCount,input.MinRightSeries, input.MaxRightSeries, 
+                input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount,
+                input.ExpectMinScore, input.ExpectMaxScore,input.CustomNumbers);
+            await SendCommandAsync(command);
+            return "设置公式指标成功";
+         
         }
     }
 }

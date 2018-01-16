@@ -1,28 +1,26 @@
-﻿using ENode.Commanding;
+﻿using ENode.Eventing;
 
-namespace Lottery.Commands.Norms
+namespace Lottery.Core.Domain.NormConfigs
 {
-    public class UpdateNormConfigCommand : Command<string>
+    public class UpdateNormConfigEvent : DomainEvent<string>
     {
-        private UpdateNormConfigCommand()
+        private UpdateNormConfigEvent()
         {
         }
 
-        public UpdateNormConfigCommand(string id, string userId, string lotteryId, string planId, int planCycle, int forecastCount, int lastStartPeriod,
-            int unitHistoryCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries,
-            int lookupPeriodCount, int expectMinScore, int expectMaxScore,string customNumbers) : base(id)
+        public UpdateNormConfigEvent(string userId,string lotteryId,int lastStartPeriod, int planCycle, int forecastCount, int unitHistoryCount, int minRightSeries,
+            int maxRightSeries, int minErrortSeries, int maxErrortSeries, int lookupPeriodCount, int expectMinScore, int expectMaxScore, string customNumbers)
         {
             UserId = userId;
             LotteryId = lotteryId;
-            PlanId = planId;
             LastStartPeriod = lastStartPeriod;
             PlanCycle = planCycle;
             ForecastCount = forecastCount;
             UnitHistoryCount = unitHistoryCount;
             MaxRightSeries = maxRightSeries;
             MinRightSeries = minRightSeries;
-            MaxErrortSeries = maxErrortSeries;
-            MinErrortSeries = minErrortSeries;
+            MaxErrorSeries = maxErrortSeries;
+            MinErrorSeries = minErrortSeries;
             LookupPeriodCount = lookupPeriodCount;
             ExpectMaxScore = expectMaxScore;
             ExpectMinScore = expectMinScore;
@@ -32,8 +30,7 @@ namespace Lottery.Commands.Norms
         public string UserId { get; private set; }
 
         public string LotteryId { get; private set; }
-
-        public string PlanId { get; private set; }
+    
 
         public int LastStartPeriod { get; private set; }
 
@@ -62,12 +59,12 @@ namespace Lottery.Commands.Norms
         /// <summary>
         /// 最小连错数
         /// </summary>
-        public int MinErrortSeries { get; private set; }
+        public int MinErrorSeries { get; private set; }
 
         /// <summary>
         /// 最大连错数
         /// </summary>
-        public int MaxErrortSeries { get; private set; }
+        public int MaxErrorSeries { get; private set; }
 
         /// <summary>
         /// 追号的期数

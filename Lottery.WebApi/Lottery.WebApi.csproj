@@ -293,7 +293,7 @@
     <Compile Include="RunTime\Session\WebApiPrincipalAccessor.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Validations\UserInfoInputValidator.cs" />
-    <Compile Include="Validations\UserNormDefaultConfigInputValidator.cs" />
+    <Compile Include="Validations\UserNormConfigInputValidator.cs" />
     <Compile Include="Validations\UserPlanInfoInputValidator.cs" />
     <Compile Include="Validations\UserProfileInputValidator.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />

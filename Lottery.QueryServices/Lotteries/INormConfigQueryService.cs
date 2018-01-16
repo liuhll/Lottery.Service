@@ -12,7 +12,7 @@ namespace Lottery.QueryServices.Lotteries
 
         ICollection<NormConfigDto> GetUserNormConfig(string lotteryId,string userId);
 
-        ICollection<NormConfigDto> GetPlanConfigDtos(string planId);
+        //ICollection<NormConfigDto> GetPlanConfigDtos(string planId);
 
         UserPlanNormOutput GetUserNormConfigById(string userId, string normId);
         UserPlanNormOutput GetUserNormConfigByPlanId(string userId, string lotteryId, string planId);

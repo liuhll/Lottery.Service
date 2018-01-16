@@ -141,6 +141,14 @@ namespace Lottery.Core.Domain.NormConfigs
         }
 
 
+        public void UpdateNormConfig(int lastStartPeriod, int planCycle, int forecastCount, int unitHistoryCount, int minRightSeries,
+            int maxRightSeries, int minErrortSeries, int maxErrortSeries, int lookupPeriodCount, int expectMinScore, int expectMaxScore, string customNumbers)
+        {
+            ApplyEvent(new UpdateNormConfigEvent(UserId, LotteryId, lastStartPeriod,
+                planCycle, forecastCount, unitHistoryCount, minRightSeries, maxRightSeries, minErrortSeries,
+                maxErrortSeries, lookupPeriodCount, expectMinScore, expectMaxScore, customNumbers));
+        }
+
         #endregion
 
         #region handle Methods
@@ -166,6 +174,24 @@ namespace Lottery.Core.Domain.NormConfigs
             IsDefualt = evnt.IsDefualt;
         }
 
+        private void Handle(UpdateNormConfigEvent evnt)
+        {
+
+            UserId = evnt.UserId;
+            LotteryId = evnt.LotteryId;
+            LastStartPeriod = evnt.LastStartPeriod;
+            PlanCycle = evnt.PlanCycle;
+            ForecastCount = evnt.ForecastCount;
+            UnitHistoryCount = evnt.UnitHistoryCount;
+            MaxRightSeries = evnt.MaxRightSeries;
+            MinRightSeries = evnt.MinRightSeries;
+            MaxErrorSeries = evnt.MaxErrorSeries;
+            MinErrorSeries = evnt.MinErrorSeries;
+            LookupPeriodCount = evnt.LookupPeriodCount;
+            ExpectMaxScore = evnt.ExpectMaxScore;
+            ExpectMinScore = evnt.ExpectMinScore;
+        }
+
         private void Handle(DeleteNormConfigEvent evnt)
         {
             UserId = evnt.UserId;
@@ -173,5 +199,6 @@ namespace Lottery.Core.Domain.NormConfigs
         }
 
         #endregion
+
     }
 }
