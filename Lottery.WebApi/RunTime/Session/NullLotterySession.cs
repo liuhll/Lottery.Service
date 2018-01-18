@@ -1,4 +1,6 @@
-﻿namespace Lottery.WebApi.RunTime.Session
+﻿using Lottery.Infrastructure.Enums;
+
+namespace Lottery.WebApi.RunTime.Session
 {
     public class NullLotterySession : LotterySessionBase
     {
@@ -11,7 +13,7 @@
         public override string UserName => null;
         public override string Email => null;
         public override string Phone => null;
-
-  
+        public override string ClientType => null;
+        public override MemberRank MemberRank { get; }
     }
 }

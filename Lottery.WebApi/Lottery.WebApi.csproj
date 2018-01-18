@@ -249,6 +249,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Authentication\AuthenticationHeaderFilter.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -266,7 +268,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\v1\LotteryController.cs" />
     <Compile Include="Controllers\v1\NormController.cs" />
+    <Compile Include="Controllers\v1\PayController.cs" />
     <Compile Include="Controllers\v1\PlanController.cs" />
+    <Compile Include="Controllers\v1\PointController.cs" />
+    <Compile Include="Controllers\v1\OperationController.cs" />
     <Compile Include="Dynamic\LotteryApiControllerActionSelector.cs" />
     <Compile Include="Extensions\ENodeExtensions.cs" />
     <Compile Include="Extensions\HttpRequestExtensions.cs" />
@@ -299,6 +304,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\UserInfoInput.cs" />
     <Compile Include="ViewModels\UserProfileInput.cs" />
+    <Content Include="Areas\Admin\Views\web.config" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -323,6 +329,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

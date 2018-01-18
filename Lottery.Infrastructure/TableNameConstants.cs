@@ -23,5 +23,7 @@
         public const string UserInfoTable = "F_UserInfo";
 
         public const string UserNormDefaultConfigTable = "LA_UserNormDefaultConfig";
+
+        public const string MemberTable = "MS_Member";
     }
 }

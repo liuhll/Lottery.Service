@@ -58,6 +58,8 @@
     <Compile Include="Enums\ClientRegistType.cs" />
     <Compile Include="Enums\LotteryResult.cs" />
     <Compile Include="Enums\LotteryRunStatus.cs" />
+    <Compile Include="Enums\MemberRank.cs" />
+    <Compile Include="Enums\MemberStatus.cs" />
     <Compile Include="Enums\NumberType.cs" />
     <Compile Include="Enums\PlanPosition.cs" />
     <Compile Include="Enums\PositionType.cs" />

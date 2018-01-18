@@ -1,4 +1,6 @@
-﻿namespace Lottery.WebApi.RunTime.Session
+﻿using Lottery.Infrastructure.Enums;
+
+namespace Lottery.WebApi.RunTime.Session
 {
     public abstract class LotterySessionBase : ILotterySession
     {
@@ -14,5 +16,9 @@
         public abstract string Email { get; }
 
         public abstract string Phone { get; }
+
+        public abstract string ClientType { get; }
+
+        public abstract MemberRank MemberRank { get; }
     }
 }

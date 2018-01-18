@@ -60,6 +60,7 @@
     <Compile Include="Lotteries\TimeRuleQueryService.cs" />
     <Compile Include="Lotteries\LotteryQueryService.cs" />
     <Compile Include="Norms\UserNormDefaultConfigService.cs" />
+    <Compile Include="Operations\MemberQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleTasks\ScheduleTaskQueryService.cs" />
     <Compile Include="UserInfos\UserInfoService.cs" />

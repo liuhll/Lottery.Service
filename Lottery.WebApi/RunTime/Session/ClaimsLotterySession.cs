@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Lottery.Infrastructure.Enums;
+using Lottery.Infrastructure.Extensions;
 using Lottery.WebApi.RunTime.Security;
 
 namespace Lottery.WebApi.RunTime.Session
@@ -81,6 +83,37 @@ namespace Lottery.WebApi.RunTime.Session
                 string phone = phoneClaim.Value;
 
                 return phone;
+            }
+        }
+
+        public override string ClientType
+        {
+            get
+            {
+                var clientTypeClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.ClientType);
+                if (string.IsNullOrEmpty(clientTypeClaim?.Value))
+                {
+                    return null;
+                }
+
+                string clientType = clientTypeClaim.Value;
+
+                return clientType;
+            }
+        }
+        public override MemberRank MemberRank
+        {
+            get
+            {
+                var memberRankClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.MemberRank);
+                if (string.IsNullOrEmpty(memberRankClaim?.Value))
+                {
+                    return MemberRank.Ordinary;
+                }
+
+                var clientType = memberRankClaim.Value.ToEnum<MemberRank>();
+
+                return clientType;
             }
         }
 

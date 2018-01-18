@@ -38,6 +38,8 @@
 
         public const string SCHEDULE_TASK_ALL_KEY = "ScheduleTask.All";
 
+        public const string OPERATION_MEMBERINFO_KEY = "Operation.MemberInfo.{0}";
+
         public const string USERINFO_KEY = "UserInfo.{0}";
 
         public const string USERINFO_TiCKET_KEY = "UserInfo.Ticket.{0}";

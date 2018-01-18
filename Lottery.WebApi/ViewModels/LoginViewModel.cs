@@ -14,5 +14,11 @@
         /// 密码
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// 客户端类型=>admin/lotterycode
+        /// </summary>
+        public string ClientType { get; set; }
+
     }
 }

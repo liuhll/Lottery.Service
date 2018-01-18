@@ -52,6 +52,8 @@
     <Compile Include="LotteryData\LotteryDataAppService.cs" />
     <Compile Include="Norm\INormConfigAppService.cs" />
     <Compile Include="Norm\NormConfigAppService.cs" />
+    <Compile Include="Operations\IMemberAppService.cs" />
+    <Compile Include="Operations\MemberAppService.cs" />
     <Compile Include="Plan\IPlanInfoAppService.cs" />
     <Compile Include="Plan\PlanInfoAppService.cs" />
     <Compile Include="Predict\ILotteryPredictDataService.cs" />
