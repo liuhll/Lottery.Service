@@ -18,11 +18,13 @@
 
         public const string NormConfigTable = "LA_NormConfig";
 
+        public const string UserNormDefaultConfigTable = "LA_UserNormDefaultConfig";
+
         public const string UserTicketTable = "F_UserTicket";
 
         public const string UserInfoTable = "F_UserInfo";
 
-        public const string UserNormDefaultConfigTable = "LA_UserNormDefaultConfig";
+        public const string UserClientTypeTable = "F_UserSystemType";
 
         public const string MemberTable = "MS_Member";
     }

@@ -63,6 +63,7 @@
     <Compile Include="Operations\MemberQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleTasks\ScheduleTaskQueryService.cs" />
+    <Compile Include="UserInfos\UserClientTypeQueryService.cs" />
     <Compile Include="UserInfos\UserInfoService.cs" />
     <Compile Include="UserInfos\UserTicketService.cs" />
   </ItemGroup>

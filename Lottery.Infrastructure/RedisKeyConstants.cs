@@ -44,6 +44,8 @@
 
         public const string USERINFO_TiCKET_KEY = "UserInfo.Ticket.{0}";
 
+        public const string USERINFO_SYSTEMYPE_KEY = "UserInfo.SystemType.{0}";
+
 
     }
 }

@@ -62,7 +62,6 @@ namespace Lottery.WebApi.Authentication
             //determine whether a jwt exists or not
             if (!TryRetrieveToken(request, out token))
             {
-                statusCode = HttpStatusCode.Unauthorized;
                 //allow requests with no token - whether a action method needs an authentication can be set with the claimsauthorization attribute
                 return await base.SendAsync(request, cancellationToken);
             }

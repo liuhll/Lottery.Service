@@ -65,19 +65,21 @@ namespace Lottery.WebApi.Controllers
         [HttpPost]
         public async Task<string> Login(LoginViewModel loginModel)
         {
-            string clientTypeId;
-            if (!ValidateClient(loginModel.ClientType,out clientTypeId))
+            string systemTypeId;
+            if (!ValidateClient(loginModel.SystemType,out systemTypeId))
             {
-                if (clientTypeId == LotteryConstants.BackOfficeKey)
+                if (systemTypeId == LotteryConstants.BackOfficeKey)
                 {
                     throw new LotteryAuthorizationException("不合法的客户端,请从合法途径登录");
                 }
                 throw new LotteryAuthorizationException("请先指定彩种");
             }
             var userInfo = await _userManager.SignInAsync(loginModel.UserName, loginModel.Password);
-            string token = CreateToken(userInfo, clientTypeId);
-            var ticketInfo = await _userManager.GetValidTicketInfo(userInfo.Id);
+            // 验证该用户是否允许访问指定的客户端
+            _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);
 
+            string token = CreateToken(userInfo, systemTypeId);
+            var ticketInfo = await _userManager.GetValidTicketInfo(userInfo.Id);
             if (ticketInfo == null)
             {
                 await SendCommandAsync(new AddAccessTokenCommand(Guid.NewGuid().ToString(), userInfo.Id, token,
@@ -230,7 +232,7 @@ namespace Lottery.WebApi.Controllers
 
         }
 
-        private string CreateToken(UserInfoViewModel userInfo,string clientTypeId)
+        private string CreateToken(UserInfoViewModel userInfo,string systemTypeId)
         {
             //Set issued at date
             DateTime issuedAt = DateTime.UtcNow;
@@ -247,8 +249,8 @@ namespace Lottery.WebApi.Controllers
                 new Claim(LotteryClaimTypes.UserId,userInfo.Id),
                 new Claim(LotteryClaimTypes.Email,userInfo.Email),
                 new Claim(LotteryClaimTypes.Phone,userInfo.Phone),
-                new Claim(LotteryClaimTypes.ClientType,clientTypeId), 
-                new Claim(LotteryClaimTypes.MemberRank,_memberAppService.ConcludeUserMemRank(userInfo.Id,clientTypeId)), 
+                new Claim(LotteryClaimTypes.SystemType,systemTypeId), 
+                new Claim(LotteryClaimTypes.MemberRank,_memberAppService.ConcludeUserMemRank(userInfo.Id,systemTypeId)), 
             });
 
             var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));

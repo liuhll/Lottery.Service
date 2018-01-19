@@ -16,9 +16,9 @@
         public string Password { get; set; }
 
         /// <summary>
-        /// 客户端类型=>admin/lotterycode
+        /// 系统类型
         /// </summary>
-        public string ClientType { get; set; }
+        public string SystemType { get; set; }
 
     }
 }

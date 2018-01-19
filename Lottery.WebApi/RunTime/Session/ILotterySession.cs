@@ -23,9 +23,9 @@ namespace Lottery.WebApi.RunTime.Session
 
         string Phone { get; }
 
-        string ClientTypeId { get; }
+        string SystemTypeId { get; }
 
-        ClientType ClientType { get; }
+        SystemType SystemType { get; }
 
         MemberRank MemberRank { get; }
     }

@@ -10,5 +10,7 @@ namespace Lottery.AppService.Account
         Task<UserTicketDto> GetValidTicketInfo(string userId);
 
         Task<bool> IsExistAccount(string userAccount);
+
+        void VerifyUserSystemType(string userId, string systemId);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using Lottery.Core.Caching;
 using Lottery.Infrastructure;
 
 namespace Lottery.QueryServices.Dapper

@@ -87,11 +87,11 @@ namespace Lottery.WebApi.RunTime.Session
             }
         }
 
-        public override string ClientTypeId
+        public override string SystemTypeId
         {
             get
             {
-                var clientTypeClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.ClientType);
+                var clientTypeClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.SystemType);
                 if (string.IsNullOrEmpty(clientTypeClaim?.Value))
                 {
                     return null;
@@ -103,18 +103,18 @@ namespace Lottery.WebApi.RunTime.Session
             }
         }
 
-        public override ClientType ClientType {
+        public override SystemType SystemType {
             get
             {
-                if (ClientTypeId == LotteryConstants.BackOfficeKey)
+                if (SystemTypeId == LotteryConstants.BackOfficeKey)
                 {
-                    return ClientType.BackOffice;
+                    return SystemType.BackOffice;
                 }
-                if (ClientTypeId == LotteryConstants.OfficialWebsite)
+                if (SystemTypeId == LotteryConstants.OfficialWebsite)
                 {
-                    return ClientType.OfficialWebsite;
+                    return SystemType.OfficialWebsite;
                 }
-                return ClientType.App;
+                return SystemType.App;
             }
         }
 

@@ -48,16 +48,16 @@ namespace Lottery.WebApi.Authentication
                 return await continuation();
             }
             // 如果允许了该客户端
-            if (allowedClientTypes.Any(p=> p == _lotterySession.ClientType))
+            if (allowedClientTypes.Any(p=> p == _lotterySession.SystemType))
             {
                 return await continuation();
             }
             return CreateUnAuthorizedResponse(actionContext, allowedClientTypes);
         }
 
-        private ICollection<ClientType> GetAllowedClientTypes(HttpActionContext actionContext)
+        private ICollection<SystemType> GetAllowedClientTypes(HttpActionContext actionContext)
         {
-            var allowedClientTypes = new List<ClientType>();
+            var allowedClientTypes = new List<SystemType>();
             var lotteryApiAuthenticationAttribute1 = actionContext.ActionDescriptor
                 .GetCustomAttributes<LotteryApiAuthenticationAttribute>();
 
@@ -77,7 +77,7 @@ namespace Lottery.WebApi.Authentication
             return allowedClientTypes;
         }
 
-        protected virtual HttpResponseMessage CreateUnAuthorizedResponse(HttpActionContext actionContext, ICollection<ClientType> allowedClientTypes)
+        protected virtual HttpResponseMessage CreateUnAuthorizedResponse(HttpActionContext actionContext, ICollection<SystemType> allowedClientTypes)
         {
             var statusCode = GetUnAuthorizedStatusCode(actionContext);
 
@@ -102,7 +102,7 @@ namespace Lottery.WebApi.Authentication
             };
         }
 
-        private string GetUnAuthorizedErrorMessage(HttpStatusCode statusCode, ICollection<ClientType> clientTypes)
+        private string GetUnAuthorizedErrorMessage(HttpStatusCode statusCode, ICollection<SystemType> clientTypes)
         {
             var clientTypeStr = "";
             foreach (var clientType in clientTypes)

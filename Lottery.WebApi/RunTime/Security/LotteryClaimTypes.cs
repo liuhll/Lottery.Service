@@ -20,6 +20,6 @@ namespace Lottery.WebApi.RunTime.Security
 
         public static string MemberRank { get; set; } = "http://liuhl.lottery.com/identity/claims/memberrank";
 
-        public static string ClientType { get; set; } = "http://liuhl.lottery.com/identity/claims/clienttype";
+        public static string SystemType { get; set; } = "http://liuhl.lottery.com/identity/claims/systemType";
     }
 }

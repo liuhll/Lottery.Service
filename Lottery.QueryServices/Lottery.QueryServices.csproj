@@ -50,6 +50,7 @@
     <Compile Include="Lotteries\IPlanInfoQueryService.cs" />
     <Compile Include="Lotteries\IPositionInfoQueryService.cs" />
     <Compile Include="Lotteries\ITimeRuleQueryService.cs" />
+    <Compile Include="UserInfos\IUserClientTypeQueryService.cs" />
     <Compile Include="Norms\IUserNormDefaultConfigService.cs" />
     <Compile Include="Operations\IMemberQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

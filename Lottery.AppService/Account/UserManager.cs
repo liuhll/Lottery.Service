@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using ECommon.Components;
+using ECommon.Extensions;
 using Effortless.Net.Encryption;
 using Lottery.Dtos.Account;
 using Lottery.Infrastructure;
@@ -18,13 +20,15 @@ namespace Lottery.AppService.Account
     {
         private readonly IUserInfoService _userInfoService;
         private readonly IUserTicketService _userTicketService;
-
+        private readonly IUserClientTypeQueryService _userClientTypeQueryService;
 
         public UserManager(IUserInfoService userInfoService, 
-            IUserTicketService userTicketService)
+            IUserTicketService userTicketService, 
+            IUserClientTypeQueryService userClientTypeQueryService)
         {
             _userInfoService = userInfoService;
             _userTicketService = userTicketService;
+            _userClientTypeQueryService = userClientTypeQueryService;
         }
 
         public async Task<UserInfoViewModel> SignInAsync(string userName, string password)
@@ -78,6 +82,29 @@ namespace Lottery.AppService.Account
                 return false;
             }
             return true;
+        }
+
+        public void VerifyUserSystemType(string userId, string systemType)
+        {
+            var userClientTypes = _userClientTypeQueryService.GetUserSystemTypes(userId);
+            if (LotteryConstants.BackOfficeKey.Equals(systemType,StringComparison.CurrentCultureIgnoreCase))
+            {
+                if (!userClientTypes.Safe().Any(p => p.SystemType == SystemType.BackOffice && p.Status == 0))
+                {
+                    throw new LotteryAuthorizationException("该账号未被授权访问后台管理系统");
+                }
+            }
+            else if (LotteryConstants.OfficialWebsite.Equals(systemType, StringComparison.CurrentCultureIgnoreCase))
+            {
+                // do nothing
+            }
+            else
+            {
+                if (!userClientTypes.Safe().Any(p => p.SystemType == SystemType.App && p.Status == 0))
+                {
+                    throw new LotteryAuthorizationException("该账号未被授权访问App");
+                }
+            }
         }
 
         private bool VerifyPassword(UserInfoDto userInfo, string inputPassword)

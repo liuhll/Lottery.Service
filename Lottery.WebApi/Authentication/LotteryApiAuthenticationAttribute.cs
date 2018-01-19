@@ -10,19 +10,19 @@ namespace Lottery.WebApi.Authentication
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class LotteryApiAuthenticationAttribute : AuthorizationFilterAttribute
     {
-        private readonly IList<ClientType> _clientTypes;
+        private readonly IList<SystemType> _clientTypes;
 
         public LotteryApiAuthenticationAttribute(string clientTypeStr)
         {
             var clientTypeStrArr = clientTypeStr.Split(',');
-            _clientTypes = new List<ClientType>();
+            _clientTypes = new List<SystemType>();
             foreach (var clientType in clientTypeStrArr)
             {
-                _clientTypes.AddIfNotContains(clientType.ToEnum<ClientType>());
+                _clientTypes.AddIfNotContains(clientType.ToEnum<SystemType>());
             }
         }
 
-        public ICollection<ClientType> ClientType {
+        public ICollection<SystemType> ClientType {
             get { return _clientTypes; }
         }
     }

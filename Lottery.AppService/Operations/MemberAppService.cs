@@ -15,13 +15,13 @@ namespace Lottery.AppService.Operations
             _memberService = memberService;
         }
 
-        public string ConcludeUserMemRank(string userId, string clientTypeId)
+        public string ConcludeUserMemRank(string userId, string systemTypeId)
         {
-            if (clientTypeId == LotteryConstants.BackOfficeKey)
+            if (systemTypeId == LotteryConstants.BackOfficeKey)
             {
                 return MemberRank.Ordinary.ToString();
             }
-            var userMember = _memberService.GetUserMenberInfo(userId,clientTypeId);
+            var userMember = _memberService.GetUserMenberInfo(userId, systemTypeId);
             if (userMember == null)
             {
                 return MemberRank.Ordinary.ToString();

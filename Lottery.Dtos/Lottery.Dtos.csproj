@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\UserSystemTypeDto.cs" />
     <Compile Include="Account\UserInfoViewModel.cs" />
     <Compile Include="Account\UserInfoDto.cs" />
     <Compile Include="Account\UserTicketDto.cs" />

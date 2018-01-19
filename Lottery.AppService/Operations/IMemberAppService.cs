@@ -2,6 +2,6 @@
 {
     public interface IMemberAppService
     {
-        string ConcludeUserMemRank(string userId, string clientTypeId);
+        string ConcludeUserMemRank(string userId, string systemTypeId);
     }
 }
