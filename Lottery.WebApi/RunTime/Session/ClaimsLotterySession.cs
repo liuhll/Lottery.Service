@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
 using Lottery.WebApi.RunTime.Security;
@@ -86,7 +87,7 @@ namespace Lottery.WebApi.RunTime.Session
             }
         }
 
-        public override string ClientType
+        public override string ClientTypeId
         {
             get
             {
@@ -101,6 +102,22 @@ namespace Lottery.WebApi.RunTime.Session
                 return clientType;
             }
         }
+
+        public override ClientType ClientType {
+            get
+            {
+                if (ClientTypeId == LotteryConstants.BackOfficeKey)
+                {
+                    return ClientType.BackOffice;
+                }
+                if (ClientTypeId == LotteryConstants.OfficialWebsite)
+                {
+                    return ClientType.OfficialWebsite;
+                }
+                return ClientType.App;
+            }
+        }
+
         public override MemberRank MemberRank
         {
             get

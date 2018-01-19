@@ -17,7 +17,9 @@ namespace Lottery.WebApi.RunTime.Session
 
         public abstract string Phone { get; }
 
-        public abstract string ClientType { get; }
+        public abstract string ClientTypeId { get; }
+
+        public abstract ClientType ClientType { get; }
 
         public abstract MemberRank MemberRank { get; }
     }

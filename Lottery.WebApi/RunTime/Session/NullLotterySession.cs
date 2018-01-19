@@ -13,7 +13,8 @@ namespace Lottery.WebApi.RunTime.Session
         public override string UserName => null;
         public override string Email => null;
         public override string Phone => null;
-        public override string ClientType => null;
+        public override string ClientTypeId => null;
+        public override ClientType ClientType { get; }
         public override MemberRank MemberRank { get; }
     }
 }

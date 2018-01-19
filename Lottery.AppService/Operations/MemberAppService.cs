@@ -17,7 +17,7 @@ namespace Lottery.AppService.Operations
 
         public string ConcludeUserMemRank(string userId, string clientTypeId)
         {
-            if (clientTypeId == LotteryConstants.AdminClientKey)
+            if (clientTypeId == LotteryConstants.BackOfficeKey)
             {
                 return MemberRank.Ordinary.ToString();
             }

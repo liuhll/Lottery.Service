@@ -68,7 +68,7 @@ namespace Lottery.WebApi.Controllers
             string clientTypeId;
             if (!ValidateClient(loginModel.ClientType,out clientTypeId))
             {
-                if (clientTypeId == LotteryConstants.AdminClientKey)
+                if (clientTypeId == LotteryConstants.BackOfficeKey)
                 {
                     throw new LotteryAuthorizationException("不合法的客户端,请从合法途径登录");
                 }
@@ -94,16 +94,20 @@ namespace Lottery.WebApi.Controllers
 
         private bool ValidateClient(string clientType,out string clientTypeId)
         {
-            if (clientType == LotteryConstants.AdminClientKey)
+            if (LotteryConstants.BackOfficeKey.Equals(clientType,StringComparison.CurrentCultureIgnoreCase))
             {
-                clientTypeId = LotteryConstants.AdminClientKey;
+                clientTypeId = LotteryConstants.BackOfficeKey;
+                return true;
+            }
+            if (LotteryConstants.OfficialWebsite.Equals(clientType,StringComparison.CurrentCultureIgnoreCase))
+            {
+                clientTypeId = LotteryConstants.OfficialWebsite;
                 return true;
             }
             var result = _lotteryQueryService.GetLotteryInfoByCode(clientType);
             if (result == null)
             {
-                clientTypeId = null;
-                return false;
+               throw new LotteryDataException($"不存在编码为{clientType}的彩种");
             }
             clientTypeId = result.Id;
             return true;

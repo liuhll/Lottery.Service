@@ -1,22 +1,22 @@
 ﻿using System.Web.Mvc;
 
-namespace Lottery.WebApi.Areas.Admin
+namespace Lottery.WebApi.Areas.BackOffice
 {
-    public class AdminAreaRegistration : AreaRegistration 
+    public class BackOfficeAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "Admin";
+                return "BackOffice";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Admin_default",
-                "Admin/{controller}/{action}/{id}",
+                "BackOffice_default",
+                "BackOffice/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }

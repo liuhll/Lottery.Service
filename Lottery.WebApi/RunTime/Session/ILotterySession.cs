@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lottery.Infrastructure.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,5 +22,11 @@ namespace Lottery.WebApi.RunTime.Session
         string Email { get; }
 
         string Phone { get; }
+
+        string ClientTypeId { get; }
+
+        ClientType ClientType { get; }
+
+        MemberRank MemberRank { get; }
     }
 }

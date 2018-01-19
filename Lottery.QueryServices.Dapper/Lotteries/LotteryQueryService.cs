@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dapper;
 using ECommon.Components;
@@ -6,6 +7,7 @@ using ECommon.Dapper;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.QueryServices.Dapper.Lotteries
@@ -23,13 +25,17 @@ namespace Lottery.QueryServices.Dapper.Lotteries
 
         public LotteryInfoDto GetLotteryInfoByCode(string lotteryCode)
         {
+            if (string.IsNullOrEmpty(lotteryCode))
+            {
+                throw new LotteryException("彩种编码不允许为空");
+            }
             var redisKey = string.Format(RedisKeyConstants.LOTTERY_INFO_KEY, lotteryCode);
 
             return _cacheManager.Get<LotteryInfoDto>(redisKey, () =>
             {
                 if (GetAllLotteryInfo().Any())
                 {
-                    return GetAllLotteryInfo().First(p => p.LotteryCode == lotteryCode);
+                    return GetAllLotteryInfo().FirstOrDefault(p => lotteryCode.Equals(p.LotteryCode,StringComparison.CurrentCultureIgnoreCase));
                 }
                 return null;
 
