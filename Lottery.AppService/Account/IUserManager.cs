@@ -11,6 +11,6 @@ namespace Lottery.AppService.Account
 
         Task<bool> IsExistAccount(string userAccount);
 
-        void VerifyUserSystemType(string userId, string systemId);
+        void VerifyUserSystemType(string userId, string systemType);
     }
 }

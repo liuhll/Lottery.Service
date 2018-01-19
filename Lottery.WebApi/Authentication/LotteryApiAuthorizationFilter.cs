@@ -11,6 +11,7 @@ using System.Web.Http.Filters;
 using ECommon.Components;
 using ECommon.Logging;
 using Lottery.Infrastructure.Enums;
+using Lottery.Infrastructure.Extensions;
 using Lottery.WebApi.Configration;
 using Lottery.WebApi.Helper;
 using Lottery.WebApi.Result.Models;
@@ -107,7 +108,7 @@ namespace Lottery.WebApi.Authentication
             var clientTypeStr = "";
             foreach (var clientType in clientTypes)
             {
-                clientTypeStr += clientType + ",";
+                clientTypeStr += clientType.GetChineseDescribe() + ",";
             }
             clientTypeStr = clientTypeStr.Remove(clientTypeStr.Length -1 , 1);
             if (statusCode == HttpStatusCode.Forbidden)

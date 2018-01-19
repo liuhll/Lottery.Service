@@ -21,14 +21,10 @@ namespace Lottery.QueryServices.Dapper.UserInfos
 
         public ICollection<UserSystemTypeDto> GetUserSystemTypes(string userId)
         {
-            var redisKey = string.Format(RedisKeyConstants.USERINFO_SYSTEMYPE_KEY, userId);
-            return _cacheManager.Get<ICollection<UserSystemTypeDto>>(redisKey, () =>
+            using (var conn = GetLotteryConnection())
             {
-                using (var conn = GetLotteryConnection())
-                {
-                    return conn.QueryList<UserSystemTypeDto>(new {UserId = userId},TableNameConstants.UserClientTypeTable).ToList();
-                }
-            });
+                return conn.QueryList<UserSystemTypeDto>(new { UserId = userId }, TableNameConstants.UserClientTypeTable).ToList();
+            }
         }
     }
 }

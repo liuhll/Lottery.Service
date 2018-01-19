@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\EnumDescribeAttribute.cs" />
     <Compile Include="Collections\ArrayExtention.cs" />
     <Compile Include="Collections\CollectionExtensions.cs" />
     <Compile Include="DataConfigSettings.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Collections\DictionaryExtensions.cs" />
     <Compile Include="Collections\EnumerableExtensions.cs" />
     <Compile Include="Collections\ListExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Json\JsonExtensions.cs" />
     <Compile Include="Json\LotteryDateTimeConverter .cs" />

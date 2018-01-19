@@ -11,6 +11,7 @@ using Lottery.Dtos.Account;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.UserInfos;
 
 namespace Lottery.AppService.Account
@@ -91,7 +92,7 @@ namespace Lottery.AppService.Account
             {
                 if (!userClientTypes.Safe().Any(p => p.SystemType == SystemType.BackOffice && p.Status == 0))
                 {
-                    throw new LotteryAuthorizationException("该账号未被授权访问后台管理系统");
+                    throw new LotteryAuthorizationException("该账号未被授权" + SystemType.BackOffice.GetChineseDescribe());
                 }
             }
             else if (LotteryConstants.OfficialWebsite.Equals(systemType, StringComparison.CurrentCultureIgnoreCase))
@@ -100,10 +101,14 @@ namespace Lottery.AppService.Account
             }
             else
             {
-                if (!userClientTypes.Safe().Any(p => p.SystemType == SystemType.App && p.Status == 0))
+                if (userClientTypes.Safe().Any())
                 {
-                    throw new LotteryAuthorizationException("该账号未被授权访问App");
+                    if (!userClientTypes.Safe().Any(p => p.SystemType == SystemType.App && p.Status == 0))
+                    {
+                        throw new LotteryAuthorizationException("该账号未被授权访问" + SystemType.App.GetChineseDescribe());
+                    }
                 }
+               
             }
         }
 
