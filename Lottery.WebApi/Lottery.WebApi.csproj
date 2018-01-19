@@ -250,6 +250,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\BackOffice\BackOfficeAreaRegistration.cs" />
+    <Compile Include="Areas\BackOffice\Controllers\BoBaseApiV1Controller.cs" />
+    <Compile Include="Areas\BackOffice\Controllers\v1\RoleController.cs" />
     <Compile Include="Authentication\AuthenticationHeaderFilter.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -258,7 +260,9 @@
     <Compile Include="App_Start\SwaggerDefaultValue.cs" />
     <Compile Include="App_Start\SwaggerOptionalParameter .cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Authentication\TokenValidationHandler .cs" />
+    <Compile Include="Authentication\LotteryApiAuthenticationAttribute.cs" />
+    <Compile Include="Authentication\LotteryApiAuthorizationFilter.cs" />
+    <Compile Include="Authentication\TokenValidationHandler.cs" />
     <Compile Include="Configration\ILotteryApiConfiguration.cs" />
     <Compile Include="Configration\LotteryApiConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -327,7 +331,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\BackOffice\Controllers\" />
     <Folder Include="Areas\BackOffice\Models\" />
   </ItemGroup>
   <ItemGroup>
