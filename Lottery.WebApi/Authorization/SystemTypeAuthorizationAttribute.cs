@@ -12,11 +12,10 @@ namespace Lottery.WebApi.Authentication
     {
         private readonly IList<SystemType> _clientTypes;
 
-        public LotteryApiAuthenticationAttribute(string clientTypeStr)
+        public LotteryApiAuthenticationAttribute(params string[] clientTypeStr)
         {
-            var clientTypeStrArr = clientTypeStr.Split(',');
             _clientTypes = new List<SystemType>();
-            foreach (var clientType in clientTypeStrArr)
+            foreach (var clientType in clientTypeStr)
             {
                 _clientTypes.AddIfNotContains(clientType.ToEnum<SystemType>());
             }
