@@ -4,7 +4,6 @@ using ENode.Commanding;
 using Lottery.AppService.LotteryData;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.PageList;
-using Lottery.WebApi.RunTime.Session;
 
 namespace Lottery.WebApi.Controllers.v1
 {

@@ -46,6 +46,15 @@
 
         public const string USERINFO_SYSTEMYPE_KEY = "UserInfo.SystemType.{0}";
 
+        public const string USERINFO_POWER_KEY = "User.Power.{0}";
+
+        public const string USERINFO_USERPOWER_KEY = "UserInfo.UserPower.{0}";
+
+        public const string ROLE_ROLEPOWER_KEY = "Role.RolePower.{0}";
+
+        public const string ROLE_POWER_KEY = "Role.Power.{0}";
+
+        public const string USER_ROLE_KEY = "User.Role.{0}";
 
     }
 }

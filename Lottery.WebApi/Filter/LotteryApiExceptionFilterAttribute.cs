@@ -8,10 +8,10 @@ using ECommon.Components;
 using ECommon.Logging;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
+using Lottery.Infrastructure.RunTime.Session;
 using Lottery.WebApi.Configration;
 using Lottery.WebApi.Helper;
 using Lottery.WebApi.Result.Models;
-using Lottery.WebApi.RunTime.Session;
 using ILoggerFactory = ECommon.Logging.ILoggerFactory;
 
 namespace Lottery.WebApi.Filter

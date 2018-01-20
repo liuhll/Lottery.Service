@@ -1,9 +1,13 @@
 ﻿using Lottery.Infrastructure.Enums;
 
-namespace Lottery.WebApi.RunTime.Session
+namespace Lottery.Infrastructure.RunTime.Session
 {
     public class NullLotterySession : LotterySessionBase
     {
+        private NullLotterySession()
+        {
+        }
+
         /// <summary>
         /// Singleton instance.
         /// </summary>

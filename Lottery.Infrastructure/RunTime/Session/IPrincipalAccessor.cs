@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Lottery.WebApi.RunTime.Session
+namespace Lottery.Infrastructure.RunTime.Session
 {
     public interface IPrincipalAccessor
     {

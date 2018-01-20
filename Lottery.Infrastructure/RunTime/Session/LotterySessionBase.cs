@@ -1,6 +1,6 @@
 ﻿using Lottery.Infrastructure.Enums;
 
-namespace Lottery.WebApi.RunTime.Session
+namespace Lottery.Infrastructure.RunTime.Session
 {
     public abstract class LotterySessionBase : ILotterySession
     {

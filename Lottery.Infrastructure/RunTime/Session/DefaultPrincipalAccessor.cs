@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading;
-using System.Web;
 
-namespace Lottery.WebApi.RunTime.Session
+namespace Lottery.Infrastructure.RunTime.Session
 {
     public class DefaultPrincipalAccessor : IPrincipalAccessor
     {

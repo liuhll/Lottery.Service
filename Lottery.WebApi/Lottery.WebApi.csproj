@@ -260,10 +260,10 @@
     <Compile Include="App_Start\SwaggerDefaultValue.cs" />
     <Compile Include="App_Start\SwaggerOptionalParameter .cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Authentication\LotteryApiAuthenticationAttribute.cs" />
+    <Compile Include="Authorization\LotteryBaseAuthorizeFilter.cs" />
     <Compile Include="Authorization\SystemTypeAuthorizationFilter.cs" />
     <Compile Include="Authentication\TokenValidationHandler.cs" />
-    <Compile Include="Authorization\LotteryApiAuthorizationFilter.cs" />
+    <Compile Include="Authorization\LotteryApiAuthorizeFilter.cs" />
     <Compile Include="Configration\ILotteryApiConfiguration.cs" />
     <Compile Include="Configration\LotteryApiConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -292,14 +292,6 @@
     <Compile Include="Result\Models\ResponseMessageBase.cs" />
     <Compile Include="Result\Models\ResponseMessageOfTResult.cs" />
     <Compile Include="Result\WrapResultAttribute.cs" />
-    <Compile Include="RunTime\Security\LotteryClaimTypes.cs" />
-    <Compile Include="RunTime\Session\ClaimsLotterySession.cs" />
-    <Compile Include="RunTime\Session\DefaultPrincipalAccessor.cs" />
-    <Compile Include="RunTime\Session\ILotterySession.cs" />
-    <Compile Include="RunTime\Session\IPrincipalAccessor.cs" />
-    <Compile Include="RunTime\Session\LotterySessionBase.cs" />
-    <Compile Include="RunTime\Session\NullLotterySession.cs" />
-    <Compile Include="RunTime\Session\WebApiPrincipalAccessor.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Validations\UserInfoInputValidator.cs" />
     <Compile Include="Validations\UserNormConfigInputValidator.cs" />

@@ -8,7 +8,7 @@ using System.Web.Http;
 using ECommon.Extensions;
 using ECommon.IO;
 using ENode.Commanding;
-using Lottery.WebApi.RunTime.Session;
+using Lottery.Infrastructure.RunTime.Session;
 
 namespace Lottery.WebApi.Controllers
 {

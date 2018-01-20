@@ -64,9 +64,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
@@ -110,6 +110,14 @@
     <Compile Include="Reflection\ITypeFinder.cs" />
     <Compile Include="Reflection\TypeFinder.cs" />
     <Compile Include="RegexConstants.cs" />
+    <Compile Include="RunTime\Security\LotteryClaimTypes.cs" />
+    <Compile Include="RunTime\Session\ClaimsLotterySession.cs" />
+    <Compile Include="RunTime\Session\DefaultPrincipalAccessor.cs" />
+    <Compile Include="RunTime\Session\ILotterySession.cs" />
+    <Compile Include="RunTime\Session\IPrincipalAccessor.cs" />
+    <Compile Include="RunTime\Session\LotterySessionBase.cs" />
+    <Compile Include="RunTime\Session\NullLotterySession.cs" />
+    <Compile Include="RunTime\Session\WebApiPrincipalAccessor.cs" />
     <Compile Include="ServiceConfigSettings.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="SqlConstants.cs" />

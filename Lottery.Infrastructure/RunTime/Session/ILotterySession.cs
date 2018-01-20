@@ -1,10 +1,6 @@
 ﻿using Lottery.Infrastructure.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace Lottery.WebApi.RunTime.Session
+namespace Lottery.Infrastructure.RunTime.Session
 {
     public interface ILotterySession
     {

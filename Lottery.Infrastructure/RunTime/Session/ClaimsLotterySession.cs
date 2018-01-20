@@ -1,12 +1,11 @@
 ﻿using System.Linq;
-using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
-using Lottery.WebApi.RunTime.Security;
+using Lottery.Infrastructure.RunTime.Security;
 
-namespace Lottery.WebApi.RunTime.Session
+namespace Lottery.Infrastructure.RunTime.Session
 {
-    public class ClaimsLotterySession : LotterySessionBase
+    internal class ClaimsLotterySession : LotterySessionBase
     {
         public override string UserId {
             get

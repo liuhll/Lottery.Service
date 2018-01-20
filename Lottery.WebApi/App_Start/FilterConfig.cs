@@ -11,6 +11,7 @@ namespace Lottery.WebApi
             config.Filters.Add(new System.Web.Http.AuthorizeAttribute());         
             config.Filters.Add(new LotteryApiExceptionFilterAttribute());   
             config.Filters.Add(new SystemTypeAuthorizationFilter());
+            config.Filters.Add(new LotteryApiAuthorizeFilter());
         }
     }
 }

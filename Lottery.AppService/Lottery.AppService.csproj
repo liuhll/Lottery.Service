@@ -48,6 +48,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\UserManager.cs" />
+    <Compile Include="Authorize\PowerChecker\AppPowerChecker.cs" />
+    <Compile Include="Authorize\AuthorizationHelper.cs" />
+    <Compile Include="Authorize\IAuthorizationHelper.cs" />
+    <Compile Include="Authorize\ILotteryApiAuthorizeAttribute.cs" />
+    <Compile Include="Authorize\PowerChecker\BasePowerChecker.cs" />
+    <Compile Include="Authorize\PowerChecker\IPowerChecker.cs" />
+    <Compile Include="Authorize\ISystemTypeAuthorizeAttribute.cs" />
+    <Compile Include="Authorize\LotteryApiAuthorizeAttribute.cs" />
+    <Compile Include="Authorize\PowerChecker\BackOfficePowerChecker.cs" />
+    <Compile Include="Authorize\PowerChecker\OfficialWebsitePowerChecker.cs" />
+    <Compile Include="Authorize\PowerChecker\PermissionCheckerExtensions.cs" />
+    <Compile Include="Authorize\SystemTypeAuthorizeAttribute.cs" />
     <Compile Include="LotteryData\ILotteryDataAppService.cs" />
     <Compile Include="LotteryData\LotteryDataAppService.cs" />
     <Compile Include="Norm\INormConfigAppService.cs" />
@@ -56,14 +68,20 @@
     <Compile Include="Operations\MemberAppService.cs" />
     <Compile Include="Plan\IPlanInfoAppService.cs" />
     <Compile Include="Plan\PlanInfoAppService.cs" />
+    <Compile Include="Power\IPowerManager.cs" />
+    <Compile Include="Power\IUserPowerStore.cs" />
+    <Compile Include="Power\PowerManager.cs" />
+    <Compile Include="Power\UserPowerStore.cs" />
     <Compile Include="Predict\ILotteryPredictDataService.cs" />
     <Compile Include="Predict\LotteryPredictDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Account\IUserManager.cs" />
+    <Compile Include="Role\IRoleManager.cs" />
+    <Compile Include="Role\IRolePowerStore.cs" />
+    <Compile Include="Role\RoleManager.cs" />
+    <Compile Include="Role\RolePowerStore.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Account\Validation\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Lottery.CommandHandlers\Lottery.CommandHandlers.csproj">
       <Project>{d5a0a02a-5f74-4cb3-8df2-2155dd1e9f11}</Project>

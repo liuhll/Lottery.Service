@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Lottery.Infrastructure.Exceptions;
 
 namespace Lottery.Infrastructure.Extensions
@@ -28,6 +30,16 @@ namespace Lottery.Infrastructure.Extensions
             }
             var enumValue = (T)(Enum.Parse(typeof(T), str));
             return enumValue;
+        }
+
+        public static string ToSplitString(this IEnumerable<string> strList, string split = ",")
+        {
+            var sb = new StringBuilder();
+            foreach (var str in strList)
+            {
+                sb.Append(str + split);
+            }
+            return sb.Remove(sb.Length - split.Length, split.Length).ToString();
         }
     }
 }

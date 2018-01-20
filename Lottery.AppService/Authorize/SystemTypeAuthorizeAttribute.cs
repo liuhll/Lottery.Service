@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Http.Filters;
+using System.Linq;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
 
-namespace Lottery.WebApi.Authentication
+namespace Lottery.AppService.Authorize
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
-    public class LotteryApiAuthenticationAttribute : AuthorizationFilterAttribute
+    public class SystemTypeAuthorizeAttribute : Attribute, ISystemTypeAuthorizeAttribute
     {
         private readonly IList<SystemType> _clientTypes;
 
-        public LotteryApiAuthenticationAttribute(params string[] clientTypeStr)
+        public SystemTypeAuthorizeAttribute(params string[] clientTypeStr)
         {
             _clientTypes = new List<SystemType>();
             foreach (var clientType in clientTypeStr)
@@ -21,8 +21,8 @@ namespace Lottery.WebApi.Authentication
             }
         }
 
-        public ICollection<SystemType> ClientType {
-            get { return _clientTypes; }
+        public SystemType[] ClientTypes {
+            get { return _clientTypes.ToArray(); }
         }
     }
 }

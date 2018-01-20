@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Lottery.Dtos.Account;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.AppService.Account
 {
@@ -12,5 +13,9 @@ namespace Lottery.AppService.Account
         Task<bool> IsExistAccount(string userAccount);
 
         void VerifyUserSystemType(string userId, string systemType);
+
+        Task<bool> IsGrantedAsync(string userId, string powerCode);
+
+        Task<bool> IsGrantedAsync(string userId, string urlPath, string method);
     }
 }

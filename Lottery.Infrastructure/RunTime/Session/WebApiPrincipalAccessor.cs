@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Web;
 
-namespace Lottery.WebApi.RunTime.Session
+namespace Lottery.Infrastructure.RunTime.Session
 {
     public class WebApiPrincipalAccessor : DefaultPrincipalAccessor
     {

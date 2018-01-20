@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Web;
-using Lottery.Infrastructure.Enums;
+﻿using System.Security.Claims;
 
-namespace Lottery.WebApi.RunTime.Security
+namespace Lottery.Infrastructure.RunTime.Security
 {
     public static class LotteryClaimTypes
     {

@@ -27,5 +27,7 @@
         public const string UserClientTypeTable = "F_UserSystemType";
 
         public const string MemberTable = "MS_Member";
+
+        public const string PowerTable = "F_Power";
     }
 }

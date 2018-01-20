@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using ECommon.Components;
 using ECommon.Extensions;
 using Effortless.Net.Encryption;
+using Lottery.AppService.Power;
+using Lottery.AppService.Role;
+using Lottery.Core.Caching;
 using Lottery.Dtos.Account;
+using Lottery.Dtos.Power;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
@@ -22,14 +24,26 @@ namespace Lottery.AppService.Account
         private readonly IUserInfoService _userInfoService;
         private readonly IUserTicketService _userTicketService;
         private readonly IUserClientTypeQueryService _userClientTypeQueryService;
+        private readonly IPowerManager _powerManager;
+        private readonly IRoleManager _roleManager;
+        private readonly ICacheManager _cacheManager;
+        private readonly IUserPowerStore _userPowerStore;
 
         public UserManager(IUserInfoService userInfoService, 
             IUserTicketService userTicketService, 
-            IUserClientTypeQueryService userClientTypeQueryService)
+            IUserClientTypeQueryService userClientTypeQueryService, 
+            IPowerManager powerManager, 
+            IRoleManager roleManager,
+            ICacheManager cacheManager,
+            IUserPowerStore userPowerStore)
         {
             _userInfoService = userInfoService;
             _userTicketService = userTicketService;
             _userClientTypeQueryService = userClientTypeQueryService;
+            _powerManager = powerManager;
+            _roleManager = roleManager;
+            _cacheManager = cacheManager;
+            _userPowerStore = userPowerStore;
         }
 
         public async Task<UserInfoViewModel> SignInAsync(string userName, string password)
@@ -110,6 +124,108 @@ namespace Lottery.AppService.Account
                 }
                
             }
+        }
+
+        public virtual async Task<bool> IsGrantedAsync(string userId, string powerCode)
+        {
+            try
+            {
+                return  await IsGrantedAsync(
+                    userId,
+                    _powerManager.GetPermission(powerCode)
+                );
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new LotteryAuthorizationException($"系统尚未设置${powerCode}权限码");
+            }
+        }
+
+       
+        public virtual async Task<bool> IsGrantedAsync(string userId, string urlPath, string method)
+        {
+            try
+            {
+                return await IsGrantedAsync(
+                    userId,
+                    _powerManager.GetPermission(urlPath,method)
+                );
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new LotteryAuthorizationException($"系统尚未对Api{urlPath}-{method}设置权限码");
+            }
+        }
+
+        protected virtual async Task<bool> IsGrantedAsync(string userId, PowerDto power)
+        {
+            var isGranted = false;
+            if (power == null)
+            {
+                throw new ArgumentNullException("系统尚未甚至该权限码");
+            }
+            //Get cached user permissions
+            var cacheItem = GetUserPowerCacheItemAsync(userId);
+            if (cacheItem == null)
+            {
+                throw new LotteryAuthorizationException($"没有权限{power.PowerName}");
+            }
+            //Check for user-specific value
+            if (cacheItem.GrantedPermissions.Contains(power.PowerCode))
+            {
+                isGranted = true;
+            }
+            if (cacheItem.ProhibitedPermissions.Contains(power.PowerCode))
+            {
+                isGranted = false;
+            }
+            //Check for roles
+            foreach (var roleId in cacheItem.RoleIds)
+            {
+                if (await _roleManager.IsGrantedAsync(roleId, power))
+                {
+                    isGranted = true;
+                }
+            }
+            if (isGranted)
+            {
+                return true;
+            }
+            throw new LotteryAuthorizationException($"没有权限{power.PowerName}");
+        }
+
+        private UserPowerCacheItem GetUserPowerCacheItemAsync(string userId)
+        {
+            var redisKey = string.Format(RedisKeyConstants.USERINFO_POWER_KEY, userId);
+
+            return _cacheManager.Get<UserPowerCacheItem>(redisKey, () =>
+            {
+                var userInfo = _userInfoService.GetUserInfoById(userId);
+                if (userInfo == null)
+                {
+                    return null;
+                }
+                var newCacheItem = new UserPowerCacheItem(userId);
+                var roles = _roleManager.GetUserRoles(userId);
+            
+                foreach (var role in roles.Safe())
+                {
+                    newCacheItem.RoleIds.Add(role.Id);
+                }
+                var userPowers = _userPowerStore.GetPermissions(userId).Safe();
+                foreach (var permissionInfo in userPowers)
+                {
+                    if (permissionInfo.IsGranted)
+                    {
+                        newCacheItem.GrantedPermissions.Add(permissionInfo.PowerCode);
+                    }
+                    else
+                    {
+                        newCacheItem.ProhibitedPermissions.Add(permissionInfo.PowerCode);
+                    }
+                }
+                return newCacheItem;
+            });
         }
 
         private bool VerifyPassword(UserInfoDto userInfo, string inputPassword)
