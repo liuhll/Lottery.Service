@@ -12,19 +12,24 @@ using ECommon.Components;
 using ECommon.Logging;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
+using Lottery.WebApi.Authentication;
 using Lottery.WebApi.Configration;
 using Lottery.WebApi.Helper;
 using Lottery.WebApi.Result.Models;
 using Lottery.WebApi.RunTime.Session;
 
-namespace Lottery.WebApi.Authentication
+namespace Lottery.WebApi.Authorization
 {
-    public class LotteryApiAuthorizationFilter : IAuthorizationFilter
+    /// <summary>
+    /// 系统类型授权
+    /// <remarks>策略:默认用户允许登录App,所有的用户均被授权门户,只有被授权的用户才被允许后台管理系统</remarks>
+    /// </summary>
+    public class SystemTypeAuthenticzationFilter : IAuthorizationFilter
     {
         private readonly ILogger _logger;
         private readonly ILotterySession _lotterySession;
         private readonly ILotteryApiConfiguration _lotteryApiConfiguration;
-        public LotteryApiAuthorizationFilter()
+        public SystemTypeAuthenticzationFilter()
         {
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create("LotteryApi");
             _lotteryApiConfiguration = ObjectContainer.Resolve<ILotteryApiConfiguration>();
@@ -43,7 +48,7 @@ namespace Lottery.WebApi.Authentication
             }
             // 获取所有允许的客户端类型         
             var allowedClientTypes = GetAllowedClientTypes(actionContext);
-            // 如果未指定，则默认允许所有的客户单
+            // 如果未指定，则默认允许所有的客户端
             if (!allowedClientTypes.Any())
             {
                 return await continuation();
@@ -113,7 +118,7 @@ namespace Lottery.WebApi.Authentication
             clientTypeStr = clientTypeStr.Remove(clientTypeStr.Length -1 , 1);
             if (statusCode == HttpStatusCode.Forbidden)
             {
-                return $"该用户未被授权登录{clientTypeStr}客户端";
+                return $"用户未被授权访问{clientTypeStr}客户端";
             }
             return "未认证";
         }
