@@ -261,8 +261,9 @@
     <Compile Include="App_Start\SwaggerOptionalParameter .cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\LotteryApiAuthenticationAttribute.cs" />
-    <Compile Include="Authentication\LotteryApiAuthorizationFilter.cs" />
+    <Compile Include="Authorization\SystemTypeAuthorizationFilter.cs" />
     <Compile Include="Authentication\TokenValidationHandler.cs" />
+    <Compile Include="Authorization\LotteryApiAuthorizationFilter.cs" />
     <Compile Include="Configration\ILotteryApiConfiguration.cs" />
     <Compile Include="Configration\LotteryApiConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />

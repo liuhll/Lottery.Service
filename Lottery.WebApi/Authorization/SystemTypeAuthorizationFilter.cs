@@ -24,12 +24,12 @@ namespace Lottery.WebApi.Authorization
     /// 系统类型授权
     /// <remarks>策略:默认用户允许登录App,所有的用户均被授权门户,只有被授权的用户才被允许后台管理系统</remarks>
     /// </summary>
-    public class SystemTypeAuthenticzationFilter : IAuthorizationFilter
+    public class SystemTypeAuthorizationFilter : IAuthorizationFilter
     {
         private readonly ILogger _logger;
         private readonly ILotterySession _lotterySession;
         private readonly ILotteryApiConfiguration _lotteryApiConfiguration;
-        public SystemTypeAuthenticzationFilter()
+        public SystemTypeAuthorizationFilter()
         {
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create("LotteryApi");
             _lotteryApiConfiguration = ObjectContainer.Resolve<ILotteryApiConfiguration>();
