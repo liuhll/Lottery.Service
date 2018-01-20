@@ -114,6 +114,8 @@
     <Compile Include="Singleton.cs" />
     <Compile Include="SqlConstants.cs" />
     <Compile Include="TableNameConstants.cs" />
+    <Compile Include="Threading\AsyncHelper.cs" />
+    <Compile Include="Threading\Extensions\LockExtensions.cs" />
     <Compile Include="Tools\ConfigHelper.cs" />
     <Compile Include="Tools\RandomHelper.cs" />
   </ItemGroup>
