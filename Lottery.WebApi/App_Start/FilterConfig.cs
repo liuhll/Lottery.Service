@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using Lottery.WebApi.Authentication;
+using Lottery.WebApi.Authorization;
 using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi
