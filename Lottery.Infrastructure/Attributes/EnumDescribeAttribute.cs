@@ -2,7 +2,7 @@
 
 namespace Lottery.Infrastructure.Attributes
 {
-    [AttributeUsage(AttributeTargets.Enum | AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field)]
     public class EnumDescribeAttribute : Attribute
     {
         private readonly string _describe;

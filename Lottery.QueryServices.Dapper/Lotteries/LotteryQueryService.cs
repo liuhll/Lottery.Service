@@ -29,7 +29,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 throw new LotteryException("彩种编码不允许为空");
             }
-            var redisKey = string.Format(RedisKeyConstants.LOTTERY_INFO_KEY, lotteryCode);
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_INFO_KEY, lotteryCode.ToUpper());
 
             return _cacheManager.Get<LotteryInfoDto>(redisKey, () =>
             {

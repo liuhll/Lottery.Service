@@ -113,7 +113,7 @@ namespace Lottery.WebApi.Authentication
             clientTypeStr = clientTypeStr.Remove(clientTypeStr.Length -1 , 1);
             if (statusCode == HttpStatusCode.Forbidden)
             {
-                return $"禁止用户访问{clientTypeStr}客户端";
+                return $"该用户未被授权登录{clientTypeStr}客户端";
             }
             return "未认证";
         }
