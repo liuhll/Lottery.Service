@@ -32,11 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="ECommon, Version=2.5.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.2.5.7\lib\netstandard2.0\ECommon.dll</HintPath>
     </Reference>
     <Reference Include="ENode, Version=2.8.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ENode.2.8.7\lib\netstandard2.0\ENode.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.2.0.1\lib\net45\MailKit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
@@ -46,6 +52,9 @@
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.2.0.1\lib\net45\MimeKit.dll</HintPath>
     </Reference>
     <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -64,6 +73,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -94,6 +104,7 @@
     <Compile Include="Exceptions\LotteryException.cs" />
     <Compile Include="Exceptions\TokenTimeoutValidationException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
+    <Compile Include="Extensions\ConfigurationHelper.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Collections\DictionaryExtensions.cs" />
     <Compile Include="Collections\EnumerableExtensions.cs" />
@@ -103,6 +114,17 @@
     <Compile Include="Json\JsonExtensions.cs" />
     <Compile Include="Json\LotteryDateTimeConverter .cs" />
     <Compile Include="LotteryConstants.cs" />
+    <Compile Include="Mail\EmailExtensions.cs" />
+    <Compile Include="Mail\EmailSenderBase.cs" />
+    <Compile Include="Mail\EmailSenderConfiguration.cs" />
+    <Compile Include="Mail\EmailSettingConfigs.cs" />
+    <Compile Include="Mail\IEmailSender.cs" />
+    <Compile Include="Mail\IEmailSenderConfiguration.cs" />
+    <Compile Include="Mail\MailKit\DefaultMailKitSmtpBuilder.cs" />
+    <Compile Include="Mail\MailKit\IMailKitSmtpBuilder.cs" />
+    <Compile Include="Mail\MailKit\MailKitEmailSender.cs" />
+    <Compile Include="Mail\Smtp\ISmtpEmailSenderConfiguration.cs" />
+    <Compile Include="Mail\Smtp\SmtpEmailSenderConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedisKeyConstants.cs" />
     <Compile Include="Reflection\AssemblyFinder .cs" />

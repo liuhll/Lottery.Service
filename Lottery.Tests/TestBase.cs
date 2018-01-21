@@ -91,6 +91,7 @@ namespace Lottery.Tests
                 .InitializeBusinessAssemblies(assemblies)              
                 .SetUpDataUpdateItems()
                 .InitLotteryEngine()
+                .InitEmailSeting()
                 .StartEQueue()
                 .Start();
         }

@@ -23,6 +23,7 @@ using Lottery.Core.Caching;
 using Lottery.Crawler;
 using Lottery.Engine;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Mail;
 
 namespace Lottery.Tests
 {
@@ -159,6 +160,12 @@ namespace Lottery.Tests
         public static ENodeConfiguration InitLotteryEngine(this ENodeConfiguration enodeConfiguration)
         {
             EngineContext.Initialize();
+            return enodeConfiguration;
+        }
+
+        public static ENodeConfiguration InitEmailSeting(this ENodeConfiguration enodeConfiguration)
+        {
+            EmailSettingConfigs.InitEmailSetting();
             return enodeConfiguration;
         }
 
