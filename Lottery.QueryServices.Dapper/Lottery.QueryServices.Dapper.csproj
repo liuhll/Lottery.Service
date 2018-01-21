@@ -61,6 +61,7 @@
     <Compile Include="Lotteries\LotteryQueryService.cs" />
     <Compile Include="Norms\UserNormDefaultConfigService.cs" />
     <Compile Include="Operations\MemberQueryService.cs" />
+    <Compile Include="Powers\MemberPowerQueryService.cs" />
     <Compile Include="Powers\PowerQueryService.cs" />
     <Compile Include="Powers\RolePowerQueryService.cs" />
     <Compile Include="Powers\UserPowerQueryService.cs" />

@@ -1,4 +1,5 @@
 ﻿using ECommon.Components;
+using Lottery.Dtos.Menbers;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Operations;
@@ -26,11 +27,8 @@ namespace Lottery.AppService.Operations
             {
                 return MemberRank.Ordinary.ToString();
             }
-            if (userMember.Status == MemberStatus.Invalid)
-            {
-                return MemberRank.Ordinary.ToString();
-            }
-            return ((MemberRank) userMember.Grade).ToString();
+            
+            return ((MemberRank) userMember.ComputeMemberRank()).ToString();
 
         }
     }

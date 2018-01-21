@@ -6,6 +6,7 @@ using Lottery.Core.Caching;
 using Lottery.Dtos.Power;
 using Lottery.Dtos.RoleDto;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Roles;
 
 namespace Lottery.AppService.Role
@@ -44,6 +45,22 @@ namespace Lottery.AppService.Role
             return cacheItem.GrantedPowers.Contains(power.PowerCode);
         }
 
+       
+        public ICollection<RoleDto> GetUserRoles(string userId)
+        {
+            return _roleQueryService.GetUserRoles(userId);
+        }
+
+        public Task<bool> IsGrantedMermberAsync(string roleId, PowerDto power)
+        {
+            return IsGrantedAsync(roleId, power);
+        }
+
+        public ICollection<RoleDto> GetMermberRoles(string lotteryId, MemberRank memberRank)
+        {
+            return _roleQueryService.GetMermberRoles(lotteryId, (int)memberRank);
+        }
+
         private Task<RolePowerCacheItem> GetRolePermissionCacheItemAsync(string roleId)
         {
             var redisKey = string.Format(RedisKeyConstants.ROLE_POWER_KEY, roleId);
@@ -55,15 +72,10 @@ namespace Lottery.AppService.Role
                     if (powerInfo.IsGranted)
                     {
                         newCacheItem.GrantedPowers.Add(powerInfo.PowerCode);
-                    }                   
+                    }
                 }
                 return newCacheItem;
             }));
-        }
-
-        public ICollection<RoleDto> GetUserRoles(string userId)
-        {
-            return _roleQueryService.GetUserRoles(userId);
         }
     }
 }

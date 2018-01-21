@@ -54,7 +54,9 @@
     <Compile Include="Lotteries\PositionInfoDto.cs" />
     <Compile Include="Lotteries\PredictDataDto.cs" />
     <Compile Include="Lotteries\TimeRuleDto.cs" />
+    <Compile Include="Menbers\MemberInfoBase.cs" />
     <Compile Include="Menbers\MemberInfoDto.cs" />
+    <Compile Include="Menbers\MemberInfoExtension.cs" />
     <Compile Include="Norms\LotteryNumber.cs" />
     <Compile Include="Norms\UserNormDefaultConfigDto.cs" />
     <Compile Include="Norms\UserNormDefaultConfigOutput.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="Plans\PlanInfoOutput.cs" />
     <Compile Include="Plans\UserPlanInfoDto.cs" />
     <Compile Include="Plans\UserPlanInfoInput.cs" />
+    <Compile Include="Power\MemberRankPowerCacheItem.cs" />
     <Compile Include="Power\PowerDto.cs" />
     <Compile Include="Power\PowerGrantInfo.cs" />
     <Compile Include="Power\RolePowerCacheItem.cs" />

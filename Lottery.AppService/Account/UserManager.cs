@@ -21,13 +21,13 @@ namespace Lottery.AppService.Account
     [Component]
     public class UserManager : IUserManager
     {
-        private readonly IUserInfoService _userInfoService;
-        private readonly IUserTicketService _userTicketService;
-        private readonly IUserClientTypeQueryService _userClientTypeQueryService;
-        private readonly IPowerManager _powerManager;
-        private readonly IRoleManager _roleManager;
-        private readonly ICacheManager _cacheManager;
-        private readonly IUserPowerStore _userPowerStore;
+        protected readonly IUserInfoService _userInfoService;
+        protected readonly IUserTicketService _userTicketService;
+        protected readonly IUserClientTypeQueryService _userClientTypeQueryService;
+        protected readonly IPowerManager _powerManager;
+        protected readonly IRoleManager _roleManager;
+        protected readonly ICacheManager _cacheManager;
+        protected readonly IUserPowerStore _userPowerStore;
 
         public UserManager(IUserInfoService userInfoService, 
             IUserTicketService userTicketService, 
@@ -137,7 +137,7 @@ namespace Lottery.AppService.Account
             }
             catch (ArgumentNullException e)
             {
-                throw new LotteryAuthorizationException($"系统尚未设置${powerCode}权限码");
+                throw new LotteryAuthorizationException($"系统尚未设置{powerCode}权限码");
             }
         }
 
@@ -153,7 +153,7 @@ namespace Lottery.AppService.Account
             }
             catch (ArgumentNullException e)
             {
-                throw new LotteryAuthorizationException($"系统尚未对Api{urlPath}-{method}设置权限码");
+                throw new LotteryAuthorizationException($"系统尚未对Api: {urlPath}--{method} 设置权限码");
             }
         }
 
@@ -162,10 +162,10 @@ namespace Lottery.AppService.Account
             var isGranted = false;
             if (power == null)
             {
-                throw new ArgumentNullException("系统尚未甚至该权限码");
+                throw new ArgumentNullException("系统不存在该权限码");
             }
             //Get cached user permissions
-            var cacheItem = GetUserPowerCacheItemAsync(userId);
+            var cacheItem = await GetUserPowerCacheItemAsync(userId);
             if (cacheItem == null)
             {
                 throw new LotteryAuthorizationException($"没有权限{power.PowerName}");
@@ -194,11 +194,11 @@ namespace Lottery.AppService.Account
             throw new LotteryAuthorizationException($"没有权限{power.PowerName}");
         }
 
-        private UserPowerCacheItem GetUserPowerCacheItemAsync(string userId)
+        protected virtual Task<UserPowerCacheItem> GetUserPowerCacheItemAsync(string userId)
         {
             var redisKey = string.Format(RedisKeyConstants.USERINFO_POWER_KEY, userId);
 
-            return _cacheManager.Get<UserPowerCacheItem>(redisKey, () =>
+            return Task.FromResult(_cacheManager.Get<UserPowerCacheItem>(redisKey, () =>
             {
                 var userInfo = _userInfoService.GetUserInfoById(userId);
                 if (userInfo == null)
@@ -207,7 +207,7 @@ namespace Lottery.AppService.Account
                 }
                 var newCacheItem = new UserPowerCacheItem(userId);
                 var roles = _roleManager.GetUserRoles(userId);
-            
+
                 foreach (var role in roles.Safe())
                 {
                     newCacheItem.RoleIds.Add(role.Id);
@@ -225,7 +225,7 @@ namespace Lottery.AppService.Account
                     }
                 }
                 return newCacheItem;
-            });
+            }));
         }
 
         private bool VerifyPassword(UserInfoDto userInfo, string inputPassword)

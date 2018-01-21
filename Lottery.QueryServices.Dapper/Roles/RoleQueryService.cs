@@ -33,5 +33,22 @@ namespace Lottery.QueryServices.Dapper.Roles
                 }
             });
         }
+
+        public ICollection<RoleDto> GetMermberRoles(string lotteryId, int memberRank)
+        {
+            var redisKey = string.Format(RedisKeyConstants.MEMBERRANK_ROLE_KEY, lotteryId,memberRank);
+            return _cacheManager.Get<ICollection<RoleDto>>(redisKey, () =>
+            {
+                var sql =
+                    @" SELECT * FROM dbo.F_Role AS A INNER JOIN
+                       dbo.MS_AuthRank AS B ON A.Id = b.RoleId
+                       WHERE A.IsDelete = 0 AND B.Status = 0
+                       AND B.LotteryId =@LotteryId AND B.MemberRank=@MemberRank";
+                using (var conn = GetLotteryConnection())
+                {
+                    return conn.Query<RoleDto>(sql, new { LotteryId = lotteryId,MemberRank =memberRank }).ToList();
+                }
+            });
+        }
     }
 }

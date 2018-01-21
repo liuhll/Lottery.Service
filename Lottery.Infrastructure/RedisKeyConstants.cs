@@ -56,5 +56,11 @@
 
         public const string USER_ROLE_KEY = "User.Role.{0}";
 
+        public const string MEMBERRANK_POWER_KEY = "MemberRank.Power.{0}.{1}";
+
+        public const string MEMBERRANK_MEMBERPOWER_KEY = "MemberRank.MemberPower.{0}.{1}";
+
+        public const string MEMBERRANK_ROLE_KEY = "MemberRank.Role.{0}.{1}";
+
     }
 }

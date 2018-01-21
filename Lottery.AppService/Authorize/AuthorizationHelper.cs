@@ -46,6 +46,10 @@ namespace Lottery.AppService.Authorize
 
         public async Task AuthorizeAsync(string absolutePath, HttpMethod method)
         {
+            if (_lotterySession == null || string.IsNullOrEmpty(_lotterySession.UserId))
+            {
+                throw new LotteryAuthorizationException("您还未登录,请先登录");
+            }
             await _powerChecker.AuthorizeAsync(absolutePath, method);
         }
 

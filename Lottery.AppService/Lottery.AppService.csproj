@@ -62,6 +62,10 @@
     <Compile Include="Authorize\SystemTypeAuthorizeAttribute.cs" />
     <Compile Include="LotteryData\ILotteryDataAppService.cs" />
     <Compile Include="LotteryData\LotteryDataAppService.cs" />
+    <Compile Include="Member\IMemberPowerStore.cs" />
+    <Compile Include="Member\IMermberManager.cs" />
+    <Compile Include="Member\MemberPowerStore.cs" />
+    <Compile Include="Member\MermberManager.cs" />
     <Compile Include="Norm\INormConfigAppService.cs" />
     <Compile Include="Norm\NormConfigAppService.cs" />
     <Compile Include="Operations\IMemberAppService.cs" />

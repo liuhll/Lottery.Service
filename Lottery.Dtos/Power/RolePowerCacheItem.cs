@@ -10,7 +10,7 @@ namespace Lottery.Dtos.Power
 
         public HashSet<string> GrantedPowers { get; set; }
 
-        public RolePowerCacheItem()
+        private RolePowerCacheItem()
         {
             GrantedPowers = new HashSet<string>();
         }
