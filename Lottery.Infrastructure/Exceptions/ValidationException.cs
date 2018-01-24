@@ -2,7 +2,7 @@
 {
     public class ValidationException : LotteryException
     {
-        public ValidationException(string errorMessage) : base(errorMessage)
+        public ValidationException(string errorMessage, int errorCode = Infrastructure.ErrorCode.InvalidToken) : base(errorMessage,errorCode)
         {
         }
     }

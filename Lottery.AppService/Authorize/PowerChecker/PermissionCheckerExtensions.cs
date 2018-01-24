@@ -216,12 +216,12 @@ namespace Lottery.AppService.Authorize
 
             if (requireAll)
             {
-                throw new LotteryAuthorizationException($"需要被授予所有的{permissionNameStrs}权限");
+                throw new LotteryAuthorizeException($"需要被授予所有的{permissionNameStrs}权限");
 
             }
             else
             {
-                throw new LotteryAuthorizationException($"需要被授予至少一个的{permissionNameStrs}权限");
+                throw new LotteryAuthorizeException($"需要被授予至少一个的{permissionNameStrs}权限");
             }
         }
 

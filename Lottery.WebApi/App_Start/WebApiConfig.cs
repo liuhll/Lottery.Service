@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Cors;
 using ECommon.Components;
 using Lottery.WebApi.Authentication;
 using Lottery.WebApi.Configration;
@@ -12,6 +13,9 @@ namespace Lottery.WebApi
     {
         public static void Register(HttpConfiguration config)
         {
+            // 跨域配置
+            config.EnableCors(new EnableCorsAttribute("*", "*", "GET, POST, PUT,PATCH, DELETE"));
+
             // Web API 配置和服务
             // 将 Web API 配置为仅使用不记名令牌身份验证。
             config.Services.Replace(typeof(IHttpActionSelector),new LotteryApiControllerActionSelector(ObjectContainer.Resolve<ILotteryApiConfiguration>()));

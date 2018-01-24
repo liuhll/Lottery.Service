@@ -73,9 +73,9 @@
     <Compile Include="Plan\IPlanInfoAppService.cs" />
     <Compile Include="Plan\PlanInfoAppService.cs" />
     <Compile Include="Power\IPowerManager.cs" />
-    <Compile Include="Power\IUserPowerStore.cs" />
+    <Compile Include="Account\IUserPowerStore.cs" />
     <Compile Include="Power\PowerManager.cs" />
-    <Compile Include="Power\UserPowerStore.cs" />
+    <Compile Include="Account\UserPowerStore.cs" />
     <Compile Include="Predict\ILotteryPredictDataService.cs" />
     <Compile Include="Predict\LotteryPredictDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

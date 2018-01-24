@@ -106,7 +106,7 @@ namespace Lottery.AppService.Account
             {
                 if (!userClientTypes.Safe().Any(p => p.SystemType == SystemType.BackOffice && p.Status == 0))
                 {
-                    throw new LotteryAuthorizationException("该账号未被授权" + SystemType.BackOffice.GetChineseDescribe());
+                    throw new LotteryAuthorizeException("该账号未被授权" + SystemType.BackOffice.GetChineseDescribe());
                 }
             }
             else if (LotteryConstants.OfficialWebsite.Equals(systemType, StringComparison.CurrentCultureIgnoreCase))
@@ -119,7 +119,7 @@ namespace Lottery.AppService.Account
                 {
                     if (!userClientTypes.Safe().Any(p => p.SystemType == SystemType.App && p.Status == 0))
                     {
-                        throw new LotteryAuthorizationException("该账号未被授权访问" + SystemType.App.GetChineseDescribe());
+                        throw new LotteryAuthorizeException("该账号未被授权访问" + SystemType.App.GetChineseDescribe());
                     }
                 }
                
@@ -137,7 +137,7 @@ namespace Lottery.AppService.Account
             }
             catch (ArgumentNullException e)
             {
-                throw new LotteryAuthorizationException($"系统尚未设置{powerCode}权限码");
+                throw new LotteryAuthorizeException($"系统尚未设置{powerCode}权限码");
             }
         }
 
@@ -153,7 +153,7 @@ namespace Lottery.AppService.Account
             }
             catch (ArgumentNullException e)
             {
-                throw new LotteryAuthorizationException($"系统尚未对Api: {urlPath}--{method} 设置权限码");
+                throw new LotteryAuthorizeException($"系统尚未对Api: {urlPath}--{method} 设置权限码");
             }
         }
 
@@ -168,7 +168,7 @@ namespace Lottery.AppService.Account
             var cacheItem = await GetUserPowerCacheItemAsync(userId);
             if (cacheItem == null)
             {
-                throw new LotteryAuthorizationException($"没有权限{power.PowerName}");
+                throw new LotteryAuthorizeException($"没有权限{power.PowerName}");
             }
             //Check for user-specific value
             if (cacheItem.GrantedPermissions.Contains(power.PowerCode))
@@ -191,7 +191,7 @@ namespace Lottery.AppService.Account
             {
                 return true;
             }
-            throw new LotteryAuthorizationException($"没有权限{power.PowerName}");
+            throw new LotteryAuthorizeException($"没有权限{power.PowerName}");
         }
 
         protected virtual Task<UserPowerCacheItem> GetUserPowerCacheItemAsync(string userId)

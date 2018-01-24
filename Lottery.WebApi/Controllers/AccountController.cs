@@ -70,9 +70,9 @@ namespace Lottery.WebApi.Controllers
             {
                 if (systemTypeId == LotteryConstants.BackOfficeKey)
                 {
-                    throw new LotteryAuthorizationException("不合法的客户端,请从合法途径登录");
+                    throw new LotteryAuthorizeException("不合法的客户端,请从合法途径登录");
                 }
-                throw new LotteryAuthorizationException("请先指定彩种");
+                throw new LotteryAuthorizeException("请先指定彩种");
             }
             var userInfo = await _userManager.SignInAsync(loginModel.UserName, loginModel.Password);
             // 验证该用户是否允许访问指定的客户端

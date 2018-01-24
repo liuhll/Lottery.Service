@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Lottery.Dtos.Account;
 using Lottery.Dtos.Power;
 
-namespace Lottery.AppService.Power
+namespace Lottery.AppService.Account
 {
     public interface IUserPowerStore
     {

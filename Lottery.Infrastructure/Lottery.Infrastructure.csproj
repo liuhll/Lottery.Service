@@ -99,10 +99,12 @@
     <Compile Include="Enums\PredictedResult.cs" />
     <Compile Include="Enums\PredictType.cs" />
     <Compile Include="EQueueTopics.cs" />
+    <Compile Include="ErrorCode.cs" />
     <Compile Include="Exceptions\LotteryAuthorizationException.cs" />
+    <Compile Include="Exceptions\LotteryAuthorizeException.cs" />
     <Compile Include="Exceptions\LotteryDataException.cs" />
     <Compile Include="Exceptions\LotteryException.cs" />
-    <Compile Include="Exceptions\TokenTimeoutValidationException.cs" />
+    <Compile Include="Exceptions\AccessTokenException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Extensions\ConfigurationHelper.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />

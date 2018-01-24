@@ -5,7 +5,7 @@ using ECommon.Extensions;
 using Lottery.Dtos.Power;
 using Lottery.QueryServices.Powers;
 
-namespace Lottery.AppService.Power
+namespace Lottery.AppService.Account
 {
     [Component]
     public class UserPowerStore : IUserPowerStore

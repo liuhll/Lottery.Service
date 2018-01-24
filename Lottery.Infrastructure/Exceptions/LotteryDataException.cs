@@ -2,7 +2,7 @@
 {
     public class LotteryDataException : LotteryException
     {
-        public LotteryDataException(string errorMessage) : base(errorMessage)
+        public LotteryDataException(string errorMessage, int errorCode = Infrastructure.ErrorCode.DataError) : base(errorMessage,errorCode)
         {
         }
     }

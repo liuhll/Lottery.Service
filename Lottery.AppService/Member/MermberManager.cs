@@ -54,7 +54,7 @@ namespace Lottery.AppService.Member
             }
             catch (ArgumentNullException e)
             {
-                throw new LotteryAuthorizationException($"系统尚未设置{powerCode}权限码");
+                throw new LotteryAuthorizeException($"系统尚未设置{powerCode}权限码");
             }
         }
 
@@ -70,7 +70,7 @@ namespace Lottery.AppService.Member
             }
             catch (ArgumentNullException e)
             {
-                throw new LotteryAuthorizationException($"系统尚未对Api: {urlPath}--{method} 设置权限码");
+                throw new LotteryAuthorizeException($"系统尚未对Api: {urlPath}--{method} 设置权限码");
             }
         }
 
@@ -97,7 +97,7 @@ namespace Lottery.AppService.Member
             var cacheItem = await GetMemberPowerCacheItemAsync(lotteryId,memberRank);
             if (cacheItem == null)
             {
-                throw new LotteryAuthorizationException($"没有权限{power.PowerName}");
+                throw new LotteryAuthorizeException($"没有权限{power.PowerName}");
             }
             //Check for user-specific value
             if (cacheItem.GrantedPowers.Contains(power.PowerCode))
@@ -116,7 +116,7 @@ namespace Lottery.AppService.Member
             {
                 return true;
             }
-            throw new LotteryAuthorizationException($"没有{power.PowerName}权限");
+            throw new LotteryAuthorizeException($"没有{power.PowerName}权限");
         }
 
         protected virtual Task<MemberRankPowerCacheItem> GetMemberPowerCacheItemAsync(string lotteryId, MemberRank memberRank)

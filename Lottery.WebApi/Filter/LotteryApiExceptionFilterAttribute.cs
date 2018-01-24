@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Http.Filters;
 using ECommon.Components;
 using ECommon.Logging;
+using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.RunTime.Session;
@@ -57,7 +58,7 @@ namespace Lottery.WebApi.Filter
                 context.Response = context.Request.CreateResponse(
                     httpStatusCode,
                     new ResponseMessage(
-                        new ErrorInfo(httpException.Message),
+                        new ErrorInfo(GetErrorCode(context),httpException.Message),
                         httpStatusCode == HttpStatusCode.Unauthorized || httpStatusCode == HttpStatusCode.Forbidden
                     )
                 );
@@ -67,24 +68,27 @@ namespace Lottery.WebApi.Filter
                 context.Response = context.Request.CreateResponse(
                     GetStatusCode(context),
                     new ResponseMessage(
-                        new ErrorInfo(context.Exception.Message),
+                        new ErrorInfo(GetErrorCode(context), context.Exception.Message),
                         context.Exception is  LotteryAuthorizationException)
                 );
             }
         }
 
+        private int GetErrorCode(HttpActionExecutedContext context)
+        {
+            if (context.Exception is LotteryException)
+            {
+                return ((LotteryException) context.Exception).ErrorCode;
+
+            }
+            return ErrorCode.UnknownError;
+        }
+
         private HttpStatusCode GetStatusCode(HttpActionExecutedContext context)
         {
-            if (context.Exception is LotteryAuthorizationException)
+            if (context.Exception != null)
             {
-                return string.IsNullOrEmpty(_lotterySession.UserId) 
-                    ? HttpStatusCode.Forbidden
-                    : HttpStatusCode.Unauthorized;
-            }
-
-            if (context.Exception is LotteryDataException)
-            {
-                return HttpStatusCode.BadRequest;
+                return HttpStatusCode.OK;
             }
 
             return HttpStatusCode.InternalServerError;
