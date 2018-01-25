@@ -14,7 +14,8 @@ namespace Lottery.Core.Domain.UserInfos
         string password,
         bool isActive,
         ClientRegistType clientRegistType,
-        AccountRegistType accountRegistType     
+        AccountRegistType accountRegistType,
+        int points
         ) : base(id)
       {
             UserName = userName;
@@ -26,8 +27,9 @@ namespace Lottery.Core.Domain.UserInfos
             CreateTime = DateTime.Now;
             IsDelete = false;
             AccountRegistType = accountRegistType;
+            Points = points;
 
-            ApplyEvent(new AddUserInfoEvent(UserName, Email, Phone, Password, IsActive, ClientRegistType, IsDelete, AccountRegistType));
+            ApplyEvent(new AddUserInfoEvent(UserName, Email, Phone, Password, IsActive, ClientRegistType, IsDelete, AccountRegistType,Points));
       }         
  
       /// <summary>
@@ -63,11 +65,28 @@ namespace Lottery.Core.Domain.UserInfos
 
        public AccountRegistType AccountRegistType { get; private set; }
 
-        /// <summary>
+       public int Balance { get; private set; }
+
+       public int Points { get; private set; }
+
+       public int TotalRecharge { get; private set; }
+
+       public int TotalConsumeAccount { get; private set; }
+
+       public int PointCount { get; private set; }
+
+       public int AmountCount { get; set; }
+
+       /// <summary>
         /// 最后登录时间
         /// </summary>
         public DateTime? LastLoginTime { get; private set; }
-      
+
+        /// <summary>
+        /// 用户登录的客户端个数
+        /// </summary>
+       public int LoginClientCount { get; private set; }
+
        /// <summary>
        /// qq
        /// </summary>

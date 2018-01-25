@@ -32,7 +32,7 @@ namespace Lottery.CommandHandlers
         }
         public void Handle(ICommandContext context, AddUserInfoCommand command)
         {
-            context.Add(new UserInfo(command.AggregateRootId, command.UserName, command.Email, command.Phone, command.Password, true, command.ClientRegistType, command.AccountRegistType));
+            context.Add(new UserInfo(command.AggregateRootId, command.UserName, command.Email, command.Phone, command.Password, true, command.ClientRegistType, command.AccountRegistType,command.Points));
         }
 
 

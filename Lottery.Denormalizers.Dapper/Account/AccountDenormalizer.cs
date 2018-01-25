@@ -39,7 +39,8 @@ namespace Lottery.Denormalizers.Dapper.Account
                     evnt.AccessToken,
                     evnt.CreateBy,
                     evnt.UserId,
-                    CreateTime = evnt.Timestamp
+                    CreateTime = evnt.Timestamp,
+               
                 }, TableNameConstants.UserTicketTable);
             });
         }
@@ -102,7 +103,14 @@ namespace Lottery.Denormalizers.Dapper.Account
                     evnt.Password,
                     evnt.Phone,
                     evnt.UserName,
-                    CreateTime = evnt.Timestamp
+                    CreateTime = evnt.Timestamp,
+                    LoginClientCount = 0,
+                    Balance = 0,
+                    Points = evnt.Points,
+                    TotalRecharge = 0,
+                    TotalConsumeAccount = 0,
+                    PointCount = 0,
+                    AmountCount = 0
                 }, TableNameConstants.UserInfoTable);
             });
         }

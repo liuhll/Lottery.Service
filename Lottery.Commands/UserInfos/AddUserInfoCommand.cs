@@ -9,7 +9,7 @@ namespace Lottery.Commands.UserInfos
         {
         }
 
-        public AddUserInfoCommand(string id,string account,string password,ClientRegistType clientRegistType,AccountRegistType accountRegistType) : base(id)
+        public AddUserInfoCommand(string id,string account,string password,ClientRegistType clientRegistType,AccountRegistType accountRegistType,int points) : base(id)
         {
             switch (accountRegistType)
             {
@@ -26,6 +26,7 @@ namespace Lottery.Commands.UserInfos
             AccountRegistType = accountRegistType;
             Password = password;
             ClientRegistType = clientRegistType;
+            Points = points;
 
         }
 
@@ -36,6 +37,8 @@ namespace Lottery.Commands.UserInfos
         public string Phone { get; private set; }
 
         public string Password { get; private set; }
+
+        public int Points { get; private set; }
 
         public ClientRegistType ClientRegistType { get; private set; }
 

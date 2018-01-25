@@ -17,7 +17,7 @@ namespace Lottery.Core.Domain.UserInfos
             bool isActive,
             ClientRegistType clientRegistType,
             bool isDelete,
-            AccountRegistType accountRegistType)
+            AccountRegistType accountRegistType,int points)
         {
             UserName = userName;
             Email = email;
@@ -28,6 +28,7 @@ namespace Lottery.Core.Domain.UserInfos
             CreateTime = DateTime.Now;
             IsDelete = isDelete;
             AccountRegistType = accountRegistType;
+            Points = points;
 
         }
 
@@ -44,6 +45,8 @@ namespace Lottery.Core.Domain.UserInfos
         public DateTime CreateTime { get; private set; }
 
         public bool IsDelete { get; private set; }
+
+        public int Points { get; private set; }
 
         public ClientRegistType ClientRegistType { get; private set; }
 

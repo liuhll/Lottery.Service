@@ -49,7 +49,7 @@ namespace Lottery.Tests
             var pwd = "123qwe";
             var accountRegType = ReferAccountRegType(account);
             var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), account, EncryptPassword(account, pwd, accountRegType),
-                ClientRegistType.Web, accountRegType);
+                ClientRegistType.Web, accountRegType,0);
 
             var commandResult = ExecuteCommand(userInfoCommand);
             Assert.AreEqual(commandResult.Status,CommandStatus.Success);
