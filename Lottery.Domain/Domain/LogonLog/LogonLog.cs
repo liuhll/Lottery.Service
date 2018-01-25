@@ -2,66 +2,70 @@
 using ENode.Domain;
 using Lottery.Core.Domain.UserInfos;
 
-namespace Lottery.Core.Domain.UserTicket
+namespace Lottery.Core.Domain.LogonLog
 {
-    public class UserTicket : AggregateRoot<string>
+    public class LogonLog : AggregateRoot<string>
     {
-        public UserTicket(string id,string userId,string accessToken,string createBy) : base(id)
+        public LogonLog(string id,string userId,string createBy) : base(id)
         {
             UserId = userId;
-            AccessToken = accessToken;
+            UpdateTokenCount = 0;
             CreateBy = createBy;
             CreateTime = DateTime.Now;
-
-            ApplyEvent(new AddUserTicketEvent(UserId,AccessToken,CreateBy));
+            UpdateTime = DateTime.Now;
+            ApplyEvent(new AddLogonLogEvent(UserId,CreateBy));
             ApplyEvent(new UpdateLastLoginTimeEvent(UserId));
         }
 
         public string UserId { get; private set; }
 
-        public string AccessToken { get; private set; }
+        public int UpdateTokenCount { get; private set; }
 
         public string CreateBy { get; private set; }
 
         public DateTime CreateTime { get; private set; }
 
+        public DateTime LoginTime { get; set; }
+
+        public DateTime LogoutTime { get; set; }
+
         public string UpdateBy { get; private set; }
 
         public DateTime UpdateTime { get; private set; }
 
-        public void UpdateAccessToken(string userId, string accessToken, string updateBy)
+        public void UpdateToken(string userId, DateTime updateTokenTime, string updateBy)
         {
-            ApplyEvent(new UpdateUserTicketEvent(userId,accessToken,updateBy));
-            ApplyEvent(new UpdateLastLoginTimeEvent(userId));
+            ApplyEvent(new UpdateTokenEvent(userId, updateTokenTime, updateBy));         
         }
 
-        public void InvalidAccessToken()
+        public void Logout()
         {
-            ApplyEvent(new InvalidAccessTokenEvent(UserId));
+            ApplyEvent(new LogoutEvent(UserId,LoginTime));
         }
 
         #region hander event
 
-        private void Handle(AddUserTicketEvent evt)
+        private void Handle(AddLogonLogEvent evt)
         {
             UserId = evt.UserId;
-            AccessToken = evt.AccessToken;
+            LoginTime = evt.Timestamp;
             CreateBy = evt.CreateBy;
             CreateTime = evt.Timestamp;
         }
 
-        private void Handle(UpdateUserTicketEvent evt)
+        private void Handle(UpdateTokenEvent evt)
         {
             UserId = evt.UserId;
-            AccessToken = evt.AccessToken;
+            UpdateTime = evt.UpdateTokenTime;
             UpdateBy = evt.UpdateBy;
             UpdateTime = evt.Timestamp;
         }
 
-        private void Handle(InvalidAccessTokenEvent evt)
+        private void Handle(LogoutEvent evt)
         {
-            AccessToken = evt.AccessToken;  
+            LoginTime = evt.Timestamp;
         }
+
 
         private void Handle(UpdateLastLoginTimeEvent evt)
         {

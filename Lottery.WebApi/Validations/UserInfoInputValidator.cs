@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using ECommon.Components;
 using FluentValidation;
+using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure;
-using Lottery.WebApi.ViewModels;
 
 namespace Lottery.WebApi.Validations
 {

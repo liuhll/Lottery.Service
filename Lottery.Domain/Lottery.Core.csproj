@@ -91,15 +91,17 @@
     <Compile Include="Domain\UserInfos\BindUserPhoneEvent.cs" />
     <Compile Include="Domain\UserInfos\UpdateLastLoginTimeEvent.cs" />
     <Compile Include="Domain\UserInfos\UpdateLoginTimeEvent.cs" />
+    <Compile Include="Domain\UserInfos\UpdateUserLoginClientCountEvent.cs" />
+    <Compile Include="Domain\UserInfos\UpdateUserLogoutEvent.cs" />
     <Compile Include="Domain\UserInfos\UserInfo.cs" />
     <Compile Include="Domain\UserNormDefaultConfig\AddUserNormDefaultConfigEvent.cs" />
     <Compile Include="Domain\UserNormDefaultConfig\UpdateUserNormDefaultConfigEvent.cs" />
     <Compile Include="Domain\UserNormDefaultConfig\UserNormDefaultConfig.cs" />
     <Compile Include="Domain\UserRoles\UserRole.cs" />
-    <Compile Include="Domain\UserTicket\AddUserTicketEvent.cs" />
-    <Compile Include="Domain\UserTicket\InvalidAccessTokenEvent.cs" />
-    <Compile Include="Domain\UserTicket\UpdateUserTicketEvent.cs" />
-    <Compile Include="Domain\UserTicket\UserTicket.cs" />
+    <Compile Include="Domain\LogonLog\AddLogonLogEvent.cs" />
+    <Compile Include="Domain\LogonLog\LogoutEvent.cs" />
+    <Compile Include="Domain\LogonLog\UpdateTokenEvent.cs" />
+    <Compile Include="Domain\LogonLog\LogonLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

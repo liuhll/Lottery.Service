@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogonLog\AddLogonLogCommand.cs" />
+    <Compile Include="LogonLog\LogoutCommand.cs" />
+    <Compile Include="LogonLog\UpdateTokenCommand.cs" />
     <Compile Include="LotteryDatas\AddLotteryDataCommand.cs" />
     <Compile Include="LotteryDatas\CompleteDynamicTableCommand.cs" />
     <Compile Include="LotteryDatas\UpdateNextDayFirstPeriodCommand.cs" />
@@ -55,13 +58,11 @@
     <Compile Include="Norms\AddNormConfigCommand.cs" />
     <Compile Include="Norms\UpdateNormConfigCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInfos\AddAccessTokenCommand.cs" />
     <Compile Include="UserInfos\AddUserInfoCommand.cs" />
     <Compile Include="UserInfos\BindUserEmailCommand.cs" />
     <Compile Include="UserInfos\BindUserPhoneCommand.cs" />
-    <Compile Include="UserInfos\InvalidAccessTokenCommand.cs" />
-    <Compile Include="UserInfos\UpdateAccessTokenCommand.cs" />
     <Compile Include="UserInfos\UpdateLastLoginTimeCommand.cs" />
+    <Compile Include="UserInfos\UpdateUserLogintClientCountCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

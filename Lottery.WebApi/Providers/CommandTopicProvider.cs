@@ -1,6 +1,7 @@
 ﻿using ECommon.Components;
 using ENode.Commanding;
 using ENode.EQueue;
+using Lottery.Commands.LogonLog;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
 using Lottery.Commands.Norms;
@@ -22,12 +23,13 @@ namespace Lottery.WebApi.Providers
             );
 
             RegisterTopic(EQueueTopics.LotteryAccountCommandTopic,
-                typeof(InvalidAccessTokenCommand),
-                typeof(AddAccessTokenCommand),
-                typeof(UpdateAccessTokenCommand),
+                typeof(AddLogonLogCommand),
+                typeof(LogoutCommand),
+                typeof(UpdateTokenCommand),
                 typeof(AddUserInfoCommand),
                 typeof(BindUserEmailCommand),
-                typeof(BindUserPhoneCommand)
+                typeof(BindUserPhoneCommand),
+                typeof(UpdateUserLogintClientCountCommand)
                 );
 
             RegisterTopic(EQueueTopics.NormCommandTopic,

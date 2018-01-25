@@ -1,4 +1,4 @@
-﻿namespace Lottery.WebApi.ViewModels
+﻿namespace Lottery.Dtos.UserInfo
 {
     /// <summary>
     /// Login ViewModel

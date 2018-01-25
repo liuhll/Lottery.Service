@@ -17,5 +17,9 @@ namespace Lottery.AppService.Account
         Task<bool> IsGrantedAsync(string userId, string powerCode);
 
         Task<bool> IsGrantedAsync(string userId, string urlPath, string method);
+
+        string CreateToken(UserInfoViewModel userInfo, string systemTypeId);
+
+        string UpdateToken(string userId,string systemTypeId);
     }
 }

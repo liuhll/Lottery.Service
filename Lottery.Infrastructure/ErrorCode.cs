@@ -13,6 +13,11 @@
         public const int AuthorizationFailed = 40001;
 
         /// <summary>
+        /// 账号被冻结
+        /// </summary>
+        public const int AccountFrozen = 40004;
+
+        /// <summary>
         /// 授权失败
         /// </summary>
         public const int AuthorizeFailed = 40002;

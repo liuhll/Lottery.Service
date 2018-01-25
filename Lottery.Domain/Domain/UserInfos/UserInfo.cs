@@ -149,6 +149,20 @@ namespace Lottery.Core.Domain.UserInfos
        {
            ApplyEvent(new UpdateLoginTimeEvent());
        }
+
+       public void UserLoginClientCount(bool isLogin)
+       {
+           if (isLogin)
+           {
+               LoginClientCount++;
+           }
+           else
+           {
+               LoginClientCount--;
+           }
+           ApplyEvent(new UpdateUserLoginClientCountEvent(LoginClientCount));
+
+       }
         #endregion
 
         #region Handle Method
@@ -179,9 +193,15 @@ namespace Lottery.Core.Domain.UserInfos
        {
            LastLoginTime = evnt.Timestamp;
        }
-        #endregion
+
+       private void Handle(UpdateUserLoginClientCountEvent evnt)
+       {
+           LoginClientCount = evnt.LoginClientCount;
+       }
+
+       #endregion
 
 
-
-    }   
+      
+   }   
 }

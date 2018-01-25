@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountCommandHandler.cs" />
+    <Compile Include="LogonCommandHandler.cs" />
     <Compile Include="LotteryDataCommandHandler.cs" />
     <Compile Include="NormCommandHandler.cs" />
     <Compile Include="PlanCommandHandler.cs" />

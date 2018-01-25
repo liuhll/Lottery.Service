@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ECommon.Components;
 using ECommon.Extensions;
 using Lottery.AppService.Account;
+using Lottery.AppService.Operations;
 using Lottery.AppService.Power;
 using Lottery.AppService.Role;
 using Lottery.Core.Caching;
@@ -31,14 +32,16 @@ namespace Lottery.AppService.Member
             ICacheManager cacheManager,
             IUserPowerStore userPowerStore, 
             IMemberPowerStore memberPowerStore,
-            IMemberQueryService memberQueryService) :
+            IMemberQueryService memberQueryService,
+            IMemberAppService memberAppService) :
             base(userInfoService,
                 userTicketService,
                 userClientTypeQueryService,
                 powerManager,
                 roleManager,
                 cacheManager, 
-                userPowerStore)
+                userPowerStore,
+                memberAppService)
         {
             _memberPowerStore = memberPowerStore;
             _memberQueryService = memberQueryService;

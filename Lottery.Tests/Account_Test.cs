@@ -32,13 +32,6 @@ namespace Lottery.Tests
         public void Login_Test()
         {
             var id = Guid.NewGuid().ToString();
-            var addUserTicketCommand = new AddAccessTokenCommand(id, "143d3123-28f7-4854-b247-52aa610c5ec4", "testToken", "143d3123-28f7-4854-b247-52aa610c5ec4");
-            ExecuteCommand(addUserTicketCommand);
-
-            var userTicket = _userTicketService.GetValidTicketInfo("6e8c2fe6-a9eb-4fcd-b4b1-4127e1b3f8a7").WaitResult(500);
-
-            ExecuteCommand(new UpdateAccessTokenCommand(userTicket.Id, "6e8c2fe6-a9eb-4fcd-b4b1-4127e1b3f8a7",
-                "testac2", "6e8c2fe6-a9eb-4fcd-b4b1-4127e1b3f8a7"));
 
         }
 

@@ -1,10 +1,14 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ECommon.Components;
 using ECommon.Extensions;
 using Effortless.Net.Encryption;
+using Lottery.AppService.Operations;
 using Lottery.AppService.Power;
 using Lottery.AppService.Role;
 using Lottery.Core.Caching;
@@ -14,7 +18,10 @@ using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
+using Lottery.Infrastructure.RunTime.Security;
+using Lottery.Infrastructure.Tools;
 using Lottery.QueryServices.UserInfos;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Lottery.AppService.Account
 {
@@ -28,6 +35,7 @@ namespace Lottery.AppService.Account
         protected readonly IRoleManager _roleManager;
         protected readonly ICacheManager _cacheManager;
         protected readonly IUserPowerStore _userPowerStore;
+        protected readonly IMemberAppService _memberAppService;
 
         public UserManager(IUserInfoService userInfoService, 
             IUserTicketService userTicketService, 
@@ -35,7 +43,8 @@ namespace Lottery.AppService.Account
             IPowerManager powerManager, 
             IRoleManager roleManager,
             ICacheManager cacheManager,
-            IUserPowerStore userPowerStore)
+            IUserPowerStore userPowerStore,
+            IMemberAppService memberAppService)
         {
             _userInfoService = userInfoService;
             _userTicketService = userTicketService;
@@ -44,6 +53,7 @@ namespace Lottery.AppService.Account
             _roleManager = roleManager;
             _cacheManager = cacheManager;
             _userPowerStore = userPowerStore;
+            _memberAppService = memberAppService;
         }
 
         public async Task<UserInfoViewModel> SignInAsync(string userName, string password)
@@ -62,15 +72,17 @@ namespace Lottery.AppService.Account
             {
                 throw new LotteryDataException($"不存在账号{userName}");
             }
-
-            if (!userInfo.IsActive)
-            {
-                throw new LotteryDataException($"账号{userName}被冻结");
-            }
+       
             if (!VerifyPassword(userInfo,password))
             {
                 throw new LotteryDataException($"密码错误");
             }
+
+            if (!userInfo.IsActive)
+            {
+                throw new LotteryAuthorizationException($"账号{userName}被冻结",ErrorCode.AccountFrozen);
+            }
+
             return new UserInfoViewModel()
             {
                UserName = !string.IsNullOrEmpty(userInfo.UserName) ? userInfo.UserName : "",
@@ -248,6 +260,59 @@ namespace Lottery.AppService.Account
             var h1 = Hash.Create(HashType.MD5, account + inputPassword, userInfo.AccountRegistType.ToString(), true);
             return h1.Equals(userInfo.Password);
 
+        }
+
+        public string CreateToken(UserInfoViewModel userInfo, string systemTypeId)
+        {
+            //Set issued at date
+            DateTime issuedAt = DateTime.UtcNow;
+            //set the time when it expires
+            DateTime expires = DateTime.UtcNow.AddSeconds(ConfigHelper.ValueInt("passwordExpire"));
+
+            // http://stackoverflow.com/questions/18223868/how-to-encrypt-jwt-security-token
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            //create a identity and add claims to the user which we want to log in
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
+            {
+                new Claim(LotteryClaimTypes.UserName, userInfo.UserName),
+                new Claim(LotteryClaimTypes.UserId,userInfo.Id),
+                new Claim(LotteryClaimTypes.Email,userInfo.Email),
+                new Claim(LotteryClaimTypes.Phone,userInfo.Phone),
+                new Claim(LotteryClaimTypes.SystemType,systemTypeId),
+                new Claim(LotteryClaimTypes.MemberRank,_memberAppService.ConcludeUserMemRank(userInfo.Id,systemTypeId)),
+            });
+
+            var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
+            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+
+
+            //create the jwt
+            var token =
+                (JwtSecurityToken)
+                tokenHandler.CreateJwtSecurityToken(audience: ConfigHelper.Value("audience").ToString(), issuer: ConfigHelper.Value("issuer").ToString(),
+                    subject: claimsIdentity, notBefore: issuedAt, expires: expires, signingCredentials: signingCredentials);
+            var tokenString = tokenHandler.WriteToken(token);
+
+            return tokenString;
+        }
+
+        public string UpdateToken(string userId,string systemTypeId)
+        {
+            var userInfo =  _userInfoService.GetUserInfoById(userId).Result;
+            if (!userInfo.IsActive)
+            {
+                throw new LotteryAuthorizationException("您的账号已经被冻结,无法继续登录",ErrorCode.AccountFrozen);
+            }
+            return CreateToken(new UserInfoViewModel()
+            {
+                UserName = !string.IsNullOrEmpty(userInfo.UserName) ? userInfo.UserName : "",
+                Email = !string.IsNullOrEmpty(userInfo.Email) ? userInfo.Email : "",
+                Phone = !string.IsNullOrEmpty(userInfo.Phone) ? userInfo.Phone : "",
+                IsActive = userInfo.IsActive,
+                Id = userInfo.Id,
+                AccountRegistType = userInfo.AccountRegistType,
+            }, systemTypeId);
         }
 
         private bool ValidUserAccount(string userName)

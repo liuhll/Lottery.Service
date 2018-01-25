@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
@@ -10,18 +9,16 @@ using System.Threading.Tasks;
 using System.Web;
 using ECommon.Components;
 using ENode.Commanding;
-using Lottery.Commands.UserInfos;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.RunTime.Session;
 using Lottery.QueryServices.UserInfos;
 using Lottery.WebApi.Extensions;
 using Lottery.WebApi.Result.Models;
-using Microsoft.Ajax.Utilities;
 using Microsoft.IdentityModel.Tokens;
-using Thinktecture.IdentityModel.Extensions;
 using SecurityToken = Microsoft.IdentityModel.Tokens.SecurityToken;
 using SecurityTokenValidationException = Microsoft.IdentityModel.Tokens.SecurityTokenValidationException;
+using SecurityTokenInvalidLifetimeException = Microsoft.IdentityModel.Tokens.SecurityTokenInvalidLifetimeException;
 
 namespace Lottery.WebApi.Authentication
 {
@@ -67,7 +64,7 @@ namespace Lottery.WebApi.Authentication
             }
 
             try
-            {            
+            {
                 var securityKey =
                     new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
                         System.Text.Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
@@ -84,29 +81,20 @@ namespace Lottery.WebApi.Authentication
                     IssuerSigningKey = securityKey,
                 };
                 //extract and assign the user of the jwt
-                Thread.CurrentPrincipal = handler.ValidateToken(token, validationParameters, out securityToken);
-                HttpContext.Current.User = handler.ValidateToken(token, validationParameters, out securityToken);
-
-                // 再次验证token的合法性
-                var userTicket = await _userTicketService.GetValidTicketInfo(_lotterySession.UserId);
-                if (userTicket == null)
-                {
-                    throw new LotteryAuthorizationException("用户未登录,请重新登录");
-                }
-                if (string.IsNullOrEmpty(userTicket.AccessToken))
-                {
-                    throw new LotteryAuthorizationException("用户已登出,请重新登录");
-                }
-                if (!token.Equals(userTicket.AccessToken))
-                {
-                    throw new LotteryAuthorizationException("无效的token,可能用户已经从其他终端登录");
-                }
+                var principal = handler.ValidateToken(token, validationParameters, out securityToken);
+                Thread.CurrentPrincipal = principal;
+                HttpContext.Current.User = principal;
 
                 return await base.SendAsync(request, cancellationToken);
             }
+            catch (SecurityTokenInvalidLifetimeException ex)
+            {
+                // Update Token          
+                statusCode = HttpStatusCode.Unauthorized;
+                errorMessage = "Token登录超时";
+            }
             catch (SecurityTokenValidationException ex)
             {
-
                 statusCode = HttpStatusCode.Unauthorized;
                 errorMessage = ex.Message;
             }
@@ -138,7 +126,7 @@ namespace Lottery.WebApi.Authentication
             if (!string.IsNullOrEmpty(userId))
             {
                 var userTicket = _userTicketService.GetValidTicketInfo(userId).Result;
-                _commandService.Send(new InvalidAccessTokenCommand(userTicket.Id));
+               // _commandService.Send(new InvalidAccessTokenCommand(userTicket.Id));
             }
             return false;
         }

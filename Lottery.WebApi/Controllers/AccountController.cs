@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -12,23 +9,15 @@ using Effortless.Net.Encryption;
 using ENode.Commanding;
 using FluentValidation.Results;
 using Lottery.AppService.Account;
-using Lottery.AppService.Operations;
+using Lottery.Commands.LogonLog;
 using Lottery.Commands.UserInfos;
-using Lottery.Core.Domain.LotteryInfos;
-using Lottery.Dtos.Account;
-using Lottery.Dtos.Lotteries;
+using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
-using Lottery.Infrastructure.RunTime.Security;
-using Lottery.Infrastructure.Tools;
 using Lottery.QueryServices.Lotteries;
-using Lottery.QueryServices.UserInfos;
-using Lottery.WebApi.Extensions;
 using Lottery.WebApi.Validations;
-using Lottery.WebApi.ViewModels;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Lottery.WebApi.Controllers
 {
@@ -38,7 +27,6 @@ namespace Lottery.WebApi.Controllers
         private readonly IUserManager _userManager;
         private readonly UserInfoInputValidator _userInfoInputValidator;
         private readonly UserProfileInputValidator _userProfileInputValidator;
-        private readonly IMemberAppService _memberAppService;
         private readonly ILotteryQueryService _lotteryQueryService;
 
 
@@ -46,13 +34,11 @@ namespace Lottery.WebApi.Controllers
             ICommandService commandService,
             UserInfoInputValidator userInfoInputValidator,
             UserProfileInputValidator userProfileInputValidator,
-            IMemberAppService memberAppService, 
             ILotteryQueryService lotteryQueryService) : base(commandService)
         {
             _userManager = userManager;
             _userInfoInputValidator = userInfoInputValidator;
             _userProfileInputValidator = userProfileInputValidator;
-            _memberAppService = memberAppService;
             _lotteryQueryService = lotteryQueryService;
         }
 
@@ -78,19 +64,9 @@ namespace Lottery.WebApi.Controllers
             // 验证该用户是否允许访问指定的客户端
             _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);
 
-            string token = CreateToken(userInfo, systemTypeId);
-            var ticketInfo = await _userManager.GetValidTicketInfo(userInfo.Id);
-            if (ticketInfo == null)
-            {
-                await SendCommandAsync(new AddAccessTokenCommand(Guid.NewGuid().ToString(), userInfo.Id, token,
-                        userInfo.Id));
-            }
-            else
-            {
-                await SendCommandAsync(
-                        new UpdateAccessTokenCommand(ticketInfo.Id, userInfo.Id, token, userInfo.Id));
-
-            }
+            string token = _userManager.CreateToken(userInfo, systemTypeId);
+            await SendCommandAsync(new AddLogonLogCommand(Guid.NewGuid().ToString(), userInfo.Id, userInfo.Id));
+            await SendCommandAsync(new UpdateUserLogintClientCountCommand(userInfo.Id, true));
             return token;
         }
 
@@ -126,8 +102,7 @@ namespace Lottery.WebApi.Controllers
             {
                 throw new LotteryAuthorizationException("用户未登录，或已登出,无法调用该接口");
             }
-            var ticketInfo = await _userManager.GetValidTicketInfo(_lotterySession.UserId);
-            await SendCommandAsync(new InvalidAccessTokenCommand(ticketInfo.Id));
+            await SendCommandAsync(new LogoutCommand(_lotterySession.UserId, _lotterySession.UserId));
             return "用户登出成功";
         }
 
@@ -152,8 +127,9 @@ namespace Lottery.WebApi.Controllers
                 throw new LotteryDataException("该账号已经存在");
             }
             var accountRegType = ReferAccountRegType(user.Account);
-            var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account, EncryptPassword(user.Account, user.Password, accountRegType),
-                user.ClientRegistType, accountRegType);
+            var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account, 
+                EncryptPassword(user.Account, user.Password, accountRegType),
+                user.ClientRegistType, accountRegType,0);
 
             var commandResult = await SendCommandAsync(userInfoCommand);
             if (commandResult.Status != AsyncTaskStatus.Success)
@@ -230,41 +206,6 @@ namespace Lottery.WebApi.Controllers
             }
             throw new LotteryDataException("注册账号不合法");
 
-        }
-
-        private string CreateToken(UserInfoViewModel userInfo,string systemTypeId)
-        {
-            //Set issued at date
-            DateTime issuedAt = DateTime.UtcNow;
-            //set the time when it expires
-            DateTime expires = DateTime.UtcNow.AddDays(ConfigHelper.ValueInt("passwordExpire"));
-
-            // http://stackoverflow.com/questions/18223868/how-to-encrypt-jwt-security-token
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            //create a identity and add claims to the user which we want to log in
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
-            {
-                new Claim(LotteryClaimTypes.UserName, userInfo.UserName),
-                new Claim(LotteryClaimTypes.UserId,userInfo.Id),
-                new Claim(LotteryClaimTypes.Email,userInfo.Email),
-                new Claim(LotteryClaimTypes.Phone,userInfo.Phone),
-                new Claim(LotteryClaimTypes.SystemType,systemTypeId), 
-                new Claim(LotteryClaimTypes.MemberRank,_memberAppService.ConcludeUserMemRank(userInfo.Id,systemTypeId)), 
-            });
-
-            var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
-            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-
-
-            //create the jwt
-            var token =
-                (JwtSecurityToken)
-                tokenHandler.CreateJwtSecurityToken(issuer: Request.GetAudience(), audience: Request.GetIssuer(),
-                    subject: claimsIdentity, notBefore: issuedAt, expires: expires, signingCredentials: signingCredentials);
-            var tokenString = tokenHandler.WriteToken(token);
-
-            return tokenString;
         }
 
         #endregion

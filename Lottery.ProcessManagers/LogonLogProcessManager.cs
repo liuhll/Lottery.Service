@@ -7,11 +7,11 @@ using Lottery.Core.Domain.UserInfos;
 
 namespace Lottery.ProcessManagers
 {
-    public class UpdateLastLoginProcessManager : IMessageHandler<UpdateLastLoginTimeEvent>
+    public class LogonLogProcessManager : IMessageHandler<UpdateLastLoginTimeEvent>,IMessageHandler<UpdateUserLogoutEvent>
     {
         private readonly ICommandService _commandService;
 
-        public UpdateLastLoginProcessManager(ICommandService commandService)
+        public LogonLogProcessManager(ICommandService commandService)
         {
             _commandService = commandService;
         }
@@ -20,6 +20,11 @@ namespace Lottery.ProcessManagers
         public Task<AsyncTaskResult> HandleAsync(UpdateLastLoginTimeEvent evt)
         {
             return _commandService.SendAsync(new UpdateLastLoginTimeCommand(evt.UserId));
+        }
+
+        public Task<AsyncTaskResult> HandleAsync(UpdateUserLogoutEvent evt)
+        {
+            return _commandService.SendAsync(new UpdateUserLogintClientCountCommand(evt.UserId,false));
         }
     }
 }

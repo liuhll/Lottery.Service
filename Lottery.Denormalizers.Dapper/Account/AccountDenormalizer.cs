@@ -3,20 +3,18 @@ using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Caching;
+using Lottery.Core.Domain.LogonLog;
 using Lottery.Core.Domain.UserInfos;
-using Lottery.Core.Domain.UserTicket;
 using Lottery.Infrastructure;
 
 namespace Lottery.Denormalizers.Dapper.Account
 {
     public class AccountDenormalizer : AbstractDenormalizer,
-        IMessageHandler<AddUserTicketEvent>,
-        IMessageHandler<UpdateUserTicketEvent>,
-        IMessageHandler<InvalidAccessTokenEvent>,
         IMessageHandler<AddUserInfoEvent>,
         IMessageHandler<BindUserEmailEvent>,
         IMessageHandler<BindUserPhoneEvent>,
-        IMessageHandler<UpdateLoginTimeEvent>
+        IMessageHandler<UpdateLoginTimeEvent>,
+        IMessageHandler<UpdateUserLoginClientCountEvent>
 
 
     {
@@ -27,62 +25,23 @@ namespace Lottery.Denormalizers.Dapper.Account
             _cacheManager = cacheManager;
         }
 
-        public Task<AsyncTaskResult> HandleAsync(AddUserTicketEvent evnt)
-        {
-            return TryInsertRecordAsync(conn =>
-            {
-                var userTicketKey = string.Format(RedisKeyConstants.USERINFO_TiCKET_KEY, evnt.UserId);
-                _cacheManager.Remove(userTicketKey);
-                return conn.InsertAsync(new
-                {
-                    Id = evnt.AggregateRootId,
-                    evnt.AccessToken,
-                    evnt.CreateBy,
-                    evnt.UserId,
-                    CreateTime = evnt.Timestamp,
-               
-                }, TableNameConstants.UserTicketTable);
-            });
-        }
 
-        public Task<AsyncTaskResult> HandleAsync(UpdateUserTicketEvent evnt)
+
+        public Task<AsyncTaskResult> HandleAsync(UpdateUserLoginClientCountEvent evnt)
         {
             return TryUpdateRecordAsync(conn =>
             {
-                var userTicketKey = string.Format(RedisKeyConstants.USERINFO_TiCKET_KEY, evnt.UserId);
-                _cacheManager.Remove(userTicketKey);
+                var userInfoKey = string.Format(RedisKeyConstants.USERINFO_KEY, evnt.AggregateRootId);
+                _cacheManager.Remove(userInfoKey);
                 return conn.UpdateAsync(new
                 {
-
-                    evnt.AccessToken,
-                    evnt.UpdateBy,
-                    evnt.UserId,
+                    LoginClientCount = evnt.LoginClientCount,
+                    UpdateBy = evnt.AggregateRootId,
                     UpdateTime = evnt.Timestamp
                 }, new
                 {
                     Id = evnt.AggregateRootId,
-                }, TableNameConstants.UserTicketTable);
-            });
-        }
-
-        public Task<AsyncTaskResult> HandleAsync(InvalidAccessTokenEvent evnt)
-        {
-            return TryUpdateRecordAsync(conn =>
-            {
-                var userTicketKey = string.Format(RedisKeyConstants.USERINFO_TiCKET_KEY, evnt.UserId);
-                _cacheManager.Remove(userTicketKey);
-                return conn.UpdateAsync(new
-                {
-
-                    evnt.AccessToken,
-                    UpdateBy = evnt.UserId,
-                    evnt.UserId,
-                    InvalidTime = evnt.Timestamp,
-                    UpdateTime = evnt.Timestamp
-                }, new
-                {
-                    Id = evnt.AggregateRootId,
-                }, TableNameConstants.UserTicketTable);
+                }, TableNameConstants.UserInfoTable);
             });
         }
 
@@ -134,6 +93,7 @@ namespace Lottery.Denormalizers.Dapper.Account
             });
         }
 
+
         public Task<AsyncTaskResult> HandleAsync(BindUserPhoneEvent evnt)
         {
             return TryUpdateRecordAsync(conn =>
@@ -151,7 +111,7 @@ namespace Lottery.Denormalizers.Dapper.Account
                 }, TableNameConstants.UserInfoTable);
             });
         }
-
+ 
 
         public Task<AsyncTaskResult> HandleAsync(UpdateLoginTimeEvent evnt)
         {
@@ -170,5 +130,6 @@ namespace Lottery.Denormalizers.Dapper.Account
         }
 
 
+     
     }
 }

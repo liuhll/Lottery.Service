@@ -13,7 +13,8 @@ namespace Lottery.EventService
         public CommandTopicProvider()
         {
             RegisterTopic(EQueueTopics.LotteryProcessManagerTopic,
-                typeof(UpdateLastLoginTimeCommand));
+                typeof(UpdateLastLoginTimeCommand),
+                typeof(UpdateUserLogintClientCountCommand));
         }
     }
 }

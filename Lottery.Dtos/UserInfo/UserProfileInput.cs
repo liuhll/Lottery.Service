@@ -1,6 +1,6 @@
 ﻿using Lottery.Infrastructure.Enums;
 
-namespace Lottery.WebApi.ViewModels
+namespace Lottery.Dtos.UserInfo
 {
     public class UserProfileInput
     {

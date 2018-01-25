@@ -1,9 +1,6 @@
-﻿using System.Text.RegularExpressions;
-using Lottery.Infrastructure;
-using Lottery.Infrastructure.Enums;
-using Lottery.Infrastructure.Exceptions;
+﻿using Lottery.Infrastructure.Enums;
 
-namespace Lottery.WebApi.ViewModels
+namespace Lottery.Dtos.UserInfo
 {
     public class UserInfoInput
     {

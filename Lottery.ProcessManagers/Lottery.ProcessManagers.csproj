@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UpdateLastLoginProcessManager.cs" />
+    <Compile Include="LogonLogProcessManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lottery.Commands\Lottery.Commands.csproj">

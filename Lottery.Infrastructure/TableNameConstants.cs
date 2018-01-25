@@ -29,5 +29,7 @@
         public const string MemberTable = "MS_Member";
 
         public const string PowerTable = "F_Power";
+
+        public const string LogonLogTable = "F_LogonLog";
     }
 }
