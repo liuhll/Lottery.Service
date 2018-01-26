@@ -19,6 +19,8 @@ namespace Lottery.Infrastructure.RunTime.Session
 
         string Phone { get; }
 
+        int ClientNo { get; }
+
         string SystemTypeId { get; }
 
         SystemType SystemType { get; }

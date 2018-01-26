@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account_Test.cs" />
+    <Compile Include="ConLog_Test.cs" />
     <Compile Include="Email_Test.cs" />
     <Compile Include="ENodeExtensions.cs" />
     <Compile Include="LotteryCalculateTest.cs" />

@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LogonLog\AddLogonLogCommand.cs" />
+    <Compile Include="LogonLog\AddConLogCommand.cs" />
     <Compile Include="LogonLog\LogoutCommand.cs" />
     <Compile Include="LogonLog\UpdateTokenCommand.cs" />
     <Compile Include="LotteryDatas\AddLotteryDataCommand.cs" />
@@ -62,7 +62,6 @@
     <Compile Include="UserInfos\BindUserEmailCommand.cs" />
     <Compile Include="UserInfos\BindUserPhoneCommand.cs" />
     <Compile Include="UserInfos\UpdateLastLoginTimeCommand.cs" />
-    <Compile Include="UserInfos\UpdateUserLogintClientCountCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

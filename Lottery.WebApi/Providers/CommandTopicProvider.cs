@@ -23,13 +23,12 @@ namespace Lottery.WebApi.Providers
             );
 
             RegisterTopic(EQueueTopics.LotteryAccountCommandTopic,
-                typeof(AddLogonLogCommand),
+                typeof(AddConLogCommand),
                 typeof(LogoutCommand),
                 typeof(UpdateTokenCommand),
                 typeof(AddUserInfoCommand),
                 typeof(BindUserEmailCommand),
-                typeof(BindUserPhoneCommand),
-                typeof(UpdateUserLogintClientCountCommand)
+                typeof(BindUserPhoneCommand)
                 );
 
             RegisterTopic(EQueueTopics.NormCommandTopic,

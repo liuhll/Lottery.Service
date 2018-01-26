@@ -17,6 +17,7 @@ namespace Lottery.Infrastructure.RunTime.Session
         public override string UserName => null;
         public override string Email => null;
         public override string Phone => null;
+        public override int ClientNo { get; }
         public override string SystemTypeId => null;
         public override SystemType SystemType { get; }
         public override MemberRank MemberRank { get; }

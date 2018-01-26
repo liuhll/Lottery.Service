@@ -13,6 +13,8 @@ using Lottery.Dtos.Power;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.QueryServices.AuthRanks;
+using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Operations;
 using Lottery.QueryServices.UserInfos;
 
@@ -33,7 +35,9 @@ namespace Lottery.AppService.Member
             IUserPowerStore userPowerStore, 
             IMemberPowerStore memberPowerStore,
             IMemberQueryService memberQueryService,
-            IMemberAppService memberAppService) :
+            IMemberAppService memberAppService,
+            IConLogQueryService conLogQueryService,
+            IAuthRankQueryService authRankQueryService) :
             base(userInfoService,
                 userTicketService,
                 userClientTypeQueryService,
@@ -41,7 +45,9 @@ namespace Lottery.AppService.Member
                 roleManager,
                 cacheManager, 
                 userPowerStore,
-                memberAppService)
+                memberAppService,
+                conLogQueryService,
+                authRankQueryService)
         {
             _memberPowerStore = memberPowerStore;
             _memberQueryService = memberQueryService;

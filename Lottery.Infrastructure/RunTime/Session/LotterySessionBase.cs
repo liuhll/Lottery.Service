@@ -21,6 +21,8 @@ namespace Lottery.Infrastructure.RunTime.Session
 
         public abstract SystemType SystemType { get; }
 
+        public abstract int ClientNo { get; }
+
         public abstract MemberRank MemberRank { get; }
     }
 }

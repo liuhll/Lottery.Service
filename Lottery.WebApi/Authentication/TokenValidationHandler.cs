@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Web;
 using ECommon.Components;
 using ENode.Commanding;
+using Lottery.AppService.Account;
+using Lottery.Commands.LogonLog;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.RunTime.Session;
@@ -26,13 +28,13 @@ namespace Lottery.WebApi.Authentication
     {
         private readonly ICommandService _commandService;
         private readonly ILotterySession _lotterySession;
-        private readonly IUserTicketService _userTicketService;
+        private readonly IUserManager _userManager;
 
         public TokenValidationHandler()
         {
             _commandService = ObjectContainer.Resolve<ICommandService>();
-            _userTicketService = ObjectContainer.Resolve<IUserTicketService>();
             _lotterySession = NullLotterySession.Instance;
+            _userManager = ObjectContainer.Resolve<IUserManager>();
         }
 
 
@@ -52,10 +54,10 @@ namespace Lottery.WebApi.Authentication
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            HttpStatusCode statusCode;
             string token;
-
+            int errorCode;
             string errorMessage;
+
             //determine whether a jwt exists or not
             if (!TryRetrieveToken(request, out token))
             {
@@ -80,38 +82,49 @@ namespace Lottery.WebApi.Authentication
                     LifetimeValidator = this.LifetimeValidator,
                     IssuerSigningKey = securityKey,
                 };
-                //extract and assign the user of the jwt
+
                 var principal = handler.ValidateToken(token, validationParameters, out securityToken);
                 Thread.CurrentPrincipal = principal;
                 HttpContext.Current.User = principal;
 
-                return await base.SendAsync(request, cancellationToken);
+                var okResponse = await base.SendAsync(request, cancellationToken);
+                //extract and assign the user of the jwt           
+                if ((securityToken.ValidTo - DateTime.UtcNow).TotalMinutes <= 3)
+                {
+                    DateTime invalidTime;
+                    var refreshToken =
+                        _userManager.UpdateToken(_lotterySession.UserId, _lotterySession.SystemTypeId, _lotterySession.ClientNo, out invalidTime);
+                    okResponse.Headers.Add("access-token",refreshToken);
+                    await _commandService.ExecuteAsync(new UpdateTokenCommand(_lotterySession.UserId,DateTime.Now, _lotterySession.UserId));
+                }
+
+                return okResponse;
             }
             catch (SecurityTokenInvalidLifetimeException ex)
             {
-                // Update Token          
-                statusCode = HttpStatusCode.Unauthorized;
-                errorMessage = "Token登录超时";
+                var userInfo = ex.GetTokenInfo();
+                await _commandService.ExecuteAsync(new LogoutCommand(userInfo.NameId, userInfo.NameId));
+                errorCode = ErrorCode.OvertimeToken;
+                errorMessage = "登录超时,请重新超时";
             }
             catch (SecurityTokenValidationException ex)
             {
-                statusCode = HttpStatusCode.Unauthorized;
-                errorMessage = ex.Message;
+                errorCode = ErrorCode.InvalidToken;
+                errorMessage = "无效的Token" + ex.Message;
             }
             catch (LotteryAuthorizationException ex)
             {
-                statusCode = HttpStatusCode.Unauthorized;
+                errorCode = ErrorCode.AuthorizationFailed;
                 errorMessage = ex.Message;
             }
             catch (Exception ex)
             {
-                statusCode = HttpStatusCode.Unauthorized;
-                errorMessage = "无效的Token";
+                errorCode = ErrorCode.InvalidToken;
+                errorMessage = "无效的Token" + ex.Message;
             }
-
-            var response = request.CreateResponse(statusCode,new ResponseMessage(new ErrorInfo(errorMessage),true));
-
-            return await Task<HttpResponseMessage>.Factory.StartNew(() => response);
+          
+            var errorResponse = request.CreateResponse(HttpStatusCode.OK,new ResponseMessage(new ErrorInfo(errorCode, errorMessage),true));
+            return await Task<HttpResponseMessage>.Factory.StartNew(() => errorResponse);
         }
 
         public bool LifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
@@ -120,14 +133,7 @@ namespace Lottery.WebApi.Authentication
             {
                 if (DateTime.UtcNow < expires)
                     return true;
-            }
-            var jwtsecurityToken = (JwtSecurityToken) securityToken;
-            var userId = jwtsecurityToken.Payload["nameid"].ToString();
-            if (!string.IsNullOrEmpty(userId))
-            {
-                var userTicket = _userTicketService.GetValidTicketInfo(userId).Result;
-               // _commandService.Send(new InvalidAccessTokenCommand(userTicket.Id));
-            }
+            }         
             return false;
         }
     }

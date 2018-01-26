@@ -11,7 +11,7 @@ namespace Lottery.Infrastructure.RunTime.Security
         public static string Email { get; set; } = ClaimTypes.Email;
         public static string Phone { get; set; } = ClaimTypes.MobilePhone;
 
-        //public static string TicketId { get; set; } = "http://liuhl.lottery.com/identity/claims/ticketid";
+        public static string ClientNo { get; set; } = "http://liuhl.lottery.com/identity/claims/clientNo";
 
         public static string MemberRank { get; set; } = "http://liuhl.lottery.com/identity/claims/memberrank";
 

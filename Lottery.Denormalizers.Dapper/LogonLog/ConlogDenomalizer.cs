@@ -7,12 +7,12 @@ using Lottery.Infrastructure;
 
 namespace Lottery.Denormalizers.Dapper.LogonLog
 {
-    public class LogonLogDenomalizer : AbstractDenormalizer, 
-        IMessageHandler<AddLogonLogEvent>,
+    public class ConlogDenomalizer : AbstractDenormalizer, 
+        IMessageHandler<AddConLogEvent>,
         IMessageHandler<LogoutEvent>,
         IMessageHandler<UpdateTokenEvent>
     {
-        public Task<AsyncTaskResult> HandleAsync(AddLogonLogEvent evnt)
+        public Task<AsyncTaskResult> HandleAsync(AddConLogEvent evnt)
         {
             return TryInsertRecordAsync(conn =>
             {
@@ -20,13 +20,17 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
                 return conn.InsertAsync(new
                 {
                     Id = evnt.AggregateRootId,
-                    UserId = evnt.UserId,
+                    evnt.UserId,
+                    evnt.SystemTypeId,
+                    evnt.Ip,
+                    evnt.InvalidTime,
+                    evnt.ClientNo,
                     LoginTime = evnt.Timestamp,
                     UpdateTokenCount = 1,
                     Createby = evnt.UserId,
                     CreateTime = evnt.Timestamp,
 
-                },TableNameConstants.LogonLogTable);
+                },TableNameConstants.ConLogTable);
             });
         }
 
@@ -44,7 +48,7 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
                     Updateby = evnt.UserId,
                     UpdateTime = evnt.Timestamp,
 
-                }, new {Id = evnt.AggregateRootId,}, TableNameConstants.LogonLogTable);
+                }, new {Id = evnt.AggregateRootId,}, TableNameConstants.ConLogTable);
             });
         }
 
@@ -62,7 +66,7 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
                     Updateby = evnt.UserId,
                     UpdateTime = evnt.Timestamp,
 
-                }, new { Id = evnt.AggregateRootId, }, TableNameConstants.LogonLogTable);
+                }, new { Id = evnt.AggregateRootId, }, TableNameConstants.ConLogTable);
             });
         }
     }

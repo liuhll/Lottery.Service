@@ -23,7 +23,7 @@ namespace Lottery.Tests.Providers
                 typeof(CompleteDynamicTableEvent));
 
             RegisterTopic(EQueueTopics.LotteryAccountEventTopic,
-                typeof(AddLogonLogEvent),
+                typeof(AddConLogEvent),
                 typeof(UpdateTokenEvent),
                 typeof(LogoutEvent),
                 typeof(AddUserInfoEvent),

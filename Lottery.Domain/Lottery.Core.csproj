@@ -98,10 +98,10 @@
     <Compile Include="Domain\UserNormDefaultConfig\UpdateUserNormDefaultConfigEvent.cs" />
     <Compile Include="Domain\UserNormDefaultConfig\UserNormDefaultConfig.cs" />
     <Compile Include="Domain\UserRoles\UserRole.cs" />
-    <Compile Include="Domain\LogonLog\AddLogonLogEvent.cs" />
+    <Compile Include="Domain\LogonLog\AddConLogEvent.cs" />
     <Compile Include="Domain\LogonLog\LogoutEvent.cs" />
     <Compile Include="Domain\LogonLog\UpdateTokenEvent.cs" />
-    <Compile Include="Domain\LogonLog\LogonLog.cs" />
+    <Compile Include="Domain\LogonLog\ConLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

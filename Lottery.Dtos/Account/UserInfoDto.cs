@@ -24,5 +24,19 @@ namespace Lottery.Dtos.Account
         public string Wechat { get; set; }
 
         public AccountRegistType AccountRegistType { get; set; }
+
+
+        public int Balance { get; set; }
+
+        public int Points { get; set; }
+
+        public int TotalRecharge { get; set; }
+
+        public int TotalConsumeAccount { get; set; }
+
+        public int PointCount { get; set; }
+
+        public int AmountCount { get; set; }
+
     }
 }

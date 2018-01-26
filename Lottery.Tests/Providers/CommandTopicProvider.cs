@@ -1,5 +1,6 @@
 ﻿using ENode.Commanding;
 using ENode.EQueue;
+using Lottery.Commands.LogonLog;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
 using Lottery.Commands.Norms;
@@ -18,9 +19,7 @@ namespace Lottery.Tests.Providers
                 typeof(CompleteDynamicTableCommand));
 
             RegisterTopic(EQueueTopics.LotteryAccountCommandTopic,
-                typeof(InvalidAccessTokenCommand),
-                typeof(AddAccessTokenCommand),
-                typeof(UpdateAccessTokenCommand),
+                typeof(AddConLogCommand),
                 typeof(AddUserInfoCommand),
                 typeof(BindUserEmailCommand),
                 typeof(BindUserPhoneCommand),

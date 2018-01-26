@@ -9,7 +9,7 @@ namespace Lottery.Commands.LogonLog
         {
         }
 
-        public LogoutCommand(string userId, string updateBy)
+        public LogoutCommand(string userId, string updateBy) : base(userId)
         {
             UserId = userId;
             UpdateBy = updateBy;

@@ -22,7 +22,17 @@
         /// </summary>
         public const int AuthorizeFailed = 40002;
 
+        /// <summary>
+        /// 无效的Token
+        /// </summary>
         public const int InvalidToken = 40003;
+
+        public const int OvertimeToken = 40004;
+
+        /// <summary>
+        /// 超过允许的最大客户端数
+        /// </summary>
+        public const int OverloadPermitClientCount = 40005;
 
         /// <summary>
         /// 数据错误异常
@@ -40,7 +50,7 @@
         public const int BusinessError = 50003;
 
         /// <summary>
-        /// 其他位置的异常
+        /// 其他未知的异常
         /// </summary>
         public const int UnknownError = 50004;
 

@@ -41,5 +41,22 @@ namespace Lottery.Infrastructure.Extensions
             }
             return sb.Remove(sb.Length - split.Length, split.Length).ToString();
         }
+
+        public static int IndexOfCount(this string str, string keyword, int count)
+        {
+
+            int index = 0;
+            int initCount = 0;
+            while ((index = str.IndexOf(keyword, index)) != -1)
+            {
+                initCount++;
+                index = index + keyword.Length;
+                if (initCount == count)
+                {
+                    break;
+                }
+            }
+            return index;
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
+using ECommon.Extensions;
 using ECommon.IO;
 using Effortless.Net.Encryption;
 using ENode.Commanding;
@@ -11,12 +13,16 @@ using FluentValidation.Results;
 using Lottery.AppService.Account;
 using Lottery.Commands.LogonLog;
 using Lottery.Commands.UserInfos;
+using Lottery.Dtos.ConLog;
 using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
+using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Lotteries;
+using Lottery.WebApi.Extensions;
 using Lottery.WebApi.Validations;
 
 namespace Lottery.WebApi.Controllers
@@ -28,18 +34,21 @@ namespace Lottery.WebApi.Controllers
         private readonly UserInfoInputValidator _userInfoInputValidator;
         private readonly UserProfileInputValidator _userProfileInputValidator;
         private readonly ILotteryQueryService _lotteryQueryService;
+        private readonly IConLogQueryService _conLogQueryService;
 
 
         public AccountController(IUserManager userManager,
             ICommandService commandService,
             UserInfoInputValidator userInfoInputValidator,
             UserProfileInputValidator userProfileInputValidator,
-            ILotteryQueryService lotteryQueryService) : base(commandService)
+            ILotteryQueryService lotteryQueryService,
+            IConLogQueryService conLogQueryService) : base(commandService)
         {
             _userManager = userManager;
             _userInfoInputValidator = userInfoInputValidator;
             _userProfileInputValidator = userProfileInputValidator;
             _lotteryQueryService = lotteryQueryService;
+            _conLogQueryService = conLogQueryService;
         }
 
         /// <summary>
@@ -62,11 +71,13 @@ namespace Lottery.WebApi.Controllers
             }
             var userInfo = await _userManager.SignInAsync(loginModel.UserName, loginModel.Password);
             // 验证该用户是否允许访问指定的客户端
-            _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);
+            _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);            
+            var clientNo = await _userManager.VerifyUserClientNo(userInfo.Id, systemTypeId);
 
-            string token = _userManager.CreateToken(userInfo, systemTypeId);
-            await SendCommandAsync(new AddLogonLogCommand(Guid.NewGuid().ToString(), userInfo.Id, userInfo.Id));
-            await SendCommandAsync(new UpdateUserLogintClientCountCommand(userInfo.Id, true));
+            DateTime invalidDateTime;
+            var token = _userManager.CreateToken(userInfo, systemTypeId,clientNo,out invalidDateTime);
+            await SendCommandAsync(new AddConLogCommand(Guid.NewGuid().ToString(), userInfo.Id,clientNo,systemTypeId, Request.GetReuestIp(), invalidDateTime,userInfo.Id));
+
             return token;
         }
 

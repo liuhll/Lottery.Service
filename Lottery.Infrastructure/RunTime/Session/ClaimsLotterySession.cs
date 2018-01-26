@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.RunTime.Security;
@@ -99,6 +100,22 @@ namespace Lottery.Infrastructure.RunTime.Session
                 string clientType = clientTypeClaim.Value;
 
                 return clientType;
+            }
+        }
+
+        public override int ClientNo
+        {
+            get
+            {
+                var clientNoClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.ClientNo);
+                if (string.IsNullOrEmpty(clientNoClaim?.Value))
+                {
+                    return 0;
+                }
+
+                string clientNo = clientNoClaim.Value;
+
+                return Convert.ToInt32(clientNo);
             }
         }
 

@@ -36,6 +36,8 @@
 
         public const string LOTTERY_USERNORM_KEY = "Lottery.UserNorm.{0}.{1}";
 
+        public const string LOTTERY_AUTHRANK_KEY = "Lottery.Authrank.{0}";
+
         public const string SCHEDULE_TASK_ALL_KEY = "ScheduleTask.All";
 
         public const string OPERATION_MEMBERINFO_KEY = "Operation.MemberInfo.{0}";
@@ -61,6 +63,8 @@
         public const string MEMBERRANK_MEMBERPOWER_KEY = "MemberRank.MemberPower.{0}.{1}";
 
         public const string MEMBERRANK_ROLE_KEY = "MemberRank.Role.{0}.{1}";
+
+        public const string USERINFO_INVALIDTOKENKEY = "UserInfo.InvalidTokenKey.{0}";
 
     }
 }

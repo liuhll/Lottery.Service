@@ -4,26 +4,37 @@ using Lottery.Core.Domain.UserInfos;
 
 namespace Lottery.Core.Domain.LogonLog
 {
-    public class LogonLog : AggregateRoot<string>
+    public class ConLog : AggregateRoot<string>
     {
-        public LogonLog(string id,string userId,string createBy) : base(id)
+        public ConLog(string id,int clientNo,string systemTypeId,string ip,string userId,DateTime invalidDateTime,string createBy) : base(id)
         {
             UserId = userId;
             UpdateTokenCount = 0;
             CreateBy = createBy;
+            ClientNo = clientNo;
+            Ip = ip;
+            SystemTypeId = systemTypeId;
+            InvalidDateTime = invalidDateTime;
             CreateTime = DateTime.Now;
-            UpdateTime = DateTime.Now;
-            ApplyEvent(new AddLogonLogEvent(UserId,CreateBy));
+            ApplyEvent(new AddConLogEvent(UserId,ClientNo, SystemTypeId, Ip,InvalidDateTime, CreateBy));
             ApplyEvent(new UpdateLastLoginTimeEvent(UserId));
         }
 
         public string UserId { get; private set; }
+
+        public string SystemTypeId { get; private set; }
 
         public int UpdateTokenCount { get; private set; }
 
         public string CreateBy { get; private set; }
 
         public DateTime CreateTime { get; private set; }
+
+        public DateTime InvalidDateTime { get; private set; }
+
+        public int ClientNo { get; private set; }
+
+        public string Ip { get; private set; }
 
         public DateTime LoginTime { get; set; }
 
@@ -45,10 +56,14 @@ namespace Lottery.Core.Domain.LogonLog
 
         #region hander event
 
-        private void Handle(AddLogonLogEvent evt)
+        private void Handle(AddConLogEvent evt)
         {
             UserId = evt.UserId;
+            ClientNo = evt.ClientNo;
+            Ip = evt.Ip;
+            SystemTypeId = evt.SystemTypeId;
             LoginTime = evt.Timestamp;
+            InvalidDateTime = evt.InvalidTime;
             CreateBy = evt.CreateBy;
             CreateTime = evt.Timestamp;
         }

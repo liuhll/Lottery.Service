@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Lottery.Core.Domain.LogonLog;
 using Lottery.Dtos.Account;
+using Lottery.Dtos.ConLog;
 using Lottery.Infrastructure.Enums;
 
 namespace Lottery.AppService.Account
@@ -18,8 +22,10 @@ namespace Lottery.AppService.Account
 
         Task<bool> IsGrantedAsync(string userId, string urlPath, string method);
 
-        string CreateToken(UserInfoViewModel userInfo, string systemTypeId);
+        string CreateToken(UserInfoViewModel userInfo, string systemTypeId,int clientNo, out DateTime invalidDateTime);
 
-        string UpdateToken(string userId,string systemTypeId);
+        string UpdateToken(string userId,string systemTypeId, int clientNo, out DateTime invalidDateTime);
+
+        Task<int> VerifyUserClientNo(string userId, string systemTypeId);
     }
 }

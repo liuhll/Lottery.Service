@@ -30,6 +30,8 @@
 
         public const string PowerTable = "F_Power";
 
-        public const string LogonLogTable = "F_LogonLog";
+        public const string ConLogTable = "F_ConLog";
+
+        public const string AuthRankTable = "MS_AuthRank";
     }
 }

@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthRanks\IAuthRankQueryService.cs" />
+    <Compile Include="Canlogs\IConLogQueryService.cs" />
     <Compile Include="Lotteries\IDataSiteQueryService.cs" />
     <Compile Include="Lotteries\ILotteryDataQueryService.cs" />
     <Compile Include="Lotteries\ILotteryFinalDataQueryService.cs" />
