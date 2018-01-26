@@ -17,7 +17,7 @@ namespace Lottery.CommandHandlers
 
         public void Handle(ICommandContext context, AddConLogCommand command)
         {
-            context.Add(new ConLog(command.AggregateRootId,command.ClientNo,command.SystemTypeId,command.UserId,command.UserId,command.InvalidDateTime,command.CreateBy));
+            context.Add(new ConLog(command.AggregateRootId,command.ClientNo,command.SystemTypeId,command.Ip,command.UserId,command.InvalidDateTime,command.CreateBy));
         }
 
         public void Handle(ICommandContext context, UpdateTokenCommand command)
