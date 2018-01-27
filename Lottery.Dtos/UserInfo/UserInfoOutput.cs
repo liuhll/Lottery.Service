@@ -1,5 +1,4 @@
-﻿using AutoMapper.Attributes;
-using Lottery.Dtos.Account;
+﻿using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Dtos.UserInfo
@@ -73,5 +72,6 @@ namespace Lottery.Dtos.UserInfo
 
         public string SystemTypeId { get; set; }
 
+        public LotteryInfoOutput LotteryInfo { get; set; }
     }
 }

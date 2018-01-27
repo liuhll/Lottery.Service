@@ -1,7 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using ENode.Commanding;
+using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.UserInfo;
+using Lottery.Infrastructure.Enums;
+using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.UserInfos;
 
 namespace Lottery.WebApi.Controllers.v1
@@ -10,11 +13,14 @@ namespace Lottery.WebApi.Controllers.v1
     public class UserInfoController : BaseApiV1Controller
     {
         private readonly IUserInfoService _userInfoService;
+        private readonly ILotteryQueryService _lotteryQueryService;
 
         public UserInfoController(ICommandService commandService, 
-            IUserInfoService userInfoService) : base(commandService)
+            IUserInfoService userInfoService,
+            ILotteryQueryService lotteryQueryService) : base(commandService)
         {
             _userInfoService = userInfoService;
+            _lotteryQueryService = lotteryQueryService;
         }
 
         [Route("me")]
@@ -25,6 +31,11 @@ namespace Lottery.WebApi.Controllers.v1
             userInfoOutput.MemberRank = _lotterySession.MemberRank;
             userInfoOutput.SystemType = _lotterySession.SystemType;
             userInfoOutput.SystemTypeId = _lotterySession.SystemTypeId;
+            if (_lotterySession.SystemType == SystemType.App)
+            {
+                var lotteryInfo = _lotteryQueryService.GetLotteryInfoById(_lotterySession.SystemTypeId);
+                userInfoOutput.LotteryInfo = AutoMapper.Mapper.Map<LotteryInfoOutput>(lotteryInfo);
+            }
             return userInfoOutput;
         }
 
