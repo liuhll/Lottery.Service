@@ -4,15 +4,17 @@ using System.Configuration;
 using System.Web.Http;
 using ECommon.Components;
 using Lottery.WebApi.Result;
+using Newtonsoft.Json.Serialization;
 
 namespace Lottery.WebApi.Configration
 {
     [Component]
     public class LotteryApiConfiguration : ILotteryApiConfiguration
     {
+        private HttpConfiguration _httpConfiguration;
         public LotteryApiConfiguration()
         {
-            HttpConfiguration = GlobalConfiguration.Configuration;
+            HttpConfiguration = GlobalConfiguration.Configuration;            
             SetNoCacheForAjaxResponses = true;
             SetNoCacheForAllResponses = true;
         }
@@ -37,6 +39,20 @@ namespace Lottery.WebApi.Configration
         public bool SetNoCacheForAjaxResponses { get; set; }
 
         public bool SetNoCacheForAllResponses { get; set; }
+        public bool SetCamelCaseForAllResponses {
+            get
+            {
+                try
+                {
+                    return Convert.ToBoolean(ConfigurationManager.AppSettings["ResponseFormatterIsCamelCase"]);
+
+                }
+                catch (Exception e)
+                {
+                    return true;
+                }
+            }
+        }
 
         public List<string> ResultWrappingIgnoreUrls {
             get
@@ -46,6 +62,16 @@ namespace Lottery.WebApi.Configration
             }
         }
 
-        public HttpConfiguration HttpConfiguration { get; set; }
+        public HttpConfiguration HttpConfiguration {
+            get => _httpConfiguration;
+            set
+            {
+                _httpConfiguration = value;
+                if (SetCamelCaseForAllResponses)
+                {
+                    _httpConfiguration.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                }              
+            }
+        }
     }
 }

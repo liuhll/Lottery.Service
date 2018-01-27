@@ -14,7 +14,11 @@ namespace Lottery.WebApi.Configration
         bool SetDefaultWrapResult { get; }
 
         bool SetNoCacheForAjaxResponses { get; set; }
+
         bool SetNoCacheForAllResponses { get; set; }
+
+        bool SetCamelCaseForAllResponses { get; }
+
         List<string> ResultWrappingIgnoreUrls { get; }
 
         HttpConfiguration HttpConfiguration { get; set; }
