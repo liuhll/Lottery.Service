@@ -23,7 +23,9 @@ namespace Lottery.WebApi.Extensions
                 NameId = jObj["nameid"].ToString(),
                 Iat = DateTimeExtensions.TimeStampConvetDateTime(Convert.ToInt64(jObj["iat"].ToString())),
                 Exp = DateTimeExtensions.TimeStampConvetDateTime(Convert.ToInt64(jObj["exp"].ToString())),
-                Memberrank = jObj[LotteryClaimTypes.MemberRank].ToString()
+                Memberrank = jObj[LotteryClaimTypes.MemberRank].ToString(),
+                ClientNo = Convert.ToInt32(jObj[LotteryClaimTypes.ClientNo].ToString()),
+                SystemTypeId = jObj[LotteryClaimTypes.SystemType].ToString(),
             };
         }
     }
@@ -37,6 +39,10 @@ namespace Lottery.WebApi.Extensions
         public DateTime Exp { get; set; }
 
         public string Memberrank { get; set; }
+
+        public int ClientNo { get; set; }
+
+        public string SystemTypeId { get; set; }
 
     }
 }

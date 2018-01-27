@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Lottery.Core.Domain.LogonLog;
 using Lottery.Dtos.Account;
-using Lottery.Dtos.ConLog;
-using Lottery.Infrastructure.Enums;
 
 namespace Lottery.AppService.Account
 {

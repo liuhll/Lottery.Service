@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
-using ECommon.Extensions;
 using ECommon.IO;
 using Effortless.Net.Encryption;
 using ENode.Commanding;
@@ -13,13 +11,11 @@ using FluentValidation.Results;
 using Lottery.AppService.Account;
 using Lottery.Commands.LogonLog;
 using Lottery.Commands.UserInfos;
-using Lottery.Dtos.ConLog;
 using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
-using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Lotteries;
 using Lottery.WebApi.Extensions;
@@ -35,7 +31,6 @@ namespace Lottery.WebApi.Controllers
         private readonly UserProfileInputValidator _userProfileInputValidator;
         private readonly ILotteryQueryService _lotteryQueryService;
         private readonly IConLogQueryService _conLogQueryService;
-
 
         public AccountController(IUserManager userManager,
             ICommandService commandService,
@@ -81,39 +76,24 @@ namespace Lottery.WebApi.Controllers
             return token;
         }
 
-        private bool ValidateClient(string clientType,out string clientTypeId)
-        {
-            if (LotteryConstants.BackOfficeKey.Equals(clientType,StringComparison.CurrentCultureIgnoreCase))
-            {
-                clientTypeId = LotteryConstants.BackOfficeKey;
-                return true;
-            }
-            if (LotteryConstants.OfficialWebsite.Equals(clientType,StringComparison.CurrentCultureIgnoreCase))
-            {
-                clientTypeId = LotteryConstants.OfficialWebsite;
-                return true;
-            }
-            var result = _lotteryQueryService.GetLotteryInfoByCode(clientType);
-            if (result == null)
-            {
-               throw new LotteryDataException($"不存在编码为{clientType}的彩种");
-            }
-            clientTypeId = result.Id;
-            return true;
-        }
-
         /// <summary>
         /// 用户登出接口
         /// </summary>
         /// <returns></returns>
         [Route("logout")]
+        [AllowAnonymous]
         public async Task<string> Logout()
         {
             if (string.IsNullOrEmpty(_lotterySession.UserId))
             {
                 throw new LotteryAuthorizationException("用户未登录，或已登出,无法调用该接口");
             }
-            await SendCommandAsync(new LogoutCommand(_lotterySession.UserId, _lotterySession.UserId));
+            var conLog = _conLogQueryService.GetUserNewestConLog(_lotterySession.UserId, _lotterySession.SystemTypeId, _lotterySession.ClientNo);
+            if (conLog == null)
+            {
+                throw new LotteryAuthorizationException("您已经登出,请不要重复操作");
+            }
+            await SendCommandAsync(new LogoutCommand(conLog.Id, _lotterySession.UserId));
             return "用户登出成功";
         }
 
@@ -122,7 +102,7 @@ namespace Lottery.WebApi.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [Route("userinfo")]
+        [Route("register")]
         [AllowAnonymous]
         [HttpPost]
         public async Task<string> CreateUser(UserInfoInput user)
@@ -217,6 +197,27 @@ namespace Lottery.WebApi.Controllers
             }
             throw new LotteryDataException("注册账号不合法");
 
+        }
+
+        private bool ValidateClient(string clientType, out string clientTypeId)
+        {
+            if (LotteryConstants.BackOfficeKey.Equals(clientType, StringComparison.CurrentCultureIgnoreCase))
+            {
+                clientTypeId = LotteryConstants.BackOfficeKey;
+                return true;
+            }
+            if (LotteryConstants.OfficialWebsite.Equals(clientType, StringComparison.CurrentCultureIgnoreCase))
+            {
+                clientTypeId = LotteryConstants.OfficialWebsite;
+                return true;
+            }
+            var result = _lotteryQueryService.GetLotteryInfoByCode(clientType);
+            if (result == null)
+            {
+                throw new LotteryDataException($"不存在编码为{clientType}的彩种");
+            }
+            clientTypeId = result.Id;
+            return true;
         }
 
         #endregion

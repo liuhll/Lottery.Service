@@ -18,6 +18,7 @@ namespace Lottery.Core.Domain.LogonLog
             InvalidTime = invalidTime;
             Ip = ip;
             CreateBy = createBy;
+            UpdateTokenCount = 1;
         }
 
         public string SystemTypeId { get; private set; }
@@ -25,6 +26,8 @@ namespace Lottery.Core.Domain.LogonLog
         public string UserId { get; private set; }
 
         public int ClientNo { get; private set; }
+
+        public int UpdateTokenCount { get; private set; }
 
         public string Ip { get; private set; }
 

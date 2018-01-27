@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Domain;
+using Lottery.Core.Domain.LogonLog;
 using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Core.Domain.UserInfos
@@ -150,7 +151,7 @@ namespace Lottery.Core.Domain.UserInfos
            ApplyEvent(new UpdateLoginTimeEvent());
        }
 
-       public void UserLoginClientCount(bool isLogin)
+        public void UserLoginClientCount(bool isLogin)
        {
            if (isLogin)
            {
@@ -163,6 +164,7 @@ namespace Lottery.Core.Domain.UserInfos
            ApplyEvent(new UpdateUserLoginClientCountEvent(LoginClientCount));
 
        }
+
         #endregion
 
         #region Handle Method
@@ -202,6 +204,6 @@ namespace Lottery.Core.Domain.UserInfos
        #endregion
 
 
-      
+     
    }   
 }

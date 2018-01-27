@@ -9,16 +9,14 @@ namespace Lottery.Commands.LogonLog
         {
         }
 
-        public UpdateTokenCommand(string userId, DateTime updateTokenTime, string updateBy)
+        public UpdateTokenCommand(string id,DateTime invalidTime, string updateBy):base(id)
         {
-            UserId = userId;
-            UpdateTokenTime = updateTokenTime;
+            InvalidTime = invalidTime;
             UpdateBy = updateBy;
         }
 
-        public string UserId { get; private set; }
 
-        public DateTime UpdateTokenTime { get; private set; }
+        public DateTime InvalidTime { get; private set; }
 
         public string UpdateBy { get; private set; }
     }

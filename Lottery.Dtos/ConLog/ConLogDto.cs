@@ -12,9 +12,9 @@ namespace Lottery.Dtos.ConLog
 
         public DateTime LoginTime { get; set; }
 
-        public DateTime InvalidTime { get; set; }
+        public DateTime? InvalidTime { get; set; }
 
-        public DateTime LogoutTime { get; set; }
+        public DateTime? LogoutTime { get; set; }
 
         public int OnlineTime { get; set; }
 

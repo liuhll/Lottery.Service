@@ -23,10 +23,10 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
                     evnt.UserId,
                     evnt.SystemTypeId,
                     evnt.Ip,
-                    evnt.InvalidTime,
+                    InvalidTime = evnt.InvalidTime,
                     evnt.ClientNo,
                     LoginTime = evnt.Timestamp,
-                    UpdateTokenCount = 1,
+                    UpdateTokenCount = evnt.UpdateTokenCount,
                     Createby = evnt.UserId,
                     CreateTime = evnt.Timestamp,
 
@@ -41,11 +41,9 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
 
                 return conn.UpdateAsync(new
                 {
-
-                    UserId = evnt.UserId,
-                    LoginTime = evnt.Timestamp,
-                    UpdateTokenCount = 1,
-                    Updateby = evnt.UserId,
+                    evnt.UpdateTokenCount,
+                    evnt.InvalidTime,
+                    Updateby = evnt.UpdateBy,
                     UpdateTime = evnt.Timestamp,
 
                 }, new {Id = evnt.AggregateRootId,}, TableNameConstants.ConLogTable);
@@ -59,10 +57,8 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
 
                 return conn.UpdateAsync(new
                 {
-                    UserId = evnt.UserId,
-                    LogoutTime = evnt.Timestamp,
-                    UpdateTokenCount = 1,
-                    OnlineTime = (int)(evnt.Timestamp - evnt.LoginTime).TotalMinutes,
+                    LogoutTime = evnt.LogoutTime,
+                    OnlineTime = evnt.OnlineTime,
                     Updateby = evnt.UserId,
                     UpdateTime = evnt.Timestamp,
 

@@ -6,7 +6,7 @@ namespace Lottery.Core.Domain.LogonLog
 {
     public class ConLog : AggregateRoot<string>
     {
-        public ConLog(string id,int clientNo,string systemTypeId,string ip,string userId,DateTime invalidDateTime,string createBy) : base(id)
+        public ConLog(string id,int clientNo,string systemTypeId,string ip,string userId,DateTime invalidTime,string createBy) : base(id)
         {
             UserId = userId;
             UpdateTokenCount = 0;
@@ -14,9 +14,9 @@ namespace Lottery.Core.Domain.LogonLog
             ClientNo = clientNo;
             Ip = ip;
             SystemTypeId = systemTypeId;
-            InvalidDateTime = invalidDateTime;
+            InvalidTime = invalidTime;
             CreateTime = DateTime.Now;
-            ApplyEvent(new AddConLogEvent(UserId,ClientNo, SystemTypeId, Ip,InvalidDateTime, CreateBy));
+            ApplyEvent(new AddConLogEvent(UserId,ClientNo, SystemTypeId, Ip,InvalidTime, CreateBy));
             ApplyEvent(new UpdateLastLoginTimeEvent(UserId));
         }
 
@@ -30,7 +30,7 @@ namespace Lottery.Core.Domain.LogonLog
 
         public DateTime CreateTime { get; private set; }
 
-        public DateTime InvalidDateTime { get; private set; }
+        public DateTime InvalidTime { get; private set; }
 
         public int ClientNo { get; private set; }
 
@@ -44,14 +44,19 @@ namespace Lottery.Core.Domain.LogonLog
 
         public DateTime UpdateTime { get; private set; }
 
-        public void UpdateToken(string userId, DateTime updateTokenTime, string updateBy)
+        public int OnlineTime { get; private set; }
+
+        public void UpdateToken(DateTime invalidTime, string updateBy)
         {
-            ApplyEvent(new UpdateTokenEvent(userId, updateTokenTime, updateBy));         
+            UpdateTokenCount = UpdateTokenCount + 1;
+            ApplyEvent(new UpdateTokenEvent(invalidTime, UpdateTokenCount, updateBy));         
         }
 
-        public void Logout()
+        public void Logout(string updateBy)
         {
-            ApplyEvent(new LogoutEvent(UserId,LoginTime));
+            LogoutTime = DateTime.Now;
+            OnlineTime = (int)(LogoutTime - LoginTime).TotalSeconds;
+            ApplyEvent(new LogoutEvent(updateBy,LogoutTime, OnlineTime));
         }
 
         #region hander event
@@ -63,22 +68,26 @@ namespace Lottery.Core.Domain.LogonLog
             Ip = evt.Ip;
             SystemTypeId = evt.SystemTypeId;
             LoginTime = evt.Timestamp;
-            InvalidDateTime = evt.InvalidTime;
+            InvalidTime = evt.InvalidTime;
             CreateBy = evt.CreateBy;
             CreateTime = evt.Timestamp;
+            UpdateTokenCount = evt.UpdateTokenCount;
         }
 
         private void Handle(UpdateTokenEvent evt)
         {
-            UserId = evt.UserId;
-            UpdateTime = evt.UpdateTokenTime;
             UpdateBy = evt.UpdateBy;
-            UpdateTime = evt.Timestamp;
+            InvalidTime = evt.InvalidTime;
+            UpdateBy = evt.UpdateBy;
+            UpdateTokenCount = evt.UpdateTokenCount;
         }
 
         private void Handle(LogoutEvent evt)
         {
-            LoginTime = evt.Timestamp;
+            LogoutTime = evt.LogoutTime;
+            OnlineTime = evt.OnlineTime;
+            UpdateBy = evt.UserId;
+            UpdateTime = evt.Timestamp;
         }
 
 

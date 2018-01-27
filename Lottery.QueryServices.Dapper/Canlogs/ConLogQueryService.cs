@@ -38,7 +38,29 @@ namespace Lottery.QueryServices.Dapper.Canlogs
 
         public ICollection<ConLogDto> GetUserInvalidConLogs(string userId, string systemTypeId)
         {
-            return GetUserInvalidConLogs(userId, systemTypeId).Where(p => p.InvalidTime <= DateTime.Now).ToList();
+            return GetUserConLogs(userId, systemTypeId).Where(p => p.InvalidTime <= DateTime.Now).ToList();
+        }
+
+        public ConLogDto GetUserConLog(string userId, string systemTypeId, int clientNo, DateTime invalidTime)
+        {
+            using (var conn = GetLotteryConnection())
+            {
+                conn.Open();
+                return conn.QueryList<ConLogDto>(new { UserId = userId, SystemTypeId = systemTypeId, ClientNo = clientNo, InvalidTime = invalidTime },
+                    TableNameConstants.ConLogTable).FirstOrDefault();
+            }
+        }
+
+        public ConLogDto GetUserNewestConLog(string userId,string systemTypeId, int clientNo)
+        {
+            using (var conn = GetLotteryConnection())
+            {
+                conn.Open();
+                var sql = @"SELECT TOP 1 *
+                            FROM  [dbo].[F_ConLog] WHERE InvalidTime > GETDATE() AND ClientNo=@ClientNo AND UserId = @UserId
+                            AND SystemTypeId=@SystemTypeId AND LogoutTime IS NULL ORDER BY CreateTime DESC";
+                return conn.QueryFirstOrDefault<ConLogDto>(sql,new { UserId  = userId, SystemTypeId = systemTypeId, ClientNo = clientNo });
+            }
         }
     }
 }

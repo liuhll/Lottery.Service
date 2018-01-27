@@ -186,7 +186,7 @@ namespace Lottery.AppService.Account
             //Set issued at date
             DateTime issuedAt = DateTime.UtcNow;
             //set the time when it expires
-            DateTime expires = DateTime.UtcNow.AddHours(ConfigHelper.ValueInt("passwordExpire"));
+            DateTime expires = issuedAt.AddHours(ConfigHelper.ValueInt("passwordExpire"));
 
             // http://stackoverflow.com/questions/18223868/how-to-encrypt-jwt-security-token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -212,7 +212,7 @@ namespace Lottery.AppService.Account
                 tokenHandler.CreateJwtSecurityToken(audience: ConfigHelper.Value("audience").ToString(), issuer: ConfigHelper.Value("issuer").ToString(),
                     subject: claimsIdentity, notBefore: issuedAt, expires: expires, signingCredentials: signingCredentials);
             var tokenString = tokenHandler.WriteToken(token);
-            invalidDateTime = expires.ToLocalTime();
+            invalidDateTime = DateTime.Parse(expires.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss"));
             return tokenString;
         }
 

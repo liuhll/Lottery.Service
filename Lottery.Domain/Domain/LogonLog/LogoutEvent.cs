@@ -10,15 +10,17 @@ namespace Lottery.Core.Domain.LogonLog
            
         }
 
-        public LogoutEvent(string userId,DateTime loginTime)
+        public LogoutEvent(string userId,DateTime logoutTime,int onlineTime)
         {
             UserId = userId;
-            LoginTime = loginTime;
+            OnlineTime = onlineTime;
+            LogoutTime = logoutTime;
         }
-
 
         public string UserId { get; private set; }
 
-        public DateTime LoginTime { get; private set; }
+        public int OnlineTime { get; private set; }
+
+        public DateTime LogoutTime { get; private set; }
     }
 }

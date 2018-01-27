@@ -9,16 +9,16 @@ namespace Lottery.Core.Domain.LogonLog
         {
         }
 
-        public UpdateTokenEvent(string userId, DateTime updateTokenTime, string updateBy)
+        public UpdateTokenEvent(DateTime invalidTime, int updateTokenCount, string updateBy)
         {
-            UserId = userId;
-            UpdateTokenTime = updateTokenTime;
+            UpdateTokenCount = updateTokenCount;
+            InvalidTime = invalidTime;
             UpdateBy = updateBy;
         }
 
-        public string UserId { get; private set; }
+        public int UpdateTokenCount { get; private set; }
 
-        public DateTime UpdateTokenTime { get; private set; }
+        public DateTime InvalidTime { get; private set; }
 
         public string UpdateBy { get; private set; }
     }

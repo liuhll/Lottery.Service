@@ -13,7 +13,9 @@ using Lottery.AppService.Account;
 using Lottery.Commands.LogonLog;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.RunTime.Session;
+using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.UserInfos;
 using Lottery.WebApi.Extensions;
 using Lottery.WebApi.Result.Models;
@@ -29,22 +31,30 @@ namespace Lottery.WebApi.Authentication
         private readonly ICommandService _commandService;
         private readonly ILotterySession _lotterySession;
         private readonly IUserManager _userManager;
+        private readonly IConLogQueryService _conLogQueryService;
+
+        private static string[] whitelist = new string[] { "/account/login" };
 
         public TokenValidationHandler()
         {
             _commandService = ObjectContainer.Resolve<ICommandService>();
             _lotterySession = NullLotterySession.Instance;
             _userManager = ObjectContainer.Resolve<IUserManager>();
+            _conLogQueryService = ObjectContainer.Resolve<IConLogQueryService>();
         }
-
 
         private static bool TryRetrieveToken(HttpRequestMessage request, out string token)
         {
             token = null;
             IEnumerable<string> authzHeaders;
+
             if (!request.Headers.TryGetValues("Authorization", out authzHeaders) || authzHeaders.Count() > 1)
             {
-                return false;
+                if (whitelist.Any(p=>p == request.RequestUri.AbsolutePath.ToLower()) || request.RequestUri.AbsolutePath.ToLower().Contains("swagger"))
+                {
+                    return false;
+                }
+                return true;
             }
             var bearerToken = authzHeaders.ElementAt(0);
             token = bearerToken.StartsWith("Bearer ") ? bearerToken.Substring(7) : bearerToken;
@@ -60,16 +70,13 @@ namespace Lottery.WebApi.Authentication
 
             //determine whether a jwt exists or not
             if (!TryRetrieveToken(request, out token))
-            {
-                //allow requests with no token - whether a action method needs an authentication can be set with the claimsauthorization attribute
+            {               
                 return await base.SendAsync(request, cancellationToken);
             }
 
             try
             {
-                var securityKey =
-                    new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
-                        System.Text.Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
+                var securityKey = new SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(LotteryConstants.JwtSecurityKey));
 
                 SecurityToken securityToken;
                 JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
@@ -87,23 +94,37 @@ namespace Lottery.WebApi.Authentication
                 Thread.CurrentPrincipal = principal;
                 HttpContext.Current.User = principal;
 
+                var conLog = _conLogQueryService.GetUserConLog(_lotterySession.UserId, _lotterySession.SystemTypeId, _lotterySession.ClientNo,
+                    securityToken.ValidTo.ToLocalTime());
+                if (conLog.LogoutTime.HasValue)
+                {
+                    throw new LotteryAuthorizationException("您已经登出,请重新登录");
+                }
                 var okResponse = await base.SendAsync(request, cancellationToken);
                 //extract and assign the user of the jwt           
                 if ((securityToken.ValidTo - DateTime.UtcNow).TotalMinutes <= 3)
                 {
-                    DateTime invalidTime;
+                    DateTime invalidTime;                 
                     var refreshToken =
-                        _userManager.UpdateToken(_lotterySession.UserId, _lotterySession.SystemTypeId, _lotterySession.ClientNo, out invalidTime);
-                    okResponse.Headers.Add("access-token",refreshToken);
-                    await _commandService.ExecuteAsync(new UpdateTokenCommand(_lotterySession.UserId,DateTime.Now, _lotterySession.UserId));
-                }
+                        _userManager.UpdateToken(_lotterySession.UserId, _lotterySession.SystemTypeId,
+                            _lotterySession.ClientNo, out invalidTime);
+                    okResponse.Headers.Add("access-token", refreshToken);
 
+                    await _commandService.ExecuteAsync(
+                        new UpdateTokenCommand(conLog.Id, invalidTime, _lotterySession.UserId));
+                }
                 return okResponse;
             }
             catch (SecurityTokenInvalidLifetimeException ex)
             {
-                var userInfo = ex.GetTokenInfo();
-                await _commandService.ExecuteAsync(new LogoutCommand(userInfo.NameId, userInfo.NameId));
+                var tokenInfo = ex.GetTokenInfo();
+                var conLog = _conLogQueryService.GetUserConLog(tokenInfo.NameId,tokenInfo.SystemTypeId, tokenInfo.ClientNo,
+                    tokenInfo.Exp);
+                if (conLog != null)
+                {
+                    await _commandService.ExecuteAsync(new LogoutCommand(conLog.Id, tokenInfo.NameId));
+                }
+
                 errorCode = ErrorCode.OvertimeToken;
                 errorMessage = "登录超时,请重新超时";
             }
@@ -117,12 +138,17 @@ namespace Lottery.WebApi.Authentication
                 errorCode = ErrorCode.AuthorizationFailed;
                 errorMessage = ex.Message;
             }
+            catch (NullReferenceException)
+            {
+                errorCode = ErrorCode.InvalidToken;
+                errorMessage = "无效的Token,原因:该Token已失效";
+            }
             catch (Exception ex)
             {
                 errorCode = ErrorCode.InvalidToken;
-                errorMessage = "无效的Token" + ex.Message;
+                errorMessage = "无效的Token,原因:" + ex.Message;
             }
-          
+
             var errorResponse = request.CreateResponse(HttpStatusCode.OK,new ResponseMessage(new ErrorInfo(errorCode, errorMessage),true));
             return await Task<HttpResponseMessage>.Factory.StartNew(() => errorResponse);
         }

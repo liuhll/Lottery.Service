@@ -6,11 +6,13 @@ using Lottery.Core.Domain.LogonLog;
 
 namespace Lottery.CommandHandlers
 {
-    public class LogonCommandHandler : ICommandHandler<AddConLogCommand>, ICommandHandler<UpdateTokenCommand>
+    public class ConlogCommandHandler : ICommandHandler<AddConLogCommand>, 
+        ICommandHandler<UpdateTokenCommand>,
+        ICommandHandler<LogoutCommand>
     {
         private readonly ICommandService _commandService;
 
-        public LogonCommandHandler(ICommandService commandService)
+        public ConlogCommandHandler(ICommandService commandService)
         {
             _commandService = commandService;
         }
@@ -22,9 +24,12 @@ namespace Lottery.CommandHandlers
 
         public void Handle(ICommandContext context, UpdateTokenCommand command)
         {
-            context.Get<ConLog>(command.AggregateRootId).UpdateToken(command.UserId,command.UpdateTokenTime,command.UpdateBy);
+            context.Get<ConLog>(command.AggregateRootId).UpdateToken(command.InvalidTime,command.UpdateBy);
         }
 
-      
+        public void Handle(ICommandContext context, LogoutCommand command)
+        {
+            context.Get<ConLog>(command.AggregateRootId).Logout(command.UpdateBy);
+        }
     }
 }
