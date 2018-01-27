@@ -63,13 +63,12 @@ namespace Lottery.Denormalizers.Dapper.Account
                     evnt.Phone,
                     evnt.UserName,
                     CreateTime = evnt.Timestamp,
-                    LoginClientCount = 0,
-                    Balance = 0,
+                    Balance = evnt.Balance,
                     Points = evnt.Points,
-                    TotalRecharge = 0,
-                    TotalConsumeAccount = 0,
-                    PointCount = 0,
-                    AmountCount = 0
+                    TotalRecharge = evnt.TotalRecharge,
+                    TotalConsumeAccount = evnt.TotalConsumeAccount,
+                    PointCount = evnt.PointCount,
+                    AmountCount = evnt.AmountCount,
                 }, TableNameConstants.UserInfoTable);
             });
         }

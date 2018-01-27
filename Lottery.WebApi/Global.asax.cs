@@ -62,6 +62,7 @@ namespace Lottery.WebApi
                 .RegisterBusinessComponents(assemblies)
                 .UseEQueue()
                 .UseRedisCache()
+                .UseAutoMapper("Lottery.Dtos")
                 .UseSqlServerPublishedVersionStore()
                 .BuildContainer()
                 .InitializeBusinessAssemblies(assemblies)

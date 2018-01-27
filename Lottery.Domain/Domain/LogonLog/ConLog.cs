@@ -16,8 +16,7 @@ namespace Lottery.Core.Domain.LogonLog
             SystemTypeId = systemTypeId;
             InvalidTime = invalidTime;
             CreateTime = DateTime.Now;
-            ApplyEvent(new AddConLogEvent(UserId,ClientNo, SystemTypeId, Ip,InvalidTime, CreateBy));
-            ApplyEvent(new UpdateLastLoginTimeEvent(UserId));
+            ApplyEvent(new AddConLogEvent(UserId,ClientNo, SystemTypeId, Ip,InvalidTime, CreateBy));           
         }
 
         public string UserId { get; private set; }
@@ -88,11 +87,6 @@ namespace Lottery.Core.Domain.LogonLog
             OnlineTime = evt.OnlineTime;
             UpdateBy = evt.UserId;
             UpdateTime = evt.Timestamp;
-        }
-
-
-        private void Handle(UpdateLastLoginTimeEvent evt)
-        {
         }
 
         #endregion

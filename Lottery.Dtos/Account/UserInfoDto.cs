@@ -1,8 +1,11 @@
 ﻿using System;
+using AutoMapper.Attributes;
+using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Dtos.Account
 {
+    [MapsTo(typeof(UserInfoOutput))]
     public class UserInfoDto
     {
         public string Id { get; set; }
@@ -17,14 +20,11 @@ namespace Lottery.Dtos.Account
 
         public bool IsActive { get; set; }
 
-        public DateTime LastLoginTime { get; set; }
-
         public string QQCode { get; set; }
 
         public string Wechat { get; set; }
 
         public AccountRegistType AccountRegistType { get; set; }
-
 
         public int Balance { get; set; }
 
@@ -37,6 +37,8 @@ namespace Lottery.Dtos.Account
         public int PointCount { get; set; }
 
         public int AmountCount { get; set; }
+
+        public int TotalConsumePoint { get; set; }
 
     }
 }

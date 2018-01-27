@@ -32,7 +32,6 @@ namespace Lottery.CommandService
                 typeof(AddUserInfoEvent),
                 typeof(BindUserEmailEvent),
                 typeof(BindUserPhoneEvent),
-                typeof(UpdateLastLoginTimeEvent),
                 typeof(UpdateLoginTimeEvent),
                 typeof(UpdateUserLoginClientCountEvent),
                 typeof(UpdateUserLogoutEvent)

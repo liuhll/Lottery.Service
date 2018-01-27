@@ -22,7 +22,7 @@ namespace Lottery.Dtos.Power
         /// <summary>
         /// URI
         /// </summary>
-        public string UrlPath { get; set; }
+        public string ApiPath { get; set; }
 
         public string HttpMethod { get; set; }
 

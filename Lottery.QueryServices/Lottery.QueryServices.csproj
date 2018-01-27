@@ -65,7 +65,9 @@
     <Compile Include="UserInfos\IUserInfoService.cs" />
     <Compile Include="UserInfos\IUserTicketService.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lottery.Dtos\Lottery.Dtos.csproj">
       <Project>{2d504ff2-ea5c-424d-99bd-99c1389f7e1c}</Project>

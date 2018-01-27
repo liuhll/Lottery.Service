@@ -29,7 +29,6 @@ namespace Lottery.Tests.Providers
                 typeof(AddUserInfoEvent),
                 typeof(BindUserEmailEvent),
                 typeof(BindUserPhoneEvent),
-                typeof(UpdateLastLoginTimeEvent),
                 typeof(UpdateLoginTimeEvent));
 
             RegisterTopic(EQueueTopics.NormEventTopic,

@@ -31,7 +31,7 @@ namespace Lottery.WebApi.Authentication
         private readonly IUserManager _userManager;
         private readonly IConLogQueryService _conLogQueryService;
 
-        private static string[] whitelist = new string[] { "/account/login" };
+        private static string[] whitelist = new string[] { "/account/login", "/account/register" };
 
         public TokenValidationHandler()
         {
@@ -125,7 +125,7 @@ namespace Lottery.WebApi.Authentication
                         await _commandService.ExecuteAsync(new LogoutCommand(conLog.Id, tokenInfo.NameId));
                     }
                     errorCode = ErrorCode.OvertimeToken;
-                    errorMessage = "登录超时,请重新超时";
+                    errorMessage = "登录超时,请重新登录";
                 }
                 catch (Exception e)
                 {

@@ -23,7 +23,9 @@ namespace Lottery.QueryServices.Dapper.UserInfos
             using (var conn = GetLotteryConnection())
             {
                 conn.Open();
-                var sql = "SELECT * FROM [dbo].[F_UserInfo] WHERE (UserName=@UserName OR Email=@UserName OR Phone=@UserName) AND ISDELETE=0";
+                var sql = @"SELECT A.*,ISNULL(B.TotalConsumePoint,0) AS TotalConsumePoint FROM [dbo].[F_UserInfo] AS A
+                        LEFT JOIN (SELECT SUM(point) AS TotalConsumePoint,CreateBy AS Consumer FROM [LotteryV01].[dbo].[MS_PointRecord] WHERE OperationType = 1 GROUP BY CreateBy) AS B ON A.Id = b.Consumer
+                        WHERE (UserName=@UserName OR Email=@UserName OR Phone=@UserName) AND ISDELETE=0";
                 var userInfo = conn.QueryFirstOrDefault<UserInfoDto>(sql, new { @UserName = account });
                 return Task.FromResult(userInfo);
             }
@@ -37,7 +39,10 @@ namespace Lottery.QueryServices.Dapper.UserInfos
             {
                 using (var conn = GetLotteryConnection())
                 {
-                    var sql = "SELECT * FROM [dbo].[F_UserInfo] WHERE Id=@Id AND ISDELETE=0";
+                    var sql = @"SELECT A.*,ISNULL(B.TotalConsumePoint,0) AS TotalConsumePoint FROM [dbo].[F_UserInfo] AS A
+                    LEFT JOIN(SELECT SUM(point) AS TotalConsumePoint, CreateBy AS Consumer FROM [dbo].[MS_PointRecord] WHERE OperationType = 1 GROUP BY CreateBy) AS B ON A.Id = b.Consumer
+                    WHERE A.Id = @Id AND ISDELETE = 0";
+
                     return conn.QueryFirstOrDefault<UserInfoDto>(sql, new { @Id = id });
                 }
             });

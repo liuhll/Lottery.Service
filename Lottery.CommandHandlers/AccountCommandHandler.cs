@@ -26,8 +26,8 @@ namespace Lottery.CommandHandlers
 
         public void Handle(ICommandContext context, BindUserEmailCommand command)
         {
-            context.Get<UserInfo>(command.AggregateRootId)
-                .BindUserEmail(command.Email);
+            context.Get<UserInfo>(command.AggregateRootId).BindUserEmail(command.Email);
+
         }
 
         public void Handle(ICommandContext context, BindUserPhoneCommand command)

@@ -118,6 +118,8 @@ namespace Lottery.WebApi.Controllers
                 throw new LotteryDataException("该账号已经存在");
             }
             var accountRegType = ReferAccountRegType(user.Account);
+
+            // :todo 是否存在活动,以及查询获赠的积分
             var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account, 
                 EncryptPassword(user.Account, user.Password, accountRegType),
                 user.ClientRegistType, accountRegType,0);

@@ -29,8 +29,26 @@ namespace Lottery.Core.Domain.UserInfos
             IsDelete = false;
             AccountRegistType = accountRegistType;
             Points = points;
-
-            ApplyEvent(new AddUserInfoEvent(UserName, Email, Phone, Password, IsActive, ClientRegistType, IsDelete, AccountRegistType,Points));
+          Balance = 0;
+          TotalRecharge = 0;
+          TotalConsumeAccount = 0;
+          PointCount = 0;
+          AmountCount = 0;
+            ApplyEvent(new AddUserInfoEvent(UserName,
+                Email,
+                Phone, 
+                Password,
+                IsActive,
+                ClientRegistType,
+                IsDelete,
+                AccountRegistType,
+                Points,
+                Balance,
+                TotalRecharge,
+                TotalConsumeAccount,
+                PointCount,
+                AmountCount
+                ));
       }         
  
       /// <summary>
@@ -76,7 +94,7 @@ namespace Lottery.Core.Domain.UserInfos
 
        public int PointCount { get; private set; }
 
-       public int AmountCount { get; set; }
+       public int AmountCount { get; private set; }
 
        /// <summary>
         /// 最后登录时间
@@ -107,11 +125,11 @@ namespace Lottery.Core.Domain.UserInfos
       /// 用户注册来源
       /// </summary>
       public ClientRegistType ClientRegistType { get; private set; }
-      
-      /// <summary>
-      /// 最后修改人
-      /// </summary>
-      public DateTime? UpdateBy { get; private set; }
+
+        /// <summary>
+        /// 最后修改人
+        /// </summary>
+        public DateTime? UpdateBy { get; private set; }
       
       /// <summary>
       /// 最后修改时间
@@ -179,7 +197,13 @@ namespace Lottery.Core.Domain.UserInfos
            CreateTime = evnt.CreateTime;
            IsActive = evnt.IsActive;
            IsDelete = evnt.IsDelete;
-         
+            Balance = evnt.Balance;
+            Points = evnt.Points;
+            TotalRecharge = evnt.TotalRecharge;
+            TotalConsumeAccount = evnt.TotalConsumeAccount;
+            PointCount = evnt.PointCount;
+            AmountCount = evnt.AmountCount;
+
         }
 
        private void Handle(BindUserEmailEvent evnt)
@@ -189,11 +213,6 @@ namespace Lottery.Core.Domain.UserInfos
        private void Handle(BindUserPhoneEvent evnt)
        {
            Phone = evnt.Phone;
-       }
-
-       private void Handle(UpdateLoginTimeEvent evnt)
-       {
-           LastLoginTime = evnt.Timestamp;
        }
 
        private void Handle(UpdateUserLoginClientCountEvent evnt)

@@ -18,11 +18,11 @@ namespace Lottery.QueryServices.Dapper.Powers
             }
         }
 
-        public PowerDto GetPermissionByApi(string urlPath, string method)
+        public PowerDto GetPermissionByApi(string apiPath, string method)
         {
             using (var conn = GetLotteryConnection())
             {
-                return conn.QueryList<PowerDto>(new { UrlPath = urlPath, HttpMethod = method, IsDelete = 0 }, TableNameConstants.PowerTable).FirstOrDefault();
+                return conn.QueryList<PowerDto>(new { ApiPath = apiPath, HttpMethod = method, IsDelete = 0 }, TableNameConstants.PowerTable).FirstOrDefault();
             }
         }
     }

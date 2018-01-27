@@ -9,6 +9,7 @@ using EQueue.Configurations;
 using Lottery.Core.Caching;
 using Lottery.Engine;
 using Lottery.Infrastructure;
+using Lottery.WebApi.Configration.Mapper;
 
 namespace Lottery.WebApi.Extensions
 {
@@ -60,6 +61,13 @@ namespace Lottery.WebApi.Extensions
         public static ENodeConfiguration InitLotteryEngine(this ENodeConfiguration enodeConfiguration)
         {
             EngineContext.Initialize();
+            return enodeConfiguration;
+        }
+
+        public static ENodeConfiguration UseAutoMapper(this ENodeConfiguration enodeConfiguration,
+            params string[] assemblyNames)
+        {
+            MapperConfig.InitAutoMapperConfig(assemblyNames);
             return enodeConfiguration;
         }
     }

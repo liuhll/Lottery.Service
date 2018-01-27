@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Lottery.Commands.LogonLog;
 using Lottery.Core.Domain.LogonLog;
 
