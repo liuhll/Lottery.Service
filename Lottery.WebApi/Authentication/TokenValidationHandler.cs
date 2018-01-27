@@ -13,10 +13,8 @@ using Lottery.AppService.Account;
 using Lottery.Commands.LogonLog;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
-using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.RunTime.Session;
 using Lottery.QueryServices.Canlogs;
-using Lottery.QueryServices.UserInfos;
 using Lottery.WebApi.Extensions;
 using Lottery.WebApi.Result.Models;
 using Microsoft.IdentityModel.Tokens;
@@ -117,16 +115,23 @@ namespace Lottery.WebApi.Authentication
             }
             catch (SecurityTokenInvalidLifetimeException ex)
             {
-                var tokenInfo = ex.GetTokenInfo();
-                var conLog = _conLogQueryService.GetUserConLog(tokenInfo.NameId,tokenInfo.SystemTypeId, tokenInfo.ClientNo,
-                    tokenInfo.Exp);
-                if (conLog != null)
+                try
                 {
-                    await _commandService.ExecuteAsync(new LogoutCommand(conLog.Id, tokenInfo.NameId));
+                    var tokenInfo = ex.GetTokenInfo();
+                    var conLog = _conLogQueryService.GetUserConLog(tokenInfo.NameId,tokenInfo.SystemTypeId, tokenInfo.ClientNo,
+                        tokenInfo.Exp);
+                    if (conLog != null)
+                    {
+                        await _commandService.ExecuteAsync(new LogoutCommand(conLog.Id, tokenInfo.NameId));
+                    }
+                    errorCode = ErrorCode.OvertimeToken;
+                    errorMessage = "登录超时,请重新超时";
                 }
-
-                errorCode = ErrorCode.OvertimeToken;
-                errorMessage = "登录超时,请重新超时";
+                catch (Exception e)
+                {
+                    errorCode = ErrorCode.InvalidToken;
+                    errorMessage = e.Message;
+                }            
             }
             catch (SecurityTokenValidationException ex)
             {
