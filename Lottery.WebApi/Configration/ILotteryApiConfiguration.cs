@@ -19,6 +19,8 @@ namespace Lottery.WebApi.Configration
 
         bool SetCamelCaseForAllResponses { get; }
 
+        bool ClearHistroyCache { get; }
+
         List<string> ResultWrappingIgnoreUrls { get; }
 
         HttpConfiguration HttpConfiguration { get; set; }

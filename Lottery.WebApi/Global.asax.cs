@@ -65,6 +65,7 @@ namespace Lottery.WebApi
                 .UseAutoMapper("Lottery.Dtos")
                 .UseSqlServerPublishedVersionStore()
                 .BuildContainer()
+                .ClearCache()
                 .InitializeBusinessAssemblies(assemblies)
                 .InitLotteryEngine()
                 .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)

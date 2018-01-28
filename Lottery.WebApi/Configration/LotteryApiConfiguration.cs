@@ -54,6 +54,21 @@ namespace Lottery.WebApi.Configration
             }
         }
 
+        public bool ClearHistroyCache {
+            get
+            {
+                try
+                {
+                    return Convert.ToBoolean(ConfigurationManager.AppSettings["ClearHistroyCache"]);
+
+                }
+                catch (Exception e)
+                {
+                    return true;
+                }
+            }
+        }
+
         public List<string> ResultWrappingIgnoreUrls {
             get
             {
