@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dapper;
 using ECommon.Components;
 using ECommon.Dapper;
 using ECommon.Extensions;
@@ -91,6 +92,19 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             using (var conn = GetLotteryConnection())
             {
                 return conn.QueryList<UserPlanNormOutput>(new { LotteryId = lotteryId, PlanId= planId, UserId = userId }, TableNameConstants.NormConfigTable).First();
+            }
+        }
+
+        public PlanInfoDto GetNormPlanInfoByNormId(string normId,string lotteryId)
+        {
+            using (var conn = GetLotteryConnection())
+            {
+                var sql = @"SELECT TOP 1 B.*  FROM dbo.LA_NormConfig AS A
+                           INNER JOIN dbo.L_PlanInfo AS B 
+                           ON B.Id = a.PlanId
+                           WHERE a.Id=@NormId AND A.LotteryId=@LotteryId
+                          ";
+                return conn.QueryFirst<PlanInfoDto>(sql, new {NormId = normId, LotteryId = lotteryId});
             }
         }
     }

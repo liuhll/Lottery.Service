@@ -16,5 +16,6 @@ namespace Lottery.QueryServices.Lotteries
 
         UserPlanNormOutput GetUserNormConfigById(string userId, string normId);
         UserPlanNormOutput GetUserNormConfigByPlanId(string userId, string lotteryId, string planId);
+        PlanInfoDto GetNormPlanInfoByNormId(string normId,string lotteryId);
     }
 }

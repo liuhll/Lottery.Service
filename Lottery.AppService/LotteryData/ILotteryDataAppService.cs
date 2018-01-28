@@ -20,5 +20,6 @@ namespace Lottery.AppService.LotteryData
         ICollection<LotteryDataDto> GetList(string lotteryId);
 
         FinalLotteryDataOutput GetFinalLotteryData(string lotteryId);
+        ICollection<PlanTrackNumber> GetpredictResultData(IList<PredictDataDto> data,string lotteryId);
     }
 }

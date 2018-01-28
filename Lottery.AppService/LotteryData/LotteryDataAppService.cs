@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ECommon.Components;
+using ECommon.Extensions;
 using Lottery.AppService.Predict;
 using Lottery.Dtos.Lotteries;
 using Lottery.Engine.LotteryData;
@@ -111,6 +113,40 @@ namespace Lottery.AppService.LotteryData
             }
             return finalLotteryDataOutput;
 
+        }
+
+        public ICollection<PlanTrackNumber> GetpredictResultData(IList<PredictDataDto> data,string lotteryId)
+        {
+            var planTrackNumbers = new List<PlanTrackNumber>();
+            data.GroupBy(p => p.NormConfigId).ForEach(item =>
+            {
+                var planInfo = _normConfigQueryService.GetNormPlanInfoByNormId(item.Key,lotteryId);
+                var newestLotteryInfo = item.OrderByDescending(p => p.StartPeriod).First();
+                var planTrackNumber = new PlanTrackNumber()
+                {
+                    PlanId = planInfo.Id,
+                    PlanName = planInfo.PlanName,
+                    EndPeriod = newestLotteryInfo.EndPeriod,
+                    StartPeriod = newestLotteryInfo.StartPeriod,
+                    MinorCycle = newestLotteryInfo.MinorCycle,
+                    PredictData = newestLotteryInfo.PredictedData,
+                    PredictType = planInfo.DsType,
+                    HistoryPredictResults = GetHistoryPredictResults(item.OrderByDescending(p=>p.StartPeriod)),
+                };
+                planTrackNumbers.Add(planTrackNumber);
+            });
+      
+            return planTrackNumbers;
+        }
+
+        private int[] GetHistoryPredictResults(IOrderedEnumerable<PredictDataDto> predictDatas)
+        {
+            var historyPredictResults = new List<int>();
+            foreach (var item in predictDatas)
+            {
+                historyPredictResults.Add((int)item.PredictedResult);
+            }
+            return historyPredictResults.ToArray();
         }
 
 
