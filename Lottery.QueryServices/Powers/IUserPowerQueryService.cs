@@ -6,5 +6,6 @@ namespace Lottery.QueryServices.Powers
     public interface IUserPowerQueryService
     {
         ICollection<PowerGrantInfo> GetPermissions(string userId);
+      
     }
 }

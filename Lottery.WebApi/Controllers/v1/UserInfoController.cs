@@ -23,7 +23,13 @@ namespace Lottery.WebApi.Controllers.v1
             _lotteryQueryService = lotteryQueryService;
         }
 
+        /// <summary>
+        /// 获取登录用户的个人信息
+        /// </summary>
+        /// <returns></returns>
         [Route("me")]
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<UserInfoOutput> GetUserInfo()
         {
             var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);

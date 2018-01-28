@@ -1,4 +1,7 @@
-﻿using Lottery.Dtos.Power;
+﻿using System.Collections.Generic;
+using Lottery.Dtos.Menus;
+using Lottery.Dtos.Power;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.AppService.Power
 {
@@ -7,5 +10,7 @@ namespace Lottery.AppService.Power
         PowerDto GetPermission(string powerCode);
 
         PowerDto GetPermission(string urlPath,string method);
+
+        ICollection<RouteDto> GetUserRoutes(string userId,SystemType systemType);
     }
 }

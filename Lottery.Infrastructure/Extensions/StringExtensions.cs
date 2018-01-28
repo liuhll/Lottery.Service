@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Lottery.Infrastructure.Exceptions;
+using Newtonsoft.Json;
 
 namespace Lottery.Infrastructure.Extensions
 {
@@ -40,6 +41,15 @@ namespace Lottery.Infrastructure.Extensions
                 sb.Append(str + split);
             }
             return sb.Remove(sb.Length - split.Length, split.Length).ToString();
+        }
+
+        public static T ToObject<T>(this string str) where T : class 
+        {
+            if (!str.IsNullOrEmpty())
+            {
+                return JsonConvert.DeserializeObject<T>(str);
+            }
+            return default(T);
         }
 
         public static int IndexOfCount(this string str, string keyword, int count)

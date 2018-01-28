@@ -1,4 +1,5 @@
-﻿using Lottery.Dtos.Power;
+﻿using System.Collections.Generic;
+using Lottery.Dtos.Power;
 
 namespace Lottery.QueryServices.Powers
 {
@@ -6,5 +7,7 @@ namespace Lottery.QueryServices.Powers
     {
         PowerDto GetPermissionByCode(string powerCode);
         PowerDto GetPermissionByApi(string apiPath, string method);
+        ICollection<PowerDto> GetAppPowers();
+        ICollection<PowerDto> GetUserBoPowers(string userId);
     }
 }

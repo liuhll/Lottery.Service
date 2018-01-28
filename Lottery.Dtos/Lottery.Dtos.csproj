@@ -67,6 +67,8 @@
     <Compile Include="Menbers\MemberInfoBase.cs" />
     <Compile Include="Menbers\MemberInfoDto.cs" />
     <Compile Include="Menbers\MemberInfoExtension.cs" />
+    <Compile Include="Menus\RouteDto.cs" />
+    <Compile Include="Menus\MetaDto.cs" />
     <Compile Include="Norms\LotteryNumber.cs" />
     <Compile Include="Norms\UserNormDefaultConfigDto.cs" />
     <Compile Include="Norms\UserNormDefaultConfigOutput.cs" />

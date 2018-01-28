@@ -38,6 +38,10 @@
 
         public const string LOTTERY_AUTHRANK_KEY = "Lottery.Authrank.{0}";
 
+        public const string LOTTERY_APP_POWER_ALL_KEY = "Lottery.App.Power.All";
+
+        public const string LOTTERY_BO_USER_POWER_KEY = "Lottery.Bo.Power.{0}";
+
         public const string SCHEDULE_TASK_ALL_KEY = "ScheduleTask.All";
 
         public const string OPERATION_MEMBERINFO_KEY = "Operation.MemberInfo.{0}";
