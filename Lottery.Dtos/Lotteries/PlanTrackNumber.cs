@@ -12,6 +12,8 @@ namespace Lottery.Dtos.Lotteries
 
         public int EndPeriod { get; set; }
 
+        public int CurrentPredictPeriod { get; set; }
+
         public int MinorCycle { get; set; }
 
         public string PredictData { get; set; }
@@ -19,5 +21,7 @@ namespace Lottery.Dtos.Lotteries
         public PredictType PredictType { get; set; }
 
         public int[] HistoryPredictResults { get; set; }
+
+        public double CurrentScore { get; set; }
     }
 }

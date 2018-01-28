@@ -24,7 +24,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         {
             var sql =
                 $@"SELECT TOP 1 [Id],[NormConfigId],[CurrentPredictPeriod],[StartPeriod],[EndPeriod],[MinorCycle],[PredictedData],[PredictedResult],[CurrentScore]
-                                    FROM {predictTable} WHERE Id=@PredictId ORDER BY StartPeriod DESC";
+                                    FROM {predictTable} WHERE NormConfigId=@PredictId ORDER BY StartPeriod DESC";
             using (var conn = GetForecastLotteryConnection())
             {
                 var redisKey = string.Format(RedisKeyConstants.LOTTERY_PREDICT_DATA_KEY, predictTable, predictId);

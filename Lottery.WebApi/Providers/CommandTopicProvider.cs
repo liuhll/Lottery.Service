@@ -19,7 +19,8 @@ namespace Lottery.WebApi.Providers
                 typeof(AddLotteryDataCommand),
                 typeof(UpdateNextDayFirstPeriodCommand),
                 typeof(InitPredictTableCommand),
-                typeof(CompleteDynamicTableCommand)
+                typeof(CompleteDynamicTableCommand),
+                typeof(PredictDataCommand)
             );
 
             RegisterTopic(EQueueTopics.LotteryAccountCommandTopic,

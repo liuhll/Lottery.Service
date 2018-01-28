@@ -52,6 +52,7 @@
     <Compile Include="LotteryDatas\CompleteDynamicTableCommand.cs" />
     <Compile Include="LotteryDatas\UpdateNextDayFirstPeriodCommand.cs" />
     <Compile Include="LotteryPredicts\InitPredictTableCommand.cs" />
+    <Compile Include="LotteryPredicts\PredictDataCommand.cs" />
     <Compile Include="Norms\AddUserNormDefaultConfigCommand.cs" />
     <Compile Include="Norms\DeteteNormConfigCommand.cs" />
     <Compile Include="Norms\UpdateUserNormDefaultConfigCommand.cs" />

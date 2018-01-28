@@ -67,6 +67,7 @@
     <Compile Include="Domain\LotteryFinalDatas\UpdateTodayFirstPeriodEvent.cs" />
     <Compile Include="Domain\LotteryInfos\CompleteDynamicTableEvent.cs" />
     <Compile Include="Domain\LotteryInfos\LotteryInfo.cs" />
+    <Compile Include="Domain\LotteryPredictDatas\AddLotteryPredictDataEvent.cs" />
     <Compile Include="Domain\LotteryPredictDatas\InitPredictTableEvent.cs" />
     <Compile Include="Domain\LotteryPredictDatas\LotteryPredictData.cs" />
     <Compile Include="Domain\LotteryPredictDatas\PredictTable.cs" />

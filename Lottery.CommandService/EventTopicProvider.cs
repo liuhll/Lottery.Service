@@ -23,7 +23,8 @@ namespace Lottery.CommandService
                 typeof(UpdateLotteryFinalDataEvent),
                 typeof(UpdateTodayFirstPeriodEvent),
                 typeof(InitPredictTableEvent),
-                typeof(CompleteDynamicTableEvent));
+                typeof(CompleteDynamicTableEvent),
+                typeof(AddLotteryPredictDataEvent));
 
             RegisterTopic(EQueueTopics.LotteryAccountEventTopic,
                 typeof(AddConLogEvent),

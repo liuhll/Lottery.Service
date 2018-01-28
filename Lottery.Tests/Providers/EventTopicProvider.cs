@@ -20,7 +20,8 @@ namespace Lottery.Tests.Providers
                 typeof(LotteryDataAddedEvent),
                 typeof(UpdateLotteryFinalDataEvent),
                 typeof(InitPredictTableEvent),
-                typeof(CompleteDynamicTableEvent));
+                typeof(CompleteDynamicTableEvent),
+                typeof(AddLotteryPredictDataEvent));
 
             RegisterTopic(EQueueTopics.LotteryAccountEventTopic,
                 typeof(AddConLogEvent),
