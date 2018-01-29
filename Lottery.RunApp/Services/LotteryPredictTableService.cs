@@ -8,6 +8,7 @@ using ECommon.IO;
 using ENode.Commanding;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
+using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.Lotteries;
 
@@ -34,29 +35,29 @@ namespace Lottery.RunApp.Services
             {
                 if (!lotteryInfo.IsCompleteDynamicTable)
                 {
-                    InitLotteryPredictTable(lotteryInfo.Id).Wait();
+                    InitLotteryPredictTable(lotteryInfo).Wait();
                 }
             }
         }
 
-        private async Task InitLotteryPredictTable(string lotteryId)
+        private async Task InitLotteryPredictTable(LotteryInfoDto lotteryInfo)
         {
-            var lotteryPlans = _planInfoQueryService.GetPlanInfoByLotteryId(lotteryId);
+            var lotteryPlans = _planInfoQueryService.GetPlanInfoByLotteryId(lotteryInfo.Id);
             var predictTables = lotteryPlans.Select(p => p.PlanNormTable).ToList();
-            var predictDbName = AanalyseDbName();
-            var result =await _commandService.SendAsync(new InitPredictTableCommand(Guid.NewGuid().ToString(), predictDbName, predictTables));
+            var predictDbName = AanalyseDbName(lotteryInfo.LotteryCode);
+            var result = await _commandService.SendAsync(new InitPredictTableCommand(Guid.NewGuid().ToString(), predictDbName,lotteryInfo.LotteryCode, predictTables));
             if (result.Status == AsyncTaskStatus.Success)
             {
-                await _commandService.SendAsync(new CompleteDynamicTableCommand(lotteryId,true));
+                await _commandService.SendAsync(new CompleteDynamicTableCommand(lotteryInfo.Id, true));
             }
         }
 
-        private string AanalyseDbName()
+        private string AanalyseDbName(string lotteryCode)
         {
             var connectionSettings = DataConfigSettings.ForecastLotteryConnectionString.Split(';');
             var dbNameSetting = connectionSettings.First(p => p.ToLower().Contains("database"));
 
-            return dbNameSetting.Split('=')[1];
+            return string.Format(dbNameSetting.Split('=')[1], lotteryCode);
         }
     }
 }

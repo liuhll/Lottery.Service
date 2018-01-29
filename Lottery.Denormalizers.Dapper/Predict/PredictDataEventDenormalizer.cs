@@ -16,7 +16,7 @@ namespace Lottery.Denormalizers.Dapper
             try
             {
                 var sql = $"SELECT TOP 1 * FROM {evnt.PredictTable} WHERE NormConfigId=@NormConfigId AND StartPeriod=@StartPeriod AND EndPeriod=@EndPeriod";
-                using (var conn = GetForecastLotteryConnection())
+                using (var conn = GetForecastLotteryConnection(evnt.LotteryCode))
                 {
                     conn.Open();
                     var predictData =

@@ -16,9 +16,9 @@ namespace Lottery.QueryServices.Dapper
             return new SqlConnection(DataConfigSettings.LotteryConnectionString);
         }
 
-        protected IDbConnection GetForecastLotteryConnection()
+        protected IDbConnection GetForecastLotteryConnection(string lotteryCode)
         {
-            return new SqlConnection(DataConfigSettings.ForecastLotteryConnectionString);
+            return new SqlConnection(string.Format(DataConfigSettings.ForecastLotteryConnectionString,lotteryCode));
         }
     }
 }

@@ -34,18 +34,18 @@ namespace Lottery.AppService.Predict
             _lotteryDataQueryService = lotteryDataQueryService;
         }
 
-        public ICollection<PredictDataDto> PredictNormData(string lotteryId, NormConfigDto userNorm, int predictPeroid)
+        public ICollection<PredictDataDto> PredictNormData(string lotteryId, NormConfigDto userNorm, int predictPeroid, string lotteryCode)
         {
             var predictDataResult = new Dictionary<int, PredictDataDto>();
 
-            var lastPredictPeriod = GetLastPredictNormPeriod(lotteryId, userNorm);
+            var lastPredictPeriod = GetLastPredictNormPeriod(lotteryId, userNorm,lotteryCode);
 
             int startPredict = lastPredictPeriod;
 
             for (int i = lastPredictPeriod; i <= predictPeroid; i++)
             {
                 // 判断上一期的开奖情况
-                if (NeedNewPredictData(i, startPredict, lotteryId, userNorm,ref predictDataResult))
+                if (NeedNewPredictData(i, startPredict, lotteryId, userNorm,ref predictDataResult,lotteryCode))
                 {
                     startPredict = i + 1;
                     var thispredictData = PredictAppointedPeroidNormData(lotteryId, startPredict, userNorm);
@@ -113,7 +113,7 @@ namespace Lottery.AppService.Predict
             }
         }
 
-        private bool NeedNewPredictData(int period, int startPredict,string lotteryId, NormConfigDto userNormConfig, ref Dictionary<int, PredictDataDto> predictDataResults)
+        private bool NeedNewPredictData(int period, int startPredict,string lotteryId, NormConfigDto userNormConfig, ref Dictionary<int, PredictDataDto> predictDataResults, string lotteryCode)
         {
             var planInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
 
@@ -121,7 +121,7 @@ namespace Lottery.AppService.Predict
 
             if (!predictDataResults.Safe().Any())
             {
-                startPeriodData = _lotteryPredictDataQueryService.GetPredictDataByStartPeriod(startPredict, userNormConfig.Id, planInfo.PlanNormTable);
+                startPeriodData = _lotteryPredictDataQueryService.GetPredictDataByStartPeriod(startPredict, userNormConfig.Id, planInfo.PlanNormTable,lotteryCode);
                 if (startPeriodData == null)
                 {
                     return true;
@@ -310,10 +310,10 @@ namespace Lottery.AppService.Predict
         }
 
 
-        private int GetLastPredictNormPeriod(string lotteryId, NormConfigDto userNorm)
+        private int GetLastPredictNormPeriod(string lotteryId, NormConfigDto userNorm, string lotteryCode)
         {
             var normPlanInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
-            var lastPredictData = _lotteryPredictDataQueryService.GetLastPredictData(userNorm.Id, normPlanInfo.PlanNormTable);
+            var lastPredictData = _lotteryPredictDataQueryService.GetLastPredictData(userNorm.Id, normPlanInfo.PlanNormTable,lotteryCode);
             var lastLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
             var predictCount = userNorm.PlanCycle * userNorm.LookupPeriodCount;
             var theoryStartPredictPreoid = lastLotteryData.FinalPeriod - predictCount;

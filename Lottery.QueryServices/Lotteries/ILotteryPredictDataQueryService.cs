@@ -5,9 +5,9 @@ namespace Lottery.QueryServices.Lotteries
 {
     public interface ILotteryPredictDataQueryService
     {
-        PredictDataDto GetLastPredictData(string predictId, string predictTable);
-        PredictDataDto GetPredictDataByStartPeriod(int startPeriod, string normId, string planInfoPlanNormTable);
+        PredictDataDto GetLastPredictData(string predictId, string predictTable, string lotteryCode);
+        PredictDataDto GetPredictDataByStartPeriod(int startPeriod, string normId, string planInfoPlanNormTable, string lotteryCode);
 
-        ICollection<PredictDataDto> GetNormPredictDatas(string normId, string planInfoPlanNormTable);
+        ICollection<PredictDataDto> GetNormPredictDatas(string normId, string planInfoPlanNormTable, string lotteryCode);
     }
 }

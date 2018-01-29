@@ -11,11 +11,14 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
         {
         }
 
-        public InitPredictTableEvent(IList<string> predictTableNames,string predictDbName)
+        public InitPredictTableEvent(IList<string> predictTableNames,string lotteryCode,string predictDbName)
         {
             PredictTableNames = predictTableNames;
             PredictDbName = predictDbName;
+            LotteryCode = lotteryCode;
         }
+
+        public string LotteryCode { get; private set; }
 
         public IList<string> PredictTableNames { get; private set; }
 

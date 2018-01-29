@@ -36,7 +36,7 @@ namespace Lottery.Denormalizers.Dapper
                 }
             }
 
-            using (var conn = GetForecastLotteryConnection())
+            using (var conn = GetForecastLotteryConnection(evnt.LotteryCode))
             {
                 conn.Open();
                 var trans = conn.BeginTransaction();

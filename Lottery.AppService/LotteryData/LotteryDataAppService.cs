@@ -49,7 +49,7 @@ namespace Lottery.AppService.LotteryData
 
         public IList<PredictDataDto> NewLotteryDataList(string lotteryId, int? predictPeroid, string userId)
         {
-            //  var lotteryInfo = _lotteryQueryService.GetLotteryInfoByCode(lotteryId);
+            var lotteryInfo = _lotteryQueryService.GetLotteryInfoByCode(lotteryId);
             var finalLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
 
             if (!predictPeroid.HasValue)
@@ -66,7 +66,7 @@ namespace Lottery.AppService.LotteryData
             var userNorms = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryId, userId);
             foreach (var userNorm in userNorms)
             {
-                predictDatas.AddRange(PredictNormData(lotteryId, userNorm, predictPeroid.Value));
+                predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid.Value));
             }
             return predictDatas;
         }
@@ -117,9 +117,9 @@ namespace Lottery.AppService.LotteryData
 
 
         #region 私有方法
-        private IEnumerable<PredictDataDto> PredictNormData(string lotteryId, NormConfigDto userNorm, int predictPeroid)
+        private IEnumerable<PredictDataDto> PredictNormData(LotteryInfoDto lotteryInfo, NormConfigDto userNorm, int predictPeroid)
         {
-            return _lotteryPredictDataService.PredictNormData(lotteryId, userNorm, predictPeroid);
+            return _lotteryPredictDataService.PredictNormData(lotteryInfo.Id, userNorm, predictPeroid,lotteryInfo.LotteryCode);
         }
 
 

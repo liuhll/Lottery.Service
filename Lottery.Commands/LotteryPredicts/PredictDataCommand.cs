@@ -10,7 +10,8 @@ namespace Lottery.Commands.LotteryPredicts
 
         public PredictDataCommand(string id,string normConfigId,int currentPredictPeriod,
             int startPeriod,int endPeriod,int minorCycle,string predictedData,
-            int predictedResult,double currentScore,string createBy,string predictTable,bool isSwitchFormula) : base(id)
+            int predictedResult,double currentScore,string createBy,string predictTable,
+            string lotteryCode,bool isSwitchFormula) : base(id)
         {
             NormConfigId = normConfigId;
             CurrentPredictPeriod = currentPredictPeriod;
@@ -22,9 +23,12 @@ namespace Lottery.Commands.LotteryPredicts
             CurrentScore = currentScore;
             CreateBy = createBy;
             PredictTable = predictTable;
+            LotteryCode = lotteryCode;
             IsSwitchFormula = isSwitchFormula;
 
         }
+
+        public string LotteryCode { get; private set; }
 
         public string NormConfigId {  get; private set; }
 

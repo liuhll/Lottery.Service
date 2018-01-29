@@ -11,7 +11,7 @@ namespace Lottery.CommandHandlers
     {
         public void Handle(ICommandContext context, InitPredictTableCommand command)
         {
-            context.Add(new PredictTable(command.AggregateRootId,command.PredictDbName,command.PredictTableNames));
+            context.Add(new PredictTable(command.AggregateRootId,command.PredictDbName,command.LotteryCode,command.PredictTableNames));
         }
 
         public void Handle(ICommandContext context, CompleteDynamicTableCommand command)

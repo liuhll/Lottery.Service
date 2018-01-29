@@ -20,12 +20,12 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         }
 
 
-        public PredictDataDto GetLastPredictData(string predictId, string predictTable)
+        public PredictDataDto GetLastPredictData(string predictId, string predictTable,string lotteryCode)
         {
             var sql =
                 $@"SELECT TOP 1 [Id],[NormConfigId],[CurrentPredictPeriod],[StartPeriod],[EndPeriod],[MinorCycle],[PredictedData],[PredictedResult],[CurrentScore]
                                     FROM {predictTable} WHERE NormConfigId=@PredictId ORDER BY StartPeriod DESC";
-            using (var conn = GetForecastLotteryConnection())
+            using (var conn = GetForecastLotteryConnection(lotteryCode))
             {
                 var redisKey = string.Format(RedisKeyConstants.LOTTERY_PREDICT_DATA_KEY, predictTable, predictId);
                 conn.Open();
@@ -36,9 +36,9 @@ namespace Lottery.QueryServices.Dapper.Lotteries
 
         }
 
-        public PredictDataDto GetPredictDataByStartPeriod(int startPeriod, string normId, string predictTable)
+        public PredictDataDto GetPredictDataByStartPeriod(int startPeriod, string normId, string predictTable, string lotteryCode)
         {
-            var predictDatas = GetNormPredictDatas(normId, predictTable);
+            var predictDatas = GetNormPredictDatas(normId, predictTable,lotteryCode);
             if (predictDatas == null)
             {
                 return null;
@@ -46,12 +46,12 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             return predictDatas.FirstOrDefault(p => p.StartPeriod == startPeriod);
         }
 
-        public ICollection<PredictDataDto> GetNormPredictDatas(string normId, string predictTable)
+        public ICollection<PredictDataDto> GetNormPredictDatas(string normId, string predictTable, string lotteryCode)
         {
             var sql =
                 $@"SELECT TOP 1 [Id],[NormConfigId],[CurrentPredictPeriod],[StartPeriod],[EndPeriod],[MinorCycle],[PredictedData],[PredictedResult],[CurrentScore]
                                     FROM {predictTable} WHERE NormConfigId=@NormConfigId ORDER BY StartPeriod DESC";
-            using (var conn = GetForecastLotteryConnection())
+            using (var conn = GetForecastLotteryConnection(lotteryCode))
             {
                 var redisKey = string.Format(RedisKeyConstants.LOTTERY_PREDICT_DATA_KEY, predictTable, normId);
                 conn.Open();

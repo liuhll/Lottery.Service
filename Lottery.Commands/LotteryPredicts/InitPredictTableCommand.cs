@@ -12,13 +12,15 @@ namespace Lottery.Commands.LotteryPredicts
 
         }
 
-        public InitPredictTableCommand(string id,string predictDbName, IList<string> predictTableNames) : base(id)
+        public InitPredictTableCommand(string id,string predictDbName,string lotteryCode, IList<string> predictTableNames) : base(id)
         {
+            LotteryCode = lotteryCode;
             PredictDbName = predictDbName;
             PredictTableNames = predictTableNames;
 
         }
 
+        public string LotteryCode { get; private set; }
         public IList<string> PredictTableNames { get; private set; }
 
         public string PredictDbName { get; private set; }

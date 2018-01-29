@@ -10,7 +10,7 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
         }
         public AddLotteryPredictDataEvent(string normConfigId, int currentPredictPeriod,
             int startPeriod, int endPeriod, int minorCycle, string predictedData,
-            int predictedResult, double currentScore, string createBy, string predictTable)
+            int predictedResult, double currentScore, string createBy, string predictTable,string lotteryCode)
         {
             NormConfigId = normConfigId;
             CurrentPredictPeriod = currentPredictPeriod;
@@ -22,9 +22,11 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
             CurrentScore = currentScore;
             CreateBy = createBy;
             PredictTable = predictTable;
+            LotteryCode = lotteryCode;
 
         }
 
+        public string LotteryCode { get; private set; }
         public string NormConfigId { get; private set; }
 
         public string PredictTable { get; private set; }

@@ -17,6 +17,7 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
           double currentScore,
           string createBy,
           string predictTable,
+          string lotteryCode,
           bool isSwitchFormula
           ) : base(id)
         {
@@ -31,6 +32,7 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
             CreateBy = createBy;
             CreateTime = DateTime.Now;
             PredictTable = predictTable;
+            LotteryCode = lotteryCode;
             if (isSwitchFormula)
             {
                 // :todo 切换公式
@@ -38,11 +40,13 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
             else
             {
                 ApplyEvent(new AddLotteryPredictDataEvent(normConfigId, currentPredictPeriod, startPeriod, endPeriod, minorCycle,
-                    predictedData, predictedResult, currentScore, createBy, predictTable));
+                    predictedData, predictedResult, currentScore, createBy, predictTable,lotteryCode));
 
             }
 
         }
+
+        public string LotteryCode { get; private set; }
 
         /// <summary>
         /// 
@@ -121,6 +125,7 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
             CurrentScore = evnt.CurrentScore;
             CreateBy = evnt.CreateBy;
             PredictTable = evnt.PredictTable;
+            LotteryCode = evnt.LotteryCode;
         }
 
         #endregion

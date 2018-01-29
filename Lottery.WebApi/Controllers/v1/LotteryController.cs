@@ -76,7 +76,7 @@ namespace Lottery.WebApi.Controllers.v1
 
         private void WritePlanTrackNumbers(IGrouping<string, PredictDataDto> item, PlanInfoDto planInfo, double currentScore)
         {
-            var finalPredictData = _lotteryPredictDataQueryService.GetLastPredictData(item.Key, planInfo.PlanNormTable);
+            var finalPredictData = _lotteryPredictDataQueryService.GetLastPredictData(item.Key, planInfo.PlanNormTable,LotteryInfo.LotteryCode);
 
             IList<PredictDataDto> needWritePredictDatas = null;
             needWritePredictDatas = finalPredictData != null ?
@@ -89,7 +89,7 @@ namespace Lottery.WebApi.Controllers.v1
                     predictData.CurrentPredictPeriod, predictData.StartPeriod, predictData.EndPeriod,
                     predictData.MinorCycle, predictData.PredictedData,
                     predictData.PredictedResult, currentScore,
-                    _lotterySession.UserId,planInfo.PlanNormTable,false));
+                    _lotterySession.UserId,planInfo.PlanNormTable,LotteryInfo.LotteryCode,false));
             }
         
         }

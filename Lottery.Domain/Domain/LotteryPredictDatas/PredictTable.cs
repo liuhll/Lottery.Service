@@ -7,16 +7,18 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
     {
 
 
-        public PredictTable(string id,string predictDbName, IList<string> predictTableNames) : base(id)
+        public PredictTable(string id,string predictDbName,string lotteryCode, IList<string> predictTableNames) : base(id)
         {
-
+            LotteryCode = lotteryCode;
             PredictTableNames = predictTableNames;
             PredictDbName = predictDbName;
 
-            ApplyEvent(new InitPredictTableEvent(PredictTableNames, PredictDbName));
+            ApplyEvent(new InitPredictTableEvent(PredictTableNames, LotteryCode, PredictDbName));
 
             
         }
+
+        public string LotteryCode { get; private set; }
 
         public IList<string> PredictTableNames { get; private set; }
 
@@ -29,6 +31,7 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
         {
             PredictDbName = evnt.PredictDbName;
             PredictTableNames = evnt.PredictTableNames;
+            LotteryCode = evnt.LotteryCode;
         }
 
         #endregion 
