@@ -25,7 +25,7 @@ namespace Lottery.Denormalizers.Dapper
         {
             try
             {
-                var sql = $"SELECT TOP 1 * FROM {evnt.PredictTable} WHERE NormConfigId=@NormConfigId AND StartPeriod=@StartPeriod AND EndPeriod=@EndPeriod";
+                var sql = $"SELECT TOP 1 * FROM {evnt.PredictTable} WHERE NormConfigId=@NormConfigId AND StartPeriod=@StartPeriod";
 
                 var cacheKey1 = string.Format(RedisKeyConstants.LOTTERY_PREDICT_DATA_KEY, evnt.PredictTable,
                     evnt.NormConfigId);
