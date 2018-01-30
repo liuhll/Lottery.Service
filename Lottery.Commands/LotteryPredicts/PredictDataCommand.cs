@@ -28,6 +28,8 @@ namespace Lottery.Commands.LotteryPredicts
 
         }
 
+        public int LookupPeriodCount { get; private set; }
+
         public string LotteryCode { get; private set; }
 
         public string NormConfigId {  get; private set; }

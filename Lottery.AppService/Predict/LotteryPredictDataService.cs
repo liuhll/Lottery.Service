@@ -38,30 +38,108 @@ namespace Lottery.AppService.Predict
         {
             var predictDataResult = new Dictionary<int, PredictDataDto>();
 
-            var lastPredictPeriod = GetLastPredictNormPeriod(lotteryId, userNorm,lotteryCode);
+            PredictDataDto lastPredictData;
+            bool isNewPredict;
 
-            int startPredict = lastPredictPeriod;
+            var lastPredictPeriod = GetLastPredictNormPeriod(lotteryId, userNorm,lotteryCode,out lastPredictData,out isNewPredict);
+            int startPredict;
+            if (!isNewPredict)
+            {
+                startPredict = lastPredictData.StartPeriod;
+                predictDataResult.Add(lastPredictData.StartPeriod, lastPredictData);
+            }
+            else
+            {
+                startPredict = lastPredictPeriod;
+            }
 
-            for (int i = lastPredictPeriod; i <= predictPeroid; i++)
+            for (int i = lastPredictPeriod; i < predictPeroid; i++) // 新的预测期数是 startPredict = i + 1; 所以这里不能加 = 号
             {
                 // 判断上一期的开奖情况
-                if (NeedNewPredictData(i, startPredict, lotteryId, userNorm,ref predictDataResult,lotteryCode))
+                if (NeedNewPredictData(i, startPredict, lotteryId, userNorm, ref predictDataResult, lotteryCode))
                 {
                     startPredict = i + 1;
                     var thispredictData = PredictAppointedPeroidNormData(lotteryId, startPredict, userNorm);
                     predictDataResult.Add(startPredict, thispredictData);
-                    
+
                 }
 
             }
-
             return predictDataResult.Values;
+
         }
 
 
-
-
         #region private Methods
+
+        private bool NeedNewPredictData(int period, int startPredict, string lotteryId, NormConfigDto userNormConfig, ref Dictionary<int, PredictDataDto> predictDataResults, string lotteryCode)
+        {
+            var normPlanInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
+            PredictDataDto startPeriodData = null;
+
+            if (!predictDataResults.Safe().Any())
+            {
+                startPeriodData = _lotteryPredictDataQueryService.GetPredictDataByStartPeriod(startPredict, userNormConfig.Id, normPlanInfo.PlanNormTable, lotteryCode);
+                if (startPeriodData == null)
+                {
+                    return true;
+                }
+
+                var predictedResult = JudgePredictDataResult(lotteryId, startPeriodData, userNormConfig);
+
+                if (predictedResult == PredictedResult.Right)
+                {
+                    startPeriodData.EndPeriod = period;
+                    startPeriodData.PredictedResult = (int)PredictedResult.Right;
+                    predictDataResults.Add(startPredict, startPeriodData);
+                    return true;
+                }
+                else if (predictedResult == PredictedResult.Error)
+                {
+                    startPeriodData.EndPeriod = period;
+                    startPeriodData.PredictedResult = (int)PredictedResult.Error;
+                    predictDataResults.Add(startPredict, startPeriodData);
+                    return true;
+                }
+                else
+                {
+                    startPeriodData.CurrentPredictPeriod += 1;
+                    startPeriodData.MinorCycle = startPeriodData.MinorCycle + 1;
+                    startPeriodData.PredictedResult = (int)PredictedResult.Running;
+                    predictDataResults.Add(startPredict, startPeriodData);
+                    return false;
+                }
+            }
+            else
+            {
+                startPeriodData = predictDataResults[startPredict];
+                var predictedResult = JudgePredictDataResult(lotteryId, startPeriodData, userNormConfig);
+                if (predictedResult == PredictedResult.Right)
+                {
+
+                    startPeriodData.EndPeriod = period;
+                    startPeriodData.PredictedResult = (int)PredictedResult.Right;
+
+                    return true;
+                }
+                else if (predictedResult == PredictedResult.Error)
+                {
+                    startPeriodData.EndPeriod = period;
+                    startPeriodData.PredictedResult = (int)PredictedResult.Error;
+
+                    return true;
+                }
+                else
+                {
+                    startPeriodData.MinorCycle = startPeriodData.MinorCycle + 1;
+                    startPeriodData.CurrentPredictPeriod += 1;
+                    startPeriodData.PredictedResult = (int)PredictedResult.Running;
+
+                    return false;
+                }
+            }
+        }
+
 
         private PredictDataDto PredictAppointedPeroidNormData(string lotteryId, int predictPeriod, NormConfigDto userNorm)
         {
@@ -113,75 +191,7 @@ namespace Lottery.AppService.Predict
             }
         }
 
-        private bool NeedNewPredictData(int period, int startPredict,string lotteryId, NormConfigDto userNormConfig, ref Dictionary<int, PredictDataDto> predictDataResults, string lotteryCode)
-        {
-            var planInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
-
-            PredictDataDto startPeriodData = null;
-
-            if (!predictDataResults.Safe().Any())
-            {
-                startPeriodData = _lotteryPredictDataQueryService.GetPredictDataByStartPeriod(startPredict, userNormConfig.Id, planInfo.PlanNormTable,lotteryCode);
-                if (startPeriodData == null)
-                {
-                    return true;
-                }
-
-                var predictedResult = JudgePredictDataResult(lotteryId,startPeriodData, userNormConfig);
-
-                if (predictedResult == PredictedResult.Right)
-                {
-                    startPeriodData.EndPeriod = period;
-                    startPeriodData.PredictedResult = (int)PredictedResult.Right;
-                    predictDataResults.Add(startPredict, startPeriodData);
-                    return true;
-                }
-                else if (predictedResult == PredictedResult.Error)
-                {
-                    startPeriodData.EndPeriod = period;
-                    startPeriodData.PredictedResult = (int)PredictedResult.Error;
-                    predictDataResults.Add(startPredict, startPeriodData);
-                    return true;
-                }
-                else
-                {
-                    startPeriodData.CurrentPredictPeriod += 1;
-                    startPeriodData.MinorCycle = startPeriodData.MinorCycle + 1;
-                    startPeriodData.PredictedResult = (int)PredictedResult.Running;
-                    predictDataResults.Add(startPredict, startPeriodData);
-                    return false;
-                }
-            }
-            else
-            {
-                startPeriodData = predictDataResults[startPredict];
-                var predictedResult = JudgePredictDataResult(lotteryId,startPeriodData, userNormConfig);
-                if (predictedResult == PredictedResult.Right)
-                {
-
-                    startPeriodData.EndPeriod = period;
-                    startPeriodData.PredictedResult = (int)PredictedResult.Right;
-                    
-                    return true;
-                }
-                else if (predictedResult == PredictedResult.Error)
-                {
-                    startPeriodData.EndPeriod = period;
-                    startPeriodData.PredictedResult = (int)PredictedResult.Error;
-                  
-                    return true;
-                }
-                else
-                {
-                    startPeriodData.MinorCycle = startPeriodData.MinorCycle + 1;
-                    startPeriodData.CurrentPredictPeriod += 1;
-                    startPeriodData.PredictedResult = (int)PredictedResult.Running;
-                    
-                    return false;
-                }
-            }
-        }
-
+      
         private PredictedResult JudgePredictDataResult(string lotteryId,PredictDataDto startPeriodData, NormConfigDto userNormConfig)
         {
             var planInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
@@ -286,7 +296,6 @@ namespace Lottery.AppService.Predict
             
         }
 
-
         private List<int> GetPredictData(PlanInfoDto normPlanInfo, LotteryDataList lotteryDataList)
         {
             var predictData = new List<int>();
@@ -310,10 +319,10 @@ namespace Lottery.AppService.Predict
         }
 
 
-        private int GetLastPredictNormPeriod(string lotteryId, NormConfigDto userNorm, string lotteryCode)
+        private int GetLastPredictNormPeriod(string lotteryId, NormConfigDto userNorm, string lotteryCode,out PredictDataDto lastPredictData, out bool isNewPredict)
         {
             var normPlanInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
-            var lastPredictData = _lotteryPredictDataQueryService.GetLastPredictData(userNorm.Id, normPlanInfo.PlanNormTable,lotteryCode);
+            lastPredictData = _lotteryPredictDataQueryService.GetLastPredictData(userNorm.Id, normPlanInfo.PlanNormTable,lotteryCode);
             var lastLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
             var predictCount = userNorm.PlanCycle * userNorm.LookupPeriodCount;
             var theoryStartPredictPreoid = lastLotteryData.FinalPeriod - predictCount;
@@ -322,10 +331,11 @@ namespace Lottery.AppService.Predict
                 var userNormPredictPeroid = lastPredictData.StartPeriod + lastPredictData.MinorCycle - 1;
                 if (userNormPredictPeroid > theoryStartPredictPreoid)
                 {
+                    isNewPredict = false;
                     return userNormPredictPeroid;
                 }
             }
-
+            isNewPredict = true;
             return theoryStartPredictPreoid;
         }
 

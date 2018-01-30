@@ -47,26 +47,18 @@ namespace Lottery.AppService.LotteryData
             return new LotteryDataList(datas);
         }
 
-        public IList<PredictDataDto> NewLotteryDataList(string lotteryId, int? predictPeroid, string userId)
+        public IList<PredictDataDto> NewLotteryDataList(string lotteryId, string userId)
         {
             var lotteryInfo = _lotteryQueryService.GetLotteryInfoByCode(lotteryId);
             var finalLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
+            var predictPeroid = finalLotteryData.FinalPeriod + 1;
 
-            if (!predictPeroid.HasValue)
-            {
-                predictPeroid = finalLotteryData.FinalPeriod + 1;
-            }
-
-            if (finalLotteryData.FinalPeriod >= predictPeroid)
-            {
-                throw new LotteryDataException($"预测的期数第{predictPeroid}期必须大于最后的开奖期数{finalLotteryData.FinalPeriod}");
-            }
 
             var predictDatas = new List<PredictDataDto>();
             var userNorms = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryId, userId);
             foreach (var userNorm in userNorms)
             {
-                predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid.Value));
+                predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid));
             }
             return predictDatas;
         }

@@ -33,41 +33,39 @@ namespace Lottery.WebApi.Controllers.v1
         /// <summary>
         /// 计划追号接口
         /// </summary>
-        /// <param name="predictPeriod">预测的期号</param>
         /// <returns>返回计划追号结果</returns>
         [HttpGet]
         [Route("predictdatas")]
         [SwaggerOptionalParameter("predictPeriod")]
-        public ICollection<PlanTrackNumber> GetPredictDatas(int? predictPeriod = null)
+        public ICollection<PlanTrackNumber> GetPredictDatas()
         {
             var lotteryId = _lotterySession.SystemTypeId;
             var userId = _lotterySession.UserId;
-            var data = _lotteryDataAppService.NewLotteryDataList(lotteryId, predictPeriod, userId);
+            var data = _lotteryDataAppService.NewLotteryDataList(lotteryId, userId);
 
             var planTrackNumbers = new List<PlanTrackNumber>();
             data.GroupBy(p => p.NormConfigId).ForEach(item =>
             {
                 var planInfo = _normConfigQueryService.GetNormPlanInfoByNormId(item.Key, lotteryId);
-                var newestLotteryInfo = item.OrderByDescending(p => p.StartPeriod).First();
-
+                var newestPredictDataDto = item.OrderByDescending(p => p.StartPeriod).First();
+                var normConfig = _normConfigQueryService.GetUserNormConfig(item.Key);
                 var planTrackNumber = new PlanTrackNumber()
                 {
                     PlanId = planInfo.Id,
                     PlanName = planInfo.PlanName,
-                    EndPeriod = newestLotteryInfo.EndPeriod,
-                    StartPeriod = newestLotteryInfo.StartPeriod,
-                    MinorCycle = newestLotteryInfo.MinorCycle,
-                    PredictData = newestLotteryInfo.PredictedData,
-                    CurrentPredictPeriod = newestLotteryInfo.CurrentPredictPeriod,
+                    EndPeriod = newestPredictDataDto.EndPeriod,
+                    StartPeriod = newestPredictDataDto.StartPeriod,
+                    MinorCycle = newestPredictDataDto.MinorCycle,
+                    PredictData = newestPredictDataDto.PredictedData,
+                    CurrentPredictPeriod = newestPredictDataDto.CurrentPredictPeriod,
                     PredictType = planInfo.DsType,
-                    HistoryPredictResults = GetHistoryPredictResults(item.OrderByDescending(p => p.StartPeriod)),
+                    HistoryPredictResults = GetHistoryPredictResults(item.OrderByDescending(p => p.StartPeriod),item.Key, normConfig.LookupPeriodCount, planInfo.PlanNormTable),
                 };
                 var rightCount = planTrackNumber.HistoryPredictResults.Count(p => p == 0);
                 var totleCount = planTrackNumber.HistoryPredictResults.Count(p => p != 2);
                 var currentScore = Math.Round((double) rightCount / totleCount,2);
                 planTrackNumber.CurrentScore = currentScore;
                 WritePlanTrackNumbers(item, planInfo, currentScore);
-
                 planTrackNumbers.Add(planTrackNumber);
             });
 
@@ -121,10 +119,23 @@ namespace Lottery.WebApi.Controllers.v1
         }
 
 
-        private int[] GetHistoryPredictResults(IOrderedEnumerable<PredictDataDto> predictDatas)
+        private int[] GetHistoryPredictResults(IOrderedEnumerable<PredictDataDto> predictDatas,string normId,int lookupPeriodCount,string planNormTable)
         {
             var historyPredictResults = new List<int>();
-            foreach (var item in predictDatas)
+            ICollection<PredictDataDto> dbPredictResultData = null;
+            var notRunningResult = predictDatas.Where(p => p.PredictedResult != 2).ToList();
+            var notRunningResultCount = notRunningResult.Count();
+            if (notRunningResultCount < lookupPeriodCount)
+            {
+                  dbPredictResultData =
+                    _lotteryPredictDataQueryService.GetNormHostoryPredictDatas(normId, planNormTable, lookupPeriodCount - notRunningResultCount, LotteryInfo.LotteryCode);
+
+            }      
+            foreach (var item in notRunningResult)
+            {
+                historyPredictResults.Add((int)item.PredictedResult);
+            }
+            foreach (var item in dbPredictResultData.Safe())
             {
                 historyPredictResults.Add((int)item.PredictedResult);
             }

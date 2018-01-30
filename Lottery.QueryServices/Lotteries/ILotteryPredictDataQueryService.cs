@@ -9,5 +9,6 @@ namespace Lottery.QueryServices.Lotteries
         PredictDataDto GetPredictDataByStartPeriod(int startPeriod, string normId, string planInfoPlanNormTable, string lotteryCode);
 
         ICollection<PredictDataDto> GetNormPredictDatas(string normId, string planInfoPlanNormTable, string lotteryCode);
+        ICollection<PredictDataDto> GetNormHostoryPredictDatas(string normId, string planNormTable, int lookupPeriodCount, string lotteryCode);
     }
 }

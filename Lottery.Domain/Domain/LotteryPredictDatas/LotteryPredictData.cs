@@ -46,6 +46,7 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
 
         }
 
+
         public string LotteryCode { get; private set; }
 
         /// <summary>

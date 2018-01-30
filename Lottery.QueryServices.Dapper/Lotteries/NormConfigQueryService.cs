@@ -44,7 +44,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 return GetDefaultNormConfigs(lotteryId);
             }
-            var userNormConfigs = GetUserNormConfig(lotteryId,userId);
+            var userNormConfigs = GetUserNormConfigs(lotteryId,userId);
             if (userNormConfigs.Safe().Any())
             {
                 return userNormConfigs;
@@ -53,7 +53,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         }
 
 
-        public ICollection<NormConfigDto> GetUserNormConfig(string lotteryId,string userId)
+        public ICollection<NormConfigDto> GetUserNormConfigs(string lotteryId,string userId)
         {
             var redisKey = string.Format(RedisKeyConstants.LOTTERY_NORMCONFIG_LOTTERY_KEY,lotteryId, userId);
             return _cacheManager.Get<ICollection<NormConfigDto>>(redisKey,
@@ -64,6 +64,14 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                         return conn.QueryList<NormConfigDto>(new { LotteryId = lotteryId, UserId = userId  }, TableNameConstants.NormConfigTable).ToList();
                     }
                 });
+        }
+
+        public NormConfigDto GetUserNormConfig(string nromId)
+        {
+            using (var conn = GetLotteryConnection())
+            {
+                return conn.QueryList<NormConfigDto>(new { Id = nromId }, TableNameConstants.NormConfigTable).First();
+            }
         }
 
         //public ICollection<NormConfigDto> GetPlanConfigDtos(string planId)

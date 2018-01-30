@@ -42,7 +42,7 @@ namespace Lottery.AppService.Norm
        
         public ICollection<NormConfigDto> GetUserNormConfig(string lotteryId, string userId)
         {
-            return _normConfigQueryService.GetUserNormConfig(lotteryId, userId);
+            return _normConfigQueryService.GetUserNormConfigs(lotteryId, userId);
         }
 
         public UserPlanNormOutput GetUserNormConfigById(string userId, string normId)

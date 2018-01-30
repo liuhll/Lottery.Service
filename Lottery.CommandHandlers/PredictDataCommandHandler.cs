@@ -10,7 +10,8 @@ namespace Lottery.CommandHandlers
         {
             context.Add(new LotteryPredictData(command.AggregateRootId,command.NormConfigId,command.CurrentPredictPeriod,
                 command.StartPeriod,command.EndPeriod,command.MinorCycle,command.PredictedData,command.PredictedResult,
-                command.CurrentScore,command.CreateBy,command.PredictTable,command.LotteryCode,command.IsSwitchFormula));
+                command.CurrentScore,command.CreateBy,command.PredictTable,command.LotteryCode,
+                command.IsSwitchFormula));
         }
     }
 }

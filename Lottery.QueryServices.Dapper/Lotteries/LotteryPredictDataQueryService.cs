@@ -2,6 +2,7 @@
 using System.Linq;
 using Dapper;
 using ECommon.Components;
+using ECommon.Extensions;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
@@ -27,7 +28,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                                     FROM {predictTable} WHERE NormConfigId=@PredictId ORDER BY StartPeriod DESC";
             using (var conn = GetForecastLotteryConnection(lotteryCode))
             {
-                var redisKey = string.Format(RedisKeyConstants.LOTTERY_PREDICT_DATA_KEY, predictTable, predictId);
+                var redisKey = string.Format(RedisKeyConstants.LOTTERY_PREDICT_FINAL_DATA_KEY, predictTable, predictId);
                 conn.Open();
                 return _cacheManager.Get<PredictDataDto>(redisKey, 
                     () => conn.QueryFirstOrDefault<PredictDataDto>(sql, new { PredictId = predictId }));
@@ -39,7 +40,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         public PredictDataDto GetPredictDataByStartPeriod(int startPeriod, string normId, string predictTable, string lotteryCode)
         {
             var predictDatas = GetNormPredictDatas(normId, predictTable,lotteryCode);
-            if (predictDatas == null)
+            if (!predictDatas.Safe().Any())
             {
                 return null;
             }
@@ -49,7 +50,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         public ICollection<PredictDataDto> GetNormPredictDatas(string normId, string predictTable, string lotteryCode)
         {
             var sql =
-                $@"SELECT TOP 1 [Id],[NormConfigId],[CurrentPredictPeriod],[StartPeriod],[EndPeriod],[MinorCycle],[PredictedData],[PredictedResult],[CurrentScore]
+                $@"SELECT TOP 500 [Id],[NormConfigId],[CurrentPredictPeriod],[StartPeriod],[EndPeriod],[MinorCycle],[PredictedData],[PredictedResult],[CurrentScore]
                                     FROM {predictTable} WHERE NormConfigId=@NormConfigId ORDER BY StartPeriod DESC";
             using (var conn = GetForecastLotteryConnection(lotteryCode))
             {
@@ -59,6 +60,12 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                     () => conn.Query<PredictDataDto>(sql, new { NormConfigId = normId }).ToList());
 
             }
+        }
+
+        public ICollection<PredictDataDto> GetNormHostoryPredictDatas(string normId, string planNormTable, int lookupPeriodCount,
+            string lotteryCode)
+        {
+            return GetNormPredictDatas(normId, planNormTable, lotteryCode).Safe().Where(p=>p.PredictedResult != 2).Take(lookupPeriodCount).ToList();
         }
     }
 }

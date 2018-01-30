@@ -48,11 +48,11 @@ namespace Lottery.Tests
 
             Assert.ThrowsException<LotteryDataException>(()=> {
                 var newPredictDatas1 =
-               lotteryDataService.NewLotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467", 657323, "");
+               lotteryDataService.NewLotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467", "");
             });
 
             var newPredictDatas2 =
-              lotteryDataService.NewLotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467", 657383, "");
+              lotteryDataService.NewLotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467", "");
 
         }
     }

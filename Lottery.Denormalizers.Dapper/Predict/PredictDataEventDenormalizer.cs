@@ -5,17 +5,35 @@ using Dapper;
 using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
+using Lottery.Core.Caching;
 using Lottery.Core.Domain.LotteryPredictDatas;
+using Lottery.Infrastructure;
 
 namespace Lottery.Denormalizers.Dapper
 {
     public class PredictDataEventDenormalizer : AbstractDenormalizer, IMessageHandler<AddLotteryPredictDataEvent>
     {
+        private readonly ICacheManager _cacheManager;
+
+        public PredictDataEventDenormalizer(ICacheManager cacheManager)
+        {
+            _cacheManager = cacheManager;
+        }
+
+
         public async Task<AsyncTaskResult> HandleAsync(AddLotteryPredictDataEvent evnt)
         {
             try
             {
                 var sql = $"SELECT TOP 1 * FROM {evnt.PredictTable} WHERE NormConfigId=@NormConfigId AND StartPeriod=@StartPeriod AND EndPeriod=@EndPeriod";
+
+                var cacheKey1 = string.Format(RedisKeyConstants.LOTTERY_PREDICT_DATA_KEY, evnt.PredictTable,
+                    evnt.NormConfigId);
+                var cacheKey2 = string.Format(RedisKeyConstants.LOTTERY_PREDICT_FINAL_DATA_KEY, evnt.PredictTable,
+                    evnt.NormConfigId);
+                _cacheManager.Remove(cacheKey1);
+                _cacheManager.Remove(cacheKey2);
+
                 using (var conn = GetForecastLotteryConnection(evnt.LotteryCode))
                 {
                     conn.Open();
@@ -53,7 +71,25 @@ namespace Lottery.Denormalizers.Dapper
                                 }, new {
                                     evnt.NormConfigId,
                                     evnt.StartPeriod,
-                                    evnt.EndPeriod}, 
+                                    }, 
+                                evnt.PredictTable);
+                        }
+                        else
+                        {
+                            await conn.UpdateAsync(new
+                                {
+                                    evnt.PredictedResult,
+                                    evnt.CurrentPredictPeriod,
+                                    evnt.MinorCycle,
+                                    evnt.CurrentScore,
+                                    UpdateBy = evnt.CreateBy,
+                                    UpdateTime = evnt.Timestamp,
+                                    evnt.EndPeriod
+                                }, new
+                                {
+                                    evnt.NormConfigId,
+                                    evnt.StartPeriod,
+                                },
                                 evnt.PredictTable);
                         }
                     }

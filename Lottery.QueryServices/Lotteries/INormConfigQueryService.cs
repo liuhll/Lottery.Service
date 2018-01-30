@@ -10,7 +10,9 @@ namespace Lottery.QueryServices.Lotteries
 
         ICollection<NormConfigDto> GetUserOrDefaultNormConfigs(string lotteryId,string userId = "");
 
-        ICollection<NormConfigDto> GetUserNormConfig(string lotteryId,string userId);
+        ICollection<NormConfigDto> GetUserNormConfigs(string lotteryId,string userId);
+
+        NormConfigDto GetUserNormConfig(string nromId);
 
         //ICollection<NormConfigDto> GetPlanConfigDtos(string planId);
 
