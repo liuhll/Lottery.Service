@@ -10,5 +10,8 @@ namespace Lottery.QueryServices.Lotteries
 
         ICollection<PredictDataDto> GetNormPredictDatas(string normId, string planInfoPlanNormTable, string lotteryCode);
         ICollection<PredictDataDto> GetNormHostoryPredictDatas(string normId, string planNormTable, int lookupPeriodCount, string lotteryCode);
+
+        ICollection<PredictDataDto> GetNormPredictDatas(string normId, string planNormTable, int count, string lotteryCode);
+        PredictDataDto GetNormCurrentPredictData(string userNormId, string planInfoPlanNormTable, string lotteryCode);
     }
 }

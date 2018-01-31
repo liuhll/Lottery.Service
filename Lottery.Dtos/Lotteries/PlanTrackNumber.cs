@@ -4,6 +4,7 @@ namespace Lottery.Dtos.Lotteries
 {
     public class PlanTrackNumber
     {
+        public string NormId { get; set; }
         public string PlanId { get; set; }
 
         public string PlanName { get; set; }

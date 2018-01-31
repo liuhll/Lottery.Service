@@ -165,7 +165,7 @@ namespace Lottery.AppService.Predict
                 NormConfigId = userNorm.Id,
                 CurrentPredictPeriod = predictPeriod,
                 StartPeriod = predictPeriod,
-                EndPeriod = predictPeriod + userNorm.PlanCycle,
+                EndPeriod = predictPeriod + userNorm.PlanCycle - 1,
                 MinorCycle = 1,
                 PredictedData = predictedData,
                 PredictedResult = (int)PredictedResult.Running

@@ -12,7 +12,6 @@ namespace Lottery.AppService.LotteryData
         /// 获取新一期的预测数据
         /// </summary>
         /// <param name="lotteryId"></param>
-        /// <param name="peroid"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
         IList<PredictDataDto> NewLotteryDataList(string lotteryId, string userId);

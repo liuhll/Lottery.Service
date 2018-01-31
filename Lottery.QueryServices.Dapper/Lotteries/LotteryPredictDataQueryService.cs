@@ -67,5 +67,15 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         {
             return GetNormPredictDatas(normId, planNormTable, lotteryCode).Safe().Where(p=>p.PredictedResult != 2).Take(lookupPeriodCount).ToList();
         }
+
+        public ICollection<PredictDataDto> GetNormPredictDatas(string normId, string planNormTable, int count, string lotteryCode)
+        {
+            return GetNormPredictDatas(normId, planNormTable, lotteryCode).Safe().Take(count).ToList();
+        }
+
+        public PredictDataDto GetNormCurrentPredictData(string normId, string planNormTable, string lotteryCode)
+        {
+            return GetNormPredictDatas(normId, planNormTable, lotteryCode).FirstOrDefault(p=>p.PredictedResult == 2);
+        }
     }
 }

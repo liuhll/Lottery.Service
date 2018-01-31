@@ -89,7 +89,9 @@
     <Compile Include="Operations\IMemberAppService.cs" />
     <Compile Include="Operations\MemberAppService.cs" />
     <Compile Include="Plan\IPlanInfoAppService.cs" />
+    <Compile Include="Plan\IPlanTrackAppService.cs" />
     <Compile Include="Plan\PlanInfoAppService.cs" />
+    <Compile Include="Plan\PlanTrackAppService.cs" />
     <Compile Include="Power\IPowerManager.cs" />
     <Compile Include="Account\IUserPowerStore.cs" />
     <Compile Include="Power\PowerManager.cs" />

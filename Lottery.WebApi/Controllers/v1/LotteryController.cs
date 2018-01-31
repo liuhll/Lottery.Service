@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web.Http;
 using ECommon.Extensions;
 using ENode.Commanding;
 using Lottery.AppService.LotteryData;
+using Lottery.AppService.Plan;
 using Lottery.Commands.LotteryPredicts;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.PageList;
@@ -18,16 +20,19 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly ILotteryDataAppService _lotteryDataAppService;
         private readonly INormConfigQueryService _normConfigQueryService;
         private readonly ILotteryPredictDataQueryService _lotteryPredictDataQueryService;
+        private readonly IPlanTrackAppService _planTrackAppService;
 
         public LotteryController(ILotteryDataAppService lotteryDataAppService,
             ICommandService commandService, 
             INormConfigQueryService normConfigQueryService, 
-            ILotteryPredictDataQueryService lotteryPredictDataQueryService) 
+            ILotteryPredictDataQueryService lotteryPredictDataQueryService, 
+            IPlanTrackAppService planTrackAppService) 
             : base(commandService)
         {
             _lotteryDataAppService = lotteryDataAppService;
             _normConfigQueryService = normConfigQueryService;
             _lotteryPredictDataQueryService = lotteryPredictDataQueryService;
+            _planTrackAppService = planTrackAppService;
         }
 
         /// <summary>
@@ -36,7 +41,6 @@ namespace Lottery.WebApi.Controllers.v1
         /// <returns>返回计划追号结果</returns>
         [HttpGet]
         [Route("predictdatas")]
-        [SwaggerOptionalParameter("predictPeriod")]
         public ICollection<PlanTrackNumber> GetPredictDatas()
         {
             var lotteryId = _lotterySession.SystemTypeId;
@@ -51,6 +55,7 @@ namespace Lottery.WebApi.Controllers.v1
                 var normConfig = _normConfigQueryService.GetUserNormConfig(item.Key);
                 var planTrackNumber = new PlanTrackNumber()
                 {
+                    NormId = normConfig.Id,
                     PlanId = planInfo.Id,
                     PlanName = planInfo.PlanName,
                     EndPeriod = newestPredictDataDto.EndPeriod,
@@ -72,24 +77,62 @@ namespace Lottery.WebApi.Controllers.v1
             return planTrackNumbers;
         }
 
-        private void WritePlanTrackNumbers(IGrouping<string, PredictDataDto> item, PlanInfoDto planInfo, double currentScore)
+        /// <summary>
+        /// 切换公式接口(变更计划追号)
+        /// </summary>
+        /// <returns>返回切换公式后的计划追号</returns>
+        [HttpPut]
+        [Route("predictdatas")]
+        public ICollection<PlanTrackNumber> UpdatePredictDatas()
         {
-            var finalPredictData = _lotteryPredictDataQueryService.GetLastPredictData(item.Key, planInfo.PlanNormTable,LotteryInfo.LotteryCode);
+            return null;
+        }
 
-            IList<PredictDataDto> needWritePredictDatas = null;
-            needWritePredictDatas = finalPredictData != null ?
-                item.Where(p => p.StartPeriod >= finalPredictData.StartPeriod).ToList() 
-                : item.Where(p => true).ToList();
-           
-            foreach (var predictData in needWritePredictDatas.Safe())
+        /// <summary>
+        /// 计划追号详情(单个指标)
+        /// </summary>
+        /// <remarks>获取某个某个用户计划(指标)的详细数据</remarks>
+        /// <param name="normId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("predictdetaildata")]
+        public PlanTrackDetail GetPredictDetailData(string normId)
+        {
+            return GetPredictDetailDatas().First(p=>p.NormId == normId);
+        }
+
+
+        /// <summary>
+        /// 计划追号详情(All)
+        /// </summary>
+        /// <remarks> 获取用户指定的所有计划(指标)对应的详细数据</remarks>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("predictdetaildatas")]
+        public ICollection<PlanTrackDetail> GetPredictDetailDatas()
+        {
+            var userNormConfigs =
+                _normConfigQueryService.GetUserOrDefaultNormConfigs(LotteryInfo.Id, _lotterySession.UserId);
+            var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
+            var predictDetailDatas = new List<PlanTrackDetail>();
+            foreach (var userNorm in userNormConfigs)
             {
-                SendCommandAsync(new PredictDataCommand(Guid.NewGuid().ToString(), predictData.NormConfigId,
-                    predictData.CurrentPredictPeriod, predictData.StartPeriod, predictData.EndPeriod,
-                    predictData.MinorCycle, predictData.PredictedData,
-                    predictData.PredictedResult, currentScore,
-                    _lotterySession.UserId,planInfo.PlanNormTable,LotteryInfo.LotteryCode,false));
+                var planTrackDetail = _planTrackAppService.GetPlanTrackDetail(userNorm,LotteryInfo.LotteryCode, _lotterySession.UserId);
+                predictDetailDatas.Add(planTrackDetail);                
             }
-        
+            while (predictDetailDatas.Any(p=>p.CurrentPredictData == null || p.CurrentPredictData.CurrentPredictPeriod < finalLotteryData.NextPeriod))
+            {
+                GetPredictDatas();
+                Thread.Sleep(400);
+                predictDetailDatas.Clear();
+                foreach (var userNorm in userNormConfigs)
+                {
+                    var planTrackDetail = _planTrackAppService.GetPlanTrackDetail(userNorm, LotteryInfo.LotteryCode, _lotterySession.UserId);
+                    predictDetailDatas.Add(planTrackDetail);
+                }
+            }
+         
+            return predictDetailDatas;
         }
 
         /// <summary>
@@ -119,6 +162,8 @@ namespace Lottery.WebApi.Controllers.v1
         }
 
 
+        #region private methods 
+
         private int[] GetHistoryPredictResults(IOrderedEnumerable<PredictDataDto> predictDatas,string normId,int lookupPeriodCount,string planNormTable)
         {
             var historyPredictResults = new List<int>();
@@ -127,13 +172,19 @@ namespace Lottery.WebApi.Controllers.v1
             var notRunningResultCount = notRunningResult.Count();
             if (notRunningResultCount < lookupPeriodCount)
             {
-                  dbPredictResultData =
+                dbPredictResultData =
                     _lotteryPredictDataQueryService.GetNormHostoryPredictDatas(normId, planNormTable, lookupPeriodCount - notRunningResultCount, LotteryInfo.LotteryCode);
 
-            }      
+            }
+            var count = 0;
             foreach (var item in notRunningResult)
             {
+                count++;
                 historyPredictResults.Add((int)item.PredictedResult);
+                if (count >= lookupPeriodCount)
+                {
+                    break;
+                }
             }
             foreach (var item in dbPredictResultData.Safe())
             {
@@ -141,5 +192,27 @@ namespace Lottery.WebApi.Controllers.v1
             }
             return historyPredictResults.ToArray();
         }
+
+        private void WritePlanTrackNumbers(IGrouping<string, PredictDataDto> item, PlanInfoDto planInfo, double currentScore)
+        {
+            var finalPredictData = _lotteryPredictDataQueryService.GetLastPredictData(item.Key, planInfo.PlanNormTable, LotteryInfo.LotteryCode);
+
+            IList<PredictDataDto> needWritePredictDatas = null;
+            needWritePredictDatas = finalPredictData != null ?
+                item.Where(p => p.StartPeriod >= finalPredictData.StartPeriod).ToList()
+                : item.Where(p => true).ToList();
+
+            foreach (var predictData in needWritePredictDatas.Safe())
+            {
+                SendCommandAsync(new PredictDataCommand(Guid.NewGuid().ToString(), predictData.NormConfigId,
+                    predictData.CurrentPredictPeriod, predictData.StartPeriod, predictData.EndPeriod,
+                    predictData.MinorCycle, predictData.PredictedData,
+                    predictData.PredictedResult, currentScore,
+                    _lotterySession.UserId, planInfo.PlanNormTable, LotteryInfo.LotteryCode, false));
+            }
+
+        }
+
+        #endregion
     }
 }
