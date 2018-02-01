@@ -104,7 +104,12 @@ namespace Lottery.AppService.LotteryData
             }
             return finalLotteryDataOutput;
 
-        }      
+        }
+
+        public LotteryDataDto GetLotteryData(string lotteryInfoId, int currentPredictPeriod)
+        {
+            return GetList(lotteryInfoId).First(p => p.Period == currentPredictPeriod);
+        }
 
 
         #region 私有方法

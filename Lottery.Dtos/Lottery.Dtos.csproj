@@ -64,6 +64,7 @@
     <Compile Include="Lotteries\PlanTrackDetail.cs" />
     <Compile Include="Lotteries\PlanTrackNumber.cs" />
     <Compile Include="Lotteries\PositionInfoDto.cs" />
+    <Compile Include="Lotteries\PredictDataDetail.cs" />
     <Compile Include="Lotteries\PredictDataDto.cs" />
     <Compile Include="Lotteries\StatisticData.cs" />
     <Compile Include="Lotteries\TimeRuleDto.cs" />

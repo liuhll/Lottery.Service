@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using ECommon.Components;
+using ECommon.Extensions;
 using Lottery.AppService.LotteryData;
 using Lottery.Dtos.Lotteries;
 using Lottery.QueryServices.Lotteries;
@@ -31,8 +33,13 @@ namespace Lottery.AppService.Plan
            
             var planInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
             var prodictDatas = _lotteryPredictDataQueryService.GetNormPredictDatas(userNorm.Id,planInfo.PlanNormTable,userNorm.LookupPeriodCount + 1, lotteryCode);
-            var currentPredictData = prodictDatas.FirstOrDefault(p => p.PredictedResult == 2);
-            var historyPredictDatas = prodictDatas.Where(p => p.PredictedResult != 2).ToList();
+            var currentPredictData = AutoMapper.Mapper.Map<PredictDataDetail>(prodictDatas.FirstOrDefault(p => p.PredictedResult == 2));
+           // currentPredictData.LotteryData = _lotteryDataAppService.GetLotteryData(planInfo.LotteryInfo.Id,currentPredictData.CurrentPredictPeriod).Data;
+            var historyPredictDatas = AutoMapper.Mapper.Map<ICollection<PredictDataDetail>>(prodictDatas.Where(p => p.PredictedResult != 2).ToList());
+            historyPredictDatas.ForEach(item =>
+            {
+                item.LotteryData = _lotteryDataAppService.GetLotteryData(planInfo.LotteryInfo.Id, item.CurrentPredictPeriod).Data;
+            });
             var planTrackDetail = new PlanTrackDetail()
             {
                CurrentPredictData = currentPredictData,
@@ -46,7 +53,7 @@ namespace Lottery.AppService.Plan
             return planTrackDetail;
         }
 
-        private StatisticData ComputeStatisticData(PredictDataDto currentPredictData, List<PredictDataDto> historyPredictDatas,NormConfigDto userNorm)
+        private StatisticData ComputeStatisticData(PredictDataDetail currentPredictData, ICollection<PredictDataDetail> historyPredictDatas,NormConfigDto userNorm)
         {
             if (currentPredictData == null)
             {

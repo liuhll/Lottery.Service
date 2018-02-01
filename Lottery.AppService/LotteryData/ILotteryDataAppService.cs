@@ -19,5 +19,7 @@ namespace Lottery.AppService.LotteryData
         ICollection<LotteryDataDto> GetList(string lotteryId);
 
         FinalLotteryDataOutput GetFinalLotteryData(string lotteryId);
+
+        LotteryDataDto GetLotteryData(string lotteryInfoId, int currentPredictPeriod);
     }
 }
