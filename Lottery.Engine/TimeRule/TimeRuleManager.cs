@@ -131,7 +131,10 @@ namespace Lottery.Engine.TimeRule
                 {
                     return false;
                 }
-                if (DateTime.Now.IsBetween(Time.Parse(TodayTimeRule.StartTime.ToString()), Time.Parse(TodayTimeRule.EndTime.ToString())))
+                var halfTick = (long) TodayTimeRule.Tick.TotalMilliseconds / 2 * 10000;
+                var redundantEndtime = TodayTimeRule.EndTime.Add(new TimeSpan(halfTick)).ToString();
+                if (DateTime.Now.IsBetween(Time.Parse(TodayTimeRule.StartTime.ToString()),
+                    Time.Parse(redundantEndtime.ToString()))) // 设置多半个间隔
                 {
                     return true;
                 }
@@ -149,7 +152,10 @@ namespace Lottery.Engine.TimeRule
 
         }
 
-        public bool IsTodayFinalPeriod => TodayCurrentCount == TodayTotalCount || TodayCurrentCount + 1 == TodayTotalCount;
+        public bool IsTodayFinalPeriod
+        {
+            get { return TodayCurrentCount == TodayTotalCount || TodayCurrentCount -1 == TodayTotalCount; }
+        }
 
         public bool FinalPeriodIsLottery(LotteryFinalDataDto finalData)
         {
