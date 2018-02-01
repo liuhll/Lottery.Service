@@ -38,9 +38,9 @@ namespace Lottery.RunApp
 
                     x.RunAsLocalSystem();
 
-                    x.SetDescription("Lottery NameServer Service");
-                    x.SetDisplayName("LotteryNameServer");
-                    x.SetServiceName("LotteryNameServer");
+                    x.SetDescription("Lottery AppServer Service");
+                    x.SetDisplayName("LotteryAppServer");
+                    x.SetServiceName("LotteryAppeServer");
                 });
             }
             else
