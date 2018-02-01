@@ -10,11 +10,12 @@ namespace Lottery.CommandService
         {
             if (args.Any())
             {
-                Bootstrap.Initialize();
+                
                 HostFactory.Run(x =>
                 {
                     x.Service<CommandServiceCrier>(s =>
                     {
+                        Bootstrap.Initialize();
                         s.ConstructUsing(() => new CommandServiceCrier());
                         s.WhenStarted((b, h) => b.Start(h));
                         s.WhenStopped((b, h) => b.Stop(h));

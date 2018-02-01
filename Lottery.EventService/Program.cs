@@ -10,9 +10,10 @@ namespace Lottery.EventService
         {
             if (args.Any())
             {
-                Bootstrap.Initialize();
+               
                 HostFactory.Run(x =>
                 {
+                    Bootstrap.Initialize();
                     x.Service<EventServiceCrier>(s =>
                     {
                         s.ConstructUsing(() => new EventServiceCrier());

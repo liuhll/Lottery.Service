@@ -10,11 +10,12 @@ namespace Lottery.NameServerService
         {
             if (args.Any())
             {
-                Bootstrap.Initialize();
+                
                 HostFactory.Run(x =>
                 {
                     x.Service<NameServerCrier>(s =>
                     {
+                        Bootstrap.Initialize();
                         s.ConstructUsing(() => new NameServerCrier());
                         s.WhenStarted((b, h) => b.Start(h));
                         s.WhenStopped((b, h) => b.Stop(h));

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using ECommon.Socketing;
 using FluentScheduler;
 using Lottery.RunApp.Jobs;
+using Topshelf;
 
 namespace Lottery.RunApp
 {
@@ -18,30 +20,50 @@ namespace Lottery.RunApp
             // completion threads.
             ThreadPool.SetMinThreads(250, minIOC);
 
-            Bootstrap.InitializeFramework();
+            if (args.Any())
+            {
+                HostFactory.Run(x =>
+                {
 
-            Bootstrap.InitializePredictTable();
+                    x.Service<LotteryAppCrier>(s =>
+                    {
+                        Bootstrap.InitializeFramework();
+                        Bootstrap.InitializePredictTable();
+                        JobManager.Initialize(new JobFactory());
 
-            //var _commandService = ObjectContainer.Resolve<ICommandService>();
+                        s.ConstructUsing(() => new LotteryAppCrier());
+                        s.WhenStarted((b, h) => b.Start(h));
+                        s.WhenStopped((b, h) => b.Stop(h));
+                    });
 
-            //var result = _commandService.Execute(
-            //    new RunNewLotteryCommand(Guid.NewGuid().ToString(), 10089, "ACB89F4E-7C71-4785-BA09-D7E73084B467",
-            //        "1,2,3,4,5,6,7,8,9,10", DateTime.Now), 10000);
-            //var taskQueryService = ObjectContainer.Resolve<ScheduleTaskQueryService>();
+                    x.RunAsLocalSystem();
 
-            //Console.WriteLine(result.Status);
+                    x.SetDescription("Lottery NameServer Service");
+                    x.SetDisplayName("LotteryNameServer");
+                    x.SetServiceName("LotteryNameServer");
+                });
+            }
+            else
+            {
+                Bootstrap.InitializeFramework();
+                Bootstrap.InitializePredictTable();
+                JobManager.Initialize(new JobFactory());
 
-
-
-            JobManager.Initialize(new JobFactory());
-
-            //Console.WriteLine(result.Status);
-
-        
-
-            Console.WriteLine(SocketUtils.GetLocalIPV4());
-
-            Console.ReadKey();
+                Console.WriteLine("Press enter to exit...");
+                var line = Console.ReadLine();
+                while (line != "exit")
+                {
+                    switch (line)
+                    {
+                        case "cls":
+                            Console.Clear();
+                            break;
+                        default:
+                            return;
+                    }
+                    line = Console.ReadLine();
+                }
+            }
         }
     }
 }

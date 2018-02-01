@@ -1,4 +1,5 @@
-﻿using ECommon.Components;
+﻿using System;
+using ECommon.Components;
 using ECommon.Logging;
 using Topshelf;
 
@@ -14,18 +15,34 @@ namespace Lottery.BrokerService
         }
 
         public bool Start(HostControl hostControl)
-        {           
-            Bootstrap.Start();
-            _logger.Info("BrokerServer 服务启动成功");
-            return true;
+        {
+            try
+            {
+                Bootstrap.Start();
+                _logger.Info("BrokerServer 服务启动成功");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e.Message);
+                return false;
+            }
         }
 
         public bool Stop(HostControl hostControl)
         {
-            Bootstrap.Stop();
-            hostControl.Stop();
-            _logger.Info("BrokerServer 服务停止成功");
-            return true;
+            try
+            {
+                Bootstrap.Stop();
+                hostControl.Stop();                          
+                _logger.Info("BrokerServer 服务停止成功");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e.Message);
+                return true;
+            }
         }
     }
 }

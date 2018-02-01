@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using ECommon.Components;
+using ECommon.Logging;
 using Topshelf;
 
 namespace Lottery.BrokerService
@@ -9,15 +11,16 @@ namespace Lottery.BrokerService
         static void Main(string[] args)
         {
             if (args.Any())
-            {
-                Bootstrap.Initialize();
+            {               
                 HostFactory.Run(x =>
                 {
+                    Bootstrap.Initialize();
                     x.Service<BrokerCrier>(s =>
                     {
                         s.ConstructUsing(() => new BrokerCrier());
                         s.WhenStarted((b, h) => b.Start(h));
                         s.WhenStopped((b, h) => b.Stop(h));
+
                     });
 
                     x.RunAsLocalSystem();
@@ -25,6 +28,13 @@ namespace Lottery.BrokerService
                     x.SetDescription("Lottery Broker Service");        
                     x.SetDisplayName("LotteryBrokerService");                       
                     x.SetServiceName("LotteryBrokerService");
+
+                    x.OnException(ex =>
+                    {
+                        var _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Bootstrap).FullName);
+                        _logger.Info(ex.Message);
+
+                    });
                 });
 
                 

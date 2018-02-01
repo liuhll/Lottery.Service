@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Configurations;
-using ECommon.Extensions;
 using ECommon.Logging;
 using EQueue.Broker;
 using EQueue.Configurations;
