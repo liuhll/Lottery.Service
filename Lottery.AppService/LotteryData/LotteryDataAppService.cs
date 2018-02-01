@@ -53,7 +53,6 @@ namespace Lottery.AppService.LotteryData
             var finalLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
             var predictPeroid = finalLotteryData.FinalPeriod + 1;
 
-
             var predictDatas = new List<PredictDataDto>();
             var userNorms = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryId, userId);
             foreach (var userNorm in userNorms)

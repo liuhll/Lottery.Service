@@ -32,6 +32,7 @@ namespace Lottery.RunApp
                 Assembly.Load("Lottery.Commands"),
                 Assembly.Load("Lottery.QueryServices"),
                 Assembly.Load("Lottery.QueryServices.Dapper"),
+                Assembly.Load("Lottery.AppService"), 
                 Assembly.Load("Lottery.RunApp")
             };
 

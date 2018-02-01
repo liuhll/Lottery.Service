@@ -82,8 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Events\LotteryJobEventArgs.cs" />
     <Compile Include="Extensions\ENodeExtensions.cs" />
     <Compile Include="Jobs\AbstractJob.cs" />
+    <Compile Include="Jobs\ILotteryJob.cs" />
     <Compile Include="Jobs\RunLotteryAbstractJob.cs" />
     <Compile Include="Jobs\BjpksJob.cs" />
     <Compile Include="Jobs\JobFactory.cs" />
@@ -111,6 +113,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lottery.AppService\Lottery.AppService.csproj">
+      <Project>{A7187810-E992-428B-BA29-AB53BCA3CFFE}</Project>
+      <Name>Lottery.AppService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lottery.Commands\Lottery.Commands.csproj">
       <Project>{8bad8a14-eec9-4f85-a8c2-b8ffdf9a11de}</Project>
       <Name>Lottery.Commands</Name>

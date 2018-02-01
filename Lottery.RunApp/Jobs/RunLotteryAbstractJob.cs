@@ -12,10 +12,11 @@ using Lottery.Crawler;
 using Lottery.Dtos.Lotteries;
 using Lottery.Engine.TimeRule;
 using Lottery.QueryServices.Lotteries;
+using Lottery.RunApp.Events;
 
 namespace Lottery.RunApp.Jobs
 {
-    public abstract class RunLotteryAbstractJob : AbstractJob
+    public abstract class RunLotteryAbstractJob : ILotteryJob
     {
         protected string _lotteryCode;
         protected readonly ILotteryQueryService _lotteryQueryService;
@@ -34,10 +35,16 @@ namespace Lottery.RunApp.Jobs
 
         protected static bool _isStart;
 
+        public DateTime LastStart { get; }
+        public DateTime LastEnd { get; }
+        public bool StopOnError { get; }
+
+        public event EventHandler<LotteryJobEventArgs> EachTaskExcuteAfterHandler;
+
         protected RunLotteryAbstractJob()
         {
             PreInitialize();
-
+            LastStart = DateTime.Now;
             _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();
             _lotteryFinalDataQueryService = ObjectContainer.Resolve<ILotteryFinalDataQueryService>();
             _commandService = ObjectContainer.Resolve<ICommandService>();
@@ -60,7 +67,7 @@ namespace Lottery.RunApp.Jobs
         /// <summary>
         /// 执行定时任务
         /// </summary>
-        public override void Execute()
+        public virtual void Execute()
         {
             // 处于开奖期间,或是最后一期开奖
             if (_timeRuleManager.IsLotteryDuration || _timeRuleManager.IsTodayFinalPeriod)
@@ -115,6 +122,7 @@ namespace Lottery.RunApp.Jobs
                                         UpdateNextFirstPeriod(todayLastLotteryData);
                                     }
 
+                                    EachTaskExcuteAfterHandler?.Invoke(this,new LotteryJobEventArgs(_lotteryCode,_lotteryInfo.Id, _lotteryFinalData));
                                     //int dayFirstPeriod = 0;
                                     //if (IsNeedSetFirstPeriod(out dayFirstPeriod))
                                     //{
@@ -237,5 +245,7 @@ namespace Lottery.RunApp.Jobs
         {
             _commandService.Execute(command, millisecondsDelay);
         }
+
+
     }
 }
