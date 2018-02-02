@@ -40,13 +40,12 @@ namespace Lottery.WebApi.Controllers.v1
         /// <summary>
         /// 用户默认的公式指标
         /// </summary>
-        /// <param name="lotteryId">彩种Id</param>
         /// <returns></returns>
         [Route("usernormdefaultconfig")]
         [HttpGet]
-        public UserNormDefaultConfigOutput GetUserNormDefaultConfig(string lotteryId)
+        public UserNormDefaultConfigOutput GetUserNormDefaultConfig()
         {
-            return _normConfigAppService.GetUserNormDefaultConfig(_lotterySession.UserId, lotteryId);
+            return _normConfigAppService.GetUserNormDefaultConfig(_lotterySession.UserId, LotteryInfo.Id);
         }
 
         /// <summary>
@@ -64,10 +63,10 @@ namespace Lottery.WebApi.Controllers.v1
                 throw new LotteryDataException(validatorResult.Errors.Select(p=>p.ErrorMessage + "</br>").ToString(";"));
             }
             var userNormConfig =
-                _userNormDefaultConfigService.GetUserNormConfig(_lotterySession.UserId, input.LotteryId);
+                _userNormDefaultConfigService.GetUserNormConfig(_lotterySession.UserId, LotteryInfo.Id);
             if (userNormConfig == null)
             {
-                var command = new AddUserNormDefaultConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId, input.LotteryId, input.PlanCycle, input.ForecastCount, input.UnitHistoryCount,
+                var command = new AddUserNormDefaultConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId, LotteryInfo.Id, input.PlanCycle, input.ForecastCount, input.UnitHistoryCount,
                     input.MinRightSeries, input.MaxRightSeries, input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount, input.ExpectMinScore, input.ExpectMaxScore);
                 await SendCommandAsync(command);
             }

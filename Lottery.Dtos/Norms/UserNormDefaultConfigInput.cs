@@ -4,12 +4,7 @@ namespace Lottery.Dtos.Norms
 {
     public class UserNormDefaultConfigInput
     {
-        /// <summary>
-        /// 彩种Id
-        /// </summary>
-        public string LotteryId { get; set; }
-
-        /// <summary>
+       /// <summary>
         /// 定码个数
         /// </summary>
         public int ForecastCount { get; set; }

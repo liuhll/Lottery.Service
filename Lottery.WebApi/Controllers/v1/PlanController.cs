@@ -50,13 +50,12 @@ namespace Lottery.WebApi.Controllers.v1
         /// 获取用户计划接口
         /// </summary>
         /// <remarks>获取用户设置的计划类型,如果用户未设置计划，则获取系统默认的计划</remarks>
-        /// <param name="lotteryId">彩种Id</param>
         /// <returns>用户设置的计划信息</returns>
         [HttpGet]
         [Route("userplans")]
-        public UserPlanInfoDto GetUserPlans(string lotteryId)
+        public UserPlanInfoDto GetUserPlans()
         {
-            return _planInfoAppService.GetUserPlanInfo(lotteryId, _lotterySession.UserId);
+            return _planInfoAppService.GetUserPlanInfo(LotteryInfo.Id, _lotterySession.UserId);
         }
 
         /// <summary>
@@ -75,12 +74,12 @@ namespace Lottery.WebApi.Controllers.v1
                 throw new LotteryDataException(validatorResult.Errors.Select(p => p.ErrorMessage + "</br>").ToString(";"));
             }
 
-            var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(input.LotteryId);
+            var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
 
             var userDefaultNormConfig = 
-                _userNormDefaultConfigService.GetUserNormOrDefaultConfig(_lotterySession.UserId, input.LotteryId);
+                _userNormDefaultConfigService.GetUserNormOrDefaultConfig(_lotterySession.UserId, LotteryInfo.Id);
 
-            var userNormConfigs = _normConfigAppService.GetUserNormConfig(input.LotteryId, _lotterySession.UserId);
+            var userNormConfigs = _normConfigAppService.GetUserNormConfig(LotteryInfo.Id, _lotterySession.UserId);
             if (userNormConfigs!= null && userNormConfigs.Any())
             {
                 var deleteUserNormConfigsPlanIds = userNormConfigs.Select(p => p.PlanId).Except(input.PlanIds);
@@ -100,8 +99,8 @@ namespace Lottery.WebApi.Controllers.v1
                 {
                     continue;
                 }
-                var command = new AddNormConfigCommand(Guid.NewGuid().ToString(),_lotterySession.UserId, 
-                    input.LotteryId,planId, userDefaultNormConfig.PlanCycle,
+                var command = new AddNormConfigCommand(Guid.NewGuid().ToString(),_lotterySession.UserId,
+                    LotteryInfo.Id, planId, userDefaultNormConfig.PlanCycle,
                     userDefaultNormConfig.ForecastCount, finalLotteryData.Period,
                     userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.MinRightSeries,
                     userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrortSeries,
@@ -121,7 +120,7 @@ namespace Lottery.WebApi.Controllers.v1
         /// <returns></returns>
         [HttpGet]
         [Route("userplannorm1")]
-        public UserPlanNormOutput GetUserPlanNorm(string normId)
+        public UserPlanNormOutput GetUserPlanByNormId(string normId)
         {
             return _normConfigAppService.GetUserNormConfigById(_lotterySession.UserId, normId);
         }
@@ -129,15 +128,14 @@ namespace Lottery.WebApi.Controllers.v1
         /// <summary>
         /// 获取计划指标配置接口2
         /// </summary>
-        /// <remarks>通过彩种Id和计划Id获取计划公式指标配置</remarks>
-        /// <param name="lotteryId">彩种Id</param>
+        /// <remarks>通过计划Id获取计划公式指标配置</remarks>
         /// <param name="planId">计划Id</param>
         /// <returns></returns>
         [HttpGet]
         [Route("userplannorm2")]
-        public UserPlanNormOutput GetUserPlanNorm(string lotteryId, string planId)
+        public UserPlanNormOutput GetUserPlanByPlanId(string planId)
         {
-            return _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, lotteryId, planId);
+            return _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, planId);
         }
 
         /// <summary>
@@ -157,9 +155,9 @@ namespace Lottery.WebApi.Controllers.v1
 
             // todo: 更严格的指标公式验证
 
-            var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, input.LotteryId, input.PlanId);
-            var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(input.LotteryId);
-            var command = new UpdateNormConfigCommand(userPlanNorm.Id, _lotterySession.UserId,input.LotteryId,input.PlanId,
+            var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, input.PlanId);
+            var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
+            var command = new UpdateNormConfigCommand(userPlanNorm.Id, _lotterySession.UserId, LotteryInfo.Id, input.PlanId,
                 input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
                 input.UnitHistoryCount,input.MinRightSeries, input.MaxRightSeries, 
                 input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount,

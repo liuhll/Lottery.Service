@@ -1,27 +1,14 @@
 ﻿using ECommon.Components;
 using FluentValidation;
 using Lottery.Dtos.Norms;
-using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.WebApi.Validations
 {
     [Component]
     public class UserNormConfigInputValidator : AbstractValidator<UserNormDefaultConfigInput>
     {
-        private readonly ILotteryQueryService _lotteryQueryService;
         public UserNormConfigInputValidator()
         {
-            _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();
-
-            RuleFor(p => p.LotteryId).NotEmpty().Must(p =>
-            {
-                var lotteryInfo = _lotteryQueryService.GetLotteryInfoById(p);
-                if (lotteryInfo == null)
-                {
-                    return false;
-                }
-                return true;
-            }).WithMessage("不存在该彩种");
             RuleFor(p => p.PlanCycle).GreaterThan(0).WithMessage("计划周期必须大于0").LessThanOrEqualTo(10).WithMessage("计划周期必须小于等于10");
             RuleFor(p => p.ForecastCount).GreaterThan(0).WithMessage("定码个数必须大于0").LessThanOrEqualTo(10)
                 .WithMessage("定码格式必须小于等于10");
