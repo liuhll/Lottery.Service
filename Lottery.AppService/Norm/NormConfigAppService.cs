@@ -67,8 +67,9 @@ namespace Lottery.AppService.Norm
                 SetSelectedLotteryNumbers(userplanNorm.LotteryId, userplanNorm);
                 return userplanNorm;
             }
-            catch
+            catch(Exception ex)
             {
+                
                 throw new LotteryDataException("获取公式指标配置异常");
             }
         }
@@ -91,7 +92,7 @@ namespace Lottery.AppService.Norm
                     });
                 }
                 var customerNums = normConfig.LotteryNumbers.Select(p => p.Number).ToString(",");
-                normConfig.CustomNumbers = customerNums.Substring(0, customerNums.Length - 1);
+                normConfig.CustomNumbers = customerNums.Substring(0, customerNums.Length);
             }
             else
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Dapper;
 using ECommon.Components;
@@ -9,7 +8,6 @@ using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure;
-using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.QueryServices.Dapper.Lotteries
@@ -33,6 +31,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                 {
                     using (var conn = GetLotteryConnection())
                     {
+                        conn.Open();
                         return conn.QueryList<NormConfigDto>(new{ IsDefualt = true},TableNameConstants.NormConfigTable).ToList();
                     }
                 });
@@ -61,6 +60,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                 {
                     using (var conn = GetLotteryConnection())
                     {
+                        conn.Open();
                         return conn.QueryList<NormConfigDto>(new { LotteryId = lotteryId, UserId = userId  }, TableNameConstants.NormConfigTable).ToList();
                     }
                 });
@@ -91,6 +91,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         {
             using (var conn = GetLotteryConnection())
             {
+                conn.Open();
                 return conn.QueryList<UserPlanNormOutput>(new { Id = normId, UserId = userId }, TableNameConstants.NormConfigTable).First();
             }
         }
@@ -99,6 +100,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         {
             using (var conn = GetLotteryConnection())
             {
+                conn.Open();
                 return conn.QueryList<UserPlanNormOutput>(new { LotteryId = lotteryId, PlanId= planId, UserId = userId }, TableNameConstants.NormConfigTable).First();
             }
         }
@@ -107,6 +109,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         {
             using (var conn = GetLotteryConnection())
             {
+                conn.Open();
                 var sql = @"SELECT TOP 1 B.*  FROM dbo.LA_NormConfig AS A
                            INNER JOIN dbo.L_PlanInfo AS B 
                            ON B.Id = a.PlanId
