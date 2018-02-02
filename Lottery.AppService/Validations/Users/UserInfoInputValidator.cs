@@ -4,7 +4,7 @@ using FluentValidation;
 using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure;
 
-namespace Lottery.WebApi.Validations
+namespace Lottery.AppService.Validations
 {
     [Component]
     public class UserInfoInputValidator : AbstractValidator<UserInfoInput>

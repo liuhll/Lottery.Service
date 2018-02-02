@@ -297,10 +297,6 @@
     <Compile Include="Result\Models\ResponseMessageBase.cs" />
     <Compile Include="Result\Models\ResponseMessageOfTResult.cs" />
     <Compile Include="Result\WrapResultAttribute.cs" />
-    <Compile Include="Validations\UserInfoInputValidator.cs" />
-    <Compile Include="Validations\UserNormConfigInputValidator.cs" />
-    <Compile Include="Validations\UserPlanInfoInputValidator.cs" />
-    <Compile Include="Validations\UserProfileInputValidator.cs" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

@@ -9,6 +9,7 @@ using Effortless.Net.Encryption;
 using ENode.Commanding;
 using FluentValidation.Results;
 using Lottery.AppService.Account;
+using Lottery.AppService.Validations;
 using Lottery.Commands.LogonLog;
 using Lottery.Commands.UserInfos;
 using Lottery.Dtos.UserInfo;
@@ -19,7 +20,6 @@ using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Lotteries;
 using Lottery.WebApi.Extensions;
-using Lottery.WebApi.Validations;
 
 namespace Lottery.WebApi.Controllers
 {

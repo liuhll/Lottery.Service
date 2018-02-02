@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using ENode.Commanding;
 using Lottery.AppService.Norm;
+using Lottery.AppService.Validations;
 using Lottery.Commands.Norms;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Norms;
-using Lottery.WebApi.Validations;
 
 namespace Lottery.WebApi.Controllers.v1
 {

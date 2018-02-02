@@ -2,7 +2,7 @@
 using FluentValidation;
 using Lottery.Dtos.Norms;
 
-namespace Lottery.WebApi.Validations
+namespace Lottery.AppService.Validations
 {
     [Component]
     public class UserNormConfigInputValidator : AbstractValidator<UserNormDefaultConfigInput>

@@ -5,7 +5,7 @@ using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 
-namespace Lottery.WebApi.Validations
+namespace Lottery.AppService.Validations
 {
     [Component]
     public class UserProfileInputValidator : AbstractValidator<UserProfileInput>

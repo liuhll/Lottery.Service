@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using FluentValidation;
 using Lottery.Dtos.Plans;
-using Lottery.QueryServices.Lotteries;
 
-namespace Lottery.WebApi.Validations
+namespace Lottery.AppService.Validations
 {
     [Component]
     public class UserPlanInfoInputValidator :AbstractValidator<UserPlanInfoInput>

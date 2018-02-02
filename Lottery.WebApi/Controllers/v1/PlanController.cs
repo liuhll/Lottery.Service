@@ -6,6 +6,7 @@ using ENode.Commanding;
 using Lottery.AppService.LotteryData;
 using Lottery.AppService.Norm;
 using Lottery.AppService.Plan;
+using Lottery.AppService.Validations;
 using Lottery.Commands.Norms;
 using Lottery.Dtos.Norms;
 using Lottery.Dtos.Plans;
@@ -13,7 +14,6 @@ using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Norms;
-using Lottery.WebApi.Validations;
 
 namespace Lottery.WebApi.Controllers.v1
 {

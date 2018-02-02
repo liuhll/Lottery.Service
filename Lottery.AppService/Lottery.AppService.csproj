@@ -42,6 +42,9 @@
     <Reference Include="Effortless.Net.Encryption, Version=2.0.1.37, Culture=neutral, PublicKeyToken=603f9a8e5bb15e51, processorArchitecture=MSIL">
       <HintPath>..\packages\Effortless.Net.Encryption.2.0.1.37\lib\net40\Effortless.Net.Encryption.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.4.0\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.5\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
     </Reference>
@@ -104,6 +107,10 @@
     <Compile Include="Role\IRolePowerStore.cs" />
     <Compile Include="Role\RoleManager.cs" />
     <Compile Include="Role\RolePowerStore.cs" />
+    <Compile Include="Validations\Users\UserInfoInputValidator.cs" />
+    <Compile Include="Validations\Users\UserNormConfigInputValidator.cs" />
+    <Compile Include="Validations\Users\UserPlanInfoInputValidator.cs" />
+    <Compile Include="Validations\Users\UserProfileInputValidator.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
