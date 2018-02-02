@@ -10,6 +10,7 @@ namespace Lottery.RunApp
 {
     public class Bootstrap
     {
+        private static ENodeConfiguration _configuration;
         public static void InitializeFramework()
         {
             ServiceConfigSettings.Initialize();
@@ -36,7 +37,7 @@ namespace Lottery.RunApp
                 Assembly.Load("Lottery.RunApp")
             };
 
-            ECommon.Configurations.Configuration
+            _configuration = ECommon.Configurations.Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
@@ -51,11 +52,23 @@ namespace Lottery.RunApp
                 .BuildContainer()
                 .InitializeBusinessAssemblies(assemblies)
                 .SetUpDataUpdateItems()
-                .InitLotteryEngine()
-                .StartEQueue()
-                .Start();
+                .InitLotteryEngine();
+               
 
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("ENode initialized.");
+        }
+
+        public static void Start()
+        {
+            _configuration
+                .StartEQueue()
+                .Start();
+        }
+
+        public static void Stop()
+        {
+            _configuration
+                .ShutdownEQueue();
         }
     }
 }

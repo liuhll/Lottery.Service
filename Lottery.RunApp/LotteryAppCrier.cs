@@ -15,12 +15,15 @@ namespace Lottery.RunApp
 
         public bool Start(HostControl hostControl)
         {
-            throw new System.NotImplementedException();
+            Bootstrap.Start();
+            _logger.Info("LotteryApp 服务启动成功");
+            return true;
         }
 
         public bool Stop(HostControl hostControl)
         {
-            throw new System.NotImplementedException();
+            _logger.Info("LotteryApp 服务停止成功");
+            return true;
         }
     }
 }

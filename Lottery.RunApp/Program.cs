@@ -45,10 +45,10 @@ namespace Lottery.RunApp
             }
             else
             {
-                Bootstrap.InitializeFramework();
+                Bootstrap.InitializeFramework();               
                 Bootstrap.InitializePredictTable();
                 JobManager.Initialize(new JobFactory());
-
+                Bootstrap.Start();
                 Console.WriteLine("Press enter to exit...");
                 var line = Console.ReadLine();
                 while (line != "exit")

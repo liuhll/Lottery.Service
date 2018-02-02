@@ -49,6 +49,12 @@ namespace Lottery.RunApp
             return enodeConfiguration;
         }
 
+        public static ENodeConfiguration ShutdownEQueue(this ENodeConfiguration enodeConfiguration)
+        {
+            _commandService.Start();
+            return enodeConfiguration;
+        }
+
         public static ENodeConfiguration UseRedisCache(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
