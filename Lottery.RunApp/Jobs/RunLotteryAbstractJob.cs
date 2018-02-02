@@ -26,7 +26,7 @@ namespace Lottery.RunApp.Jobs
         protected LotteryFinalDataDto _lotteryFinalData;
         protected LotteryInfoDto _lotteryInfo;
         protected ICommandService _commandService;
-        protected const int LotteryDataDelay = 300;
+        protected const int LotteryDataDelay = 200;
 
         protected IList<IDataUpdateItem> _dataUpdateItems;
 
@@ -110,8 +110,8 @@ namespace Lottery.RunApp.Jobs
                                         {
                                             SendCommandAsync(new AddLotteryDataCommand(Guid.NewGuid().ToString(), lotteryData));
                                             Thread.Sleep(LotteryDataDelay);
-                                            _lotteryFinalData =
-                                                _lotteryFinalDataQueryService.GetFinalData(lotteryData.LotteryId);
+                                            _lotteryFinalData = _lotteryFinalDataQueryService.GetFinalData(lotteryData.LotteryId);
+
                                         }
 
                                     }

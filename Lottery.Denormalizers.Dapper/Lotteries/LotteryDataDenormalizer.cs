@@ -29,6 +29,8 @@ namespace Lottery.Denormalizers.Dapper
                 var lotteryDataRedisKey = string.Format(RedisKeyConstants.LOTTERY_DATA_ALL_KEY,
                     evnt.LotteryDataInfo.LotteryId);
                 _cacheManager.Remove(lotteryDataRedisKey);
+                var lotteryFianlDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, evnt.LotteryDataInfo.LotteryId);
+                _cacheManager.Remove(lotteryFianlDataKey);
                 return conn.InsertAsync(new
                 {
                     Id = evnt.AggregateRootId,

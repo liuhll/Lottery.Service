@@ -30,8 +30,9 @@ namespace Lottery.Core.Domain.LotteryDatas
               throw new Exception("开奖数据不允许为空");
           }
           ApplyEvents(
-              new LotteryDataAddedEvent(new LotteryDataInfo(Id, peroid, lotteryId, data, lotteryTime)),
-              new UpdateLotteryFinalDataEvent(lotteryId, peroid, data, lotteryTime));
+              new UpdateLotteryFinalDataEvent(lotteryId, peroid, data, lotteryTime),
+              new LotteryDataAddedEvent(new LotteryDataInfo(Id, peroid, lotteryId, data, lotteryTime)));
+
 
         }
 
