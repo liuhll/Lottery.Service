@@ -81,6 +81,7 @@
     <Compile Include="Authorize\PowerChecker\OfficialWebsitePowerChecker.cs" />
     <Compile Include="Authorize\PowerChecker\PermissionCheckerExtensions.cs" />
     <Compile Include="Authorize\SystemTypeAuthorizeAttribute.cs" />
+    <Compile Include="Sell\ISellAppService.cs" />
     <Compile Include="LotteryData\ILotteryDataAppService.cs" />
     <Compile Include="LotteryData\LotteryDataAppService.cs" />
     <Compile Include="Member\IMemberPowerStore.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Role\IRolePowerStore.cs" />
     <Compile Include="Role\RoleManager.cs" />
     <Compile Include="Role\RolePowerStore.cs" />
+    <Compile Include="Sell\SellAppService.cs" />
     <Compile Include="Validations\Users\UserInfoInputValidator.cs" />
     <Compile Include="Validations\Users\UserNormConfigInputValidator.cs" />
     <Compile Include="Validations\Users\UserPlanInfoInputValidator.cs" />

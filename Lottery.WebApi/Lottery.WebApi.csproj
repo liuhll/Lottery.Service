@@ -279,6 +279,7 @@
     <Compile Include="Controllers\v1\PlanController.cs" />
     <Compile Include="Controllers\v1\PointController.cs" />
     <Compile Include="Controllers\v1\OperationController.cs" />
+    <Compile Include="Controllers\v1\SellController.cs" />
     <Compile Include="Controllers\v1\UserInfoController.cs" />
     <Compile Include="Dynamic\LotteryApiControllerActionSelector.cs" />
     <Compile Include="Extensions\ENodeExtensions.cs" />

@@ -153,13 +153,19 @@ namespace Lottery.AppService.Predict
 
             var positionInfo = normPlanInfo.PositionInfos.First();
             var count = positionInfo.MaxValue - positionInfo.MinValue + 1;
-
-            var predictedDataRate = lotteryEngine.GetPerdictor(normPlanInfo.PredictCode)
-                .Predictor(predictData, count, userNorm.UnitHistoryCount);
-
-            var predictedData = GetPredictedDataByRate(predictedDataRate, normPlanInfo.DsType,userNorm);
-
-
+            string predictedData = String.Empty;
+            try
+            {
+                var predictedDataRate = lotteryEngine.GetPerdictor(normPlanInfo.PredictCode)
+                    .Predictor(predictData, count, userNorm.UnitHistoryCount);
+                predictedData = predictedDataRate != null ? 
+                    GetPredictedDataByRate(predictedDataRate, normPlanInfo.DsType, userNorm) 
+                    : GetPredictedDataMock(normPlanInfo, userNorm);
+            }
+            catch 
+            {
+                predictedData = GetPredictedDataMock(normPlanInfo, userNorm);
+            }
             var predictDataInfo = new PredictDataDto()
             {
                 NormConfigId = userNorm.Id,
@@ -175,6 +181,21 @@ namespace Lottery.AppService.Predict
             return predictDataInfo;
         }
 
+        private string GetPredictedDataMock(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
+        {
+            var minVal = normPlanInfo.PositionInfos.Min(p => p.MinValue);
+            var maxVal = normPlanInfo.PositionInfos.Min(p => p.MaxValue);
+            var lotteryNumbers = new List<int>();
+            for (int i = minVal; i <= maxVal; i++)
+            {
+                lotteryNumbers.Add(i);
+            }
+            lotteryNumbers = lotteryNumbers.OrderBy(p => Guid.NewGuid()).ToList();
+            var result = lotteryNumbers.Take(userNorm.ForecastCount).ToString(",");
+            return result;
+        }
+
+   
         private string GetPredictedDataByRate(IDictionary<int, double> predictedDataRate, PredictType dsType, NormConfigDto userNorm)
         {
             if (dsType == PredictType.Fix)

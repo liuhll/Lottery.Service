@@ -28,6 +28,7 @@ namespace Lottery.Infrastructure
 
         public static string BrokerName { get; private set; }
 
+        public static IPEndPoint CommandServiceprocessorAddress { get; private set; }
 
         public static void Initialize()
         {
@@ -73,6 +74,8 @@ namespace Lottery.Infrastructure
             BrokerGroup = ConfigurationManager.AppSettings["BrokerGroup"];
             BrokerName = ConfigurationManager.AppSettings["BrokerName"];
 
+            var commandServiceprocessorAddressStr = ConfigurationManager.AppSettings["CommandServiceProcessorAddress"].Split(':');
+            CommandServiceprocessorAddress = new IPEndPoint(IPAddress.Parse(commandServiceprocessorAddressStr[0]),int.Parse(commandServiceprocessorAddressStr[1]));
 
         }
 

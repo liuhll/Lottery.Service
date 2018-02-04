@@ -26,6 +26,8 @@ namespace Lottery.RunApp.Jobs
         protected LotteryFinalDataDto _lotteryFinalData;
         protected LotteryInfoDto _lotteryInfo;
         protected ICommandService _commandService;
+        protected ILotteryDataQueryService _lotteryDataQueryService;
+
         protected const int LotteryDataDelay = 200;
 
         protected IList<IDataUpdateItem> _dataUpdateItems;
@@ -48,7 +50,7 @@ namespace Lottery.RunApp.Jobs
             _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();
             _lotteryFinalDataQueryService = ObjectContainer.Resolve<ILotteryFinalDataQueryService>();
             _commandService = ObjectContainer.Resolve<ICommandService>();
-
+            _lotteryDataQueryService = ObjectContainer.Resolve<ILotteryDataQueryService>();
             _lotteryInfo = _lotteryQueryService.GetLotteryInfoByCode(_lotteryCode);
             _timeRuleManager = new TimeRuleManager(_lotteryInfo);
             _lotteryFinalData = _lotteryFinalDataQueryService.GetFinalData(_lotteryInfo.Id);
@@ -108,10 +110,15 @@ namespace Lottery.RunApp.Jobs
                                     {
                                         if (lotteryData.Period > LotteryFinalData.FinalPeriod)
                                         {
-                                            SendCommandAsync(new AddLotteryDataCommand(Guid.NewGuid().ToString(), lotteryData));
-                                            Thread.Sleep(LotteryDataDelay);
-                                            _lotteryFinalData = _lotteryFinalDataQueryService.GetFinalData(lotteryData.LotteryId);
-
+                                            var thisPeriodLotteryData =
+                                                _lotteryDataQueryService.GetPredictPeriodData(_lotteryInfo.Id,
+                                                    lotteryData.Period);
+                                            if (thisPeriodLotteryData == null)
+                                            {
+                                                CommandExecute(new AddLotteryDataCommand(Guid.NewGuid().ToString(), lotteryData));
+                                                Thread.Sleep(LotteryDataDelay);
+                                                _lotteryFinalData = _lotteryFinalDataQueryService.GetFinalData(lotteryData.LotteryId);
+                                            }
                                         }
 
                                     }
@@ -121,6 +128,7 @@ namespace Lottery.RunApp.Jobs
                                             lotteryDatas.OrderByDescending(p => p.Period).First();
                                         UpdateNextFirstPeriod(todayLastLotteryData);
                                     }
+
 
                                     EachTaskExcuteAfterHandler?.Invoke(this,new LotteryJobEventArgs(_lotteryCode,_lotteryInfo.Id, _lotteryFinalData));
                                     //int dayFirstPeriod = 0;

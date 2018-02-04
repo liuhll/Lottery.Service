@@ -27,6 +27,7 @@ namespace Lottery.RunApp.Jobs
         private readonly INormConfigQueryService _normConfigQueryService;
         private readonly ILotteryPredictDataQueryService _lotteryPredictDataQueryService;
         private readonly ICommandService _commandService;
+     
         private const string SystemUser = "System";
 
         public JobFactory()
@@ -69,7 +70,6 @@ namespace Lottery.RunApp.Jobs
             var finalLotteryData = e.LotteryFinalData;
             var predictPeroid = finalLotteryData.FinalPeriod + 1;
 
-
             var predictDatas = new List<PredictDataDto>();
             var userNorms = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryInfo.Id);
             foreach (var userNorm in userNorms)
@@ -101,7 +101,7 @@ namespace Lottery.RunApp.Jobs
                 WritePlanTrackNumbers(item, planInfo, currentScore,lotteryInfo.LotteryCode);               
             });
 
-            Console.WriteLine(e.LotteryCode + ":" + e.LotteryFinalData.Data);
+            Console.WriteLine(e.LotteryCode + ":" + e.LotteryFinalData.FinalPeriod + "-" + e.LotteryFinalData.Data);
         }
 
         #region private methods 
