@@ -66,6 +66,11 @@ namespace Lottery.WebApi.Authentication
             int errorCode;
             string errorMessage;
 
+            if ("OPTIONS".Equals(request.Method.Method.ToUpper()))
+            {
+                return await base.SendAsync(request, cancellationToken);
+            }
+
             //determine whether a jwt exists or not
             if (!TryRetrieveToken(request, out token))
             {               
@@ -155,6 +160,8 @@ namespace Lottery.WebApi.Authentication
             }
 
             var errorResponse = request.CreateResponse(HttpStatusCode.OK,new ResponseMessage(new ErrorInfo(errorCode, errorMessage),true));
+            // 对无效token，错误的请求解决无法跨域的问题
+            errorResponse.Headers.Add("Access-Control-Allow-Origin","*");
             return await Task<HttpResponseMessage>.Factory.StartNew(() => errorResponse);
         }
 

@@ -14,8 +14,7 @@ namespace Lottery.WebApi
         public static void Register(HttpConfiguration config)
         {
             // 跨域配置
-            config.EnableCors(new EnableCorsAttribute("*", "*", "GET, POST, PUT,PATCH, DELETE"));
-
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
             // Web API 配置和服务
             // 将 Web API 配置为仅使用不记名令牌身份验证。
             config.Services.Replace(typeof(IHttpActionSelector),new LotteryApiControllerActionSelector(ObjectContainer.Resolve<ILotteryApiConfiguration>()));
@@ -31,6 +30,7 @@ namespace Lottery.WebApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+         
         }
     }
 }

@@ -89,6 +89,7 @@
     <Compile Include="Enums\AccountRegistType.cs" />
     <Compile Include="Enums\ClientRegistType.cs" />
     <Compile Include="Enums\PointOperationType.cs" />
+    <Compile Include="Enums\PurchaseType.cs" />
     <Compile Include="Enums\SellType.cs" />
     <Compile Include="Enums\SystemType.cs" />
     <Compile Include="Enums\LotteryResult.cs" />
