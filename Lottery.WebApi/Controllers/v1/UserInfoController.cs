@@ -24,25 +24,30 @@ namespace Lottery.WebApi.Controllers.v1
         }
 
         /// <summary>
-        /// 获取登录用户的个人信息
+        /// 获取登录用户的信息
         /// </summary>
         /// <returns></returns>
         [Route("me")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<UserInfoOutput> GetUserInfo()
+        public async Task<EntryInfo> GetUserInfo()
         {
+            
             var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
             var userInfoOutput = AutoMapper.Mapper.Map<UserInfoOutput>(userInfo);
             userInfoOutput.MemberRank = _lotterySession.MemberRank;
             userInfoOutput.SystemType = _lotterySession.SystemType;
             userInfoOutput.SystemTypeId = _lotterySession.SystemTypeId;
+            var entryInfo = new EntryInfo()
+            {
+                UserInfo = userInfoOutput
+            };
             if (_lotterySession.SystemType == SystemType.App)
             {
                 var lotteryInfo = _lotteryQueryService.GetLotteryInfoById(_lotterySession.SystemTypeId);
-                userInfoOutput.LotteryInfo = AutoMapper.Mapper.Map<LotteryInfoOutput>(lotteryInfo);
+                entryInfo.LotteryInfo = AutoMapper.Mapper.Map<LotteryInfoOutput>(lotteryInfo);
             }
-            return userInfoOutput;
+            return entryInfo;
         }
 
     }

@@ -72,6 +72,6 @@ namespace Lottery.Dtos.UserInfo
 
         public string SystemTypeId { get; set; }
 
-        public LotteryInfoOutput LotteryInfo { get; set; }
+       
     }
 }
