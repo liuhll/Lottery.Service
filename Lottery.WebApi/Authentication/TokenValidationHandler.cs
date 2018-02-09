@@ -31,7 +31,7 @@ namespace Lottery.WebApi.Authentication
         private readonly IUserManager _userManager;
         private readonly IConLogQueryService _conLogQueryService;
 
-        private static string[] whitelist = new string[] { "/account/login", "/account/register" };
+        private static string[] whitelist = new string[] { "/account/login", "/account/register", "/v1/lottery/list" };
 
         public TokenValidationHandler()
         {

@@ -21,18 +21,21 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly INormConfigQueryService _normConfigQueryService;
         private readonly ILotteryPredictDataQueryService _lotteryPredictDataQueryService;
         private readonly IPlanTrackAppService _planTrackAppService;
+        private readonly ILotteryQueryService _lotteryQueryService;
 
         public LotteryController(ILotteryDataAppService lotteryDataAppService,
             ICommandService commandService, 
             INormConfigQueryService normConfigQueryService, 
             ILotteryPredictDataQueryService lotteryPredictDataQueryService, 
-            IPlanTrackAppService planTrackAppService) 
+            IPlanTrackAppService planTrackAppService,
+            ILotteryQueryService lotteryQueryService) 
             : base(commandService)
         {
             _lotteryDataAppService = lotteryDataAppService;
             _normConfigQueryService = normConfigQueryService;
             _lotteryPredictDataQueryService = lotteryPredictDataQueryService;
             _planTrackAppService = planTrackAppService;
+            _lotteryQueryService = lotteryQueryService;
         }
 
         /// <summary>
@@ -159,6 +162,19 @@ namespace Lottery.WebApi.Controllers.v1
         {
             var lotteryId = _lotterySession.SystemTypeId;
             return _lotteryDataAppService.GetFinalLotteryData(lotteryId);
+        }
+
+        /// <summary>
+        /// 获取系统内置的所有彩种
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("list")]
+        [AllowAnonymous]
+        public ICollection<LotteryInfoOutput> GetAllLotteryInfos()
+        {
+            var lotteryInfos = _lotteryQueryService.GetAllLotteryInfo();
+            return AutoMapper.Mapper.Map<ICollection<LotteryInfoOutput>>(lotteryInfos);
         }
 
 
