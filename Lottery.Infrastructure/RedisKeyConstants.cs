@@ -28,6 +28,8 @@
 
         public const string LOTTERY_DATA_ALL_KEY = "Lottery.Data.{0}.All";
 
+        public const string LOTTERY_DATA_DAY_KEY = "Lottery.Data.{0}.{1}";
+
         public const string LOTTERY_PREDICT_FINAL_DATA_KEY = "Lottery.Predict.Final.Data.{0}.{1}";
 
         public const string LOTTERY_PREDICT_DATA_KEY = "Lottery.Predict.Data.{0}.{1}";

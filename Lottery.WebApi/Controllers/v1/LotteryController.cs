@@ -142,13 +142,14 @@ namespace Lottery.WebApi.Controllers.v1
         /// 获取历史开奖数据
         /// </summary>     
         /// <param name="pageIndex">分页数</param>
+        /// <param name="lotteryTime">开奖的时间</param>
         /// <returns>开奖数据</returns>
         [HttpGet]
         [Route("history")]
-        public IPageList<LotteryDataDto> List(int pageIndex = 1)
+        public IPageList<LotteryDataDto> List(int pageIndex = 1, DateTime? lotteryTime = null)
         {
             var lotteryId = _lotterySession.SystemTypeId;
-            var list = _lotteryDataAppService.GetList(lotteryId);
+            var list = _lotteryDataAppService.GetList(lotteryId,lotteryTime);
             return new PageList<LotteryDataDto>(list,pageIndex);
         }
 
@@ -184,7 +185,7 @@ namespace Lottery.WebApi.Controllers.v1
         {
             var historyPredictResults = new List<int>();
             ICollection<PredictDataDto> dbPredictResultData = null;
-            var notRunningResult = predictDatas.Where(p => p.PredictedResult != 2).ToList();
+            var notRunningResult = predictDatas.Where(p => p.PredictedResult != 2).OrderByDescending(p=>p.CurrentPredictPeriod).ToList();
             var notRunningResultCount = notRunningResult.Count();
             if (notRunningResultCount < lookupPeriodCount)
             {
@@ -206,6 +207,7 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 historyPredictResults.Add((int)item.PredictedResult);
             }
+            historyPredictResults.Reverse();
             return historyPredictResults.ToArray();
         }
 

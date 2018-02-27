@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dapper;
 using ECommon.Components;
@@ -44,6 +45,20 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         public LotteryDataDto GetPredictPeriodData(string lotteryId, int period)
         {
             return GetAllDatas(lotteryId).FirstOrDefault(p=>p.Period == period);
+        }
+
+        public ICollection<LotteryDataDto> GetLotteryDatas(string lotteryId, DateTime lotteryTime)
+        {
+            var redisKey = string.Format(RedisKeyConstants.LOTTERY_DATA_DAY_KEY, lotteryId,lotteryTime.ToString("yyyyMMdd"));
+            return _cacheManager.Get<ICollection<LotteryDataDto>>(redisKey, () =>
+            {
+                using (var conn = GetLotteryConnection())
+                {
+                    var sql = $"SELECT * FROM dbo.L_LotteryData WHERE lotteryId=@lotteryId AND DATEDIFF(dd,LotteryTime,@lotteryTime)=0  ORDER BY Period DESC";
+
+                    return conn.Query<LotteryDataDto>(sql, new { @lotteryId = lotteryId, @lotteryTime = lotteryTime }).ToList();
+                }
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Lottery.Dtos.Lotteries;
 using Lottery.Engine.LotteryData;
 
@@ -16,7 +17,7 @@ namespace Lottery.AppService.LotteryData
         /// <returns></returns>
         IList<PredictDataDto> NewLotteryDataList(string lotteryId, string userId);
 
-        ICollection<LotteryDataDto> GetList(string lotteryId);
+        ICollection<LotteryDataDto> GetList(string lotteryId, DateTime? lotteryTime);
 
         FinalLotteryDataOutput GetFinalLotteryData(string lotteryId);
 

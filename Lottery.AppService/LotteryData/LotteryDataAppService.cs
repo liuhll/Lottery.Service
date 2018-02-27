@@ -62,9 +62,18 @@ namespace Lottery.AppService.LotteryData
             return predictDatas;
         }
 
-        public ICollection<LotteryDataDto> GetList(string lotteryId)
+        public ICollection<LotteryDataDto> GetList(string lotteryId, DateTime? lotteryTime)
         {
-            var datas = _lotteryDataQueryService.GetAllDatas(lotteryId);
+            ICollection<LotteryDataDto> datas = null;
+            if (lotteryTime == null)
+            {
+                datas = _lotteryDataQueryService.GetAllDatas(lotteryId);
+            }
+            else
+            {
+                datas = _lotteryDataQueryService.GetLotteryDatas(lotteryId, lotteryTime.Value);
+            }
+           
             return datas;
 
         }
@@ -108,7 +117,7 @@ namespace Lottery.AppService.LotteryData
 
         public LotteryDataDto GetLotteryData(string lotteryInfoId, int currentPredictPeriod)
         {
-            return GetList(lotteryInfoId).First(p => p.Period == currentPredictPeriod);
+            return GetList(lotteryInfoId,null).First(p => p.Period == currentPredictPeriod);
         }
 
 
