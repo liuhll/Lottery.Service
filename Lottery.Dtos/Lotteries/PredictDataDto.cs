@@ -1,10 +1,14 @@
-﻿namespace Lottery.Dtos.Lotteries
+﻿using Lottery.Infrastructure.Enums;
+
+namespace Lottery.Dtos.Lotteries
 {
     public class PredictDataDto
     {
         public string NormConfigId { get; set; }
 
         public int CurrentPredictPeriod { get; set; }
+
+        public PredictType PredictType { get; set; }
 
         public int StartPeriod { get; set; }
 

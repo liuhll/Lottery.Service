@@ -150,7 +150,7 @@ namespace Lottery.WebApi.Controllers.v1
         {
             var lotteryId = _lotterySession.SystemTypeId;
             var list = _lotteryDataAppService.GetList(lotteryId,lotteryTime);
-            return new PageList<LotteryDataDto>(list,pageIndex);
+            return new DefaultPageList<LotteryDataDto>(list,pageIndex);
         }
 
         /// <summary>

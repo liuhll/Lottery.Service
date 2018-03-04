@@ -34,11 +34,13 @@ namespace Lottery.AppService.Plan
             var planInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
             var prodictDatas = _lotteryPredictDataQueryService.GetNormPredictDatas(userNorm.Id,planInfo.PlanNormTable,userNorm.LookupPeriodCount + 1, lotteryCode);
             var currentPredictData = AutoMapper.Mapper.Map<PredictDataDetail>(prodictDatas.FirstOrDefault(p => p.PredictedResult == 2));
+            currentPredictData.PredictType = planInfo.DsType;
            // currentPredictData.LotteryData = _lotteryDataAppService.GetLotteryData(planInfo.LotteryInfo.Id,currentPredictData.CurrentPredictPeriod).Data;
             var historyPredictDatas = AutoMapper.Mapper.Map<ICollection<PredictDataDetail>>(prodictDatas.Where(p => p.PredictedResult != 2).ToList());
             historyPredictDatas.ForEach(item =>
             {
                 item.LotteryData = _lotteryDataAppService.GetLotteryData(planInfo.LotteryInfo.Id, item.CurrentPredictPeriod).Data;
+                item.PredictType = planInfo.DsType;
             });
             var planTrackDetail = new PlanTrackDetail()
             {
