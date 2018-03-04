@@ -40,7 +40,7 @@ namespace Lottery.AppService.Validations
 
             RuleFor(p => p.PlanIds).Must(p=> {
 
-                if (p.All(t => allPlanIds.Any(b => b == t))) {
+                if (p.All(t => allPlanIds.Any(b => b == t.PlanId))) {
                     return true;
                 }
                 return false;

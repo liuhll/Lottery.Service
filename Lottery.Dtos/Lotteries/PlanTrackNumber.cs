@@ -24,5 +24,7 @@ namespace Lottery.Dtos.Lotteries
         public int[] HistoryPredictResults { get; set; }
 
         public double CurrentScore { get; set; }
+
+        public int Sort { get; set; }
     }
 }

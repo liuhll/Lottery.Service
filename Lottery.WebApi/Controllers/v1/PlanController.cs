@@ -82,7 +82,7 @@ namespace Lottery.WebApi.Controllers.v1
             var userNormConfigs = _normConfigAppService.GetUserNormConfig(LotteryInfo.Id, _lotterySession.UserId);
             if (userNormConfigs!= null && userNormConfigs.Any())
             {
-                var deleteUserNormConfigsPlanIds = userNormConfigs.Select(p => p.PlanId).Except(input.PlanIds);
+                var deleteUserNormConfigsPlanIds = userNormConfigs.Select(p => p.PlanId).Except(input.PlanIds.Select(p=>p.PlanId));
                 var deleteUserNormConfigs =
                     userNormConfigs.Where(p => deleteUserNormConfigsPlanIds.Any(q => q == p.PlanId));
                 // 移出本次未选中但是之前选中的计划
@@ -92,20 +92,20 @@ namespace Lottery.WebApi.Controllers.v1
                 }
             }
            
-            foreach (var planId in input.PlanIds)
+            foreach (var plan in input.PlanIds)
             {
                 // 如果用户选中的计划则忽略
-                if (userNormConfigs!= null && userNormConfigs.Any(p=>p.PlanId == planId))
+                if (userNormConfigs!= null && userNormConfigs.Any(p=>p.PlanId == plan.PlanId))
                 {
                     continue;
                 }
                 var command = new AddNormConfigCommand(Guid.NewGuid().ToString(),_lotterySession.UserId,
-                    LotteryInfo.Id, planId, userDefaultNormConfig.PlanCycle,
+                    LotteryInfo.Id, plan.PlanId, userDefaultNormConfig.PlanCycle,
                     userDefaultNormConfig.ForecastCount, finalLotteryData.Period,
                     userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.MinRightSeries,
                     userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrortSeries,
                     userDefaultNormConfig.MaxErrortSeries, userDefaultNormConfig.LookupPeriodCount,
-                    userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore);
+                    userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore, plan.Sort);
                 await SendCommandAsync(command);
             }
 

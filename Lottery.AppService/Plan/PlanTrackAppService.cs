@@ -50,6 +50,7 @@ namespace Lottery.AppService.Plan
                NormId = userNorm.Id,
                PlanId = planInfo.Id,
                PlanName = planInfo.PlanName,
+               Sort = userNorm.Sort,
                StatisticData = ComputeStatisticData(currentPredictData, historyPredictDatas, userNorm)
             };
             return planTrackDetail;

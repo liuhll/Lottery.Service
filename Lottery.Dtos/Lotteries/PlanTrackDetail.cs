@@ -10,6 +10,8 @@ namespace Lottery.Dtos.Lotteries
 
         public string PlanName { get; set; }
 
+        public int Sort { get; set; }
+
         public FinalLotteryDataOutput FinalLotteryData { get; set; }
 
         public StatisticData StatisticData { get; set; }

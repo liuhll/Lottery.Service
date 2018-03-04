@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using ENode.Domain;
 
 namespace Lottery.Core.Domain.NormConfigs
@@ -15,8 +16,8 @@ namespace Lottery.Core.Domain.NormConfigs
           int forecastCount,
           int unitHistoryCount,
           int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
-          int lookupPeriodCount, int expectMinScore, int expectMaxScore
-
+          int lookupPeriodCount, int expectMinScore, int expectMaxScore,
+          int sort
           ) : base(id)
         {
             UserId = userId;
@@ -36,6 +37,7 @@ namespace Lottery.Core.Domain.NormConfigs
             ExpectMinScore = expectMinScore;
             IsEnable = true;
             IsDefualt = false;
+            Sort = sort;
 
             ApplyEvent(new AddNormConfigEvent(this));
         }
@@ -133,6 +135,8 @@ namespace Lottery.Core.Domain.NormConfigs
         /// 
         /// </summary>
         public DateTime? UpdateTime { get; private set; }
+
+        public int Sort { get; private set; }
 
         #region public Methods
         public void DeleteNormConfig(string aggregateRootId)

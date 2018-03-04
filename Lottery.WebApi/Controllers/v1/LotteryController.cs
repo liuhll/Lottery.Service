@@ -59,6 +59,7 @@ namespace Lottery.WebApi.Controllers.v1
                 var planTrackNumber = new PlanTrackNumber()
                 {
                     NormId = normConfig.Id,
+                    Sort = normConfig.Sort,
                     PlanId = planInfo.Id,
                     PlanName = planInfo.PlanName,
                     EndPeriod = newestPredictDataDto.EndPeriod,
@@ -77,7 +78,7 @@ namespace Lottery.WebApi.Controllers.v1
                 planTrackNumbers.Add(planTrackNumber);
             });
 
-            return planTrackNumbers;
+            return planTrackNumbers.OrderBy(p=>p.Sort).ToList();
         }
 
         /// <summary>
@@ -135,7 +136,7 @@ namespace Lottery.WebApi.Controllers.v1
                 }
             }
          
-            return predictDetailDatas;
+            return predictDetailDatas.OrderBy(p=>p.Sort).ToList();
         }
 
         /// <summary>
