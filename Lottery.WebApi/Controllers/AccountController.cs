@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using ECommon.IO;
@@ -66,10 +67,14 @@ namespace Lottery.WebApi.Controllers
             }
             var userInfo = await _userManager.SignInAsync(loginModel.UserName, loginModel.Password);
             // 验证该用户是否允许访问指定的客户端
-            _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);            
+            _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);
+            if (loginModel.IsForce)
+            {
+                await this.Logout(loginModel.IsForce,userInfo.Id, systemTypeId);
+            }
             var clientNo = await _userManager.VerifyUserClientNo(userInfo.Id, systemTypeId);
-
             DateTime invalidDateTime;
+            
             var token = _userManager.CreateToken(userInfo, systemTypeId,clientNo,out invalidDateTime);
             await SendCommandAsync(new AddConLogCommand(Guid.NewGuid().ToString(), userInfo.Id,clientNo,systemTypeId, Request.GetReuestIp(), invalidDateTime,userInfo.Id));
 
@@ -82,18 +87,29 @@ namespace Lottery.WebApi.Controllers
         /// <returns></returns>
         [Route("logout")]
         [AllowAnonymous]
-        public async Task<string> Logout()
+        public async Task<string> Logout(bool isForce = false, string userId = "", string systemTypeId = "")
         {
-            if (string.IsNullOrEmpty(_lotterySession.UserId))
+            if (!isForce)
             {
-                throw new LotteryAuthorizationException("用户未登录，或已登出,无法调用该接口");
+                if (string.IsNullOrEmpty(_lotterySession.UserId))
+                {
+                    throw new LotteryAuthorizationException("用户未登录，或已登出,无法调用该接口");
+                }
+                var conLog = _conLogQueryService.GetUserNewestConLog(_lotterySession.UserId,
+                    _lotterySession.SystemTypeId, _lotterySession.ClientNo);
+                if (conLog == null)
+                {
+                    throw new LotteryAuthorizationException("您已经登出,请不要重复操作");
+                }
+                await SendCommandAsync(new LogoutCommand(conLog.Id, _lotterySession.UserId));
             }
-            var conLog = _conLogQueryService.GetUserNewestConLog(_lotterySession.UserId, _lotterySession.SystemTypeId, _lotterySession.ClientNo);
-            if (conLog == null)
+            else
             {
-                throw new LotteryAuthorizationException("您已经登出,请不要重复操作");
+                var conLog = _conLogQueryService.GetUserNewestConLog(userId, systemTypeId, 1);
+                await SendCommandAsync(new LogoutCommand(conLog.Id, userId));
+                Thread.Sleep(5000);
             }
-            await SendCommandAsync(new LogoutCommand(conLog.Id, _lotterySession.UserId));
+
             return "用户登出成功";
         }
 

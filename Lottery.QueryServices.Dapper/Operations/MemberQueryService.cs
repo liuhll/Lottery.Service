@@ -25,7 +25,7 @@ namespace Lottery.QueryServices.Dapper.Operations
 
         public MemberInfoDto GetUserMenberInfo(string userId, string lotteryId)
         {
-            return GetMenberInfos(lotteryId).Safe().FirstOrDefault();
+            return GetMenberInfos(lotteryId).Safe().FirstOrDefault(p=> p.UserId == userId);
         }
 
         public ICollection<MemberInfoDto> GetMenberInfos(string lotteryId)

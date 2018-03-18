@@ -15,6 +15,8 @@
         /// </summary>
         public string Password { get; set; }
 
+        public bool IsForce { get; set; }
+
         /// <summary>
         /// 系统类型
         /// </summary>

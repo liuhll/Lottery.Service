@@ -11,16 +11,9 @@ namespace Lottery.AppService.Validations
     public class UserPlanInfoInputValidator :AbstractValidator<UserPlanInfoInput>
     {
         private readonly IPlanInfoQueryService _planInfoQueryService;
-        private readonly ILotterySession _lotterySession;
         public UserPlanInfoInputValidator()
         {
             _planInfoQueryService = ObjectContainer.Resolve<IPlanInfoQueryService>();
-            _lotterySession = NullLotterySession.Instance;
-
-            var planInfos = _planInfoQueryService.GetPlanInfoByLotteryId(_lotterySession.SystemTypeId);
-            var allPlanIds = planInfos.Select(p => p.Id).ToList();
-
-
             RuleFor(p => p.PlanIds).Must(p =>
             {
                 if (p == null || p.Count <= 0)
@@ -39,6 +32,10 @@ namespace Lottery.AppService.Validations
             }).WithMessage("不允许选择重复的计划");
 
             RuleFor(p => p.PlanIds).Must(p=> {
+
+                var lotterySession = NullLotterySession.Instance;
+                var planInfos = _planInfoQueryService.GetPlanInfoByLotteryId(lotterySession.SystemTypeId);
+                var allPlanIds = planInfos.Select(q => q.Id).ToList();
 
                 if (p.All(t => allPlanIds.Any(b => b == t.PlanId))) {
                     return true;

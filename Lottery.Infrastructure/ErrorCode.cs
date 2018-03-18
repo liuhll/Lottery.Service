@@ -34,6 +34,8 @@
         /// </summary>
         public const int OverloadPermitClientCount = 40005;
 
+        public const int RepeatLogin = 40006;
+
         /// <summary>
         /// 数据错误异常
         /// </summary>
