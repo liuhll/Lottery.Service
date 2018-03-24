@@ -209,7 +209,7 @@ namespace Lottery.AppService.Account
 
             //create the jwt
             var token =
-                tokenHandler.CreateJwtSecurityToken(audience: ConfigHelper.Value("audience").ToString(), issuer: ConfigHelper.Value("issuer").ToString(),
+                tokenHandler.CreateJwtSecurityToken(audience: ConfigHelper.Value("audience"), issuer: ConfigHelper.Value("issuer"),
                     subject: claimsIdentity, notBefore: issuedAt, expires: expires, signingCredentials: signingCredentials);
             var tokenString = tokenHandler.WriteToken(token);
             invalidDateTime = DateTime.Parse(expires.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss"));

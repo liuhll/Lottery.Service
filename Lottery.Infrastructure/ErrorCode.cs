@@ -56,5 +56,7 @@
         /// </summary>
         public const int UnknownError = 50004;
 
+        public const int SendMessageError = 50005;
+
     }
 }

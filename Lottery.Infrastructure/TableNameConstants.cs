@@ -1,4 +1,6 @@
-﻿namespace Lottery.Infrastructure
+﻿using System.Data;
+
+namespace Lottery.Infrastructure
 {
     public class TableNameConstants
     {
@@ -33,5 +35,9 @@
         public const string ConLogTable = "F_ConLog";
 
         public const string AuthRankTable = "MS_AuthRank";
+
+        public const string MessageRecordTable = "B_MessageRecord";
+
+        public const string IdentifyCodeTable = "B_IdentifyCode";
     }
 }

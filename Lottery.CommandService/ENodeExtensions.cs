@@ -56,7 +56,8 @@ namespace Lottery.CommandService
                 .Subscribe(EQueueTopics.LotteryAccountCommandTopic)
                 .Subscribe(EQueueTopics.LotteryProcessManagerTopic)
                 .Subscribe(EQueueTopics.UserInfoCommandTopic)
-                .Subscribe(EQueueTopics.NormCommandTopic);
+                .Subscribe(EQueueTopics.NormCommandTopic)
+                .Subscribe(EQueueTopics.MessageCommandTopic);
 
             _commandConsumer.Start();
             _eventPublisher.Start();

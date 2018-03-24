@@ -24,5 +24,9 @@
 
         public const string NormEventTopic = "NormEventTopic";
 
+        public const string MessageCommandTopic = "MessageCommandTopic";
+
+        public const string MessageEventTopic = "MessageEventTopic";
+
     }
 }

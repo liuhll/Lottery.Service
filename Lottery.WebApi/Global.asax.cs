@@ -66,6 +66,7 @@ namespace Lottery.WebApi
                 .UseSqlServerPublishedVersionStore()
                 .BuildContainer()
                 .ClearCache()
+                .InitEmailSeting()
                 .InitializeBusinessAssemblies(assemblies)
                 .InitLotteryEngine()
                 .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)

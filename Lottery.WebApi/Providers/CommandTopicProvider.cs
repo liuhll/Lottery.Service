@@ -1,9 +1,11 @@
 ﻿using ECommon.Components;
 using ENode.Commanding;
 using ENode.EQueue;
+using Lottery.Commands.IdentifyCodes;
 using Lottery.Commands.LogonLog;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
+using Lottery.Commands.Messages;
 using Lottery.Commands.Norms;
 using Lottery.Commands.UserInfos;
 using Lottery.Infrastructure;
@@ -38,6 +40,12 @@ namespace Lottery.WebApi.Providers
                 typeof(AddNormConfigCommand),
                 typeof(UpdateNormConfigCommand),
                 typeof(DeteteNormConfigCommand));
+
+            RegisterTopic(EQueueTopics.MessageCommandTopic,
+                typeof(AddMessageRecordCommand),
+                typeof(AddIdentifyCodeCommand),
+                typeof(UpdateIdentifyCodeCommand),
+                typeof(InvalidIdentifyCodeCommand));
            
         }
     }

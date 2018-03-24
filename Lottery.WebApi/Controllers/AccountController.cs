@@ -18,6 +18,7 @@ using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Tools;
 using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Lotteries;
 using Lottery.WebApi.Extensions;
@@ -106,8 +107,11 @@ namespace Lottery.WebApi.Controllers
             else
             {
                 var conLog = _conLogQueryService.GetUserNewestConLog(userId, systemTypeId, 1);
-                await SendCommandAsync(new LogoutCommand(conLog.Id, userId));
-                Thread.Sleep(5000);
+                if (conLog != null)
+                {
+                    await SendCommandAsync(new LogoutCommand(conLog.Id, userId));
+                    Thread.Sleep(5000);
+                }
             }
 
             return "用户登出成功";
@@ -133,7 +137,7 @@ namespace Lottery.WebApi.Controllers
             {
                 throw new LotteryDataException("该账号已经存在");
             }
-            var accountRegType = ReferAccountRegType(user.Account);
+            var accountRegType = AccountHelper.JudgeAccountRegType(user.Account);
 
             // :todo 是否存在活动,以及查询获赠的积分
             var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account, 
@@ -199,23 +203,7 @@ namespace Lottery.WebApi.Controllers
             return pwd;
         }
 
-        private AccountRegistType ReferAccountRegType(string userAccount)
-        {
-            if (Regex.IsMatch(userAccount, RegexConstants.UserName))
-            {
-                return AccountRegistType.UserName;
-            }
-            if (Regex.IsMatch(userAccount, RegexConstants.Email))
-            {
-                return AccountRegistType.Email;
-            }
-            if (Regex.IsMatch(userAccount, RegexConstants.Phone))
-            {
-                return AccountRegistType.Phone;
-            }
-            throw new LotteryDataException("注册账号不合法");
-
-        }
+       
 
         private bool ValidateClient(string clientType, out string clientTypeId)
         {

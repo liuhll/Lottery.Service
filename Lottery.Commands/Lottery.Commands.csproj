@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IdentifyCodes\AddIdentifyCodeCommand.cs" />
+    <Compile Include="IdentifyCodes\InvalidIdentifyCodeCommand.cs" />
+    <Compile Include="IdentifyCodes\UpdateIdentifyCodeCommand.cs" />
     <Compile Include="LogonLog\AddConLogCommand.cs" />
     <Compile Include="LogonLog\LogoutCommand.cs" />
     <Compile Include="LogonLog\UpdateTokenCommand.cs" />
@@ -53,6 +56,7 @@
     <Compile Include="LotteryDatas\UpdateNextDayFirstPeriodCommand.cs" />
     <Compile Include="LotteryPredicts\InitPredictTableCommand.cs" />
     <Compile Include="LotteryPredicts\PredictDataCommand.cs" />
+    <Compile Include="Messages\AddMessageRecordCommand.cs" />
     <Compile Include="Norms\AddUserNormDefaultConfigCommand.cs" />
     <Compile Include="Norms\DeteteNormConfigCommand.cs" />
     <Compile Include="Norms\UpdateUserNormDefaultConfigCommand.cs" />

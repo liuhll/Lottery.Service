@@ -10,6 +10,8 @@ using EQueue.Configurations;
 using Lottery.Core.Caching;
 using Lottery.Engine;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Mail;
+using Lottery.Infrastructure.Sms;
 using Lottery.WebApi.Configration;
 using Lottery.WebApi.Configration.Mapper;
 
@@ -43,6 +45,12 @@ namespace Lottery.WebApi.Extensions
             });
 
             _commandService.Start();
+            return enodeConfiguration;
+        }
+
+        public static ENodeConfiguration InitEmailSeting(this ENodeConfiguration enodeConfiguration)
+        {
+            EmailSettingConfigs.InitEmailSetting();
             return enodeConfiguration;
         }
 

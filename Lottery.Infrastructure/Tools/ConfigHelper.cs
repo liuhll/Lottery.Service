@@ -10,10 +10,16 @@ namespace Lottery.Infrastructure.Tools
             return Convert.ToInt32(Value(key));
         }
 
-        public static object Value(string key)
+        public static string Value(string key)
         {
             var val = ConfigurationManager.AppSettings[key];
             return val;
         }
+
+        //public static object ValueString(string key)
+        //{
+        //    var val = ConfigurationManager.AppSettings[key];
+        //    return val.ToString();
+        //}
     }
 }
