@@ -74,5 +74,7 @@
 
         public const string USERINFO_INVALIDTOKENKEY = "UserInfo.InvalidTokenKey.{0}";
 
+        public const string IDENTIFY_CODE_USER_KEY = "IdentifyCode.User.{0}";
+
     }
 }

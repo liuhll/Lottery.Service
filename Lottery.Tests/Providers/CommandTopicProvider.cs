@@ -3,6 +3,7 @@ using ENode.EQueue;
 using Lottery.Commands.LogonLog;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
+using Lottery.Commands.Messages;
 using Lottery.Commands.Norms;
 using Lottery.Commands.UserInfos;
 using Lottery.Infrastructure;
@@ -26,11 +27,14 @@ namespace Lottery.Tests.Providers
                 typeof(BindUserPhoneCommand),
                 typeof(UpdateLastLoginTimeCommand));
 
-            RegisterTopic(EQueueTopics.NormCommandTopic,typeof(
-                AddUserNormDefaultConfigCommand),
+            RegisterTopic(EQueueTopics.NormCommandTopic,
+                typeof(AddUserNormDefaultConfigCommand),
                 typeof(UpdateUserNormDefaultConfigCommand),
                 typeof(AddNormConfigCommand),
                 typeof(UpdateNormConfigCommand));
+
+            RegisterTopic(EQueueTopics.MessageCommandTopic,
+                typeof(AddMessageRecordCommand));
         }
     }
 }

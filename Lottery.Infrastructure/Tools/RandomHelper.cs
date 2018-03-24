@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Lottery.Infrastructure.Collections;
 
 namespace Lottery.Infrastructure.Tools
@@ -29,6 +30,16 @@ namespace Lottery.Infrastructure.Tools
             {
                 return Rnd.Next(minValue, maxValue);
             }
+        }
+
+        public static string GenerateIdentifyCode(int length = 6)
+        {
+            var sb = new StringBuilder();
+            for (var i = 0; i <= length; i++)
+            {
+                sb.Append(GetRandom(0, 9));
+            }
+            return sb.ToString();
         }
 
         /// <summary>

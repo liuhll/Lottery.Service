@@ -47,7 +47,9 @@
   <ItemGroup>
     <Compile Include="AccountCommandHandler.cs" />
     <Compile Include="ConlogCommandHandler.cs" />
+    <Compile Include="IdentifyCodeCommandHandle.cs" />
     <Compile Include="LotteryDataCommandHandler.cs" />
+    <Compile Include="MessageCommandHandler.cs" />
     <Compile Include="NormCommandHandler.cs" />
     <Compile Include="PlanCommandHandler.cs" />
     <Compile Include="PredictDataCommandHandler.cs" />

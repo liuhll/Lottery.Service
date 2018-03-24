@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using ECommon.IO;
@@ -9,7 +10,9 @@ using Effortless.Net.Encryption;
 using ENode.Commanding;
 using FluentValidation.Results;
 using Lottery.AppService.Account;
+using Lottery.AppService.IdentifyCode;
 using Lottery.AppService.Validations;
+using Lottery.Commands.IdentifyCodes;
 using Lottery.Commands.LogonLog;
 using Lottery.Commands.UserInfos;
 using Lottery.Dtos.UserInfo;
@@ -17,6 +20,7 @@ using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Tools;
 using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Lotteries;
 using Lottery.WebApi.Extensions;
@@ -31,19 +35,22 @@ namespace Lottery.WebApi.Controllers
         private readonly UserProfileInputValidator _userProfileInputValidator;
         private readonly ILotteryQueryService _lotteryQueryService;
         private readonly IConLogQueryService _conLogQueryService;
+        private readonly IIdentifyCodeAppService _identifyCodeAppService;
 
         public AccountController(IUserManager userManager,
             ICommandService commandService,
             UserInfoInputValidator userInfoInputValidator,
             UserProfileInputValidator userProfileInputValidator,
             ILotteryQueryService lotteryQueryService,
-            IConLogQueryService conLogQueryService) : base(commandService)
+            IConLogQueryService conLogQueryService,
+            IIdentifyCodeAppService identifyCodeAppService) : base(commandService)
         {
             _userManager = userManager;
             _userInfoInputValidator = userInfoInputValidator;
             _userProfileInputValidator = userProfileInputValidator;
             _lotteryQueryService = lotteryQueryService;
             _conLogQueryService = conLogQueryService;
+            _identifyCodeAppService = identifyCodeAppService;
         }
 
         /// <summary>
@@ -66,10 +73,14 @@ namespace Lottery.WebApi.Controllers
             }
             var userInfo = await _userManager.SignInAsync(loginModel.UserName, loginModel.Password);
             // 验证该用户是否允许访问指定的客户端
-            _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);            
+            _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);
+            if (loginModel.IsForce)
+            {
+                await this.Logout(loginModel.IsForce,userInfo.Id, systemTypeId);
+            }
             var clientNo = await _userManager.VerifyUserClientNo(userInfo.Id, systemTypeId);
-
             DateTime invalidDateTime;
+            
             var token = _userManager.CreateToken(userInfo, systemTypeId,clientNo,out invalidDateTime);
             await SendCommandAsync(new AddConLogCommand(Guid.NewGuid().ToString(), userInfo.Id,clientNo,systemTypeId, Request.GetReuestIp(), invalidDateTime,userInfo.Id));
 
@@ -82,18 +93,32 @@ namespace Lottery.WebApi.Controllers
         /// <returns></returns>
         [Route("logout")]
         [AllowAnonymous]
-        public async Task<string> Logout()
+        public async Task<string> Logout(bool isForce = false, string userId = "", string systemTypeId = "")
         {
-            if (string.IsNullOrEmpty(_lotterySession.UserId))
+            if (!isForce)
             {
-                throw new LotteryAuthorizationException("用户未登录，或已登出,无法调用该接口");
+                if (string.IsNullOrEmpty(_lotterySession.UserId))
+                {
+                    throw new LotteryAuthorizationException("用户未登录，或已登出,无法调用该接口");
+                }
+                var conLog = _conLogQueryService.GetUserNewestConLog(_lotterySession.UserId,
+                    _lotterySession.SystemTypeId, _lotterySession.ClientNo);
+                if (conLog == null)
+                {
+                    throw new LotteryAuthorizationException("您已经登出,请不要重复操作");
+                }
+                await SendCommandAsync(new LogoutCommand(conLog.Id, _lotterySession.UserId));
             }
-            var conLog = _conLogQueryService.GetUserNewestConLog(_lotterySession.UserId, _lotterySession.SystemTypeId, _lotterySession.ClientNo);
-            if (conLog == null)
+            else
             {
-                throw new LotteryAuthorizationException("您已经登出,请不要重复操作");
+                var conLog = _conLogQueryService.GetUserNewestConLog(userId, systemTypeId, 1);
+                if (conLog != null)
+                {
+                    await SendCommandAsync(new LogoutCommand(conLog.Id, userId));
+                    Thread.Sleep(5000);
+                }
             }
-            await SendCommandAsync(new LogoutCommand(conLog.Id, _lotterySession.UserId));
+
             return "用户登出成功";
         }
 
@@ -112,12 +137,27 @@ namespace Lottery.WebApi.Controllers
             {
                 throw new LotteryDataException(validationResult.Errors.Select(p => p.ErrorMessage).ToList().ToString(";"));
             }
+  
+            var validIdentifyCodeOutput = _identifyCodeAppService.ValidIdentifyCode(user.Account, user.IdentifyCode);
+
+            if (validIdentifyCodeOutput.IsOvertime)
+            {
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId,user.Account,_lotterySession.UserId));
+                throw new LotteryDataException("验证码超时,请重新获取验证码");
+            }
+            if (!validIdentifyCodeOutput.IsValid)
+            {
+               // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
+                throw new LotteryDataException("您输入的验证码错误,请重新输入");
+            }
+
+            var accountRegType = AccountHelper.JudgeAccountRegType(user.Account);
             var isReg = await _userManager.IsExistAccount(user.Account);
             if (isReg)
             {
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
                 throw new LotteryDataException("该账号已经存在");
             }
-            var accountRegType = ReferAccountRegType(user.Account);
 
             // :todo 是否存在活动,以及查询获赠的积分
             var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account, 
@@ -183,23 +223,7 @@ namespace Lottery.WebApi.Controllers
             return pwd;
         }
 
-        private AccountRegistType ReferAccountRegType(string userAccount)
-        {
-            if (Regex.IsMatch(userAccount, RegexConstants.UserName))
-            {
-                return AccountRegistType.UserName;
-            }
-            if (Regex.IsMatch(userAccount, RegexConstants.Email))
-            {
-                return AccountRegistType.Email;
-            }
-            if (Regex.IsMatch(userAccount, RegexConstants.Phone))
-            {
-                return AccountRegistType.Phone;
-            }
-            throw new LotteryDataException("注册账号不合法");
-
-        }
+       
 
         private bool ValidateClient(string clientType, out string clientTypeId)
         {

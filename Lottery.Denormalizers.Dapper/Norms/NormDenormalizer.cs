@@ -103,6 +103,7 @@ namespace Lottery.Denormalizers.Dapper.Norms
                     HistoryCount = evnt.UnitHistoryCount * evnt.PlanCycle,
                     evnt.IsDefualt,
                     evnt.IsEnable,
+                    evnt.Sort,
                     Id = evnt.AggregateRootId,
                     CreateBy = evnt.UserId,
                     CreateTime = evnt.Timestamp,

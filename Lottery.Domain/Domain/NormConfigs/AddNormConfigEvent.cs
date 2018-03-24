@@ -26,6 +26,7 @@ namespace Lottery.Core.Domain.NormConfigs
             ExpectMinScore = normConfig.ExpectMinScore;
             IsEnable = normConfig.IsEnable;
             IsDefualt = normConfig.IsDefualt;
+            Sort = normConfig.Sort;
         }
 
         public string UserId { get; private set; }
@@ -93,6 +94,6 @@ namespace Lottery.Core.Domain.NormConfigs
         /// </summary>
         public bool IsDefualt { get; private set; }
 
-
+        public int Sort { get; private set; }
     }
 }

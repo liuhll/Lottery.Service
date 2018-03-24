@@ -34,6 +34,8 @@
         /// </summary>
         public const int OverloadPermitClientCount = 40005;
 
+        public const int RepeatLogin = 40006;
+
         /// <summary>
         /// 数据错误异常
         /// </summary>
@@ -53,6 +55,8 @@
         /// 其他未知的异常
         /// </summary>
         public const int UnknownError = 50004;
+
+        public const int SendMessageError = 50005;
 
     }
 }

@@ -51,6 +51,7 @@
     <Compile Include="AuthRanks\AuthRankQueryService.cs" />
     <Compile Include="BaseQueryService.cs" />
     <Compile Include="Canlogs\ConLogQueryService.cs" />
+    <Compile Include="IdentifyCodes\IdentifyCodeQueryService.cs" />
     <Compile Include="Lotteries\DataSiteQueryService.cs" />
     <Compile Include="Lotteries\NormGroupQueryService.cs" />
     <Compile Include="Lotteries\LotteryDataQueryService.cs" />

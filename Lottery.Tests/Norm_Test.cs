@@ -47,6 +47,7 @@ namespace Lottery.Tests
             var userDefaultNormConfig = userDefaultNormConfigService.GetUserNormOrDefaultConfig(userId, lotteryId);
             var finalLotteryData = finalLotteryDataService.GetFinalData(lotteryId);
             var userNormConfig = new List<UserPlanNormConfig>();
+            int sort = 1;
             foreach (var planId in planIds)
             {
                 var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), userId, lotteryId, planId,
@@ -54,7 +55,8 @@ namespace Lottery.Tests
                     userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.MinRightSeries,
                     userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrortSeries,
                     userDefaultNormConfig.MaxErrortSeries, userDefaultNormConfig.LookupPeriodCount,
-                    userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore);
+                    userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore, sort);
+                sort++;
                 ExecuteCommand(command);
             }
 

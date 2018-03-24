@@ -209,7 +209,7 @@ namespace Lottery.AppService.Account
 
             //create the jwt
             var token =
-                tokenHandler.CreateJwtSecurityToken(audience: ConfigHelper.Value("audience").ToString(), issuer: ConfigHelper.Value("issuer").ToString(),
+                tokenHandler.CreateJwtSecurityToken(audience: ConfigHelper.Value("audience"), issuer: ConfigHelper.Value("issuer"),
                     subject: claimsIdentity, notBefore: issuedAt, expires: expires, signingCredentials: signingCredentials);
             var tokenString = tokenHandler.WriteToken(token);
             invalidDateTime = DateTime.Parse(expires.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss"));
@@ -250,9 +250,15 @@ namespace Lottery.AppService.Account
                 {
                     if (memberRank == MemberRank.Team)
                     {
-                        throw new LotteryAuthorizationException("该账号登录的客户端超过运行登录的最大数量",ErrorCode.OverloadPermitClientCount);
+                        throw new LotteryAuthorizationException("该账号登录的客户端超过运行登录的最大数量",
+                            ErrorCode.OverloadPermitClientCount);
                     }
-                    throw new LotteryAuthorizationException("您的账号在其他客户端登录,请先从其他客户端中登出,如果需要从更多的客户端登录,请购买团队版",ErrorCode.OverloadPermitClientCount);
+                    else
+                    {
+                        throw new LotteryAuthorizationException("您的账号在其他客户端登录,是否强制登录?", ErrorCode.RepeatLogin);
+                    }
+                    //throw new LotteryAuthorizationException("您的账号在其他客户端登录,请先从其他客户端中登出,如果需要从更多的客户端登录,请购买团队版",ErrorCode.OverloadPermitClientCount);
+
                 }
             }
             return clientNo;

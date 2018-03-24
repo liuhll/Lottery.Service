@@ -7,6 +7,6 @@ namespace Lottery.Dtos.Plans
         /// <summary>
         /// 用户选中的计划Ids
         /// </summary>
-        public ICollection<string> PlanIds { get; set; }
+        public ICollection<PlanIdInput> PlanIds { get; set; }
     }
 }

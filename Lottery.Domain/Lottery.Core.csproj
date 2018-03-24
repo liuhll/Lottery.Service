@@ -59,6 +59,10 @@
     <Compile Include="Domain\DataSites\DataSite.cs" />
     <Compile Include="Domain\DictionaryCatalogues\DictionaryCatalogue.cs" />
     <Compile Include="Domain\DictionaryValues\DictionaryValue.cs" />
+    <Compile Include="Domain\IdentifyCode\AddIdentifyCodeEvent.cs" />
+    <Compile Include="Domain\IdentifyCode\IdentifyCode.cs" />
+    <Compile Include="Domain\IdentifyCode\InvalidIdentifyCodeEvent.cs" />
+    <Compile Include="Domain\IdentifyCode\UpdateIdentifyCodeEvent.cs" />
     <Compile Include="Domain\LotteryDatas\LotteryDataInfo.cs" />
     <Compile Include="Domain\LotteryDatas\LotteryData.cs" />
     <Compile Include="Domain\LotteryDatas\LotteryDataAddedEvent.cs" />
@@ -72,6 +76,8 @@
     <Compile Include="Domain\LotteryPredictDatas\LotteryPredictData.cs" />
     <Compile Include="Domain\LotteryPredictDatas\PredictTable.cs" />
     <Compile Include="Domain\LotteryPredictDatas\UpdateLotteryPredictDataEvent.cs" />
+    <Compile Include="Domain\MessageRecords\AddMessageRecordEvent.cs" />
+    <Compile Include="Domain\MessageRecords\MessageRecord.cs" />
     <Compile Include="Domain\NormConfigs\AddNormConfigEvent.cs" />
     <Compile Include="Domain\NormConfigs\DeleteNormConfigEvent.cs" />
     <Compile Include="Domain\NormConfigs\NormConfig.cs" />

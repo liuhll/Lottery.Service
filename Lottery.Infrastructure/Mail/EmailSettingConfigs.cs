@@ -45,7 +45,7 @@ namespace Lottery.Infrastructure.Mail
             }
             if (!ConfigurationHelper.TryGetAppSettingVal("Email.Smtp.Password", out _password))
             {
-                _password = "iewflxjezduqbdcf";
+                _password = "stdsfvnjuerabbfj";
             }
             if (!ConfigurationHelper.TryGetAppSettingVal("Email.Smtp.Domain", out _domain))
             {
