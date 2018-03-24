@@ -10,7 +10,9 @@ using Effortless.Net.Encryption;
 using ENode.Commanding;
 using FluentValidation.Results;
 using Lottery.AppService.Account;
+using Lottery.AppService.IdentifyCode;
 using Lottery.AppService.Validations;
+using Lottery.Commands.IdentifyCodes;
 using Lottery.Commands.LogonLog;
 using Lottery.Commands.UserInfos;
 using Lottery.Dtos.UserInfo;
@@ -33,19 +35,22 @@ namespace Lottery.WebApi.Controllers
         private readonly UserProfileInputValidator _userProfileInputValidator;
         private readonly ILotteryQueryService _lotteryQueryService;
         private readonly IConLogQueryService _conLogQueryService;
+        private readonly IIdentifyCodeAppService _identifyCodeAppService;
 
         public AccountController(IUserManager userManager,
             ICommandService commandService,
             UserInfoInputValidator userInfoInputValidator,
             UserProfileInputValidator userProfileInputValidator,
             ILotteryQueryService lotteryQueryService,
-            IConLogQueryService conLogQueryService) : base(commandService)
+            IConLogQueryService conLogQueryService,
+            IIdentifyCodeAppService identifyCodeAppService) : base(commandService)
         {
             _userManager = userManager;
             _userInfoInputValidator = userInfoInputValidator;
             _userProfileInputValidator = userProfileInputValidator;
             _lotteryQueryService = lotteryQueryService;
             _conLogQueryService = conLogQueryService;
+            _identifyCodeAppService = identifyCodeAppService;
         }
 
         /// <summary>
@@ -132,12 +137,27 @@ namespace Lottery.WebApi.Controllers
             {
                 throw new LotteryDataException(validationResult.Errors.Select(p => p.ErrorMessage).ToList().ToString(";"));
             }
+  
+            var validIdentifyCodeOutput = _identifyCodeAppService.ValidIdentifyCode(user.Account, user.IdentifyCode);
+
+            if (validIdentifyCodeOutput.IsOvertime)
+            {
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId,user.Account,_lotterySession.UserId));
+                throw new LotteryDataException("验证码超时,请重新获取验证码");
+            }
+            if (!validIdentifyCodeOutput.IsValid)
+            {
+               // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
+                throw new LotteryDataException("您输入的验证码错误,请重新输入");
+            }
+
+            var accountRegType = AccountHelper.JudgeAccountRegType(user.Account);
             var isReg = await _userManager.IsExistAccount(user.Account);
             if (isReg)
             {
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
                 throw new LotteryDataException("该账号已经存在");
             }
-            var accountRegType = AccountHelper.JudgeAccountRegType(user.Account);
 
             // :todo 是否存在活动,以及查询获赠的积分
             var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account, 

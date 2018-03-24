@@ -5,6 +5,7 @@ namespace Lottery.AppService.IdentifyCode
 {
     public interface IIdentifyCodeAppService
     {
-        IdentifyCodeValidOutput GenerateIdentifyCode(string account, AccountRegistType accountType);
+        IdentifyCodeOutput GenerateIdentifyCode(string account, AccountRegistType accountType);
+        IdentifyCodeValidOutput ValidIdentifyCode(string account, string identifyCode);
     }
 }

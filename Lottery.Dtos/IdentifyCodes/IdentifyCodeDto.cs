@@ -14,9 +14,10 @@ namespace Lottery.Dtos.IdentifyCodes
         public IdentifyCodeType IdentifyCodeType { get; set; }
 
         public string Receiver { get; set; }
-        public DateTime? ExpirationDate { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
-        public DateTime ValidateDate { get; set; }
+        public DateTime? ValidateDate { get; set; }
+
         public int Status { get; set; }
 
     }

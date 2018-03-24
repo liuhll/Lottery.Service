@@ -3,6 +3,7 @@ using ECommon.Components;
 using Lottery.Core.Caching;
 using Lottery.Dtos.IdentifyCodes;
 using Lottery.Infrastructure.Enums;
+using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Tools;
 using Lottery.QueryServices.IdentifyCodes;
 
@@ -21,19 +22,57 @@ namespace Lottery.AppService.IdentifyCode
             _identifyCodeDuration = ConfigHelper.ValueInt("IdentifyCodeDuration");
         }
 
-        public IdentifyCodeValidOutput GenerateIdentifyCode(string account, AccountRegistType accountType)
+        public IdentifyCodeOutput GenerateIdentifyCode(string account, AccountRegistType accountType)
         {          
-            var idnetifyCode = _identifyCodeQueryService.GetIdentifyCode(account);
+            var identifyCode = _identifyCodeQueryService.GetIdentifyCode(account);
             var code = RandomHelper.GenerateIdentifyCode();
-            var output = new IdentifyCodeValidOutput
+            var output = new IdentifyCodeOutput
             {
-                IdentifyCodeId = idnetifyCode == null ? Guid.NewGuid().ToString() : idnetifyCode.Id,
+                IdentifyCodeId = identifyCode == null ? Guid.NewGuid().ToString() : identifyCode.Id,
                 Code = code,
                 ExpirationDate = DateTime.Now.AddMinutes(_identifyCodeDuration),
-                IsNew = idnetifyCode == null,
+                IsNew = identifyCode == null,
             };
 
             return output;
+
+        }
+
+        public IdentifyCodeValidOutput ValidIdentifyCode(string account, string identifyCode)
+        {
+            if (string.IsNullOrEmpty(identifyCode))
+            {
+                throw new LotteryDataException("请输入验证码");
+            }
+            var identifyCodeDto = _identifyCodeQueryService.GetIdentifyCode(account);
+            if (identifyCodeDto == null)
+            {
+                throw new LotteryDataException("请先获取验证码");
+            }
+            if (identifyCodeDto.ExpirationDate < DateTime.Now)
+            {
+                return new IdentifyCodeValidOutput()
+                {
+                    IdentifyCodeId = identifyCodeDto.Id,
+                    IsValid = false,
+                    IsOvertime = true
+                };
+            }
+            if (identifyCodeDto.Code != identifyCode)
+            {
+                return new IdentifyCodeValidOutput()
+                {
+                    IdentifyCodeId = identifyCodeDto.Id,
+                    IsValid = false,
+                    IsOvertime = false
+                };
+            }
+            return new IdentifyCodeValidOutput()
+            {
+                IdentifyCodeId = identifyCodeDto.Id,
+                IsValid = true,
+                IsOvertime = false
+            };
 
         }
     }

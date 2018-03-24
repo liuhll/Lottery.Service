@@ -1,15 +1,11 @@
-﻿using System;
-
-namespace Lottery.Dtos.IdentifyCodes
+﻿namespace Lottery.Dtos.IdentifyCodes
 {
     public class IdentifyCodeValidOutput
     {
         public string IdentifyCodeId { get; set; }
 
-        public string Code { get; set; }
+        public bool IsValid { get; set; }
 
-        public DateTime ExpirationDate { get; set; }
-
-        public bool IsNew { get; set; }
+        public bool IsOvertime { get; set; }
     }
 }

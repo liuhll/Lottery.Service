@@ -39,12 +39,43 @@ namespace Lottery.WebApi.Controllers.v1
         /// 通过账号获取验证码
         /// </summary>
         /// <param name="account">手机|Email</param>
-        /// <param name="identifyCodeType">验证码类型</param>
         /// <returns>是否成功</returns>
-        [Route("identifycode")]
+        [Route("identifycode1")]
         [HttpGet]
         [AllowAnonymous]
-        public string IdentifyCode(string account, IdentifyCodeType identifyCodeType)
+        public string IdentifyCode1(string account)
+        {
+            var accountType = AccountHelper.JudgeAccountRegType(account);
+            if (accountType == AccountRegistType.UserName)
+            {
+                throw new LotteryException("只能通过手机号码或Email获取验证码");
+            }
+            var identifyCode = _identifyCodeAppService.GenerateIdentifyCode(account, accountType);
+
+            switch (accountType)
+            {
+                case AccountRegistType.Email:
+                    SendIdentifyCodeByEmail(account, identifyCode, IdentifyCodeType.Register);
+                    break;
+                case AccountRegistType.Phone:
+                    SendIdentifyCodeByPhone(account, identifyCode, IdentifyCodeType.Register);
+                    break;
+            }
+
+            return "验证码获取成功,请注意查收";
+        }
+
+
+        /// <summary>
+        /// 通过账号获取验证码
+        /// </summary>
+        /// <param name="account">手机|Email</param>
+        /// <param name="identifyCodeType">验证码类型</param>
+        /// <returns>是否成功</returns>
+        [Route("identifycode2")]
+        [HttpGet]
+        [AllowAnonymous]
+        public string IdentifyCode2(string account, IdentifyCodeType identifyCodeType)
         {
             var accountType = AccountHelper.JudgeAccountRegType(account);
             if (accountType == AccountRegistType.UserName)
@@ -66,7 +97,7 @@ namespace Lottery.WebApi.Controllers.v1
             return "验证码获取成功,请注意查收";
         }
 
-        private void SendIdentifyCodeByEmail(string email, IdentifyCodeValidOutput identifyCode, IdentifyCodeType identifyCodeType)
+        private void SendIdentifyCodeByEmail(string email, IdentifyCodeOutput identifyCode, IdentifyCodeType identifyCodeType)
         {
             var templetParams = new Dictionary<string,string>()
             {
@@ -101,7 +132,7 @@ namespace Lottery.WebApi.Controllers.v1
             _emailSender.Send(email, emailTitle,emailContent,false);
         }
 
-        private void SendIdentifyCodeByPhone(string phone, IdentifyCodeValidOutput identifyCode, IdentifyCodeType identifyCodeType)
+        private void SendIdentifyCodeByPhone(string phone, IdentifyCodeOutput identifyCode, IdentifyCodeType identifyCodeType)
         {
             string smsTempleteCode;
             string title = "";
