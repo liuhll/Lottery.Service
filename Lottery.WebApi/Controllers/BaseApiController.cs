@@ -3,10 +3,12 @@ using System.Web.Http;
 using ECommon.Components;
 using ECommon.Extensions;
 using ECommon.IO;
+using ECommon.Logging;
 using ENode.Commanding;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Logs;
 using Lottery.Infrastructure.RunTime.Session;
 using Lottery.QueryServices.Lotteries;
 
@@ -15,7 +17,8 @@ namespace Lottery.WebApi.Controllers
     public abstract class BaseApiController : ApiController
     {
         protected readonly ICommandService _commandService;
-        protected readonly ILotterySession _lotterySession;        
+        protected readonly ILotterySession _lotterySession;
+        protected readonly ILogger _logger;
         private readonly ILotteryQueryService _lotteryQueryService;
 
         protected LotteryInfoDto _lotteryInfo;
@@ -36,6 +39,7 @@ namespace Lottery.WebApi.Controllers
             _commandService = commandService;
             _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();          
             _lotterySession = NullLotterySession.Instance;
+            _logger = NullLotteryLogger.Instance;
             if (_lotterySession.SystemType == SystemType.App)
             {
                 InitLotteryInfo();
