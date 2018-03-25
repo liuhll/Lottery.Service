@@ -46,7 +46,6 @@ namespace Lottery.WebApi.Controllers.v1
         public string IdentifyCode1(string account)
         {
             var accountType = AccountHelper.JudgeAccountRegType(account);
-            _logger.Info("测试");
             if (accountType == AccountRegistType.UserName)
             {
                 throw new LotteryException("只能通过手机号码或Email获取验证码");
@@ -151,7 +150,7 @@ namespace Lottery.WebApi.Controllers.v1
                     throw new LotteryException("无法获取该种类型的验证码");
             }
 
-            var templateParam = "{\"code\":\"" + identifyCode + "\"}";
+            var templateParam = "{\"code\":\"" + identifyCode.Code + "\"}";
             SendCommandAsync(new AddMessageRecordCommand(Guid.NewGuid().ToString(), null, phone, title,
                 templateParam, (int)identifyCodeType, (int)AccountRegistType.Phone, _lotterySession.UserId));
             if (identifyCode.IsNew)
