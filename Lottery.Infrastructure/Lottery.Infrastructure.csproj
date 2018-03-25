@@ -197,6 +197,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Json\JsonExtensions.cs" />
     <Compile Include="Json\LotteryDateTimeConverter .cs" />
+    <Compile Include="Logs\NullLotteryLogger.cs" />
     <Compile Include="LotteryConstants.cs" />
     <Compile Include="Mail\EmailExtensions.cs" />
     <Compile Include="Mail\EmailSenderBase.cs" />

@@ -46,6 +46,7 @@ namespace Lottery.WebApi.Controllers.v1
         public string IdentifyCode1(string account)
         {
             var accountType = AccountHelper.JudgeAccountRegType(account);
+            _logger.Info("测试");
             if (accountType == AccountRegistType.UserName)
             {
                 throw new LotteryException("只能通过手机号码或Email获取验证码");
