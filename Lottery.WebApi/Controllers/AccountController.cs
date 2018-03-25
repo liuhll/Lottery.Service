@@ -169,7 +169,9 @@ namespace Lottery.WebApi.Controllers
             {
                 throw new LotteryDataException("创建用户失败");
             }
-            return "创建用户成功";
+            await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account,
+                user.Account));
+            return "注册用户成功";
         }
 
         /// <summary>

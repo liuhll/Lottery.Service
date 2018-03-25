@@ -47,7 +47,7 @@ namespace Lottery.AppService.IdentifyCode
             var identifyCodeDto = _identifyCodeQueryService.GetIdentifyCode(account);
             if (identifyCodeDto == null)
             {
-                throw new LotteryDataException("请先获取验证码");
+                throw new LotteryDataException("请获取验证码");
             }
             if (identifyCodeDto.ExpirationDate < DateTime.Now)
             {
