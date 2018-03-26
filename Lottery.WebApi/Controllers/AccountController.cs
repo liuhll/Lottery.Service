@@ -189,13 +189,29 @@ namespace Lottery.WebApi.Controllers
                 throw new LotteryDataException(validationResult.Errors.Select(p => p.ErrorMessage).ToList().ToString(";"));
             }
 
-            // :todo 手机号码验证码 | 电子邮箱验证码
+            var validIdentifyCodeOutput = _identifyCodeAppService.ValidIdentifyCode(input.Profile, input.Identifycode);
+
+            if (validIdentifyCodeOutput.IsOvertime)
+            {
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, input.Profile, _lotterySession.UserId));
+                throw new LotteryDataException("验证码超时,请重新获取验证码");
+            }
+            if (!validIdentifyCodeOutput.IsValid)
+            {
+                // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
+                throw new LotteryDataException("您输入的验证码错误,请重新输入");
+            }
+
             var isReg = await _userManager.IsExistAccount(input.Profile);
             if (isReg)
             {
                 throw new LotteryDataException("已经存在该账号,不允许被绑定");
             }
-            //var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
+            var validPwdResult = await _userManager.VerifyPassword(input.Password, input.Password);
+            if (!validPwdResult)
+            {
+                throw new LotteryDataException("密码错误");
+            }
             AsyncTaskResult result = null;
             if (input.ProfileType == AccountRegistType.Email)
             {

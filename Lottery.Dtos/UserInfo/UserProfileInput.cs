@@ -10,6 +10,16 @@ namespace Lottery.Dtos.UserInfo
         public string Profile { get; set; }
 
         /// <summary>
+        /// 验证码
+        /// </summary>
+        public string Identifycode { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
         /// 账号类型
         /// </summary>
         public AccountRegistType ProfileType { get; set; }

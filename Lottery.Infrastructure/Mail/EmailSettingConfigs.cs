@@ -25,15 +25,15 @@ namespace Lottery.Infrastructure.Mail
         {
             if (!ConfigurationHelper.TryGetAppSettingVal("Email.DefaultFromAddress", out _defaultFromAddress))
             {
-                _defaultFromAddress = "1029765111@qq.com";
+                _defaultFromAddress = "service@clmeng.com";
             }
             if (!ConfigurationHelper.TryGetAppSettingVal("Email.DefaultFromDisplayName", out _defaultFromDisplayName))
             {
-                _defaultFromDisplayName = "乐彩工作室";
+                _defaultFromDisplayName = "彩乐盟工作室";
             }
             if (!ConfigurationHelper.TryGetAppSettingVal("Email.Smtp.Host", out _host))
             {
-                _host = "smtp.qq.com";
+                _host = "smtp.mxhichina.com";
             }
             if (!ConfigurationHelper.TryGetAppSettingIntVal("Email.Smtp.Port", out _port))
             {
@@ -41,11 +41,11 @@ namespace Lottery.Infrastructure.Mail
             }
             if (!ConfigurationHelper.TryGetAppSettingVal("Email.Smtp.UserName", out _userName))
             {
-                _userName = "1029765111@qq.com";
+                _userName = "service@clmeng.com";
             }
             if (!ConfigurationHelper.TryGetAppSettingVal("Email.Smtp.Password", out _password))
             {
-                _password = "stdsfvnjuerabbfj";
+                _password = "Clm881208";
             }
             if (!ConfigurationHelper.TryGetAppSettingVal("Email.Smtp.Domain", out _domain))
             {

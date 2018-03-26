@@ -23,5 +23,7 @@ namespace Lottery.AppService.Account
         string UpdateToken(string userId,string systemTypeId, int clientNo, out DateTime invalidDateTime);
 
         Task<int> VerifyUserClientNo(string userId, string systemTypeId);
+
+        Task<bool> VerifyPassword(string account, string password);
     }
 }

@@ -358,6 +358,12 @@ namespace Lottery.AppService.Account
 
         }
 
+        public async Task<bool> VerifyPassword(string account, string password)
+        {
+            //var h1 = Hash.Create(HashType.MD5, inputPassword, userInfo.Id, true);
+            var userInfo = await _userInfoService.GetUserInfo(account);
+            return VerifyPassword(userInfo, password);
+        }
 
         private bool ValidUserAccount(string userName)
         {
