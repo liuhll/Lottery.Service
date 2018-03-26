@@ -39,11 +39,12 @@ namespace Lottery.WebApi.Controllers.v1
         /// 通过账号获取验证码
         /// </summary>
         /// <param name="account">手机|Email</param>
+        /// <param name="identifyCodeType"></param>
         /// <returns>是否成功</returns>
         [Route("identifycode1")]
         [HttpGet]
         [AllowAnonymous]
-        public string IdentifyCode1(string account)
+        public string IdentifyCode1(string account, IdentifyCodeType identifyCodeType = IdentifyCodeType.Register)
         {
             var accountType = AccountHelper.JudgeAccountRegType(account);
             if (accountType == AccountRegistType.UserName)
@@ -55,10 +56,10 @@ namespace Lottery.WebApi.Controllers.v1
             switch (accountType)
             {
                 case AccountRegistType.Email:
-                    SendIdentifyCodeByEmail(account, identifyCode, IdentifyCodeType.Register);
+                    SendIdentifyCodeByEmail(account, identifyCode, identifyCodeType);
                     break;
                 case AccountRegistType.Phone:
-                    SendIdentifyCodeByPhone(account, identifyCode, IdentifyCodeType.Register);
+                    SendIdentifyCodeByPhone(account, identifyCode, identifyCodeType);
                     break;
             }
 
