@@ -31,7 +31,10 @@ namespace Lottery.WebApi.Authentication
         private readonly IUserManager _userManager;
         private readonly IConLogQueryService _conLogQueryService;
 
-        private static string[] whitelist = new string[] { "/account/login", "/account/register", "/v1/lottery/list", "/v1/message/identifycode1" };
+        private static Tuple<string,string>[] whitelist = new Tuple<string, string>[] { new Tuple<string, string>("/account/login","POST"),
+            new Tuple<string, string>("/account/register","POST"), new Tuple<string, string>("/v1/lottery/list","GET"), 
+            new Tuple<string, string>("/v1/message/identifycode1","GET"), new Tuple<string, string>("/v1/message/identifycode","POST")
+        };
 
         public TokenValidationHandler()
         {
@@ -48,7 +51,7 @@ namespace Lottery.WebApi.Authentication
 
             if (!request.Headers.TryGetValues("Authorization", out authzHeaders) || authzHeaders.Count() > 1)
             {
-                if (whitelist.Any(p=>p == request.RequestUri.AbsolutePath.ToLower()) || request.RequestUri.AbsolutePath.ToLower().Contains("swagger"))
+                if (whitelist.Any(p=>p.Item1 == request.RequestUri.AbsolutePath.ToLower() && p.Item2 == request.Method.Method.ToUpper()) || request.RequestUri.AbsolutePath.ToLower().Contains("swagger"))
                 {
                     return false;
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using ENode.Commanding;
@@ -10,6 +11,7 @@ using Lottery.Commands.UserInfos;
 using Lottery.Dtos.IdentifyCodes;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.Mail;
 using Lottery.Infrastructure.RunTime.Session;
 using Lottery.Infrastructure.Sms;
@@ -96,6 +98,46 @@ namespace Lottery.WebApi.Controllers.v1
             }
            
             return "验证码获取成功,请注意查收";
+        }
+
+        /// <summary>
+        /// 验证验证码
+        /// </summary>
+        /// <remarks>通过账号验证验证码是否正确</remarks>
+        /// <param name="input"></param>
+        /// <returns>是否成功</returns>
+        [Route("identifycode")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<string> IdentifyCode3(IdentifyCodeValidInput input)
+        {
+           
+            if (input.Account.IsNullOrEmpty())
+            {
+                throw new LotteryException("账号不允许为空");
+            }
+            var accountType = AccountHelper.JudgeAccountRegType(input.Account);
+            if (accountType == AccountRegistType.UserName)
+            {
+                throw new LotteryException("账号不正确");
+            }
+            if (input.IdentifyCode.IsNullOrEmpty())
+            {
+                throw new LotteryException("验证码不允许为空");
+            }
+            var validIdentifyCodeOutput = _identifyCodeAppService.ValidIdentifyCode(input.Account, input.IdentifyCode);
+
+            if (validIdentifyCodeOutput.IsOvertime)
+            {
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, input.Account, input.Account));
+                throw new LotteryDataException("验证码超时,请重新获取验证码");
+            }
+            if (!validIdentifyCodeOutput.IsValid)
+            {
+                // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
+                throw new LotteryDataException("您输入的验证码错误,请重新输入");
+            }
+            return "OK";
         }
 
         private void SendIdentifyCodeByEmail(string email, IdentifyCodeOutput identifyCode, IdentifyCodeType identifyCodeType)

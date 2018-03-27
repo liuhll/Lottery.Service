@@ -55,6 +55,7 @@
     <Compile Include="ConLog\ConLogDto.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeDto.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeOutput.cs" />
+    <Compile Include="IdentifyCodes\IdentifyCodeValidInput.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeValidOutput.cs" />
     <Compile Include="Lotteries\DataSiteDto.cs" />
     <Compile Include="Lotteries\FinalLotteryDataOutput.cs" />
