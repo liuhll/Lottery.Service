@@ -31,7 +31,8 @@ namespace Lottery.WebApi.Providers
                 typeof(UpdateTokenCommand),
                 typeof(AddUserInfoCommand),
                 typeof(BindUserEmailCommand),
-                typeof(BindUserPhoneCommand)
+                typeof(BindUserPhoneCommand),
+                typeof(UpdatePasswordCommand)
                 );
 
             RegisterTopic(EQueueTopics.NormCommandTopic,

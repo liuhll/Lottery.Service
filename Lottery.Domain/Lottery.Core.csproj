@@ -97,6 +97,7 @@
     <Compile Include="Domain\UserInfos\BindUserEmailEvent.cs" />
     <Compile Include="Domain\UserInfos\BindUserPhoneEvent.cs" />
     <Compile Include="Domain\UserInfos\UpdateLoginTimeEvent.cs" />
+    <Compile Include="Domain\UserInfos\UpdatePasswordEvent.cs" />
     <Compile Include="Domain\UserInfos\UpdateUserLoginClientCountEvent.cs" />
     <Compile Include="Domain\UserInfos\UpdateUserLogoutEvent.cs" />
     <Compile Include="Domain\UserInfos\UserInfo.cs" />

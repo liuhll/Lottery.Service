@@ -67,6 +67,7 @@
     <Compile Include="UserInfos\BindUserEmailCommand.cs" />
     <Compile Include="UserInfos\BindUserPhoneCommand.cs" />
     <Compile Include="UserInfos\UpdateLastLoginTimeCommand.cs" />
+    <Compile Include="UserInfos\UpdatePasswordCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

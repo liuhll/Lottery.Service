@@ -15,11 +15,13 @@ using Lottery.AppService.Validations;
 using Lottery.Commands.IdentifyCodes;
 using Lottery.Commands.LogonLog;
 using Lottery.Commands.UserInfos;
+using Lottery.Dtos.Account;
 using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.Tools;
 using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Lotteries;
@@ -231,6 +233,68 @@ namespace Lottery.WebApi.Controllers
                 return "用户信息绑定成功";
             }
             throw new LotteryDataException("绑定失败");
+        }
+
+        /// <summary>
+        /// 找回密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [Route("retrievepassword")]
+        [HttpPut]
+        [AllowAnonymous]
+        public async Task<string> RetrievePassword(PassWordInput input)
+        {
+            if (input.Account.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("账号不允许为空");
+            }
+            if (input.Password.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("密码不允许为空");
+            }
+            
+            var accountBase = await _userManager.GetAccountBaseInfo(input.Account);
+            var encryptNewPwd = EncryptPassword(accountBase.Account, input.Password, accountBase.AccountRegistType);
+            await SendCommandAsync(new UpdatePasswordCommand(accountBase.Id,encryptNewPwd, accountBase.Id));
+            return "修改密码成功";
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [Route("password")]
+        [HttpPut]
+        [AllowAnonymous]
+        public async Task<string> ModifyPassword(ModifyPassWordInput input)
+        {
+            if (input.Account.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("账号不允许为空");
+            }
+            if (input.NewPassword.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("您输入的旧密码不允许为空");
+            }
+            if (input.NewPassword.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("您输入的新密码不允许为空");
+            }
+            if (input.NewPassword.Equals(input.OldPassword))
+            {
+                throw new LotteryDataException("新密码不能与旧密码相同");
+            }
+            if (!(await _userManager.VerifyPassword(input.Account, input.OldPassword)))
+            {
+                throw new LotteryDataException("您输入的密码不正确,请确认您的密码");
+            }
+
+            var accountBase = await _userManager.GetAccountBaseInfo(input.Account);
+            var encryptNewPwd = EncryptPassword(accountBase.Account, input.NewPassword, accountBase.AccountRegistType);
+            await SendCommandAsync(new UpdatePasswordCommand(accountBase.Id, encryptNewPwd, accountBase.Id));
+            return "修改密码成功";
         }
 
         #region 私有方法

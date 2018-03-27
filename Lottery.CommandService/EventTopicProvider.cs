@@ -37,7 +37,8 @@ namespace Lottery.CommandService
                 typeof(BindUserPhoneEvent),
                 typeof(UpdateLoginTimeEvent),
                 typeof(UpdateUserLoginClientCountEvent),
-                typeof(UpdateUserLogoutEvent)
+                typeof(UpdateUserLogoutEvent),
+                typeof(UpdatePasswordEvent)
                 );
 
             RegisterTopic(EQueueTopics.NormEventTopic,

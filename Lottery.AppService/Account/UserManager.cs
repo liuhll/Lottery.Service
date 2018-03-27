@@ -365,6 +365,45 @@ namespace Lottery.AppService.Account
             return VerifyPassword(userInfo, password);
         }
 
+        public async Task<UserBaseDto> GetAccountBaseInfo(string account)
+        {
+            var userInfo = await _userInfoService.GetUserInfo(account);
+            if (userInfo == null)
+            {
+                throw new LotteryException($"不存在账号{account}的用户");
+            }
+            var userName = string.Empty;
+            switch (userInfo.AccountRegistType)
+            {
+               case AccountRegistType.UserName:
+                   userName =userInfo.UserName;
+                   break;
+               case AccountRegistType.Email:
+                   userName = userInfo.Email;
+                    break;
+               case AccountRegistType.Phone:
+                   userName = userInfo.Phone;
+                   break;
+            }
+            return new UserBaseDto()
+            {
+                Account = userName,
+                AccountRegistType = userInfo.AccountRegistType,
+                Id = userInfo.Id
+            };
+        }
+
+        public async Task<AccountRegistType> GetAccountRegType(string account)
+        {
+            var userInfo = await _userInfoService.GetUserInfo(account);
+            if (userInfo == null)
+            {
+                throw new LotteryException($"不存在账号{account}的用户");
+            }
+            return userInfo.AccountRegistType;
+        }
+
+
         private bool ValidUserAccount(string userName)
         {
             return Regex.IsMatch(userName, RegexConstants.UserName) ||

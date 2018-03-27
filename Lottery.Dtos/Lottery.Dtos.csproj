@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\ModifyPassWordInput.cs" />
+    <Compile Include="Account\PassWordInput.cs" />
+    <Compile Include="Account\UserBaseDto.cs" />
     <Compile Include="Account\UserSystemTypeDto.cs" />
     <Compile Include="Account\UserInfoViewModel.cs" />
     <Compile Include="Account\UserInfoDto.cs" />

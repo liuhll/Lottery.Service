@@ -9,5 +9,7 @@ namespace Lottery.Dtos.IdentifyCodes
         public string Account { get; set; }
 
         public string IdentifyCode { get; set; }
+
+        public bool IsValidAccountExist { get; set; }
     }
 }

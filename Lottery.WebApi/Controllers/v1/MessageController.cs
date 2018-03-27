@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using ENode.Commanding;
+using Lottery.AppService.Account;
 using Lottery.AppService.IdentifyCode;
 using Lottery.Commands.IdentifyCodes;
 using Lottery.Commands.Messages;
@@ -25,16 +26,19 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly IIdentifyCodeAppService _identifyCodeAppService;
         private readonly ISmsSender _smsSender;
         private readonly IEmailSender _emailSender;
+        private readonly IUserManager _userManager;
 
         public MessageController(ICommandService commandService,
             IIdentifyCodeAppService identifyCodeAppService, 
             ISmsSender smsSender,
-            IEmailSender emailSender) 
+            IEmailSender emailSender,
+            IUserManager userManager) 
             : base(commandService)
         {
             _identifyCodeAppService = identifyCodeAppService;
             _smsSender = smsSender;
             _emailSender = emailSender;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -125,6 +129,12 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 throw new LotteryException("验证码不允许为空");
             }
+
+            if (input.IsValidAccountExist && !(await _userManager.IsExistAccount(input.Account)))
+            {
+                throw new LotteryException($"不存在账号为的{input.Account}用户");
+            }
+
             var validIdentifyCodeOutput = _identifyCodeAppService.ValidIdentifyCode(input.Account, input.IdentifyCode);
 
             if (validIdentifyCodeOutput.IsOvertime)

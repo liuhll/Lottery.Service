@@ -14,7 +14,8 @@ namespace Lottery.Denormalizers.Dapper.Account
         IMessageHandler<BindUserEmailEvent>,
         IMessageHandler<BindUserPhoneEvent>,
         IMessageHandler<UpdateLoginTimeEvent>,
-        IMessageHandler<UpdateUserLoginClientCountEvent>
+        IMessageHandler<UpdateUserLoginClientCountEvent>,
+        IMessageHandler<UpdatePasswordEvent>
 
 
     {
@@ -129,6 +130,22 @@ namespace Lottery.Denormalizers.Dapper.Account
         }
 
 
-     
+        public Task<AsyncTaskResult> HandleAsync(UpdatePasswordEvent evnt)
+        {
+            return TryUpdateRecordAsync(conn =>
+            {
+                var userInfoKey = string.Format(RedisKeyConstants.USERINFO_KEY, evnt.AggregateRootId);
+                _cacheManager.Remove(userInfoKey);
+                return conn.UpdateAsync(new
+                {
+                    evnt.Password,
+                    evnt.UpdateBy,
+                    UpdateTime = evnt.Timestamp
+                }, new
+                {
+                    Id = evnt.AggregateRootId,
+                }, TableNameConstants.UserInfoTable);
+            });
+        }
     }
 }
