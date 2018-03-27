@@ -203,7 +203,7 @@ namespace Lottery.WebApi.Controllers
                 // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
                 throw new LotteryDataException("您输入的验证码错误,请重新输入");
             }
-
+            await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, input.Profile, _lotterySession.UserId));
             var isReg = await _userManager.IsExistAccount(input.Profile);
             if (isReg)
             {

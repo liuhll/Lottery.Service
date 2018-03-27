@@ -147,7 +147,8 @@ namespace Lottery.WebApi.Controllers.v1
                 // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
                 throw new LotteryDataException("您输入的验证码错误,请重新输入");
             }
-            return "OK";
+            await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, input.Account, input.Account));
+            return "验证成功";
         }
 
         private void SendIdentifyCodeByEmail(string email, IdentifyCodeOutput identifyCode, IdentifyCodeType identifyCodeType)
