@@ -7,6 +7,7 @@ using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;
 using Lottery.Commands.Messages;
 using Lottery.Commands.Norms;
+using Lottery.Commands.OpinionRecords;
 using Lottery.Commands.UserInfos;
 using Lottery.Infrastructure;
 
@@ -46,7 +47,8 @@ namespace Lottery.WebApi.Providers
                 typeof(AddMessageRecordCommand),
                 typeof(AddIdentifyCodeCommand),
                 typeof(UpdateIdentifyCodeCommand),
-                typeof(InvalidIdentifyCodeCommand));
+                typeof(InvalidIdentifyCodeCommand),
+                typeof(AddOpinionRecordCommand));
            
         }
     }
