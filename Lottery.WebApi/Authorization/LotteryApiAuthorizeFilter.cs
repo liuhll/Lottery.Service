@@ -9,16 +9,17 @@ using System.Web.Http.Controllers;
 using ECommon.Components;
 using Lottery.AppService.Authorize;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Tools;
 
 namespace Lottery.WebApi.Authorization
 {
     public class LotteryApiAuthorizeFilter : LotteryBaseAuthorizeFilter
     {
-      
 
+        private readonly string env;
         public LotteryApiAuthorizeFilter()
         {
-            
+            env = ConfigHelper.Value("env");
         }
 
 
@@ -39,7 +40,12 @@ namespace Lottery.WebApi.Authorization
                     await authorizationHelper.AuthorizeAsync(lotteryApiAuthrizeAttributes);
                     return await continuation();
                 }
-                await authorizationHelper.AuthorizeAsync(actionContext.Request.RequestUri.AbsolutePath,
+                var apiPath = $"{actionContext.Request.RequestUri.AbsolutePath}";
+                if (actionContext.Request.RequestUri.AbsolutePath.Contains(env))
+                {
+                    apiPath = apiPath.Replace("/" + env, "");
+                }
+                await authorizationHelper.AuthorizeAsync(apiPath,
                     actionContext.Request.Method);
                 return await continuation();
             }

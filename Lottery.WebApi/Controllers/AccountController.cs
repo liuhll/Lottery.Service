@@ -65,7 +65,7 @@ namespace Lottery.WebApi.Controllers
         public async Task<string> Login(LoginViewModel loginModel)
         {
             string systemTypeId;
-            if (!ValidateClient(loginModel.SystemType,out systemTypeId))
+            if (!ValidateClient(loginModel.SystemType, out systemTypeId))
             {
                 if (systemTypeId == LotteryConstants.BackOfficeKey)
                 {
@@ -78,13 +78,13 @@ namespace Lottery.WebApi.Controllers
             _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);
             if (loginModel.IsForce)
             {
-                await this.Logout(loginModel.IsForce,userInfo.Id, systemTypeId);
+                await this.Logout(loginModel.IsForce, userInfo.Id, systemTypeId);
             }
             var clientNo = await _userManager.VerifyUserClientNo(userInfo.Id, systemTypeId);
             DateTime invalidDateTime;
-            
-            var token = _userManager.CreateToken(userInfo, systemTypeId,clientNo,out invalidDateTime);
-            await SendCommandAsync(new AddConLogCommand(Guid.NewGuid().ToString(), userInfo.Id,clientNo,systemTypeId, Request.GetReuestIp(), invalidDateTime,userInfo.Id));
+
+            var token = _userManager.CreateToken(userInfo, systemTypeId, clientNo, out invalidDateTime);
+            await SendCommandAsync(new AddConLogCommand(Guid.NewGuid().ToString(), userInfo.Id, clientNo, systemTypeId, Request.GetReuestIp(), invalidDateTime, userInfo.Id));
 
             return token;
         }
@@ -139,17 +139,17 @@ namespace Lottery.WebApi.Controllers
             {
                 throw new LotteryDataException(validationResult.Errors.Select(p => p.ErrorMessage).ToList().ToString(";"));
             }
-  
+
             var validIdentifyCodeOutput = _identifyCodeAppService.ValidIdentifyCode(user.Account, user.IdentifyCode);
 
             if (validIdentifyCodeOutput.IsOvertime)
             {
-                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId,user.Account,_lotterySession.UserId));
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
                 throw new LotteryDataException("验证码超时,请重新获取验证码");
             }
             if (!validIdentifyCodeOutput.IsValid)
             {
-               // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
+                // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
                 throw new LotteryDataException("您输入的验证码错误,请重新输入");
             }
 
@@ -162,9 +162,9 @@ namespace Lottery.WebApi.Controllers
             }
 
             // :todo 是否存在活动,以及查询获赠的积分
-            var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account, 
+            var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account,
                 EncryptPassword(user.Account, user.Password, accountRegType),
-                user.ClientRegistType, accountRegType,0);
+                user.ClientRegistType, accountRegType, 0);
 
             var commandResult = await SendCommandAsync(userInfoCommand);
             if (commandResult.Status != AsyncTaskStatus.Success)
@@ -253,10 +253,10 @@ namespace Lottery.WebApi.Controllers
             {
                 throw new LotteryDataException("密码不允许为空");
             }
-            
+
             var accountBase = await _userManager.GetAccountBaseInfo(input.Account);
             var encryptNewPwd = EncryptPassword(accountBase.Account, input.Password, accountBase.AccountRegistType);
-            await SendCommandAsync(new UpdatePasswordCommand(accountBase.Id,encryptNewPwd, accountBase.Id));
+            await SendCommandAsync(new UpdatePasswordCommand(accountBase.Id, encryptNewPwd, accountBase.Id));
             return "修改密码成功";
         }
 
@@ -305,7 +305,7 @@ namespace Lottery.WebApi.Controllers
             return pwd;
         }
 
-       
+
 
         private bool ValidateClient(string clientType, out string clientTypeId)
         {
