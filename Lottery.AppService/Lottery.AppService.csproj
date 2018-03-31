@@ -83,6 +83,8 @@
     <Compile Include="Authorize\SystemTypeAuthorizeAttribute.cs" />
     <Compile Include="IdentifyCode\IdentifyCodeAppService.cs" />
     <Compile Include="IdentifyCode\IIdentifyCodeAppService.cs" />
+    <Compile Include="Operations\IOnlineHelpAppService.cs" />
+    <Compile Include="Operations\OnlineHelpAppService.cs" />
     <Compile Include="Sell\ISellAppService.cs" />
     <Compile Include="LotteryData\ILotteryDataAppService.cs" />
     <Compile Include="LotteryData\LotteryDataAppService.cs" />

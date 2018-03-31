@@ -167,6 +167,7 @@
     <Compile Include="Enums\ClientRegistType.cs" />
     <Compile Include="Enums\EmailTempletType.cs" />
     <Compile Include="Enums\IdentifyCodeType.cs" />
+    <Compile Include="Enums\OnlineHelpType.cs" />
     <Compile Include="Enums\PointOperationType.cs" />
     <Compile Include="Enums\PurchaseType.cs" />
     <Compile Include="Enums\SellType.cs" />

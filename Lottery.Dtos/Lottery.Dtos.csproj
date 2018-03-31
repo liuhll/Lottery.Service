@@ -86,6 +86,8 @@
     <Compile Include="Norms\UserNormDefaultConfigInput.cs" />
     <Compile Include="Norms\UserNormPlanConfigInput.cs" />
     <Compile Include="Norms\UserPlanNormOutput.cs" />
+    <Compile Include="OnlineHelp\OnlineGroupOutput.cs" />
+    <Compile Include="OnlineHelp\OnlineItemOutput.cs" />
     <Compile Include="Opinions\OpinionInput.cs" />
     <Compile Include="PageList\IPageList.cs" />
     <Compile Include="PageList\PageList.cs" />
