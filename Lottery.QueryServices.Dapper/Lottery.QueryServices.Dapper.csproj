@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppInfos\AppInfoQueryService.cs" />
     <Compile Include="AuthRanks\AuthRankQueryService.cs" />
     <Compile Include="BaseQueryService.cs" />
     <Compile Include="Canlogs\ConLogQueryService.cs" />

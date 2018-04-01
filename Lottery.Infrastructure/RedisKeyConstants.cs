@@ -78,5 +78,7 @@
 
         public const string ONLINEHELP_LOTTERY_KEY = "OnlineHelo.{0}";
 
+        public const string APPINFO_KEY = "AppInfo.{0}";
+
     }
 }

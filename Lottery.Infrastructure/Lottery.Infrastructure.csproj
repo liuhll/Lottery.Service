@@ -164,6 +164,7 @@
     <Compile Include="Collections\CollectionExtensions.cs" />
     <Compile Include="DataConfigSettings.cs" />
     <Compile Include="Enums\AccountRegistType.cs" />
+    <Compile Include="Enums\AppPlatform.cs" />
     <Compile Include="Enums\ClientRegistType.cs" />
     <Compile Include="Enums\EmailTempletType.cs" />
     <Compile Include="Enums\IdentifyCodeType.cs" />
