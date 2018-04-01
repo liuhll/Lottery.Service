@@ -81,14 +81,14 @@ namespace Lottery.WebApi.Controllers.v1
         /// <summary>
         /// 获取App信息
         /// </summary>
-        /// <param name="platforms"></param>
+        /// <param name="platform"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("appinfo")]
         [AllowAnonymous]
-        public async Task<AppInfoOutput> GetAppInfo(AppPlatform platforms)
+        public async Task<AppInfoOutput> GetAppInfo(AppPlatform platform)
         {
-            return _appInfoQueryService.GetAppInfo(platforms);
+            return _appInfoQueryService.GetAppInfo(platform);
         }
 
     }
