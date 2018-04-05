@@ -24,6 +24,10 @@ namespace Lottery.WebApi.Handlers
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            if (request.RequestUri.AbsolutePath.Contains("swagger"))
+            {
+                return await base.SendAsync(request, cancellationToken);
+            }
             var result = await base.SendAsync(request, cancellationToken);
             WrapResultIfNeeded(request, result);
             return result;

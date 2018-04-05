@@ -8,11 +8,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using ECommon.Components;
+using ECommon.Logging;
 using ENode.Commanding;
 using Lottery.AppService.Account;
 using Lottery.Commands.LogonLog;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Logs;
 using Lottery.Infrastructure.RunTime.Session;
 using Lottery.QueryServices.Canlogs;
 using Lottery.WebApi.Extensions;
@@ -30,8 +32,13 @@ namespace Lottery.WebApi.Authentication
         private readonly ILotterySession _lotterySession;
         private readonly IUserManager _userManager;
         private readonly IConLogQueryService _conLogQueryService;
+        private static ILogger _logger;
 
-        private static string[] whitelist = new string[] { "/account/login", "/account/register", "/v1/lottery/list", "/v1/message/identifycode1" };
+        private static Tuple<string,string>[] whitelist = new Tuple<string, string>[] { new Tuple<string, string>("/account/login","POST"),
+            new Tuple<string, string>("/account/register","POST"), new Tuple<string, string>("/v1/lottery/list","GET"), 
+            new Tuple<string, string>("/v1/message/identifycode1","GET"), new Tuple<string, string>("/v1/message/identifycode","POST"),
+            new Tuple<string, string>("/account/retrievepassword","PUT"),
+        };
 
         public TokenValidationHandler()
         {
@@ -39,6 +46,7 @@ namespace Lottery.WebApi.Authentication
             _lotterySession = NullLotterySession.Instance;
             _userManager = ObjectContainer.Resolve<IUserManager>();
             _conLogQueryService = ObjectContainer.Resolve<IConLogQueryService>();
+            _logger = NullLotteryLogger.Instance;
         }
 
         private static bool TryRetrieveToken(HttpRequestMessage request, out string token)
@@ -48,7 +56,9 @@ namespace Lottery.WebApi.Authentication
 
             if (!request.Headers.TryGetValues("Authorization", out authzHeaders) || authzHeaders.Count() > 1)
             {
-                if (whitelist.Any(p=>p == request.RequestUri.AbsolutePath.ToLower()) || request.RequestUri.AbsolutePath.ToLower().Contains("swagger"))
+                if (whitelist.Any(p=> request.RequestUri.AbsolutePath.ToLower().Contains(p.Item1) 
+                && request.Method.Method.ToUpper().Equals(p.Item2)) 
+                || request.RequestUri.AbsolutePath.ToLower().Contains("swagger"))
                 {
                     return false;
                 }
@@ -85,8 +95,8 @@ namespace Lottery.WebApi.Authentication
                 JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
                 TokenValidationParameters validationParameters = new TokenValidationParameters()
                 {
-                    ValidAudience = request.GetAudience(),
-                    ValidIssuer = request.GetIssuer(),
+                    ValidAudience = request.GetAudience(),  // LotteryConstants.ValidAudience,
+                    ValidIssuer =  request.GetIssuer(),  // LotteryConstants.ValidIssuer,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     LifetimeValidator = this.LifetimeValidator,

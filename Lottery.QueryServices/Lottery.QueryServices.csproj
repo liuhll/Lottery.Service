@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppInfos\IAppInfoQueryService.cs" />
     <Compile Include="AuthRanks\IAuthRankQueryService.cs" />
     <Compile Include="Canlogs\IConLogQueryService.cs" />
     <Compile Include="IdentifyCodes\IIdentifyCodeQueryService.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Lotteries\IPlanInfoQueryService.cs" />
     <Compile Include="Lotteries\IPositionInfoQueryService.cs" />
     <Compile Include="Lotteries\ITimeRuleQueryService.cs" />
+    <Compile Include="OnlineHelps\IOnlineHelpQueryService.cs" />
     <Compile Include="Powers\IMemberPowerQueryService.cs" />
     <Compile Include="Powers\IPowerQueryService.cs" />
     <Compile Include="Powers\IRolePowerQueryService.cs" />
@@ -68,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lottery.Dtos\Lottery.Dtos.csproj">

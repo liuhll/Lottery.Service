@@ -47,14 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\ModifyPassWordInput.cs" />
+    <Compile Include="Account\PassWordInput.cs" />
+    <Compile Include="Account\UserBaseDto.cs" />
     <Compile Include="Account\UserSystemTypeDto.cs" />
     <Compile Include="Account\UserInfoViewModel.cs" />
     <Compile Include="Account\UserInfoDto.cs" />
     <Compile Include="Account\UserTicketDto.cs" />
+    <Compile Include="AppInfo\AppInfoOutput.cs" />
     <Compile Include="AuthRanks\AuthRankDto.cs" />
     <Compile Include="ConLog\ConLogDto.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeDto.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeOutput.cs" />
+    <Compile Include="IdentifyCodes\IdentifyCodeValidInput.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeValidOutput.cs" />
     <Compile Include="Lotteries\DataSiteDto.cs" />
     <Compile Include="Lotteries\FinalLotteryDataOutput.cs" />
@@ -82,6 +87,9 @@
     <Compile Include="Norms\UserNormDefaultConfigInput.cs" />
     <Compile Include="Norms\UserNormPlanConfigInput.cs" />
     <Compile Include="Norms\UserPlanNormOutput.cs" />
+    <Compile Include="OnlineHelp\OnlineGroupOutput.cs" />
+    <Compile Include="OnlineHelp\OnlineItemOutput.cs" />
+    <Compile Include="Opinions\OpinionInput.cs" />
     <Compile Include="PageList\IPageList.cs" />
     <Compile Include="PageList\PageList.cs" />
     <Compile Include="Plans\NormGroupOutput.cs" />

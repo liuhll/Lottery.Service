@@ -15,11 +15,13 @@ using Lottery.AppService.Validations;
 using Lottery.Commands.IdentifyCodes;
 using Lottery.Commands.LogonLog;
 using Lottery.Commands.UserInfos;
+using Lottery.Dtos.Account;
 using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.Tools;
 using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Lotteries;
@@ -63,7 +65,7 @@ namespace Lottery.WebApi.Controllers
         public async Task<string> Login(LoginViewModel loginModel)
         {
             string systemTypeId;
-            if (!ValidateClient(loginModel.SystemType,out systemTypeId))
+            if (!ValidateClient(loginModel.SystemType, out systemTypeId))
             {
                 if (systemTypeId == LotteryConstants.BackOfficeKey)
                 {
@@ -76,13 +78,13 @@ namespace Lottery.WebApi.Controllers
             _userManager.VerifyUserSystemType(userInfo.Id, loginModel.SystemType);
             if (loginModel.IsForce)
             {
-                await this.Logout(loginModel.IsForce,userInfo.Id, systemTypeId);
+                await this.Logout(loginModel.IsForce, userInfo.Id, systemTypeId);
             }
             var clientNo = await _userManager.VerifyUserClientNo(userInfo.Id, systemTypeId);
             DateTime invalidDateTime;
-            
-            var token = _userManager.CreateToken(userInfo, systemTypeId,clientNo,out invalidDateTime);
-            await SendCommandAsync(new AddConLogCommand(Guid.NewGuid().ToString(), userInfo.Id,clientNo,systemTypeId, Request.GetReuestIp(), invalidDateTime,userInfo.Id));
+
+            var token = _userManager.CreateToken(userInfo, systemTypeId, clientNo, out invalidDateTime);
+            await SendCommandAsync(new AddConLogCommand(Guid.NewGuid().ToString(), userInfo.Id, clientNo, systemTypeId, Request.GetReuestIp(), invalidDateTime, userInfo.Id));
 
             return token;
         }
@@ -137,17 +139,17 @@ namespace Lottery.WebApi.Controllers
             {
                 throw new LotteryDataException(validationResult.Errors.Select(p => p.ErrorMessage).ToList().ToString(";"));
             }
-  
+
             var validIdentifyCodeOutput = _identifyCodeAppService.ValidIdentifyCode(user.Account, user.IdentifyCode);
 
             if (validIdentifyCodeOutput.IsOvertime)
             {
-                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId,user.Account,_lotterySession.UserId));
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
                 throw new LotteryDataException("验证码超时,请重新获取验证码");
             }
             if (!validIdentifyCodeOutput.IsValid)
             {
-               // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
+                // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
                 throw new LotteryDataException("您输入的验证码错误,请重新输入");
             }
 
@@ -160,16 +162,18 @@ namespace Lottery.WebApi.Controllers
             }
 
             // :todo 是否存在活动,以及查询获赠的积分
-            var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account, 
+            var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account,
                 EncryptPassword(user.Account, user.Password, accountRegType),
-                user.ClientRegistType, accountRegType,0);
+                user.ClientRegistType, accountRegType, 0);
 
             var commandResult = await SendCommandAsync(userInfoCommand);
             if (commandResult.Status != AsyncTaskStatus.Success)
             {
                 throw new LotteryDataException("创建用户失败");
             }
-            return "创建用户成功";
+            await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account,
+                user.Account));
+            return "注册用户成功";
         }
 
         /// <summary>
@@ -187,13 +191,29 @@ namespace Lottery.WebApi.Controllers
                 throw new LotteryDataException(validationResult.Errors.Select(p => p.ErrorMessage).ToList().ToString(";"));
             }
 
-            // :todo 手机号码验证码 | 电子邮箱验证码
+            var validIdentifyCodeOutput = _identifyCodeAppService.ValidIdentifyCode(input.Profile, input.Identifycode);
+
+            if (validIdentifyCodeOutput.IsOvertime)
+            {
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, input.Profile, _lotterySession.UserId));
+                throw new LotteryDataException("验证码超时,请重新获取验证码");
+            }
+            if (!validIdentifyCodeOutput.IsValid)
+            {
+                // await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
+                throw new LotteryDataException("您输入的验证码错误,请重新输入");
+            }
+            await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, input.Profile, _lotterySession.UserId));
             var isReg = await _userManager.IsExistAccount(input.Profile);
             if (isReg)
             {
                 throw new LotteryDataException("已经存在该账号,不允许被绑定");
             }
-            //var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
+            var validPwdResult = await _userManager.VerifyPassword(input.Password, input.Password);
+            if (!validPwdResult)
+            {
+                throw new LotteryDataException("密码错误");
+            }
             AsyncTaskResult result = null;
             if (input.ProfileType == AccountRegistType.Email)
             {
@@ -215,6 +235,68 @@ namespace Lottery.WebApi.Controllers
             throw new LotteryDataException("绑定失败");
         }
 
+        /// <summary>
+        /// 找回密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [Route("retrievepassword")]
+        [HttpPut]
+        [AllowAnonymous]
+        public async Task<string> RetrievePassword(PassWordInput input)
+        {
+            if (input.Account.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("账号不允许为空");
+            }
+            if (input.Password.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("密码不允许为空");
+            }
+
+            var accountBase = await _userManager.GetAccountBaseInfo(input.Account);
+            var encryptNewPwd = EncryptPassword(accountBase.Account, input.Password, accountBase.AccountRegistType);
+            await SendCommandAsync(new UpdatePasswordCommand(accountBase.Id, encryptNewPwd, accountBase.Id));
+            return "修改密码成功";
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [Route("password")]
+        [HttpPut]
+        [AllowAnonymous]
+        public async Task<string> ModifyPassword(ModifyPassWordInput input)
+        {
+            if (input.Account.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("账号不允许为空");
+            }
+            if (input.NewPassword.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("您输入的旧密码不允许为空");
+            }
+            if (input.NewPassword.IsNullOrEmpty())
+            {
+                throw new LotteryDataException("您输入的新密码不允许为空");
+            }
+            if (input.NewPassword.Equals(input.OldPassword))
+            {
+                throw new LotteryDataException("新密码不能与旧密码相同");
+            }
+            if (!(await _userManager.VerifyPassword(input.Account, input.OldPassword)))
+            {
+                throw new LotteryDataException("您输入的密码不正确,请确认您的密码");
+            }
+
+            var accountBase = await _userManager.GetAccountBaseInfo(input.Account);
+            var encryptNewPwd = EncryptPassword(accountBase.Account, input.NewPassword, accountBase.AccountRegistType);
+            await SendCommandAsync(new UpdatePasswordCommand(accountBase.Id, encryptNewPwd, accountBase.Id));
+            return "修改密码成功";
+        }
+
         #region 私有方法
 
         private string EncryptPassword(string userAccount, string userPassword, AccountRegistType accountRegType)
@@ -223,7 +305,7 @@ namespace Lottery.WebApi.Controllers
             return pwd;
         }
 
-       
+
 
         private bool ValidateClient(string clientType, out string clientTypeId)
         {

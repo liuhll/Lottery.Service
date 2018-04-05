@@ -76,5 +76,9 @@
 
         public const string IDENTIFY_CODE_USER_KEY = "IdentifyCode.User.{0}";
 
+        public const string ONLINEHELP_LOTTERY_KEY = "OnlineHelo.{0}";
+
+        public const string APPINFO_KEY = "AppInfo.{0}";
+
     }
 }

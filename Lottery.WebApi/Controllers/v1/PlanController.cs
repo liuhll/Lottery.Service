@@ -66,6 +66,7 @@ namespace Lottery.WebApi.Controllers.v1
         /// <returns>用户设置的计划信息</returns>
         [HttpPut]
         [Route("userplans")]
+        [AllowAnonymous]
         public async Task<string> UpdateUserPlans(UserPlanInfoInput input)
         {
             var validatorResult = await _planInfoInputValidator.ValidateAsync(input);

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppInfos\AppInfoQueryService.cs" />
     <Compile Include="AuthRanks\AuthRankQueryService.cs" />
     <Compile Include="BaseQueryService.cs" />
     <Compile Include="Canlogs\ConLogQueryService.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Lotteries\TimeRuleQueryService.cs" />
     <Compile Include="Lotteries\LotteryQueryService.cs" />
     <Compile Include="Norms\UserNormDefaultConfigService.cs" />
+    <Compile Include="OnlineHelps\OnlineHelperQueryService.cs" />
     <Compile Include="Operations\MemberQueryService.cs" />
     <Compile Include="Powers\MemberPowerQueryService.cs" />
     <Compile Include="Powers\PowerQueryService.cs" />

@@ -22,21 +22,21 @@ namespace Lottery.Infrastructure.Collections
                 throw new ArgumentNullException("source");
             }
 
-            int index = 0;
+            int index = -1;
 
             int step = 0;
 
             foreach (var k in source)
             {
-                step++;
                 if (k.Equals(item))
                 {
-                    index = step + 1;
+                    index = step;
                     break;
                 }
+                step++;
             }
 
-            if (index == 0)
+            if (index < 0)
             {
                 throw new Exception($"该数组不包含{item}元素");
             }

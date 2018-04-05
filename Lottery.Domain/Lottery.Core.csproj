@@ -84,6 +84,8 @@
     <Compile Include="Domain\NormConfigs\UpdateNormConfigEvent.cs" />
     <Compile Include="Domain\NormGroups\NormConfigInfo.cs" />
     <Compile Include="Domain\NormGroups\NormGroup.cs" />
+    <Compile Include="Domain\OpinionRecords\AddOpinionRecordEvent.cs" />
+    <Compile Include="Domain\OpinionRecords\OpinionRecord.cs" />
     <Compile Include="Domain\PlanInfos\PlanInfo.cs" />
     <Compile Include="Domain\PlanInfos\UserPlanNormConfig.cs" />
     <Compile Include="Domain\PlanKeyNumbers\PlanKeyNumber.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Domain\UserInfos\BindUserEmailEvent.cs" />
     <Compile Include="Domain\UserInfos\BindUserPhoneEvent.cs" />
     <Compile Include="Domain\UserInfos\UpdateLoginTimeEvent.cs" />
+    <Compile Include="Domain\UserInfos\UpdatePasswordEvent.cs" />
     <Compile Include="Domain\UserInfos\UpdateUserLoginClientCountEvent.cs" />
     <Compile Include="Domain\UserInfos\UpdateUserLogoutEvent.cs" />
     <Compile Include="Domain\UserInfos\UserInfo.cs" />
@@ -115,6 +118,7 @@
     <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

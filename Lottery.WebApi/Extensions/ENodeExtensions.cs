@@ -12,6 +12,7 @@ using Lottery.Engine;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Mail;
 using Lottery.Infrastructure.Sms;
+using Lottery.Infrastructure.Tools;
 using Lottery.WebApi.Configration;
 using Lottery.WebApi.Configration.Mapper;
 
@@ -36,8 +37,8 @@ namespace Lottery.WebApi.Extensions
         }
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
-
-            var commandResultProcessor = new CommandResultProcessor().Initialize(new IPEndPoint(SocketUtils.GetLocalIPV4(), 9010));
+            var commandResultPort = ConfigHelper.ValueInt("CommandResultPort");
+            var commandResultProcessor = new CommandResultProcessor().Initialize(new IPEndPoint(SocketUtils.GetLocalIPV4(), commandResultPort));
 
             _commandService.Initialize(commandResultProcessor, new ProducerSetting
             {

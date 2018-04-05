@@ -129,7 +129,7 @@ namespace Lottery.Core.Domain.UserInfos
         /// <summary>
         /// 最后修改人
         /// </summary>
-        public DateTime? UpdateBy { get; private set; }
+        public string UpdateBy { get; private set; }
       
       /// <summary>
       /// 最后修改时间
@@ -183,9 +183,14 @@ namespace Lottery.Core.Domain.UserInfos
 
        }
 
-        #endregion
+       public void UpdatePassword(string password, string updateBy)
+       {
+            ApplyEvent(new UpdatePasswordEvent(password,updateBy));
+       }
 
-        #region Handle Method
+       #endregion
+
+       #region Handle Method
 
         private void Handle(AddUserInfoEvent evnt)
         {
@@ -220,9 +225,13 @@ namespace Lottery.Core.Domain.UserInfos
            LoginClientCount = evnt.LoginClientCount;
        }
 
-       #endregion
+       private void Handle(UpdatePasswordEvent evnt)
+       {
+           Password = evnt.Password;
+           UpdateBy = evnt.UpdateBy;
+           UpdateTime = evnt.Timestamp;
+       }
+        #endregion
 
-
-     
-   }   
+    }   
 }

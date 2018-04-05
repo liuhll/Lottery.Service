@@ -51,6 +51,7 @@
     <Compile Include="LotteryDataCommandHandler.cs" />
     <Compile Include="MessageCommandHandler.cs" />
     <Compile Include="NormCommandHandler.cs" />
+    <Compile Include="OpinionRecordHandler.cs" />
     <Compile Include="PlanCommandHandler.cs" />
     <Compile Include="PredictDataCommandHandler.cs" />
     <Compile Include="PredictTableCommandHandler.cs" />

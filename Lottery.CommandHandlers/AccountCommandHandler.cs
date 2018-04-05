@@ -10,7 +10,8 @@ namespace Lottery.CommandHandlers
         ICommandHandler<AddUserInfoCommand>,
         ICommandHandler<UpdateLastLoginTimeCommand>,
         ICommandHandler<BindUserEmailCommand>,
-        ICommandHandler<BindUserPhoneCommand>
+        ICommandHandler<BindUserPhoneCommand>,
+        ICommandHandler<UpdatePasswordCommand>
     {
         public void Handle(ICommandContext context, AddUserInfoCommand command)
         {
@@ -42,6 +43,11 @@ namespace Lottery.CommandHandlers
         //        .UserLoginClientCount(command.IsLogin);
         //}
 
-       
+
+        public void Handle(ICommandContext context, UpdatePasswordCommand command)
+        {
+            context.Get<UserInfo>(command.AggregateRootId)
+                .UpdatePassword(command.Password,command.UpdateBy);
+        }
     }
 }

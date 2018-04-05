@@ -58,11 +58,13 @@
     <Compile Include="Messages\IdentifyCodeDenomalizer.cs" />
     <Compile Include="Messages\MessageDenormalizer.cs" />
     <Compile Include="Norms\NormDenormalizer.cs" />
+    <Compile Include="OpinionRecords\OpinionRecordDenormalizer.cs" />
     <Compile Include="Predict\PredictDataEventDenormalizer.cs" />
     <Compile Include="Predict\PredictTableDenormalizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

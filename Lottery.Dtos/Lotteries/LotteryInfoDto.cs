@@ -24,6 +24,8 @@ namespace Lottery.Dtos.Lotteries
         /// </summary>
         public int? TableStrategy { get; set; }
 
+        public int Status { get; set; }
+
         /// <summary>
         /// 是否完成动态分表的配置
         /// </summary>
