@@ -64,6 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComputePredictResult\ComputePredictFatory.cs" />
+    <Compile Include="ComputePredictResult\LhComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\NumComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\RankComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\ShapeComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\SizeComputePredictResult.cs" />
     <Compile Include="DiscreteMarkov\DiscreteMarkov.cs" />
     <Compile Include="EngineContext.cs" />
     <Compile Include="ILotterEngine.cs" />
@@ -72,13 +78,14 @@
     <Compile Include="LotteryData\ILotteryNumber.cs" />
     <Compile Include="LotteryData\LotteryDataList.cs" />
     <Compile Include="LotteryData\LotteryNumber.cs" />
+    <Compile Include="ComputePredictResult\BaseComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\IComputePredictResult.cs" />
     <Compile Include="Predictor\BasePredictor.cs" />
+    <Compile Include="Predictor\DiscreteMarkovPredictor.cs" />
     <Compile Include="Predictor\IPredictor.cs" />
-    <Compile Include="Predictor\LhPredictor.cs" />
-    <Compile Include="Predictor\NumPredictor.cs" />
-    <Compile Include="Predictor\RankPredictor.cs" />
-    <Compile Include="Predictor\ShapePredictor.cs" />
-    <Compile Include="Predictor\SizePredictor.cs" />
+    <Compile Include="Predictor\MockPredictor.cs" />
+    <Compile Include="Predictor\StochasticPredictor.cs" />
+    <Compile Include="Predictor\TemperatureMarkovPredictor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeRule\ITimeRuleManager.cs" />
     <Compile Include="TimeRule\ITimeRuleManagerExtensions.cs" />

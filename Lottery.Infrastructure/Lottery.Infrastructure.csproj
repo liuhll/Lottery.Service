@@ -164,6 +164,7 @@
     <Compile Include="Collections\CollectionExtensions.cs" />
     <Compile Include="DataConfigSettings.cs" />
     <Compile Include="Enums\AccountRegistType.cs" />
+    <Compile Include="Enums\AlgorithmType.cs" />
     <Compile Include="Enums\AppPlatform.cs" />
     <Compile Include="Enums\ClientRegistType.cs" />
     <Compile Include="Enums\EmailTempletType.cs" />
@@ -219,6 +220,7 @@
     <Content Include="Mail\Templet\RetrievePwd.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Compile Include="PredictCodeDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedisKeyConstants.cs" />
     <Compile Include="Reflection\AssemblyFinder .cs" />

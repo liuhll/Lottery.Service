@@ -1,6 +1,7 @@
 ﻿using Lottery.Dtos.Lotteries;
 using Lottery.Engine.Predictor;
 using Lottery.Engine.TimeRule;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Engine
 {
@@ -11,7 +12,7 @@ namespace Lottery.Engine
 
         ITimeRuleManager TimeRuleManager { get; }
 
-        IPerdictor GetPerdictor(string predictCode);
+        IPerdictor GetPerdictor(AlgorithmType algorithmType);
 
     }
 }

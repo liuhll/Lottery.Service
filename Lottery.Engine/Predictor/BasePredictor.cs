@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lottery.Dtos.Lotteries;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Engine.Predictor
 {
@@ -9,19 +10,15 @@ namespace Lottery.Engine.Predictor
         protected readonly LotteryInfoDto _LotteryInfo;
 
 
-        protected BasePredictor(LotteryInfoDto lotteryInfo)
+        protected BasePredictor(LotteryInfoDto lotteryInfo,AlgorithmType algorithmType)
         {
             _LotteryInfo = lotteryInfo;
+            AlgorithmType = algorithmType;
 
         }
 
-        public abstract string PredictCode { get; }
+        public AlgorithmType AlgorithmType { get; }
 
-        public virtual IDictionary<int,double> Predictor(List<int> data, int count,int k)
-        {
-            var result = new DiscreteMarkov.DiscreteMarkov(data, count, k);
-
-            return result.PredictValue1;
-        }
+        public abstract IDictionary<int, double> Predictor(List<int> data, int count, int k, int historyCount, Tuple<int, int> valInfo);
     }
 }

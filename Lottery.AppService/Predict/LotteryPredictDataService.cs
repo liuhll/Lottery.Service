@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using ECommon.Components;
 using ECommon.Extensions;
+using ECommon.Logging;
 using Lottery.Dtos.Lotteries;
 using Lottery.Engine;
+using Lottery.Engine.ComputePredictResult;
 using Lottery.Engine.LotteryData;
+using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
+using Lottery.Infrastructure.Logs;
 using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.AppService.Predict
@@ -15,11 +19,35 @@ namespace Lottery.AppService.Predict
     [Component]
     public class LotteryPredictDataService : ILotteryPredictDataService
     {
+        private const string singleVal = "单";
+        private const string doubleVal = "双";
+
+        private const string longVal = "龙";
+        private const string huVal = "虎";
+
+        private const string bigVal = "大";
+        private const string smallVal = "小";
+
+        private string[] valList = new[]
+        {
+            "冠军",
+            "亚军",
+            "季军",
+            "第四名",
+            "第五名",
+            "第六名",
+            "第七名",
+            "第八名",
+            "第九名",
+            "第十名",
+        };
+
         private readonly ILotteryFinalDataQueryService _lotteryFinalDataQueryService;
         private readonly ILotteryQueryService _lotteryQueryService;
         private readonly ILotteryPredictDataQueryService _lotteryPredictDataQueryService;
         private readonly IPlanInfoQueryService _planInfoQueryService;
         private readonly ILotteryDataQueryService _lotteryDataQueryService;
+        private readonly ILogger _logger;
 
         public LotteryPredictDataService(ILotteryFinalDataQueryService lotteryFinalDataQueryService,
             ILotteryQueryService lotteryQueryService,
@@ -32,6 +60,7 @@ namespace Lottery.AppService.Predict
             _lotteryPredictDataQueryService = lotteryPredictDataQueryService;
             _planInfoQueryService = planInfoQueryService;
             _lotteryDataQueryService = lotteryDataQueryService;
+            _logger = NullLotteryLogger.Instance;
         }
 
         public ICollection<PredictDataDto> PredictNormData(string lotteryId, NormConfigDto userNorm, int predictPeroid, string lotteryCode)
@@ -154,17 +183,34 @@ namespace Lottery.AppService.Predict
             var positionInfo = normPlanInfo.PositionInfos.First();
             var count = positionInfo.MaxValue - positionInfo.MinValue + 1;
             string predictedData = String.Empty;
+            IDictionary<int, double> predictedDataRate;
             try
             {
-                var predictedDataRate = lotteryEngine.GetPerdictor(normPlanInfo.PredictCode)
-                    .Predictor(predictData, count, userNorm.UnitHistoryCount);
-                predictedData = predictedDataRate != null ? 
-                    GetPredictedDataByRate(predictedDataRate, normPlanInfo.DsType, userNorm) 
-                    : GetPredictedDataMock(normPlanInfo, userNorm);
+                AlgorithmType algorithmType = normPlanInfo.AlgorithmType;
+                try
+                {
+                    predictedDataRate = lotteryEngine.GetPerdictor(algorithmType)
+                        .Predictor(predictData, count, userNorm.UnitHistoryCount, userNorm.HistoryCount,new Tuple<int,int>(positionInfo.MinValue,positionInfo.MaxValue));
+                }
+                catch (Exception e)
+                {
+                    algorithmType = AlgorithmType.Mock;
+                    predictedDataRate = lotteryEngine.GetPerdictor(algorithmType)
+                        .Predictor(predictData, count, userNorm.UnitHistoryCount, userNorm.HistoryCount, new Tuple<int, int>(positionInfo.MinValue, positionInfo.MaxValue));
+                }
+
+                var computePredictResult = ComputePredictFatory.CreateComputePredictResult(normPlanInfo.PredictCode,predictedDataRate);
+
+                predictedData = computePredictResult.GetPredictedData(normPlanInfo, userNorm);
+                //predictedDataRate != null ? 
+                //GetPredictedDataByRate(predictedDataRate, normPlanInfo.DsType, userNorm) 
+                //: GetPredictedDataMock(normPlanInfo, userNorm);
             }
-            catch 
+            catch (Exception ex)
             {
+                _logger.Error(ex);
                 predictedData = GetPredictedDataMock(normPlanInfo, userNorm);
+
             }
             var predictDataInfo = new PredictDataDto()
             {
@@ -222,12 +268,26 @@ namespace Lottery.AppService.Predict
                 return PredictedResult.Running;
             }
             var lotteryNumber = new LotteryNumber(lotteryData);
-
+            var normPlanInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
             if (planInfo.PlanPosition == PlanPosition.Single)
             {
                 var postion = planInfo.PositionInfos.First().Position;
-                var lotteryNumberData = lotteryNumber[postion];
-                if (startPeriodData.PredictedData.Contains(lotteryNumberData.ToString()))
+               
+                var lotteryNumberData = GetLotteryNumberData(lotteryNumber, postion, normPlanInfo); //lotteryNumber[postion];
+                bool isRight;
+                if (normPlanInfo.PredictCode == PredictCodeDefinition.NumCode)
+                {
+                    var numPredictData = startPeriodData.PredictedData.Split(',').Select(p => Convert.ToInt32(p));
+                    var numLotteryNum = Convert.ToInt32(lotteryNumberData);
+                    isRight = numPredictData.Contains(numLotteryNum);
+
+                }
+                else
+                {
+                    isRight = startPeriodData.PredictedData
+                        .Contains(lotteryNumberData.ToString());
+                }
+                if (isRight) //:todo bug
                 {
                     if (planInfo.DsType == PredictType.Fix)
                     {
@@ -255,10 +315,12 @@ namespace Lottery.AppService.Predict
             else if (planInfo.PlanPosition == PlanPosition.Multiple)
             {
                 var positions = planInfo.PositionInfos.Select(p => p.Position).ToArray();
-                var lotteryNumbers = lotteryNumber.GetLotteryNumbers(positions);
-
+                var lotteryNumbers = new List<int>(); // lotteryNumber.GetLotteryNumbers(positions);
+                foreach (var position in positions)
+                {
+                    lotteryNumbers.Add(Convert.ToInt32(GetLotteryNumberData(lotteryNumber, position, normPlanInfo)));
+                }
                 var predictNumber = startPeriodData.PredictedData.Split(',').Select(p => Convert.ToInt32(p)).ToArray();
-
                 if (planInfo.DsType == PredictType.Fix)
                 {
                     if (lotteryNumbers.Any(p =>predictNumber.Contains(p)))
@@ -316,6 +378,60 @@ namespace Lottery.AppService.Predict
             }
             
         }
+
+        private object GetLotteryNumberData(LotteryNumber lotteryNumber, int postion, PlanInfoDto planInfo)
+        {
+            var numData = lotteryNumber[postion];
+            string lotteryData = string.Empty;
+            switch (planInfo.PredictCode)
+            {
+                case PredictCodeDefinition.NumCode:
+                    lotteryData = lotteryNumber[postion].ToString();
+                    break;
+                case PredictCodeDefinition.LhCode:
+                    var firstVal = lotteryNumber[postion];
+                    var secondVal = lotteryNumber[lotteryNumber.Datas.Length - postion + 1];
+                    if (firstVal > secondVal)
+                    {
+                        lotteryData = longVal;
+                    }
+                    else
+                    {
+                        lotteryData = huVal;
+                    }
+                    break;
+                case PredictCodeDefinition.RankCode:
+                    // lotteryData = valList[postion];
+                    var lotteryRank = lotteryNumber.Datas.IndexOf(postion);
+                    lotteryData = valList[lotteryRank];
+                    break;
+                case PredictCodeDefinition.ShapeCode:
+                    if (numData % 2 == 0)
+                    {
+                        lotteryData = doubleVal;
+                    }
+                    else
+                    {
+                        lotteryData = singleVal;
+                    }
+
+                    break;
+                case PredictCodeDefinition.SizeCode:
+                    var sizeCriticalVal = planInfo.PositionInfos.First().MaxValue % 2;
+                    if (numData > sizeCriticalVal)
+                    {
+                        lotteryData = bigVal;
+                    }
+                    else
+                    {
+                        lotteryData = smallVal;
+                    }
+                    break;  
+
+            }
+            return lotteryData;
+        }
+
 
         private List<int> GetPredictData(PlanInfoDto normPlanInfo, LotteryDataList lotteryDataList)
         {

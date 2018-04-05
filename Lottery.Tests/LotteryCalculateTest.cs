@@ -5,6 +5,7 @@ using ECommon.Components;
 using Lottery.AppService.LotteryData;
 using Lottery.AppService.Plan;
 using Lottery.Engine;
+using Lottery.Infrastructure.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lottery.Tests
@@ -24,7 +25,7 @@ namespace Lottery.Tests
             var lotteryId = "ACB89F4E-7C71-4785-BA09-D7E73084B467";
 
             var lotteryEngine = EngineContext.LotterEngine(lotteryId);
-            var numberPredictor = lotteryEngine.GetPerdictor("num");
+            var numberPredictor = lotteryEngine.GetPerdictor(AlgorithmType.DiscreteMarkov);
 
             List<int> data = new List<int>();
           
