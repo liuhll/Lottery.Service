@@ -12,6 +12,8 @@ using Lottery.Commands.Norms;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
+using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Norms;
 
 namespace Lottery.WebApi.Controllers.v1
@@ -25,16 +27,25 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly INormConfigAppService _normConfigAppService;
         private readonly IUserNormDefaultConfigService _userNormDefaultConfigService;
         private readonly UserNormConfigInputValidator _userNormDefaultConfigInputValidator;
+        private readonly INormPlanConfigQueryService _normPlanConfigQueryService;
+        private readonly ILotteryQueryService _lotteryQueryService;
+        private readonly IPlanInfoQueryService _planInfoQueryService;
 
         public NormController(ICommandService commandService, 
             INormConfigAppService normConfigAppService,
             UserNormConfigInputValidator userNormDefaultConfigInputValidator, 
-            IUserNormDefaultConfigService userNormDefaultConfigService) 
+            IUserNormDefaultConfigService userNormDefaultConfigService, 
+            INormPlanConfigQueryService normPlanConfigQueryService,
+            ILotteryQueryService lotteryQueryService,
+            IPlanInfoQueryService planInfoQueryService) 
             : base(commandService)
         {
             _normConfigAppService = normConfigAppService;
             _userNormDefaultConfigInputValidator = userNormDefaultConfigInputValidator;
             _userNormDefaultConfigService = userNormDefaultConfigService;
+            _normPlanConfigQueryService = normPlanConfigQueryService;
+            _lotteryQueryService = lotteryQueryService;
+            _planInfoQueryService = planInfoQueryService;
         }
 
         /// <summary>
@@ -78,6 +89,42 @@ namespace Lottery.WebApi.Controllers.v1
                 await SendCommandAsync(command);
             }         
             return "设置默认的公式指标成功";
+        }
+
+        /// <summary>
+        /// 获取计划配置缺省配置
+        /// </summary>
+        /// <param name="planId"></param>
+        /// <returns></returns>
+        [Route("normplanconfig")]
+        [HttpGet]
+        [AllowAnonymous]
+        public NormPlanDefaultConfigOutput NormPlanConfig(string planId = null)
+        {
+            var lotterInfo = _lotteryQueryService.GetLotteryInfoById(_lotterySession.SystemTypeId);
+            var predictCode = string.Empty;
+
+            if (!planId.IsNullOrEmpty())
+            {
+                var planInfo = _planInfoQueryService.GetPlanInfoById(planId);
+                predictCode = planInfo.PredictCode;
+            }
+            var normPlanDefaultConfig = _normPlanConfigQueryService.GetNormPlanDefaultConfig(lotterInfo.LotteryCode, predictCode);
+            var output = new NormPlanDefaultConfigOutput();
+            output.ForecastCounts = GetOutputCounts(normPlanDefaultConfig.MinForecastCount,normPlanDefaultConfig.MaxForecastCount);
+            output.PlanCycles = GetOutputCounts(normPlanDefaultConfig.MinPlanCycle,normPlanDefaultConfig.MaxPlanCycle);
+            return output;
+        }
+
+        private ICollection<int> GetOutputCounts(int min, int max)
+        {
+            var result = new List<int>();
+            for (int i = min; i <= max; i++)
+            {
+                result.Add(i);
+            }
+            return result;
+
         }
     }
 }

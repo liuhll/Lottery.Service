@@ -10,6 +10,7 @@ using Lottery.AppService.Plan;
 using Lottery.Commands.LotteryPredicts;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.PageList;
+using Lottery.Infrastructure;
 using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.WebApi.Controllers.v1
@@ -186,7 +187,7 @@ namespace Lottery.WebApi.Controllers.v1
                 historyPredictResults.Add((int)item.PredictedResult);
             }
             historyPredictResults.Reverse();
-            return historyPredictResults.ToArray();
+            return historyPredictResults.Take(LotteryConstants.HistoryPredictResultCount).ToArray();
         }
 
         private void WritePlanTrackNumbers(IGrouping<string, PredictDataDto> item, PlanInfoDto planInfo, double currentScore)

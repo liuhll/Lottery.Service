@@ -82,6 +82,8 @@
     <Compile Include="Menus\RouteDto.cs" />
     <Compile Include="Menus\MetaDto.cs" />
     <Compile Include="Norms\LotteryNumber.cs" />
+    <Compile Include="Norms\NormPlanConfigDto.cs" />
+    <Compile Include="Norms\NormPlanDefaultConfigOutput.cs" />
     <Compile Include="Norms\UserNormDefaultConfigDto.cs" />
     <Compile Include="Norms\UserNormDefaultConfigOutput.cs" />
     <Compile Include="Norms\UserNormDefaultConfigInput.cs" />

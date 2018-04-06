@@ -80,5 +80,7 @@
 
         public const string APPINFO_KEY = "AppInfo.{0}";
 
+        public const string NORM_PLAN_CONFIG_KEY = "Norm.Plan.Config.{0}.{1}";
+
     }
 }
