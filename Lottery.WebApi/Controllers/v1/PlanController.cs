@@ -103,7 +103,8 @@ namespace Lottery.WebApi.Controllers.v1
                 var command = new AddNormConfigCommand(Guid.NewGuid().ToString(),_lotterySession.UserId,
                     LotteryInfo.Id, plan.PlanId, userDefaultNormConfig.PlanCycle,
                     userDefaultNormConfig.ForecastCount, finalLotteryData.Period,
-                    userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.MinRightSeries,
+                    userDefaultNormConfig.UnitHistoryCount,userDefaultNormConfig.HistoryCount,
+                    userDefaultNormConfig.MinRightSeries,
                     userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrortSeries,
                     userDefaultNormConfig.MaxErrortSeries, userDefaultNormConfig.LookupPeriodCount,
                     userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore, plan.Sort);
@@ -160,7 +161,7 @@ namespace Lottery.WebApi.Controllers.v1
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
             var command = new UpdateNormConfigCommand(userPlanNorm.Id, _lotterySession.UserId, LotteryInfo.Id, input.PlanId,
                 input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
-                input.UnitHistoryCount,input.MinRightSeries, input.MaxRightSeries, 
+                input.UnitHistoryCount,input.HistoryCount,input.MinRightSeries, input.MaxRightSeries, 
                 input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount,
                 input.ExpectMinScore, input.ExpectMaxScore,input.CustomNumbers);
             await SendCommandAsync(command);

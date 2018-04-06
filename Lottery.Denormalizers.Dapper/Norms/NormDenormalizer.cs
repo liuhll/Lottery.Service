@@ -42,6 +42,7 @@ namespace Lottery.Denormalizers.Dapper.Norms
                     evnt.PlanCycle,
                     evnt.ForecastCount,
                     evnt.UnitHistoryCount,
+                    evnt.HistoryCount,
                     evnt.CustomNumbers,
                     Id = evnt.AggregateRootId,
                     CreateBy = evnt.UserId,
@@ -70,6 +71,7 @@ namespace Lottery.Denormalizers.Dapper.Norms
                         evnt.PlanCycle,
                         evnt.ForecastCount,
                         evnt.UnitHistoryCount,
+                        evnt.HistoryCount,
                         UpdateBy = evnt.UserId,
                         UpdateTime = evnt.Timestamp,
 
@@ -100,7 +102,7 @@ namespace Lottery.Denormalizers.Dapper.Norms
                     evnt.PlanCycle,
                     evnt.ForecastCount,
                     evnt.UnitHistoryCount,
-                    HistoryCount = evnt.UnitHistoryCount * evnt.PlanCycle,
+                    HistoryCount = evnt.HistoryCount,
                     evnt.IsDefualt,
                     evnt.IsEnable,
                     evnt.Sort,
@@ -145,7 +147,7 @@ namespace Lottery.Denormalizers.Dapper.Norms
                     evnt.PlanCycle,
                     evnt.ForecastCount,
                     evnt.UnitHistoryCount,
-                    HistoryCount = evnt.UnitHistoryCount * evnt.PlanCycle,
+                    HistoryCount = evnt.HistoryCount,
                     UpdateBy = evnt.UserId,
                     UpdateTime = evnt.Timestamp,
 

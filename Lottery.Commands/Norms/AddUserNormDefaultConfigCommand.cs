@@ -9,7 +9,7 @@ namespace Lottery.Commands.Norms
         }
 
         public AddUserNormDefaultConfigCommand(string id,string userId,string lotteryId,int planCycle,int forecastCount,
-            int unitHistoryCount,int minRightSeries,int maxRightSeries,int minErrortSeries,int maxErrortSeries,
+            int unitHistoryCount,int historyCount,int minRightSeries,int maxRightSeries,int minErrortSeries,int maxErrortSeries,
             int lookupPeriodCount,int expectMinScore,int expectMaxScore) : base(id)
         {
             UserId = userId;
@@ -17,6 +17,7 @@ namespace Lottery.Commands.Norms
             PlanCycle = planCycle;
             ForecastCount = forecastCount;
             UnitHistoryCount = unitHistoryCount;
+            HistoryCount = historyCount;
             MaxRightSeries = maxRightSeries;
             MinRightSeries = minRightSeries;
             MaxErrortSeries = maxErrortSeries;
@@ -42,9 +43,14 @@ namespace Lottery.Commands.Norms
         public int PlanCycle { get; private set; }
 
         /// <summary>
-        /// 历史期数
+        /// 偏差历史期数
         /// </summary>
         public int UnitHistoryCount { get; private set; }
+
+        /// <summary>
+        /// 历史期数
+        /// </summary>
+        public int HistoryCount { get; private set; }
 
         /// <summary>
         /// 最小连对数

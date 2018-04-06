@@ -15,9 +15,14 @@ namespace Lottery.Dtos.Norms
         public int PlanCycle { get; set; }
 
         /// <summary>
-        /// 历史期数
+        /// 偏差历史期数
         /// </summary>
         public int UnitHistoryCount { get; set; }
+
+        /// <summary>
+        /// 历史期数
+        /// </summary>
+        public int HistoryCount { get; set; }
 
         /// <summary>
         /// 最小连对数

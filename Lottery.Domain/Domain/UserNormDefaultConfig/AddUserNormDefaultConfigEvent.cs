@@ -9,7 +9,7 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         }
 
         public AddUserNormDefaultConfigEvent(string userId, string lotteryId, int planCycle, int forecastCount,
-            int unitHistoryCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries,
+            int unitHistoryCount,int historyCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries,
             int lookupPeriodCount, int expectMinScore, int expectMaxScore, string customNumbers)
         {
             UserId = userId;
@@ -25,6 +25,7 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             ExpectMaxScore = expectMaxScore;
             ExpectMinScore = expectMinScore;
             CustomNumbers = customNumbers;
+            HistoryCount = historyCount;
 
         }
 
@@ -43,6 +44,7 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             ExpectMaxScore = userNorm.ExpectMaxScore;
             ExpectMinScore = userNorm.ExpectMinScore;
             CustomNumbers = userNorm.CustomNumbers;
+            HistoryCount = userNorm.HistoryCount;
 
 
         }
@@ -65,6 +67,8 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         /// 历史期数
         /// </summary>
         public int UnitHistoryCount { get; private set; }
+
+        public int HistoryCount { get; private set; }
 
         /// <summary>
         /// 最小连对数
