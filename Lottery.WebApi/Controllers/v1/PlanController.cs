@@ -29,6 +29,7 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly ILotteryDataAppService _lotteryDataAppService;
         private readonly INormConfigAppService _normConfigAppService;
         private readonly UserNormConfigInputValidator _userNormConfigInputValidator;
+        private readonly INormPlanConfigQueryService _normPlanConfigQueryService;
 
         public PlanController(ICommandService commandService, 
             IPlanInfoAppService planInfoAppService,
@@ -36,7 +37,8 @@ namespace Lottery.WebApi.Controllers.v1
             UserPlanInfoInputValidator planInfoInputValidator,
             ILotteryDataAppService lotteryDataAppService,
             INormConfigAppService normConfigAppService,
-            UserNormConfigInputValidator userNormConfigInputValidator) : base(commandService)
+            UserNormConfigInputValidator userNormConfigInputValidator,
+            INormPlanConfigQueryService normPlanConfigQueryService) : base(commandService)
         {
             _planInfoAppService = planInfoAppService;
             _userNormDefaultConfigService = userNormDefaultConfigService;
@@ -44,6 +46,7 @@ namespace Lottery.WebApi.Controllers.v1
             _lotteryDataAppService = lotteryDataAppService;
             _normConfigAppService = normConfigAppService;
             _userNormConfigInputValidator = userNormConfigInputValidator;
+            _normPlanConfigQueryService = normPlanConfigQueryService;
         }
 
         /// <summary>
@@ -100,9 +103,27 @@ namespace Lottery.WebApi.Controllers.v1
                 {
                     continue;
                 }
+                var planInfo = _planInfoAppService.GetPlanInfoById(plan.PlanId);
+                var planNormConfigInfo =
+                    _normPlanConfigQueryService.GetNormPlanDefaultConfig(planInfo.LotteryInfo.LotteryCode,
+                        planInfo.PredictCode);
+                var planCycle = userDefaultNormConfig.PlanCycle;
+                var forecastCount = userDefaultNormConfig.ForecastCount;
+                if (planNormConfigInfo != null)
+                {
+                    if (planCycle > planNormConfigInfo.MaxPlanCycle)
+                    {
+                        planCycle = planNormConfigInfo.MaxPlanCycle;
+                    }
+                    if (forecastCount > planNormConfigInfo.MaxForecastCount)
+                    {
+                        forecastCount = planNormConfigInfo.MaxForecastCount;
+                    }
+                }
+
                 var command = new AddNormConfigCommand(Guid.NewGuid().ToString(),_lotterySession.UserId,
-                    LotteryInfo.Id, plan.PlanId, userDefaultNormConfig.PlanCycle,
-                    userDefaultNormConfig.ForecastCount, finalLotteryData.Period,
+                    LotteryInfo.Id, plan.PlanId, planCycle,
+                    forecastCount, finalLotteryData.Period,
                     userDefaultNormConfig.UnitHistoryCount,userDefaultNormConfig.HistoryCount,
                     userDefaultNormConfig.MinRightSeries,
                     userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrortSeries,

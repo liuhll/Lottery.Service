@@ -7,6 +7,8 @@ namespace Lottery.AppService.Plan
     {
         PlanInfoDto GetPlanInfo(string planCode);
 
+        PlanInfoDto GetPlanInfoById(string planId);
+
         UserPlanInfoDto GetUserPlanInfo(string lotteryId, string userId);
     }
 }
