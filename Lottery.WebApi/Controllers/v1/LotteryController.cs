@@ -50,46 +50,23 @@ namespace Lottery.WebApi.Controllers.v1
             var userId = _lotterySession.UserId;
             var data = _lotteryDataAppService.NewLotteryDataList(lotteryId, userId);
 
-            var planTrackNumbers = new List<PlanTrackNumber>();
-            data.GroupBy(p => p.NormConfigId).ForEach(item =>
-            {
-                var planInfo = _normConfigQueryService.GetNormPlanInfoByNormId(item.Key, lotteryId);
-                var newestPredictDataDto = item.OrderByDescending(p => p.StartPeriod).First();
-                var normConfig = _normConfigQueryService.GetUserNormConfig(item.Key);
-                var planTrackNumber = new PlanTrackNumber()
-                {
-                    NormId = normConfig.Id,
-                    Sort = normConfig.Sort,
-                    PlanId = planInfo.Id,
-                    PlanName = planInfo.PlanName,
-                    EndPeriod = newestPredictDataDto.EndPeriod,
-                    StartPeriod = newestPredictDataDto.StartPeriod,
-                    MinorCycle = newestPredictDataDto.MinorCycle,
-                    PredictData = newestPredictDataDto.PredictedData,
-                    CurrentPredictPeriod = newestPredictDataDto.CurrentPredictPeriod,
-                    PredictType = planInfo.DsType,
-                    HistoryPredictResults = GetHistoryPredictResults(item.OrderByDescending(p => p.StartPeriod),item.Key, normConfig.LookupPeriodCount, planInfo.PlanNormTable),
-                };
-                var rightCount = planTrackNumber.HistoryPredictResults.Count(p => p == 0);
-                var totleCount = planTrackNumber.HistoryPredictResults.Count(p => p != 2);
-                var currentScore = Math.Round((double) rightCount / totleCount,2);
-                planTrackNumber.CurrentScore = currentScore;
-                WritePlanTrackNumbers(item, planInfo, currentScore);
-                planTrackNumbers.Add(planTrackNumber);
-            });
-
-            return planTrackNumbers.OrderBy(p=>p.Sort).ToList();
+            return GetPlanTrackNumberByPredictData(lotteryId, data);
         }
 
+  
         /// <summary>
         /// 切换公式接口(变更计划追号)
         /// </summary>
         /// <returns>返回切换公式后的计划追号</returns>
         [HttpPut]
         [Route("predictdatas")]
+        [AllowAnonymous]
         public ICollection<PlanTrackNumber> UpdatePredictDatas()
         {
-            return null;
+            var lotteryId = _lotterySession.SystemTypeId;
+            var userId = _lotterySession.UserId;
+            var data = _lotteryDataAppService.UpdateLotteryDataList(lotteryId, userId);
+            return GetPlanTrackNumberByPredictData(lotteryId, data);
         }
 
         /// <summary>
@@ -231,6 +208,40 @@ namespace Lottery.WebApi.Controllers.v1
             }
 
         }
+
+        private ICollection<PlanTrackNumber> GetPlanTrackNumberByPredictData(string lotteryId, IList<PredictDataDto> data)
+        {
+            var planTrackNumbers = new List<PlanTrackNumber>();
+            data.GroupBy(p => p.NormConfigId).ForEach(item =>
+            {
+                var planInfo = _normConfigQueryService.GetNormPlanInfoByNormId(item.Key, lotteryId);
+                var newestPredictDataDto = item.OrderByDescending(p => p.StartPeriod).First();
+                var normConfig = _normConfigQueryService.GetUserNormConfig(item.Key);
+                var planTrackNumber = new PlanTrackNumber()
+                {
+                    NormId = normConfig.Id,
+                    Sort = normConfig.Sort,
+                    PlanId = planInfo.Id,
+                    PlanName = planInfo.PlanName,
+                    EndPeriod = newestPredictDataDto.EndPeriod,
+                    StartPeriod = newestPredictDataDto.StartPeriod,
+                    MinorCycle = newestPredictDataDto.MinorCycle,
+                    PredictData = newestPredictDataDto.PredictedData,
+                    CurrentPredictPeriod = newestPredictDataDto.CurrentPredictPeriod,
+                    PredictType = planInfo.DsType,
+                    HistoryPredictResults = GetHistoryPredictResults(item.OrderByDescending(p => p.StartPeriod), item.Key, normConfig.LookupPeriodCount, planInfo.PlanNormTable),
+                };
+                var rightCount = planTrackNumber.HistoryPredictResults.Count(p => p == 0);
+                var totleCount = planTrackNumber.HistoryPredictResults.Count(p => p != 2);
+                var currentScore = Math.Round((double)rightCount / totleCount, 2);
+                planTrackNumber.CurrentScore = currentScore;
+                WritePlanTrackNumbers(item, planInfo, currentScore);
+                planTrackNumbers.Add(planTrackNumber);
+            });
+
+            return planTrackNumbers.OrderBy(p => p.Sort).ToList();
+        }
+
 
         #endregion
     }

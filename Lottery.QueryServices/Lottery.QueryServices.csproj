@@ -59,6 +59,7 @@
     <Compile Include="Powers\IPowerQueryService.cs" />
     <Compile Include="Powers\IRolePowerQueryService.cs" />
     <Compile Include="Powers\IUserPowerQueryService.cs" />
+    <Compile Include="Predicts\IPredictService.cs" />
     <Compile Include="Roles\IRoleQueryService.cs" />
     <Compile Include="UserInfos\IUserClientTypeQueryService.cs" />
     <Compile Include="Norms\IUserNormDefaultConfigService.cs" />

@@ -17,10 +17,19 @@ namespace Lottery.AppService.LotteryData
         /// <returns></returns>
         IList<PredictDataDto> NewLotteryDataList(string lotteryId, string userId);
 
+        /// <summary>
+        /// 更新预测数据
+        /// </summary>
+        /// <param name="lotteryId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IList<PredictDataDto> UpdateLotteryDataList(string lotteryId, string userId);
+
         ICollection<LotteryDataDto> GetList(string lotteryId, DateTime? lotteryTime);
 
         FinalLotteryDataOutput GetFinalLotteryData(string lotteryId);
 
         LotteryDataDto GetLotteryData(string lotteryInfoId, int currentPredictPeriod);
+        
     }
 }

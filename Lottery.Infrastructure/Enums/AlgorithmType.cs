@@ -2,12 +2,12 @@
 {
     public enum AlgorithmType
     {
-        DiscreteMarkov = 1,
+        DiscreteMarkov = 0,
 
-        Temperature = 2,
+        Temperature = 1,
 
-        Mock = 3,
+        Mock = 2,
 
-        Stochastic = 4
+        Stochastic = 3
     }
 }
