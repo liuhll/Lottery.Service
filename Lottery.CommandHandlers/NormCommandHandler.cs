@@ -30,7 +30,7 @@ namespace Lottery.CommandHandlers
         {
             context.Add(new NormConfig(command.AggregateRootId,command.UserId,command.LotteryId,command.PlanId,command.LastStartPeriod,
                 command.PlanCycle,command.ForecastCount,command.UnitHistoryCount,command.HistoryCount,command.MinRightSeries,command.MaxRightSeries,command.MinErrortSeries,
-                command.MaxErrortSeries,command.LookupPeriodCount,command.ExpectMinScore,command.ExpectMaxScore,command.Sort));
+                command.MaxErrortSeries,command.LookupPeriodCount,command.ExpectMinScore,command.ExpectMaxScore,command.Sort,command.CustomNumbers));
         }
 
         public void Handle(ICommandContext context, DeteteNormConfigCommand command)

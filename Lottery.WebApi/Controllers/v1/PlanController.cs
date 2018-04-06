@@ -12,6 +12,7 @@ using Lottery.Dtos.Norms;
 using Lottery.Dtos.Plans;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Norms;
 
@@ -177,15 +178,28 @@ namespace Lottery.WebApi.Controllers.v1
             }
 
             // todo: 更严格的指标公式验证
-
-            var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, input.PlanId);
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
-            var command = new UpdateNormConfigCommand(userPlanNorm.Id, _lotterySession.UserId, LotteryInfo.Id, input.PlanId,
-                input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
-                input.UnitHistoryCount,input.HistoryCount,input.MinRightSeries, input.MaxRightSeries, 
-                input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount,
-                input.ExpectMinScore, input.ExpectMaxScore,input.CustomNumbers);
-            await SendCommandAsync(command);
+            var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, input.PlanId);
+
+            if (userPlanNorm.Id.IsNullOrEmpty())
+            {
+                var planInfo = _planInfoAppService.GetPlanInfoById(input.PlanId);
+                var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId, LotteryInfo.Id, input.PlanId,
+                    input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
+                    input.UnitHistoryCount, input.HistoryCount, input.MinRightSeries, input.MaxRightSeries,
+                    input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount,
+                    input.ExpectMinScore, input.ExpectMaxScore,planInfo.Sort,input.CustomNumbers);
+                await SendCommandAsync(command);
+            }
+            else
+            {
+                var command = new UpdateNormConfigCommand(userPlanNorm.Id, _lotterySession.UserId, LotteryInfo.Id, input.PlanId,
+                    input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
+                    input.UnitHistoryCount, input.HistoryCount, input.MinRightSeries, input.MaxRightSeries,
+                    input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount,
+                    input.ExpectMinScore, input.ExpectMaxScore, input.CustomNumbers);
+                await SendCommandAsync(command);
+            }
             return "设置公式指标成功";
          
         }

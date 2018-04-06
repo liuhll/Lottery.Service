@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using AutoMapper.Attributes;
 
 namespace Lottery.Dtos.Norms
 {
+    [MapsTo(typeof(UserPlanNormOutput))]
     public class UserNormDefaultConfigOutput
     {
         /// <summary>

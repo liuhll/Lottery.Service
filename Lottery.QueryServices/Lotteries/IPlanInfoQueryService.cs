@@ -11,8 +11,6 @@ namespace Lottery.QueryServices.Lotteries
 
         ICollection<PlanInfoDto> GetAll();
 
-        ICollection<PlanInfoDto> GetPlanInfoByLotteryId(string lotteryId);
-
-       
+        ICollection<PlanInfoDto> GetPlanInfoByLotteryId(string lotteryId);       
     }
 }

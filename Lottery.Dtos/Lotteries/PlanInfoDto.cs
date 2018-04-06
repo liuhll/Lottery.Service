@@ -15,6 +15,8 @@ namespace Lottery.Dtos.Lotteries
 
         public string PredictCode { get; set; }
 
+        public int Sort { get; set; }
+
         public AlgorithmType AlgorithmType { get; set; }
         //public string LotteryId { get; set; }
 

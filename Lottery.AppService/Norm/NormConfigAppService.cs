@@ -64,6 +64,12 @@ namespace Lottery.AppService.Norm
             try
             {
                 var userplanNorm = _normConfigQueryService.GetUserNormConfigByPlanId(userId, lotteryId,planId);
+                if (userplanNorm == null)
+                {
+                    var userDefaultConfig = _normDefaultConfigService.GetUserNormOrDefaultConfig(userId, lotteryId);
+                    userplanNorm = AutoMapper.Mapper.Map<UserPlanNormOutput>(userDefaultConfig);
+                    userplanNorm.LotteryId = lotteryId;
+                }
                 SetSelectedLotteryNumbers(userplanNorm.LotteryId, userplanNorm);
                 return userplanNorm;
             }

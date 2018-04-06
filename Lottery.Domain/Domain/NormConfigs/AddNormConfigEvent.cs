@@ -28,6 +28,7 @@ namespace Lottery.Core.Domain.NormConfigs
             IsDefualt = normConfig.IsDefualt;
             Sort = normConfig.Sort;
             HistoryCount = normConfig.HistoryCount;
+            CustomNumbers = normConfig.CustomNumbers;
         }
 
         public string UserId { get; private set; }
@@ -101,5 +102,7 @@ namespace Lottery.Core.Domain.NormConfigs
         public bool IsDefualt { get; private set; }
 
         public int Sort { get; private set; }
+
+        public string CustomNumbers { get; private set; }
     }
 }
