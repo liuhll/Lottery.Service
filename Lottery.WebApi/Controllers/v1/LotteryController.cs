@@ -9,7 +9,9 @@ using Lottery.AppService.LotteryData;
 using Lottery.AppService.Plan;
 using Lottery.Commands.LotteryPredicts;
 using Lottery.Dtos.Lotteries;
+using Lottery.Dtos.Norms;
 using Lottery.Dtos.PageList;
+using Lottery.Infrastructure;
 using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.WebApi.Controllers.v1
@@ -50,46 +52,39 @@ namespace Lottery.WebApi.Controllers.v1
             var userId = _lotterySession.UserId;
             var data = _lotteryDataAppService.NewLotteryDataList(lotteryId, userId);
 
-            var planTrackNumbers = new List<PlanTrackNumber>();
-            data.GroupBy(p => p.NormConfigId).ForEach(item =>
-            {
-                var planInfo = _normConfigQueryService.GetNormPlanInfoByNormId(item.Key, lotteryId);
-                var newestPredictDataDto = item.OrderByDescending(p => p.StartPeriod).First();
-                var normConfig = _normConfigQueryService.GetUserNormConfig(item.Key);
-                var planTrackNumber = new PlanTrackNumber()
-                {
-                    NormId = normConfig.Id,
-                    Sort = normConfig.Sort,
-                    PlanId = planInfo.Id,
-                    PlanName = planInfo.PlanName,
-                    EndPeriod = newestPredictDataDto.EndPeriod,
-                    StartPeriod = newestPredictDataDto.StartPeriod,
-                    MinorCycle = newestPredictDataDto.MinorCycle,
-                    PredictData = newestPredictDataDto.PredictedData,
-                    CurrentPredictPeriod = newestPredictDataDto.CurrentPredictPeriod,
-                    PredictType = planInfo.DsType,
-                    HistoryPredictResults = GetHistoryPredictResults(item.OrderByDescending(p => p.StartPeriod),item.Key, normConfig.LookupPeriodCount, planInfo.PlanNormTable),
-                };
-                var rightCount = planTrackNumber.HistoryPredictResults.Count(p => p == 0);
-                var totleCount = planTrackNumber.HistoryPredictResults.Count(p => p != 2);
-                var currentScore = Math.Round((double) rightCount / totleCount,2);
-                planTrackNumber.CurrentScore = currentScore;
-                WritePlanTrackNumbers(item, planInfo, currentScore);
-                planTrackNumbers.Add(planTrackNumber);
-            });
-
-            return planTrackNumbers.OrderBy(p=>p.Sort).ToList();
+            return GetPlanTrackNumberByPredictData(lotteryId, data);
         }
 
+  
         /// <summary>
         /// 切换公式接口(变更计划追号)
         /// </summary>
         /// <returns>返回切换公式后的计划追号</returns>
         [HttpPut]
         [Route("predictdatas")]
+        [AllowAnonymous]
         public ICollection<PlanTrackNumber> UpdatePredictDatas()
         {
-            return null;
+            var lotteryId = _lotterySession.SystemTypeId;
+            var userId = _lotterySession.UserId;
+            var data = _lotteryDataAppService.UpdateLotteryDataList(lotteryId, userId);
+            return GetPlanTrackNumberByPredictData(lotteryId, data);
+        }
+
+        /// <summary>
+        /// 重新计算单个指标追号数据
+        /// </summary>
+        /// <returns>提示语</returns>
+        [HttpPut]
+        [Route("predictdata")]
+        [AllowAnonymous]
+        public string UpdatePredictData(UpdatePredictDataInput input)
+        {
+            var lotteryId = _lotterySession.SystemTypeId;
+            var userId = _lotterySession.UserId;
+            var data = _lotteryDataAppService.UpdateLotteryDataList(lotteryId, userId, input.NormId);
+            GetPlanTrackNumberByPredictData(lotteryId, data);
+            return "计算当前计划预测数据成功";
         }
 
         /// <summary>
@@ -208,6 +203,7 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 historyPredictResults.Add((int)item.PredictedResult);
             }
+            historyPredictResults = historyPredictResults.Take(LotteryConstants.HistoryPredictResultCount).ToList();
             historyPredictResults.Reverse();
             return historyPredictResults.ToArray();
         }
@@ -231,6 +227,40 @@ namespace Lottery.WebApi.Controllers.v1
             }
 
         }
+
+        private ICollection<PlanTrackNumber> GetPlanTrackNumberByPredictData(string lotteryId, IList<PredictDataDto> data)
+        {
+            var planTrackNumbers = new List<PlanTrackNumber>();
+            data.GroupBy(p => p.NormConfigId).ForEach(item =>
+            {
+                var planInfo = _normConfigQueryService.GetNormPlanInfoByNormId(item.Key, lotteryId);
+                var newestPredictDataDto = item.OrderByDescending(p => p.StartPeriod).First();
+                var normConfig = _normConfigQueryService.GetUserNormConfig(item.Key);
+                var planTrackNumber = new PlanTrackNumber()
+                {
+                    NormId = normConfig.Id,
+                    Sort = normConfig.Sort,
+                    PlanId = planInfo.Id,
+                    PlanName = planInfo.PlanName,
+                    EndPeriod = newestPredictDataDto.EndPeriod,
+                    StartPeriod = newestPredictDataDto.StartPeriod,
+                    MinorCycle = newestPredictDataDto.MinorCycle,
+                    PredictData = newestPredictDataDto.PredictedData,
+                    CurrentPredictPeriod = newestPredictDataDto.CurrentPredictPeriod,
+                    PredictType = planInfo.DsType,
+                    HistoryPredictResults = GetHistoryPredictResults(item.OrderByDescending(p => p.StartPeriod), item.Key, normConfig.LookupPeriodCount, planInfo.PlanNormTable),
+                };
+                var rightCount = planTrackNumber.HistoryPredictResults.Count(p => p == 0);
+                var totleCount = planTrackNumber.HistoryPredictResults.Count(p => p != 2);
+                var currentScore = Math.Round((double)rightCount / totleCount, 2);
+                planTrackNumber.CurrentScore = currentScore;
+                WritePlanTrackNumbers(item, planInfo, currentScore);
+                planTrackNumbers.Add(planTrackNumber);
+            });
+
+            return planTrackNumbers.OrderBy(p => p.Sort).ToList();
+        }
+
 
         #endregion
     }

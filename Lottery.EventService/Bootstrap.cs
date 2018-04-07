@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Threading;
 using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
@@ -19,6 +20,14 @@ namespace Lottery.EventService
 
         private static void InitializeENode()
         {
+            int minWorker, minIOC;
+            // Get the current settings.
+            ThreadPool.GetMinThreads(out minWorker, out minIOC);
+            // Change the minimum number of worker threads to four, but
+            // keep the old setting for minimum asynchronous I/O 
+            // completion threads.
+            ThreadPool.SetMinThreads(250, minIOC);
+
             ServiceConfigSettings.Initialize();
             DataConfigSettings.Initialize();
 

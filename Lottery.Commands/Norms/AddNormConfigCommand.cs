@@ -9,8 +9,8 @@ namespace Lottery.Commands.Norms
         }
 
         public AddNormConfigCommand(string id,string userId, string lotteryId, string planId, int planCycle, int forecastCount, int lastStartPeriod,
-            int unitHistoryCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries,
-            int lookupPeriodCount, int expectMinScore, int expectMaxScore,int sort) : base(id)
+            int unitHistoryCount, int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
+            int lookupPeriodCount, int expectMinScore, int expectMaxScore,int sort,string customNumbers = null) : base(id)
         {
             UserId = userId;
             LotteryId = lotteryId;
@@ -19,14 +19,16 @@ namespace Lottery.Commands.Norms
             PlanCycle = planCycle;
             ForecastCount = forecastCount;
             UnitHistoryCount = unitHistoryCount;
+            HistoryCount = historyCount;
             MaxRightSeries = maxRightSeries;
             MinRightSeries = minRightSeries;
-            MaxErrortSeries = maxErrortSeries;
-            MinErrortSeries = minErrortSeries;
+            MaxErrorSeries = maxErrorSeries;
+            MinErrorSeries = minErrorSeries;
             LookupPeriodCount = lookupPeriodCount;
             ExpectMaxScore = expectMaxScore;
             ExpectMinScore = expectMinScore;
             Sort = sort;
+            CustomNumbers = customNumbers;
         }
 
         public string UserId { get; private set; }
@@ -45,9 +47,14 @@ namespace Lottery.Commands.Norms
         public int PlanCycle { get; private set; }
 
         /// <summary>
-        /// 历史期数
+        /// 偏差历史期数
         /// </summary>
         public int UnitHistoryCount { get; private set; }
+
+        /// <summary>
+        /// 历史周期
+        /// </summary>
+        public int HistoryCount { get; private set; }
 
         /// <summary>
         /// 最小连对数
@@ -62,12 +69,12 @@ namespace Lottery.Commands.Norms
         /// <summary>
         /// 最小连错数
         /// </summary>
-        public int MinErrortSeries { get; private set; }
+        public int MinErrorSeries { get; private set; }
 
         /// <summary>
         /// 最大连错数
         /// </summary>
-        public int MaxErrortSeries { get; private set; }
+        public int MaxErrorSeries { get; private set; }
 
         /// <summary>
         /// 追号的期数
@@ -85,6 +92,8 @@ namespace Lottery.Commands.Norms
         public int ExpectMaxScore { get; private set; }
 
         public int Sort { get; private set; }
+
+        public string CustomNumbers { get; set; }
 
     }
 }

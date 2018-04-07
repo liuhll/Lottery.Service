@@ -12,6 +12,7 @@ using Lottery.Dtos.Norms;
 using Lottery.Dtos.Plans;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Norms;
 
@@ -29,6 +30,7 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly ILotteryDataAppService _lotteryDataAppService;
         private readonly INormConfigAppService _normConfigAppService;
         private readonly UserNormConfigInputValidator _userNormConfigInputValidator;
+        private readonly INormPlanConfigQueryService _normPlanConfigQueryService;
 
         public PlanController(ICommandService commandService, 
             IPlanInfoAppService planInfoAppService,
@@ -36,7 +38,8 @@ namespace Lottery.WebApi.Controllers.v1
             UserPlanInfoInputValidator planInfoInputValidator,
             ILotteryDataAppService lotteryDataAppService,
             INormConfigAppService normConfigAppService,
-            UserNormConfigInputValidator userNormConfigInputValidator) : base(commandService)
+            UserNormConfigInputValidator userNormConfigInputValidator,
+            INormPlanConfigQueryService normPlanConfigQueryService) : base(commandService)
         {
             _planInfoAppService = planInfoAppService;
             _userNormDefaultConfigService = userNormDefaultConfigService;
@@ -44,6 +47,7 @@ namespace Lottery.WebApi.Controllers.v1
             _lotteryDataAppService = lotteryDataAppService;
             _normConfigAppService = normConfigAppService;
             _userNormConfigInputValidator = userNormConfigInputValidator;
+            _normPlanConfigQueryService = normPlanConfigQueryService;
         }
 
         /// <summary>
@@ -100,12 +104,31 @@ namespace Lottery.WebApi.Controllers.v1
                 {
                     continue;
                 }
+                var planInfo = _planInfoAppService.GetPlanInfoById(plan.PlanId);
+                var planNormConfigInfo =
+                    _normPlanConfigQueryService.GetNormPlanDefaultConfig(planInfo.LotteryInfo.LotteryCode,
+                        planInfo.PredictCode);
+                var planCycle = userDefaultNormConfig.PlanCycle;
+                var forecastCount = userDefaultNormConfig.ForecastCount;
+                if (planNormConfigInfo != null)
+                {
+                    if (planCycle > planNormConfigInfo.MaxPlanCycle)
+                    {
+                        planCycle = planNormConfigInfo.MaxPlanCycle;
+                    }
+                    if (forecastCount > planNormConfigInfo.MaxForecastCount)
+                    {
+                        forecastCount = planNormConfigInfo.MaxForecastCount;
+                    }
+                }
+
                 var command = new AddNormConfigCommand(Guid.NewGuid().ToString(),_lotterySession.UserId,
-                    LotteryInfo.Id, plan.PlanId, userDefaultNormConfig.PlanCycle,
-                    userDefaultNormConfig.ForecastCount, finalLotteryData.Period,
-                    userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.MinRightSeries,
-                    userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrortSeries,
-                    userDefaultNormConfig.MaxErrortSeries, userDefaultNormConfig.LookupPeriodCount,
+                    LotteryInfo.Id, plan.PlanId, planCycle,
+                    forecastCount, finalLotteryData.Period,
+                    userDefaultNormConfig.UnitHistoryCount,userDefaultNormConfig.HistoryCount,
+                    userDefaultNormConfig.MinRightSeries,
+                    userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrorSeries,
+                    userDefaultNormConfig.MaxErrorSeries, userDefaultNormConfig.LookupPeriodCount,
                     userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore, plan.Sort);
                 await SendCommandAsync(command);
             }
@@ -119,12 +142,12 @@ namespace Lottery.WebApi.Controllers.v1
         /// <remarks>通过指标Id获取计划公式指标配置</remarks>
         /// <param name="normId">指标Id</param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("userplannorm1")]
-        public UserPlanNormOutput GetUserPlanByNormId(string normId)
-        {
-            return _normConfigAppService.GetUserNormConfigById(_lotterySession.UserId, normId);
-        }
+        //[HttpGet]
+        //[Route("userplannorm1")]
+        //public UserPlanNormOutput GetUserPlanByNormId(string normId)
+        //{
+        //    return _normConfigAppService.GetUserNormConfigById(_lotterySession.UserId, normId);
+        //}
 
         /// <summary>
         /// 获取计划指标配置接口2
@@ -133,10 +156,16 @@ namespace Lottery.WebApi.Controllers.v1
         /// <param name="planId">计划Id</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("userplannorm2")]
+        [Route("userplannorm")]
+        [AllowAnonymous]
         public UserPlanNormOutput GetUserPlanByPlanId(string planId)
         {
-            return _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, planId);
+            var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, planId);
+            if (userPlanNorm.Id.IsNullOrEmpty())
+            {
+                throw new LotteryException("您没有修改计划指标权限,请先购买授权");
+            }
+            return userPlanNorm;
         }
 
         /// <summary>
@@ -146,6 +175,7 @@ namespace Lottery.WebApi.Controllers.v1
         /// <returns></returns>
         [HttpPut]
         [Route("userplannorm")]
+        [AllowAnonymous]
         public async Task<string> UpdateUserPlanNorm(UserNormPlanConfigInput input)
         {
             var validatorResult = await _userNormConfigInputValidator.ValidateAsync(input);
@@ -155,15 +185,28 @@ namespace Lottery.WebApi.Controllers.v1
             }
 
             // todo: 更严格的指标公式验证
-
-            var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, input.PlanId);
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
-            var command = new UpdateNormConfigCommand(userPlanNorm.Id, _lotterySession.UserId, LotteryInfo.Id, input.PlanId,
-                input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
-                input.UnitHistoryCount,input.MinRightSeries, input.MaxRightSeries, 
-                input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount,
-                input.ExpectMinScore, input.ExpectMaxScore,input.CustomNumbers);
-            await SendCommandAsync(command);
+            var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, input.PlanId);
+
+            if (userPlanNorm.Id.IsNullOrEmpty())
+            {
+                var planInfo = _planInfoAppService.GetPlanInfoById(input.PlanId);
+                var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId, LotteryInfo.Id, input.PlanId,
+                    input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
+                    input.UnitHistoryCount, input.HistoryCount, input.MinRightSeries, input.MaxRightSeries,
+                    input.MinErrorSeries, input.MaxErrorSeries, input.LookupPeriodCount,
+                    input.ExpectMinScore, input.ExpectMaxScore,planInfo.Sort,input.CustomNumbers);
+                await SendCommandAsync(command);
+            }
+            else
+            {
+                var command = new UpdateNormConfigCommand(userPlanNorm.Id, _lotterySession.UserId, LotteryInfo.Id, input.PlanId,
+                    input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
+                    input.UnitHistoryCount, input.HistoryCount, input.MinRightSeries, input.MaxRightSeries,
+                    input.MinErrorSeries, input.MaxErrorSeries, input.LookupPeriodCount,
+                    input.ExpectMinScore, input.ExpectMaxScore, input.CustomNumbers);
+                await SendCommandAsync(command);
+            }
             return "设置公式指标成功";
          
         }

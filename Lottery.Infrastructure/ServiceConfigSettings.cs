@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Lottery.Infrastructure
@@ -32,6 +33,13 @@ namespace Lottery.Infrastructure
 
         public static void Initialize()
         {
+            int minWorker, minIOC;
+            // Get the current settings.
+            ThreadPool.GetMinThreads(out minWorker, out minIOC);
+            // Change the minimum number of worker threads to four, but
+            // keep the old setting for minimum asynchronous I/O 
+            // completion threads.
+            ThreadPool.SetMinThreads(250, minIOC);
             //if (isDevEnv)
             //{
             //    NameServerEndpoints = new List<IPEndPoint>();

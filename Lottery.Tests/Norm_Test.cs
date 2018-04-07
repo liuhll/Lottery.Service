@@ -23,7 +23,7 @@ namespace Lottery.Tests
         public void AddUserDefaultNormTest()
         {
             ExecuteCommand(new AddUserNormDefaultConfigCommand(Guid.NewGuid().ToString(),
-                "08b4c537-08aa-40f9-9d24-ab6ccd1b189c", "ACB89F4E-7C71-4785-BA09-D7E73084B467", 3, 3, 1, 10, 10, 1, 10,
+                "08b4c537-08aa-40f9-9d24-ab6ccd1b189c", "ACB89F4E-7C71-4785-BA09-D7E73084B467", 3, 3, 1, 10, 10, 1, 10,50,
                 10, 1, 11));
         }
 
@@ -31,7 +31,7 @@ namespace Lottery.Tests
         public void UpdateUserDefaultNormTest()
         {
             ExecuteCommand(new UpdateUserNormDefaultConfigCommand("a02eb7d6-e738-4812-b5b8-e302ba84f69c",
-                3, 3, 1, 10, 10, 1, 10,
+                3, 3, 1, 10, 10, 1, 10,50,
                 10, 1, 11));
         }
 
@@ -52,9 +52,10 @@ namespace Lottery.Tests
             {
                 var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), userId, lotteryId, planId,
                     userDefaultNormConfig.PlanCycle, userDefaultNormConfig.ForecastCount, finalLotteryData.FinalPeriod,
-                    userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.MinRightSeries,
-                    userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrortSeries,
-                    userDefaultNormConfig.MaxErrortSeries, userDefaultNormConfig.LookupPeriodCount,
+                    userDefaultNormConfig.UnitHistoryCount,userDefaultNormConfig.HistoryCount,
+                    userDefaultNormConfig.MinRightSeries,
+                    userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrorSeries,
+                    userDefaultNormConfig.MaxErrorSeries, userDefaultNormConfig.LookupPeriodCount,
                     userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore, sort);
                 sort++;
                 ExecuteCommand(command);

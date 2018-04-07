@@ -27,6 +27,8 @@ namespace Lottery.Core.Domain.NormConfigs
             IsEnable = normConfig.IsEnable;
             IsDefualt = normConfig.IsDefualt;
             Sort = normConfig.Sort;
+            HistoryCount = normConfig.HistoryCount;
+            CustomNumbers = normConfig.CustomNumbers;
         }
 
         public string UserId { get; private set; }
@@ -48,6 +50,11 @@ namespace Lottery.Core.Domain.NormConfigs
         /// 历史期数
         /// </summary>
         public int UnitHistoryCount { get; private set; }
+
+        /// <summary>
+        /// 历史期数
+        /// </summary>
+        public int HistoryCount { get; private set; }
 
         /// <summary>
         /// 最小连对数
@@ -95,5 +102,7 @@ namespace Lottery.Core.Domain.NormConfigs
         public bool IsDefualt { get; private set; }
 
         public int Sort { get; private set; }
+
+        public string CustomNumbers { get; private set; }
     }
 }

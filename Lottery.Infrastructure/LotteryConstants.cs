@@ -9,5 +9,7 @@
         public const string OfficialWebsite = "OfficialWebsite";
         public const string ValidAudience = "http://dev.clmeng.com:80";
         public const string ValidIssuer = "http://dev.clmeng.com:80";
+
+        public const int HistoryPredictResultCount = 10;
     }
 }

@@ -101,7 +101,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             using (var conn = GetLotteryConnection())
             {
                 conn.Open();
-                return conn.QueryList<UserPlanNormOutput>(new { LotteryId = lotteryId, PlanId= planId, UserId = userId }, TableNameConstants.NormConfigTable).First();
+                return conn.QueryList<UserPlanNormOutput>(new { LotteryId = lotteryId, PlanId= planId, UserId = userId }, TableNameConstants.NormConfigTable).FirstOrDefault();
             }
         }
 

@@ -29,6 +29,11 @@ namespace Lottery.AppService.Plan
             return _planInfoQueryService.GetPlanInfoByCode(planCode);
         }
 
+        public PlanInfoDto GetPlanInfoById(string planId)
+        {
+            return _planInfoQueryService.GetPlanInfoById(planId);
+        }
+
         public UserPlanInfoDto GetUserPlanInfo(string lotteryId,string userId)
         {
             var userSelectedUserPlanInfo = new List<PlanInfoOutput>();

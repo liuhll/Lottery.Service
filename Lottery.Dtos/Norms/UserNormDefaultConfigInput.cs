@@ -15,9 +15,14 @@ namespace Lottery.Dtos.Norms
         public int PlanCycle { get; set; }
 
         /// <summary>
-        /// 历史期数
+        /// 偏差历史期数
         /// </summary>
         public int UnitHistoryCount { get; set; }
+
+        /// <summary>
+        /// 历史期数
+        /// </summary>
+        public int HistoryCount { get; set; }
 
         /// <summary>
         /// 最小连对数
@@ -32,12 +37,12 @@ namespace Lottery.Dtos.Norms
         /// <summary>
         /// 最小连错数
         /// </summary>
-        public int MinErrortSeries { get; set; }
+        public int MinErrorSeries { get; set; }
 
         /// <summary>
         /// 最大连错数
         /// </summary>
-        public int MaxErrortSeries { get; set; }
+        public int MaxErrorSeries { get; set; }
 
         /// <summary>
         /// 追号的期数

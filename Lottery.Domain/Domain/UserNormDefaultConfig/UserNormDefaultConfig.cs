@@ -5,7 +5,7 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
     public class UserNormDefaultConfig : AggregateRoot<string>
     {
         public UserNormDefaultConfig(string id, string userId, string lotteryId, int planCycle,int forecastCount,
-            int unitHistoryCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries,
+            int unitHistoryCount,int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
             int lookupPeriodCount, int expectMinScore, int expectMaxScore) : base(id)
         {
             UserId = userId;
@@ -13,10 +13,11 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             PlanCycle = planCycle;
             ForecastCount = forecastCount;
             UnitHistoryCount = unitHistoryCount;
+            HistoryCount = historyCount;
             MaxRightSeries = maxRightSeries;
             MinRightSeries = minRightSeries;
-            MaxErrortSeries = maxErrortSeries;
-            MinErrortSeries = minErrortSeries;
+            MaxErrorSeries = maxErrorSeries;
+            MinErrorSeries = minErrorSeries;
             LookupPeriodCount = lookupPeriodCount;
             ExpectMaxScore = expectMaxScore;
             ExpectMinScore = expectMinScore;
@@ -35,6 +36,8 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         /// </summary>
         public string LotteryId { get; private set; }
 
+       
+
         /// <summary>
         /// 周期数
         /// </summary>
@@ -46,6 +49,8 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         /// 历史期数
         /// </summary>
         public int UnitHistoryCount { get; private set; }
+
+        public int HistoryCount { get; private set; }
 
         /// <summary>
         /// 最小连对数
@@ -60,12 +65,12 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         /// <summary>
         /// 最小连错数
         /// </summary>
-        public int MinErrortSeries { get; private set; }
+        public int MinErrorSeries { get; private set; }
 
         /// <summary>
         /// 最大连错数
         /// </summary>
-        public int MaxErrortSeries { get; private set; }
+        public int MaxErrorSeries { get; private set; }
 
         /// <summary>
         /// 追号的期数
@@ -90,9 +95,9 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
 
         #region public Methods
 
-        public void UpdateUserNormDefaultConfig(int planCycle, int forecastCount, int unitHistoryCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries, int lookupPeriodCount, int expectMinScore, int expectMaxScore)
+        public void UpdateUserNormDefaultConfig(int planCycle, int forecastCount, int unitHistoryCount, int historyCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries, int lookupPeriodCount, int expectMinScore, int expectMaxScore)
         {
-            ApplyEvent(new UpdateUserNormDefaultConfigEvent(UserId,LotteryId,planCycle,forecastCount,unitHistoryCount, minRightSeries, maxRightSeries, minErrortSeries, maxErrortSeries, lookupPeriodCount,expectMinScore,expectMaxScore));
+            ApplyEvent(new UpdateUserNormDefaultConfigEvent(UserId,LotteryId,planCycle,forecastCount,unitHistoryCount, historyCount, minRightSeries, maxRightSeries, minErrortSeries, maxErrortSeries, lookupPeriodCount,expectMinScore,expectMaxScore));
         }
 
         #endregion
@@ -108,12 +113,13 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             UnitHistoryCount = evnt.UnitHistoryCount;
             MaxRightSeries = evnt.MaxRightSeries;
             MinRightSeries = evnt.MinRightSeries;
-            MaxErrortSeries = evnt.MaxErrortSeries;
-            MinErrortSeries = evnt.MinErrortSeries;
+            MaxErrorSeries = evnt.MaxErrorSeries;
+            MinErrorSeries = evnt.MinErrorSeries;
             LookupPeriodCount = evnt.LookupPeriodCount;
             ExpectMaxScore = evnt.ExpectMaxScore;
             ExpectMinScore = evnt.ExpectMinScore;
             CustomNumbers = evnt.CustomNumbers;
+            HistoryCount = evnt.HistoryCount;
         }
         private void Handle(UpdateUserNormDefaultConfigEvent evnt)
         {
@@ -122,11 +128,12 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             UnitHistoryCount = evnt.UnitHistoryCount;
             MaxRightSeries = evnt.MaxRightSeries;
             MinRightSeries = evnt.MinRightSeries;
-            MaxErrortSeries = evnt.MaxErrortSeries;
-            MinErrortSeries = evnt.MinErrortSeries;
+            MaxErrorSeries = evnt.MaxErrorSeries;
+            MinErrorSeries = evnt.MinErrorSeries;
             LookupPeriodCount = evnt.LookupPeriodCount;
             ExpectMaxScore = evnt.ExpectMaxScore;
             ExpectMinScore = evnt.ExpectMinScore;
+            HistoryCount = evnt.HistoryCount;
         }
 
         #endregion

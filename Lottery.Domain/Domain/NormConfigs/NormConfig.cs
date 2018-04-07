@@ -15,9 +15,11 @@ namespace Lottery.Core.Domain.NormConfigs
           int planCycle,
           int forecastCount,
           int unitHistoryCount,
+          int historyCount,
           int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
           int lookupPeriodCount, int expectMinScore, int expectMaxScore,
-          int sort
+          int sort,
+          string customNumbers
           ) : base(id)
         {
             UserId = userId;
@@ -26,8 +28,8 @@ namespace Lottery.Core.Domain.NormConfigs
             PlanCycle = planCycle;
             ForecastCount = forecastCount;
             UnitHistoryCount = unitHistoryCount;
+            HistoryCount = historyCount;
             LastStartPeriod = lastStartPeriod;
-            UnitHistoryCount = unitHistoryCount;
             MaxRightSeries = maxRightSeries;
             MinRightSeries = minRightSeries;
             MaxErrorSeries = maxErrorSeries;
@@ -38,7 +40,8 @@ namespace Lottery.Core.Domain.NormConfigs
             IsEnable = true;
             IsDefualt = false;
             Sort = sort;
-
+            HistoryCount = historyCount;
+            CustomNumbers = customNumbers;
             ApplyEvent(new AddNormConfigEvent(this));
         }
 
@@ -70,6 +73,10 @@ namespace Lottery.Core.Domain.NormConfigs
         /// 历史期数
         /// </summary>
         public int UnitHistoryCount { get; private set; }
+
+        public int HistoryCount { get; private set; }
+
+        public string CustomNumbers { get; private set; }
 
         /// <summary>
         /// 最小连对数
@@ -145,11 +152,11 @@ namespace Lottery.Core.Domain.NormConfigs
         }
 
 
-        public void UpdateNormConfig(int lastStartPeriod, int planCycle, int forecastCount, int unitHistoryCount, int minRightSeries,
+        public void UpdateNormConfig(int lastStartPeriod, int planCycle, int forecastCount, int unitHistoryCount,int historyCount, int minRightSeries,
             int maxRightSeries, int minErrortSeries, int maxErrortSeries, int lookupPeriodCount, int expectMinScore, int expectMaxScore, string customNumbers)
         {
             ApplyEvent(new UpdateNormConfigEvent(UserId, LotteryId, lastStartPeriod,
-                planCycle, forecastCount, unitHistoryCount, minRightSeries, maxRightSeries, minErrortSeries,
+                planCycle, forecastCount, unitHistoryCount, historyCount, minRightSeries, maxRightSeries, minErrortSeries,
                 maxErrortSeries, lookupPeriodCount, expectMinScore, expectMaxScore, customNumbers));
         }
 
@@ -176,6 +183,8 @@ namespace Lottery.Core.Domain.NormConfigs
             ExpectMinScore = evnt.ExpectMinScore;
             IsEnable = evnt.IsEnable;
             IsDefualt = evnt.IsDefualt;
+            HistoryCount = evnt.HistoryCount;
+            CustomNumbers = evnt.CustomNumbers;
         }
 
         private void Handle(UpdateNormConfigEvent evnt)
@@ -194,6 +203,8 @@ namespace Lottery.Core.Domain.NormConfigs
             LookupPeriodCount = evnt.LookupPeriodCount;
             ExpectMaxScore = evnt.ExpectMaxScore;
             ExpectMinScore = evnt.ExpectMinScore;
+            HistoryCount = evnt.HistoryCount;
+            CustomNumbers = evnt.CustomNumbers;
         }
 
         private void Handle(DeleteNormConfigEvent evnt)

@@ -54,11 +54,13 @@
     <Compile Include="Lotteries\IPlanInfoQueryService.cs" />
     <Compile Include="Lotteries\IPositionInfoQueryService.cs" />
     <Compile Include="Lotteries\ITimeRuleQueryService.cs" />
+    <Compile Include="Norms\INormPlanConfigQueryService.cs" />
     <Compile Include="OnlineHelps\IOnlineHelpQueryService.cs" />
     <Compile Include="Powers\IMemberPowerQueryService.cs" />
     <Compile Include="Powers\IPowerQueryService.cs" />
     <Compile Include="Powers\IRolePowerQueryService.cs" />
     <Compile Include="Powers\IUserPowerQueryService.cs" />
+    <Compile Include="Predicts\IPredictService.cs" />
     <Compile Include="Roles\IRoleQueryService.cs" />
     <Compile Include="UserInfos\IUserClientTypeQueryService.cs" />
     <Compile Include="Norms\IUserNormDefaultConfigService.cs" />

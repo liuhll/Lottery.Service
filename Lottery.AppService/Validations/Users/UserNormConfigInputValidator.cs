@@ -15,17 +15,17 @@ namespace Lottery.AppService.Validations
             RuleFor(p => p.UnitHistoryCount).GreaterThanOrEqualTo(10).WithMessage("历史数据期数必须大于等于10");
             RuleFor(p => p.LookupPeriodCount).GreaterThanOrEqualTo(10).WithMessage("计划追号期数必须大于等于10")
                 .LessThanOrEqualTo(50).WithMessage("计划追号期数必须小于等于50");
-            RuleFor(p => p.MinErrortSeries).Must((p, q) =>
+            RuleFor(p => p.MinErrorSeries).Must((p, q) =>
             {
-                if (p.MaxErrortSeries == 10 && p.MinErrortSeries == 10)
+                if (p.MaxErrorSeries == 10 && p.MinErrorSeries == 10)
                 {
                     return false;
                 }
-                if (p.MinErrortSeries < 0 || p.MinRightSeries < 0)
+                if (p.MinErrorSeries < 0 || p.MinRightSeries < 0)
                 {
                     return false;
                 }
-                if (p.MaxErrortSeries >10 || p.MaxRightSeries >10)
+                if (p.MaxErrorSeries >10 || p.MaxRightSeries >10)
                 {
                     return false;
                 }
