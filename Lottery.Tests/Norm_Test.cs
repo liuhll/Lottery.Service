@@ -54,8 +54,8 @@ namespace Lottery.Tests
                     userDefaultNormConfig.PlanCycle, userDefaultNormConfig.ForecastCount, finalLotteryData.FinalPeriod,
                     userDefaultNormConfig.UnitHistoryCount,userDefaultNormConfig.HistoryCount,
                     userDefaultNormConfig.MinRightSeries,
-                    userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrortSeries,
-                    userDefaultNormConfig.MaxErrortSeries, userDefaultNormConfig.LookupPeriodCount,
+                    userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrorSeries,
+                    userDefaultNormConfig.MaxErrorSeries, userDefaultNormConfig.LookupPeriodCount,
                     userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore, sort);
                 sort++;
                 ExecuteCommand(command);

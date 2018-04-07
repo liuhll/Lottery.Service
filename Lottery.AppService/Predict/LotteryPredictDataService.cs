@@ -63,7 +63,7 @@ namespace Lottery.AppService.Predict
             _logger = NullLotteryLogger.Instance;
         }
 
-        public ICollection<PredictDataDto> PredictNormData(string lotteryId, NormConfigDto userNorm, int predictPeroid, string lotteryCode)
+        public ICollection<PredictDataDto> PredictNormData(string lotteryId, NormConfigDto userNorm, int predictPeroid, string lotteryCode, bool isSwitchFormula = false)
         {
             var predictDataResult = new Dictionary<int, PredictDataDto>();
 
@@ -88,7 +88,7 @@ namespace Lottery.AppService.Predict
                 if (NeedNewPredictData(i, startPredict, lotteryId, userNorm, ref predictDataResult, lotteryCode))
                 {
                     startPredict = i + 1;
-                    var thispredictData = PredictAppointedPeroidNormData(lotteryId, startPredict, userNorm);
+                    var thispredictData = PredictAppointedPeroidNormData(lotteryId, startPredict, userNorm, isSwitchFormula);
                     predictDataResult.Add(startPredict, thispredictData);
 
                 }
@@ -170,7 +170,7 @@ namespace Lottery.AppService.Predict
         }
 
 
-        private PredictDataDto PredictAppointedPeroidNormData(string lotteryId, int predictPeriod, NormConfigDto userNorm)
+        private PredictDataDto PredictAppointedPeroidNormData(string lotteryId, int predictPeriod, NormConfigDto userNorm, bool isSwitchFormula = false)
         {
             var predictLotteryData = _lotteryDataQueryService.GetPredictPeriodDatas(lotteryId, predictPeriod - 1, userNorm.HistoryCount);
 
@@ -187,6 +187,11 @@ namespace Lottery.AppService.Predict
             try
             {
                 AlgorithmType algorithmType = normPlanInfo.AlgorithmType;
+                if (isSwitchFormula)
+                {
+                    algorithmType = AlgorithmType.Mock;
+                }
+                
                 try
                 {
                     predictedDataRate = lotteryEngine.GetPerdictor(algorithmType)
@@ -194,9 +199,18 @@ namespace Lottery.AppService.Predict
                 }
                 catch (Exception e)
                 {
-                    algorithmType = AlgorithmType.Mock;
-                    predictedDataRate = lotteryEngine.GetPerdictor(algorithmType)
-                        .Predictor(predictData, count, userNorm.UnitHistoryCount, userNorm.HistoryCount, new Tuple<int, int>(positionInfo.MinValue, positionInfo.MaxValue));
+                    try
+                    {
+                        algorithmType = AlgorithmType.Temperature;
+                        predictedDataRate = lotteryEngine.GetPerdictor(algorithmType)
+                            .Predictor(predictData, count, userNorm.UnitHistoryCount, userNorm.HistoryCount, new Tuple<int, int>(positionInfo.MinValue, positionInfo.MaxValue));
+                    }
+                    catch (Exception e2)
+                    {
+                        algorithmType = AlgorithmType.Mock;
+                        predictedDataRate = lotteryEngine.GetPerdictor(algorithmType)
+                            .Predictor(predictData, count, userNorm.UnitHistoryCount, userNorm.HistoryCount, new Tuple<int, int>(positionInfo.MinValue, positionInfo.MaxValue));
+                    }
                 }
 
                 var computePredictResult = ComputePredictFatory.CreateComputePredictResult(normPlanInfo.PredictCode,predictedDataRate);

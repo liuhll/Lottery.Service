@@ -9,7 +9,7 @@ namespace Lottery.Commands.Norms
         }
 
         public AddNormConfigCommand(string id,string userId, string lotteryId, string planId, int planCycle, int forecastCount, int lastStartPeriod,
-            int unitHistoryCount, int historyCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries,
+            int unitHistoryCount, int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
             int lookupPeriodCount, int expectMinScore, int expectMaxScore,int sort,string customNumbers = null) : base(id)
         {
             UserId = userId;
@@ -19,11 +19,11 @@ namespace Lottery.Commands.Norms
             PlanCycle = planCycle;
             ForecastCount = forecastCount;
             UnitHistoryCount = unitHistoryCount;
-            HistoryCount = unitHistoryCount;
+            HistoryCount = historyCount;
             MaxRightSeries = maxRightSeries;
             MinRightSeries = minRightSeries;
-            MaxErrortSeries = maxErrortSeries;
-            MinErrortSeries = minErrortSeries;
+            MaxErrorSeries = maxErrorSeries;
+            MinErrorSeries = minErrorSeries;
             LookupPeriodCount = lookupPeriodCount;
             ExpectMaxScore = expectMaxScore;
             ExpectMinScore = expectMinScore;
@@ -69,12 +69,12 @@ namespace Lottery.Commands.Norms
         /// <summary>
         /// 最小连错数
         /// </summary>
-        public int MinErrortSeries { get; private set; }
+        public int MinErrorSeries { get; private set; }
 
         /// <summary>
         /// 最大连错数
         /// </summary>
-        public int MaxErrortSeries { get; private set; }
+        public int MaxErrorSeries { get; private set; }
 
         /// <summary>
         /// 追号的期数

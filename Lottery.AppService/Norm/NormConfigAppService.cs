@@ -4,6 +4,7 @@ using System.Linq;
 using ECommon.Components;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.Norms;
+using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
@@ -17,14 +18,17 @@ namespace Lottery.AppService.Norm
         private readonly INormConfigQueryService _normConfigQueryService;
         private readonly IUserNormDefaultConfigService _normDefaultConfigService;
         private readonly IPositionInfoQueryService _positionInfoQueryService;
+        private readonly IPlanInfoQueryService _planInfoQueryService;
 
         public NormConfigAppService(INormConfigQueryService normConfigQueryService,
             IUserNormDefaultConfigService normDefaultConfigService,
-            IPositionInfoQueryService positionInfoQueryService)
+            IPositionInfoQueryService positionInfoQueryService,
+            IPlanInfoQueryService planInfoQueryService)
         {
             _normConfigQueryService = normConfigQueryService;
             _normDefaultConfigService = normDefaultConfigService;
             _positionInfoQueryService = positionInfoQueryService;
+            _planInfoQueryService = planInfoQueryService;
         }
 
         public ICollection<NormConfigDto> GetNormConfigsByUserIdOrDefault(string userId = "")
@@ -70,7 +74,11 @@ namespace Lottery.AppService.Norm
                     userplanNorm = AutoMapper.Mapper.Map<UserPlanNormOutput>(userDefaultConfig);
                     userplanNorm.LotteryId = lotteryId;
                 }
-                SetSelectedLotteryNumbers(userplanNorm.LotteryId, userplanNorm);
+                var plan = _planInfoQueryService.GetPlanInfoById(planId);
+                if (plan.PredictCode == PredictCodeDefinition.NumCode)
+                {
+                    SetSelectedLotteryNumbers(userplanNorm.LotteryId, userplanNorm);
+                }               
                 return userplanNorm;
             }
             catch(Exception ex)

@@ -85,8 +85,25 @@ namespace Lottery.AppService.LotteryData
                 Thread.Sleep(200);
                 userNorm.HistoryCount = random.Next(1, 10) * userNorm.HistoryCount;
                 userNorm.UnitHistoryCount = random.Next(1, 10) * userNorm.UnitHistoryCount;
-                predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid));
+                predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid,true));
             }
+            return predictDatas;
+        }
+
+        public IList<PredictDataDto> UpdateLotteryDataList(string lotteryId, string userId, string normId)
+        {
+            var lotteryInfo = _lotteryQueryService.GetLotteryInfoByCode(lotteryId);
+            var finalLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
+            var predictPeroid = finalLotteryData.FinalPeriod + 1;
+            var predictDatas = new List<PredictDataDto>();
+            var random = new Random(unchecked((int)DateTime.Now.Ticks));
+            var userNorm = _normConfigQueryService.GetUserNormConfig(normId);
+            var planInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
+            _predictService.DeleteHistoryPredictDatas(planInfo.LotteryInfo.LotteryCode, planInfo.PlanNormTable, userNorm.LookupPeriodCount, userNorm.PlanCycle);
+            Thread.Sleep(200);
+            userNorm.HistoryCount = random.Next(1, 10) * userNorm.HistoryCount;
+            userNorm.UnitHistoryCount = random.Next(1, 10) * userNorm.UnitHistoryCount;
+            predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid, true));
             return predictDatas;
         }
 
@@ -150,9 +167,9 @@ namespace Lottery.AppService.LotteryData
 
 
         #region 私有方法
-        private IEnumerable<PredictDataDto> PredictNormData(LotteryInfoDto lotteryInfo, NormConfigDto userNorm, int predictPeroid)
+        private IEnumerable<PredictDataDto> PredictNormData(LotteryInfoDto lotteryInfo, NormConfigDto userNorm, int predictPeroid, bool isSwitchFormula = false)
         {
-            return _lotteryPredictDataService.PredictNormData(lotteryInfo.Id, userNorm, predictPeroid,lotteryInfo.LotteryCode);
+            return _lotteryPredictDataService.PredictNormData(lotteryInfo.Id, userNorm, predictPeroid,lotteryInfo.LotteryCode, isSwitchFormula);
         }
 
 

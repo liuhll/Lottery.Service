@@ -79,13 +79,13 @@ namespace Lottery.WebApi.Controllers.v1
             if (userNormConfig == null)
             {
                 var command = new AddUserNormDefaultConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId, LotteryInfo.Id, input.PlanCycle, input.ForecastCount, input.UnitHistoryCount,input.HistoryCount,
-                    input.MinRightSeries, input.MaxRightSeries, input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount, input.ExpectMinScore, input.ExpectMaxScore);
+                    input.MinRightSeries, input.MaxRightSeries, input.MinErrorSeries, input.MaxErrorSeries, input.LookupPeriodCount, input.ExpectMinScore, input.ExpectMaxScore);
                 await SendCommandAsync(command);
             }
             else
             {
                 var command = new UpdateUserNormDefaultConfigCommand(userNormConfig.Id,  input.PlanCycle, input.ForecastCount, input.UnitHistoryCount, input.HistoryCount,
-                    input.MinRightSeries, input.MaxRightSeries, input.MinErrortSeries, input.MaxErrortSeries, input.LookupPeriodCount, input.ExpectMinScore, input.ExpectMaxScore);
+                    input.MinRightSeries, input.MaxRightSeries, input.MinErrorSeries, input.MaxErrorSeries, input.LookupPeriodCount, input.ExpectMinScore, input.ExpectMaxScore);
                 await SendCommandAsync(command);
             }         
             return "设置默认的公式指标成功";

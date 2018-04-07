@@ -37,12 +37,12 @@ namespace Lottery.Dtos.Norms
         /// <summary>
         /// 最小连错数
         /// </summary>
-        public int MinErrortSeries { get; set; }
+        public int MinErrorSeries { get; set; }
 
         /// <summary>
         /// 最大连错数
         /// </summary>
-        public int MaxErrortSeries { get; set; }
+        public int MaxErrorSeries { get; set; }
 
         /// <summary>
         /// 追号的期数

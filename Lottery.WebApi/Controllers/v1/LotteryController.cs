@@ -9,6 +9,7 @@ using Lottery.AppService.LotteryData;
 using Lottery.AppService.Plan;
 using Lottery.Commands.LotteryPredicts;
 using Lottery.Dtos.Lotteries;
+using Lottery.Dtos.Norms;
 using Lottery.Dtos.PageList;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.Lotteries;
@@ -68,6 +69,22 @@ namespace Lottery.WebApi.Controllers.v1
             var userId = _lotterySession.UserId;
             var data = _lotteryDataAppService.UpdateLotteryDataList(lotteryId, userId);
             return GetPlanTrackNumberByPredictData(lotteryId, data);
+        }
+
+        /// <summary>
+        /// 重新计算单个指标追号数据
+        /// </summary>
+        /// <returns>提示语</returns>
+        [HttpPut]
+        [Route("predictdata")]
+        [AllowAnonymous]
+        public string UpdatePredictData(UpdatePredictDataInput input)
+        {
+            var lotteryId = _lotterySession.SystemTypeId;
+            var userId = _lotterySession.UserId;
+            var data = _lotteryDataAppService.UpdateLotteryDataList(lotteryId, userId, input.NormId);
+            GetPlanTrackNumberByPredictData(lotteryId, data);
+            return "计算当前计划预测数据成功";
         }
 
         /// <summary>
@@ -186,8 +203,9 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 historyPredictResults.Add((int)item.PredictedResult);
             }
+            historyPredictResults = historyPredictResults.Take(LotteryConstants.HistoryPredictResultCount).ToList();
             historyPredictResults.Reverse();
-            return historyPredictResults.Take(LotteryConstants.HistoryPredictResultCount).ToArray();
+            return historyPredictResults.ToArray();
         }
 
         private void WritePlanTrackNumbers(IGrouping<string, PredictDataDto> item, PlanInfoDto planInfo, double currentScore)

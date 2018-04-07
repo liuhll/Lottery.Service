@@ -28,9 +28,11 @@ namespace Lottery.CommandHandlers
 
         public void Handle(ICommandContext context, AddNormConfigCommand command)
         {
-            context.Add(new NormConfig(command.AggregateRootId,command.UserId,command.LotteryId,command.PlanId,command.LastStartPeriod,
-                command.PlanCycle,command.ForecastCount,command.UnitHistoryCount,command.HistoryCount,command.MinRightSeries,command.MaxRightSeries,command.MinErrortSeries,
-                command.MaxErrortSeries,command.LookupPeriodCount,command.ExpectMinScore,command.ExpectMaxScore,command.Sort,command.CustomNumbers));
+            context.Add(new NormConfig(command.AggregateRootId,
+                command.UserId,command.LotteryId,command.PlanId,command.LastStartPeriod,
+                command.PlanCycle,command.ForecastCount,command.UnitHistoryCount,command.HistoryCount,
+                command.MinRightSeries,command.MaxRightSeries,command.MinErrorSeries,
+                command.MaxErrorSeries,command.LookupPeriodCount,command.ExpectMinScore,command.ExpectMaxScore,command.Sort,command.CustomNumbers));
         }
 
         public void Handle(ICommandContext context, DeteteNormConfigCommand command)
@@ -41,8 +43,8 @@ namespace Lottery.CommandHandlers
         public void Handle(ICommandContext context, UpdateNormConfigCommand command)
         {
             context.Get<NormConfig>(command.AggregateRootId).UpdateNormConfig(command.LastStartPeriod,
-                command.PlanCycle, command.ForecastCount, command.UnitHistoryCount,command.HistoryCount, command.MinRightSeries, command.MaxRightSeries, command.MinErrortSeries,
-                command.MaxErrortSeries, command.LookupPeriodCount, command.ExpectMinScore, command.ExpectMaxScore,command.CustomNumbers);
+                command.PlanCycle, command.ForecastCount, command.UnitHistoryCount,command.HistoryCount, command.MinRightSeries, command.MaxRightSeries, command.MinErrorSeries,
+                command.MaxErrorSeries, command.LookupPeriodCount, command.ExpectMinScore, command.ExpectMaxScore,command.CustomNumbers);
         }
     }
 }
