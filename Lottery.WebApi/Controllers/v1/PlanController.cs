@@ -142,12 +142,12 @@ namespace Lottery.WebApi.Controllers.v1
         /// <remarks>通过指标Id获取计划公式指标配置</remarks>
         /// <param name="normId">指标Id</param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("userplannorm1")]
-        public UserPlanNormOutput GetUserPlanByNormId(string normId)
-        {
-            return _normConfigAppService.GetUserNormConfigById(_lotterySession.UserId, normId);
-        }
+        //[HttpGet]
+        //[Route("userplannorm1")]
+        //public UserPlanNormOutput GetUserPlanByNormId(string normId)
+        //{
+        //    return _normConfigAppService.GetUserNormConfigById(_lotterySession.UserId, normId);
+        //}
 
         /// <summary>
         /// 获取计划指标配置接口2
@@ -156,10 +156,15 @@ namespace Lottery.WebApi.Controllers.v1
         /// <param name="planId">计划Id</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("userplannorm2")]
+        [Route("userplannorm")]
         public UserPlanNormOutput GetUserPlanByPlanId(string planId)
         {
-            return _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, planId);
+            var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, planId);
+            if (userPlanNorm.Id.IsNullOrEmpty())
+            {
+                throw new LotteryException("您没有修改计划指标权限,请先购买授权");
+            }
+            return userPlanNorm;
         }
 
         /// <summary>

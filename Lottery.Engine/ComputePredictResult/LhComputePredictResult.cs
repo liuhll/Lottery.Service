@@ -26,9 +26,12 @@ namespace Lottery.Engine.ComputePredictResult
         private List<string> PredictVals(int position,PredictType predictType,int maxPosition = 10)
         {
             var valArr = new List<string>();
-            if (_predictedDataRate[position] > _predictedDataRate[maxPosition])
+            var longPosition = position;
+            var huPosition = maxPosition - position + 1;
+
+            if (predictType == PredictType.Fix)
             {
-                if (predictType == PredictType.Fix)
+                if (_predictedDataRate[longPosition] > _predictedDataRate[huPosition])
                 {
                     valArr.Add(longVal);
                     valArr.Add(huVal);
@@ -38,6 +41,22 @@ namespace Lottery.Engine.ComputePredictResult
                     valArr.Add(huVal);
                     valArr.Add(longVal);
                 }
+
+            }
+            else
+            {
+                if (_predictedDataRate[longPosition] > _predictedDataRate[huPosition])
+                {
+                    valArr.Add(huVal);
+                    valArr.Add(longVal);
+                }
+                else
+                {
+
+                    valArr.Add(longVal);
+                    valArr.Add(huVal);
+                }
+
             }
             return valArr;
         }

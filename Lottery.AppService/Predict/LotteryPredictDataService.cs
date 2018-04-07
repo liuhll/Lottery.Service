@@ -220,7 +220,8 @@ namespace Lottery.AppService.Predict
                 EndPeriod = predictPeriod + userNorm.PlanCycle - 1,
                 MinorCycle = 1,
                 PredictedData = predictedData,
-                PredictedResult = (int)PredictedResult.Running
+                PredictedResult = (int)PredictedResult.Running,
+                PredictType = normPlanInfo.DsType,
 
             };
 
@@ -279,33 +280,35 @@ namespace Lottery.AppService.Predict
                 {
                     var numPredictData = startPeriodData.PredictedData.Split(',').Select(p => Convert.ToInt32(p));
                     var numLotteryNum = Convert.ToInt32(lotteryNumberData);
-                    isRight = numPredictData.Contains(numLotteryNum);
-
+                    if (normPlanInfo.DsType == PredictType.Fix)
+                    {
+                        isRight = numPredictData.Contains(numLotteryNum);
+                    }
+                    else
+                    {
+                        isRight = !numPredictData.Contains(numLotteryNum);
+                    }
                 }
                 else
                 {
-                    isRight = startPeriodData.PredictedData
-                        .Contains(lotteryNumberData.ToString());
+                    if (normPlanInfo.DsType == PredictType.Fix)
+                    {
+                        isRight = startPeriodData.PredictedData
+                            .Contains(lotteryNumberData.ToString());
+                    }
+                    else
+                    {
+                        isRight = !startPeriodData.PredictedData
+                            .Contains(lotteryNumberData.ToString());
+                    }
                 }
                 if (isRight) //:todo bug
                 {
-                    if (planInfo.DsType == PredictType.Fix)
-                    {
-                        return PredictedResult.Right;
-                    }
-                    else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
-                    {
-                        return PredictedResult.Error;
-                    }
-                    return PredictedResult.Running;
+                    return PredictedResult.Right;
                 }
                 else
                 {
-                    if (planInfo.DsType == PredictType.Kill)
-                    {
-                        return PredictedResult.Right;
-                    }
-                    else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
+                    if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
                     {
                         return PredictedResult.Error;
                     }
@@ -314,6 +317,8 @@ namespace Lottery.AppService.Predict
             }
             else if (planInfo.PlanPosition == PlanPosition.Multiple)
             {
+                #region 不定位预测结果判定正错
+
                 var positions = planInfo.PositionInfos.Select(p => p.Position).ToArray();
                 var lotteryNumbers = new List<object>(); // lotteryNumber.GetLotteryNumbers(positions);
                 foreach (var position in positions)
@@ -379,7 +384,7 @@ namespace Lottery.AppService.Predict
                     }
                 }
 
-
+                #endregion
             }
             else
             {
