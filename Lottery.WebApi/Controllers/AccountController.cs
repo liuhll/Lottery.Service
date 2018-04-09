@@ -14,6 +14,7 @@ using Lottery.AppService.IdentifyCode;
 using Lottery.AppService.Validations;
 using Lottery.Commands.IdentifyCodes;
 using Lottery.Commands.LogonLog;
+using Lottery.Commands.Points;
 using Lottery.Commands.UserInfos;
 using Lottery.Dtos.Account;
 using Lottery.Dtos.UserInfo;
@@ -25,6 +26,7 @@ using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.Tools;
 using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Lotteries;
+using Lottery.QueryServices.Points;
 using Lottery.WebApi.Extensions;
 
 namespace Lottery.WebApi.Controllers
@@ -38,6 +40,7 @@ namespace Lottery.WebApi.Controllers
         private readonly ILotteryQueryService _lotteryQueryService;
         private readonly IConLogQueryService _conLogQueryService;
         private readonly IIdentifyCodeAppService _identifyCodeAppService;
+        private readonly IPointQueryService _pointQueryService;
 
         public AccountController(IUserManager userManager,
             ICommandService commandService,
@@ -45,7 +48,7 @@ namespace Lottery.WebApi.Controllers
             UserProfileInputValidator userProfileInputValidator,
             ILotteryQueryService lotteryQueryService,
             IConLogQueryService conLogQueryService,
-            IIdentifyCodeAppService identifyCodeAppService) : base(commandService)
+            IIdentifyCodeAppService identifyCodeAppService, IPointQueryService pointQueryService) : base(commandService)
         {
             _userManager = userManager;
             _userInfoInputValidator = userInfoInputValidator;
@@ -53,6 +56,7 @@ namespace Lottery.WebApi.Controllers
             _lotteryQueryService = lotteryQueryService;
             _conLogQueryService = conLogQueryService;
             _identifyCodeAppService = identifyCodeAppService;
+            _pointQueryService = pointQueryService;
         }
 
         /// <summary>
@@ -144,7 +148,7 @@ namespace Lottery.WebApi.Controllers
 
             if (validIdentifyCodeOutput.IsOvertime)
             {
-                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, "system"));
                 throw new LotteryDataException("验证码超时,请重新获取验证码");
             }
             if (!validIdentifyCodeOutput.IsValid)
@@ -157,16 +161,23 @@ namespace Lottery.WebApi.Controllers
             var isReg = await _userManager.IsExistAccount(user.Account);
             if (isReg)
             {
-                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, _lotterySession.UserId));
+                await SendCommandAsync(new InvalidIdentifyCodeCommand(validIdentifyCodeOutput.IdentifyCodeId, user.Account, "system"));
                 throw new LotteryDataException("该账号已经存在");
             }
 
-            // :todo 是否存在活动,以及查询获赠的积分
-            var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), user.Account,
+            var userId = Guid.NewGuid().ToString();
+         
+            var userInfoCommand = new AddUserInfoCommand(userId, user.Account,
                 EncryptPassword(user.Account, user.Password, accountRegType),
                 user.ClientRegistType, accountRegType, 0);
-
             var commandResult = await SendCommandAsync(userInfoCommand);
+
+            var signedPointInfo = _pointQueryService.GetPointInfoByType(PointType.Register);
+            var sinedNotes = $"{DateTime.Now.ToString("yyyy-MM-dd")}日,注册即送积分";
+
+            await SendCommandAsync(new AddPointRecordCommand(Guid.NewGuid().ToString(), signedPointInfo.Point,
+                PointType.Signed, PointOperationType.Increase, sinedNotes, userId));
+
             if (commandResult.Status != AsyncTaskStatus.Success)
             {
                 throw new LotteryDataException("创建用户失败");
