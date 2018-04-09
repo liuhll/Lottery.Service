@@ -65,7 +65,7 @@ ORDER BY CurrentPeriodStartDate DESC";
 
         public PointRecordOutput GetTodaySigned(string userId)
         {
-            var sql = @"select * from [dbo].[MS_PointRecord] 
+            var sql = @"select *,CreateTime as SignedTime from [dbo].[MS_PointRecord] 
 where CreateTime >=convert(varchar(10),Getdate(),120) 
 and CreateTime < convert(varchar(10),dateadd(d,1,Getdate()),120)
 AND CreateBy=@UserId";
@@ -74,5 +74,24 @@ AND CreateBy=@UserId";
                 return conn.Query<PointRecordOutput>(sql, new { @UserId = userId }).FirstOrDefault();
             }
         }
+
+        public ICollection<PointRecordOutput> GetSignedList(string userId)
+        {
+            var sql =
+                @"select TOP 500 *,CreateTime as SignedTime from [dbo].[MS_PointRecord] WHERE CreateBy=@UserId ORDER BY SignedTime DESC";
+            var cacheKey = string.Format(RedisKeyConstants.POINT_USER_SIGNEDLIST_KEY, userId);
+            return _cacheManager.Get<ICollection<PointRecordOutput>>(cacheKey, () =>
+            {
+                using (var conn = GetLotteryConnection())
+                {
+                    conn.Open();
+                    return conn.Query<PointRecordOutput>(sql, new { @UserId = userId }).ToList();
+                }
+
+            });
+           
+        }
+
+
     }
 }

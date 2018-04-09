@@ -86,5 +86,7 @@
 
         public const string POINT_USER_RECORD_KEY = "Point.User.Record.{0}";
 
+        public const string POINT_USER_SIGNEDLIST_KEY = "Point.User.SignedList.{0}";
+
     }
 }

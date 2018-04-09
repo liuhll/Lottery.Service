@@ -11,6 +11,7 @@ using Lottery.Commands.Points;
 using Lottery.Dtos.AppInfo;
 using Lottery.Dtos.OnlineHelp;
 using Lottery.Dtos.Opinions;
+using Lottery.Dtos.Points;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
@@ -129,5 +130,16 @@ namespace Lottery.WebApi.Controllers.v1
             return "签到成功";
         }
 
+        /// <summary>
+        /// 获取用户签到列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("signedlist")]
+        [AllowAnonymous]
+        public ICollection<PointRecordOutput> SignedList()
+        {
+            return  _pointQueryService.GetSignedList(_lotterySession.UserId);
+        }
     }
 }

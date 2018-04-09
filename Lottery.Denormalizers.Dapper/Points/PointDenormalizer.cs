@@ -21,9 +21,10 @@ namespace Lottery.Denormalizers.Dapper.Points
 
         public async Task<AsyncTaskResult> HandleAsync(AddPointRecordEvent evnt)
         {
-            var cacheKey = string.Format(RedisKeyConstants.POINT_USER_RECORD_KEY, evnt.CreateBy);
-            _cacheManager.Remove(cacheKey);
-
+            var cacheKey1 = string.Format(RedisKeyConstants.POINT_USER_RECORD_KEY, evnt.CreateBy);
+            var cacheKey2 = string.Format(RedisKeyConstants.POINT_USER_SIGNEDLIST_KEY, evnt.CreateBy);
+            _cacheManager.Remove(cacheKey1);
+            _cacheManager.Remove(cacheKey2);
             using (var conn = GetLotteryConnection())
             {
                 try

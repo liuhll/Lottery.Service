@@ -12,5 +12,7 @@ namespace Lottery.QueryServices.Points
 
         SignedDto GetUserLastSined(string userId);
         PointRecordOutput GetTodaySigned(string userId);
+
+        ICollection<PointRecordOutput> GetSignedList(string userId);
     }
 }
