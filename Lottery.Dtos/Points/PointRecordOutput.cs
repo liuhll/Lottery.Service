@@ -16,7 +16,6 @@ namespace Lottery.Dtos.Points
 
         public string OperationTypeDesc => OperationType.GetChineseDescribe();
 
-
         public string Notes { get; set; }
 
         public DateTime SignedTime { get; set; }

@@ -106,7 +106,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpPost]
         [Route("signed")]
         [AllowAnonymous]
-        public async Task<string> Signed()
+        public async Task<SignedInfoOutput> Signed()
         {
             var signedPointInfo = _pointQueryService.GetPointInfoByType(PointType.Signed);
             var todaySignedInfo = _pointQueryService.GetTodaySigned(_lotterySession.UserId);
@@ -127,7 +127,35 @@ namespace Lottery.WebApi.Controllers.v1
                     PointType.SignAdditional, PointOperationType.Increase, signAdditionalNotes, _lotterySession.UserId));
             }
 
-            return "签到成功";
+            return SignedInfo();
+        }
+
+        /// <summary>
+        /// 获取用户签到信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("signedinfo")]
+        [AllowAnonymous]
+        public SignedInfoOutput SignedInfo()
+        {
+            var output = new SignedInfoOutput()
+            {
+                DurationDays = 0,
+                TodayIsSiged = false,
+            };
+            var todaySignedInfo = _pointQueryService.GetTodaySigned(_lotterySession.UserId);
+            if (todaySignedInfo !=null)
+            {
+                output.TodayIsSiged = true;
+            }
+            var signeds = _pointQueryService.GetUserLastSined(_lotterySession.UserId);
+            if (signeds != null)
+            {
+                output.DurationDays = signeds.DurationDays;
+                output.LastSignedTime = signeds.CurrentPeriodEndDate;
+            }
+            return output;
         }
 
         /// <summary>

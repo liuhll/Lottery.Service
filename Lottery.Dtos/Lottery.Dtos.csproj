@@ -103,6 +103,7 @@
     <Compile Include="Points\PointDto.cs" />
     <Compile Include="Points\PointRecordOutput.cs" />
     <Compile Include="Points\SignedDto.cs" />
+    <Compile Include="Points\SignedInfoOutput.cs" />
     <Compile Include="Power\MemberRankPowerCacheItem.cs" />
     <Compile Include="Power\PowerDto.cs" />
     <Compile Include="Power\PowerGrantInfo.cs" />
