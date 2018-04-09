@@ -11,5 +11,7 @@
         public const string ValidIssuer = "http://dev.clmeng.com:80";
 
         public const int HistoryPredictResultCount = 10;
+
+        public const int ContinuousSignedDays = 5;
     }
 }

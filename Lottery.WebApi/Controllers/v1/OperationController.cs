@@ -7,13 +7,16 @@ using ENode.Commanding;
 using Lottery.AppService.Operations;
 using Lottery.AppService.Validations.Opinions;
 using Lottery.Commands.OpinionRecords;
+using Lottery.Commands.Points;
 using Lottery.Dtos.AppInfo;
 using Lottery.Dtos.OnlineHelp;
 using Lottery.Dtos.Opinions;
+using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.AppInfos;
+using Lottery.QueryServices.Points;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -23,16 +26,19 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly OpinionInputValidtor _opinionInputValidtor;
         private readonly IOnlineHelpAppService _onlineHelpAppService;
         private readonly IAppInfoQueryService _appInfoQueryService;
+        private readonly IPointQueryService _pointQueryService;
 
         public OperationController(ICommandService commandService,
             OpinionInputValidtor opinionInputValidtor,
             IOnlineHelpAppService onlineHelpAppService,
-            IAppInfoQueryService appInfoQueryService) 
+            IAppInfoQueryService appInfoQueryService, 
+            IPointQueryService pointQueryService) 
             : base(commandService)
         {
             _opinionInputValidtor = opinionInputValidtor;
             _onlineHelpAppService = onlineHelpAppService;
             _appInfoQueryService = appInfoQueryService;
+            _pointQueryService = pointQueryService;
         }
 
         [Route("activity")]
@@ -89,6 +95,38 @@ namespace Lottery.WebApi.Controllers.v1
         public async Task<AppInfoOutput> GetAppInfo(AppPlatform platform)
         {
             return _appInfoQueryService.GetAppInfo(platform);
+        }
+
+        /// <summary>
+        /// 签到接口
+        /// </summary>
+        /// <remarks>连续签到五日,可获得额外积分</remarks>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("signed")]
+        [AllowAnonymous]
+        public async Task<string> Signed()
+        {
+            var signedPointInfo = _pointQueryService.GetPointInfoByType(PointType.Signed);
+            var todaySignedInfo = _pointQueryService.GetTodaySigned(_lotterySession.UserId);
+            if (todaySignedInfo != null)
+            {
+                throw new LotteryException("您今天已经签到,无法重复签到");
+            }
+            var sinedNotes = $"{DateTime.Now.ToString("yyyy-MM-dd")}日,每日签到";
+            await SendCommandAsync(new AddPointRecordCommand(Guid.NewGuid().ToString(), signedPointInfo.Point,
+                PointType.Signed, PointOperationType.Increase, sinedNotes, _lotterySession.UserId));
+
+            var signeds = _pointQueryService.GetUserLastSined(_lotterySession.UserId);
+            if (signeds != null && signeds.CurrentPeriodEndDate.Date == DateTime.Now.Date && signeds.DurationDays!=0 && signeds.DurationDays % LotteryConstants.ContinuousSignedDays == 0)
+            {
+                var signAdditionalPointInfo = _pointQueryService.GetPointInfoByType(PointType.SignAdditional);
+                var signAdditionalNotes = $"{DateTime.Now.ToString("yyyy-MM-dd")}日,连续签到五日,获得额外{signAdditionalPointInfo.Point}点积分";
+                await SendCommandAsync(new AddPointRecordCommand(Guid.NewGuid().ToString(), signAdditionalPointInfo.Point,
+                    PointType.SignAdditional, PointOperationType.Increase, signAdditionalNotes, _lotterySession.UserId));
+            }
+
+            return "签到成功";
         }
 
     }

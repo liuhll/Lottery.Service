@@ -63,6 +63,7 @@
     <Compile Include="Norms\AddNormConfigCommand.cs" />
     <Compile Include="Norms\UpdateNormConfigCommand.cs" />
     <Compile Include="OpinionRecords\AddOpinionRecordCommand.cs" />
+    <Compile Include="Points\AddPointRecordCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInfos\AddUserInfoCommand.cs" />
     <Compile Include="UserInfos\BindUserEmailCommand.cs" />

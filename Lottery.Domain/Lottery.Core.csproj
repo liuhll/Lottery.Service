@@ -89,6 +89,8 @@
     <Compile Include="Domain\PlanInfos\PlanInfo.cs" />
     <Compile Include="Domain\PlanInfos\UserPlanNormConfig.cs" />
     <Compile Include="Domain\PlanKeyNumbers\PlanKeyNumber.cs" />
+    <Compile Include="Domain\Points\AddPointRecordEvent.cs" />
+    <Compile Include="Domain\Points\PointRecord.cs" />
     <Compile Include="Domain\PositionInfos\PositionInfo.cs" />
     <Compile Include="Domain\Powers\Power.cs" />
     <Compile Include="Domain\RolePowers\RolePower.cs" />

@@ -82,5 +82,9 @@
 
         public const string NORM_PLAN_CONFIG_KEY = "Norm.Plan.Config.{0}.{1}";
 
+        public const string POINT_TYPE_KEY = "Point.Type.{0}";
+
+        public const string POINT_USER_RECORD_KEY = "Point.User.Record.{0}";
+
     }
 }

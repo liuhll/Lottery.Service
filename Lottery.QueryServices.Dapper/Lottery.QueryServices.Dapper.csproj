@@ -67,6 +67,7 @@
     <Compile Include="Norms\UserNormDefaultConfigService.cs" />
     <Compile Include="OnlineHelps\OnlineHelperQueryService.cs" />
     <Compile Include="Operations\MemberQueryService.cs" />
+    <Compile Include="Points\PointQueryService.cs" />
     <Compile Include="Powers\MemberPowerQueryService.cs" />
     <Compile Include="Powers\PowerQueryService.cs" />
     <Compile Include="Powers\RolePowerQueryService.cs" />

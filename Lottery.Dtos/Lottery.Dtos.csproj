@@ -100,6 +100,9 @@
     <Compile Include="Plans\PlanInfoOutput.cs" />
     <Compile Include="Plans\UserPlanInfoDto.cs" />
     <Compile Include="Plans\UserPlanInfoInput.cs" />
+    <Compile Include="Points\PointDto.cs" />
+    <Compile Include="Points\PointRecordOutput.cs" />
+    <Compile Include="Points\SignedDto.cs" />
     <Compile Include="Power\MemberRankPowerCacheItem.cs" />
     <Compile Include="Power\PowerDto.cs" />
     <Compile Include="Power\PowerGrantInfo.cs" />

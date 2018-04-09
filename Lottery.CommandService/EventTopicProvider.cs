@@ -11,6 +11,7 @@ using Lottery.Core.Domain.LotteryPredictDatas;
 using Lottery.Core.Domain.MessageRecords;
 using Lottery.Core.Domain.NormConfigs;
 using Lottery.Core.Domain.OpinionRecords;
+using Lottery.Core.Domain.Points;
 using Lottery.Core.Domain.UserInfos;
 using Lottery.Core.Domain.UserNormDefaultConfig;
 using Lottery.Infrastructure;
@@ -55,7 +56,8 @@ namespace Lottery.CommandService
                 typeof(AddIdentifyCodeEvent),
                 typeof(UpdateIdentifyCodeEvent),
                 typeof(InvalidIdentifyCodeEvent),
-                typeof(AddOpinionRecordEvent));
+                typeof(AddOpinionRecordEvent),
+                typeof(AddPointRecordEvent));
         }
     }
 }

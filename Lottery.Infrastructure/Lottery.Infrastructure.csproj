@@ -171,6 +171,7 @@
     <Compile Include="Enums\IdentifyCodeType.cs" />
     <Compile Include="Enums\OnlineHelpType.cs" />
     <Compile Include="Enums\PointOperationType.cs" />
+    <Compile Include="Enums\PointType.cs" />
     <Compile Include="Enums\PurchaseType.cs" />
     <Compile Include="Enums\SellType.cs" />
     <Compile Include="Enums\SystemType.cs" />
