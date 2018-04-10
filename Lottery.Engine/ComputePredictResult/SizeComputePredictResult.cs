@@ -16,7 +16,7 @@ namespace Lottery.Engine.ComputePredictResult
         }
 
 
-        public override string GetPredictedData(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
+        protected override ICollection<string> GetPredictedDataList(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
         {
             double bigPercent = 0;
             double smallPercent = 0;
@@ -43,7 +43,7 @@ namespace Lottery.Engine.ComputePredictResult
                 perdictedVal.Add(bigVal);
 
             }
-            return perdictedVal.Take(userNorm.ForecastCount).ToSplitString();
+            return perdictedVal.ToList();
         }
     }
 }

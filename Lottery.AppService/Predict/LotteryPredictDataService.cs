@@ -172,7 +172,9 @@ namespace Lottery.AppService.Predict
 
         private PredictDataDto PredictAppointedPeroidNormData(string lotteryId, int predictPeriod, NormConfigDto userNorm, bool isSwitchFormula = false)
         {
-            var predictLotteryData = _lotteryDataQueryService.GetPredictPeriodDatas(lotteryId, predictPeriod - 1, userNorm.HistoryCount);
+            var lotteryCount = GetHistoryLotteryCount(userNorm);
+
+            var predictLotteryData = _lotteryDataQueryService.GetPredictPeriodDatas(lotteryId, predictPeriod - 1, lotteryCount);
 
             var lotteryDataList = new LotteryDataList(predictLotteryData);
             var lotteryEngine = EngineContext.LotterEngine(lotteryId);
@@ -240,6 +242,13 @@ namespace Lottery.AppService.Predict
             };
 
             return predictDataInfo;
+        }
+
+        private int GetHistoryLotteryCount(NormConfigDto normConfig)
+        {
+            var random = new Random(unchecked((int)DateTime.Now.Ticks));       
+            var r = random.Next(normConfig.UnitHistoryCount, normConfig.HistoryCount);
+            return r;
         }
 
         private string GetPredictedDataMock(PlanInfoDto normPlanInfo, NormConfigDto userNorm)

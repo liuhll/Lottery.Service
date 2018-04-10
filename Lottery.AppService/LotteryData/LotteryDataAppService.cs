@@ -85,7 +85,7 @@ namespace Lottery.AppService.LotteryData
                 Thread.Sleep(200);
                 userNorm.HistoryCount = random.Next(1, 10) * userNorm.HistoryCount;
                 userNorm.UnitHistoryCount = random.Next(1, 10) * userNorm.UnitHistoryCount;
-                predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid,true));
+                predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid));
             }
             return predictDatas;
         }
@@ -96,14 +96,12 @@ namespace Lottery.AppService.LotteryData
             var finalLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
             var predictPeroid = finalLotteryData.FinalPeriod + 1;
             var predictDatas = new List<PredictDataDto>();
-            var random = new Random(unchecked((int)DateTime.Now.Ticks));
+            
             var userNorm = _normConfigQueryService.GetUserNormConfig(normId);
             var planInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
             _predictService.DeleteHistoryPredictDatas(planInfo.LotteryInfo.LotteryCode, planInfo.PlanNormTable, userNorm.LookupPeriodCount, userNorm.PlanCycle);
             Thread.Sleep(200);
-            userNorm.HistoryCount = random.Next(1, 10) * userNorm.HistoryCount;
-            userNorm.UnitHistoryCount = random.Next(1, 10) * userNorm.UnitHistoryCount;
-            predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid, true));
+            predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid));
             return predictDatas;
         }
 
