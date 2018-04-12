@@ -7,6 +7,6 @@ namespace Lottery.AppService.Sell
     public interface ISellAppService
     {
         ICollection<SellTypeOutput> GetSalesType(MemberRank lotterySessionMemberRank);
-        ICollection<GoodInfoDto> GetGoodInfos(string userId, MemberRank memberRank, SellType sellType);
+        ICollection<GoodsOutput> GetGoodsInfos(MemberRank memberRank,string lotteryId, SellType sellType);
     }
 }

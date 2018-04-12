@@ -166,6 +166,7 @@
     <Compile Include="Enums\AccountRegistType.cs" />
     <Compile Include="Enums\AlgorithmType.cs" />
     <Compile Include="Enums\AppPlatform.cs" />
+    <Compile Include="Enums\AuthStatus.cs" />
     <Compile Include="Enums\ClientRegistType.cs" />
     <Compile Include="Enums\EmailTempletType.cs" />
     <Compile Include="Enums\IdentifyCodeType.cs" />

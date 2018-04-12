@@ -24,9 +24,12 @@ namespace Lottery.WebApi.Controllers.v1
             return _sellAppService.GetSalesType(_lotterySession.MemberRank);
         }
 
-        public ICollection<GoodInfoDto> GetGoodInfos(SellType sellType)
+
+        [Route("goodslist")]
+        [AllowAnonymous]
+        public ICollection<GoodsOutput> GetGoodInfos(SellType sellType)
         {
-            return _sellAppService.GetGoodInfos(_lotterySession.UserId,_lotterySession.MemberRank,sellType);
+            return _sellAppService.GetGoodsInfos(_lotterySession.MemberRank,_lotterySession.SystemTypeId,sellType);
         }
 
 

@@ -88,5 +88,7 @@
 
         public const string POINT_USER_SIGNEDLIST_KEY = "Point.User.SignedList.{0}";
 
+        public const string LOTTERY_GOODS_LIST = "Lottery.Goods.{0}.{1}";
+
     }
 }
