@@ -8,6 +8,7 @@ using Lottery.AppService.Norm;
 using Lottery.AppService.Plan;
 using Lottery.AppService.Validations;
 using Lottery.Commands.Norms;
+using Lottery.Core.Caching;
 using Lottery.Dtos.Norms;
 using Lottery.Dtos.Plans;
 using Lottery.Infrastructure.Collections;
@@ -31,6 +32,7 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly INormConfigAppService _normConfigAppService;
         private readonly UserNormConfigInputValidator _userNormConfigInputValidator;
         private readonly INormPlanConfigQueryService _normPlanConfigQueryService;
+        private readonly ICacheManager _cacheManager;
 
         public PlanController(ICommandService commandService, 
             IPlanInfoAppService planInfoAppService,
@@ -39,7 +41,8 @@ namespace Lottery.WebApi.Controllers.v1
             ILotteryDataAppService lotteryDataAppService,
             INormConfigAppService normConfigAppService,
             UserNormConfigInputValidator userNormConfigInputValidator,
-            INormPlanConfigQueryService normPlanConfigQueryService) : base(commandService)
+            INormPlanConfigQueryService normPlanConfigQueryService,
+            ICacheManager cacheManager) : base(commandService)
         {
             _planInfoAppService = planInfoAppService;
             _userNormDefaultConfigService = userNormDefaultConfigService;
@@ -48,6 +51,7 @@ namespace Lottery.WebApi.Controllers.v1
             _normConfigAppService = normConfigAppService;
             _userNormConfigInputValidator = userNormConfigInputValidator;
             _normPlanConfigQueryService = normPlanConfigQueryService;
+            _cacheManager = cacheManager;
         }
 
         /// <summary>
@@ -78,7 +82,7 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 throw new LotteryDataException(validatorResult.Errors.Select(p => p.ErrorMessage + "</br>").ToString(";"));
             }
-
+            _cacheManager.RemoveByPattern("Lottery.PlanTrack");
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
 
             var userDefaultNormConfig = 
@@ -185,6 +189,7 @@ namespace Lottery.WebApi.Controllers.v1
             }
 
             // todo: 更严格的指标公式验证
+            _cacheManager.RemoveByPattern("Lottery.PlanTrack");
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
             var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, input.PlanId);
 

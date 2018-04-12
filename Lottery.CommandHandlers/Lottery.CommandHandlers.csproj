@@ -53,6 +53,7 @@
     <Compile Include="NormCommandHandler.cs" />
     <Compile Include="OpinionRecordHandler.cs" />
     <Compile Include="PlanCommandHandler.cs" />
+    <Compile Include="PointCommandHandler.cs" />
     <Compile Include="PredictDataCommandHandler.cs" />
     <Compile Include="PredictTableCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

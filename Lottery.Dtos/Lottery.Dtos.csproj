@@ -54,8 +54,11 @@
     <Compile Include="Account\UserInfoViewModel.cs" />
     <Compile Include="Account\UserInfoDto.cs" />
     <Compile Include="Account\UserTicketDto.cs" />
+    <Compile Include="Activity\ActivityDto.cs" />
     <Compile Include="AppInfo\AppInfoOutput.cs" />
     <Compile Include="AuthRanks\AuthRankDto.cs" />
+    <Compile Include="Auths\UserAuthDto.cs" />
+    <Compile Include="Auths\UserAuthOutput.cs" />
     <Compile Include="ConLog\ConLogDto.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeDto.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeOutput.cs" />
@@ -100,6 +103,10 @@
     <Compile Include="Plans\PlanInfoOutput.cs" />
     <Compile Include="Plans\UserPlanInfoDto.cs" />
     <Compile Include="Plans\UserPlanInfoInput.cs" />
+    <Compile Include="Points\PointDto.cs" />
+    <Compile Include="Points\PointRecordOutput.cs" />
+    <Compile Include="Points\SignedDto.cs" />
+    <Compile Include="Points\SignedInfoOutput.cs" />
     <Compile Include="Power\MemberRankPowerCacheItem.cs" />
     <Compile Include="Power\PowerDto.cs" />
     <Compile Include="Power\PowerGrantInfo.cs" />
@@ -108,7 +115,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleDto\RoleDto.cs" />
     <Compile Include="ScheduleTasks\ScheduleTaskDto.cs" />
-    <Compile Include="Sells\GoodInfo.cs" />
+    <Compile Include="Sells\GoodsInfoDto.cs" />
+    <Compile Include="Sells\GoodsOutput.cs" />
     <Compile Include="Sells\SellTypeOutput.cs" />
     <Compile Include="UserInfo\EntryInfo.cs" />
     <Compile Include="UserInfo\LoginViewModel.cs" />

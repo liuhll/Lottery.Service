@@ -26,7 +26,7 @@ namespace Lottery.Engine.ComputePredictResult
         }
 
 
-        public override string GetPredictedData(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
+        protected override ICollection<string> GetPredictedDataList(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
         {
             var resultVal = new List<string>();
             if (normPlanInfo.DsType == PredictType.Fix)
@@ -45,7 +45,7 @@ namespace Lottery.Engine.ComputePredictResult
                     resultVal.Add(valList[item.Key - 1]);
                 }
             }
-            return resultVal.Take(userNorm.ForecastCount).ToSplitString();
+            return resultVal.ToList();
         }
     }
 }

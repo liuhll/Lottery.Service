@@ -9,6 +9,7 @@ using ENode.Commanding;
 using Lottery.AppService.Norm;
 using Lottery.AppService.Validations;
 using Lottery.Commands.Norms;
+using Lottery.Core.Caching;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
@@ -30,6 +31,7 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly INormPlanConfigQueryService _normPlanConfigQueryService;
         private readonly ILotteryQueryService _lotteryQueryService;
         private readonly IPlanInfoQueryService _planInfoQueryService;
+        private readonly ICacheManager _cacheManager;
 
         public NormController(ICommandService commandService, 
             INormConfigAppService normConfigAppService,
@@ -37,7 +39,8 @@ namespace Lottery.WebApi.Controllers.v1
             IUserNormDefaultConfigService userNormDefaultConfigService, 
             INormPlanConfigQueryService normPlanConfigQueryService,
             ILotteryQueryService lotteryQueryService,
-            IPlanInfoQueryService planInfoQueryService) 
+            IPlanInfoQueryService planInfoQueryService,
+            ICacheManager cacheManager) 
             : base(commandService)
         {
             _normConfigAppService = normConfigAppService;
@@ -46,6 +49,7 @@ namespace Lottery.WebApi.Controllers.v1
             _normPlanConfigQueryService = normPlanConfigQueryService;
             _lotteryQueryService = lotteryQueryService;
             _planInfoQueryService = planInfoQueryService;
+            _cacheManager = cacheManager;
         }
 
         /// <summary>
@@ -109,6 +113,7 @@ namespace Lottery.WebApi.Controllers.v1
                 var planInfo = _planInfoQueryService.GetPlanInfoById(planId);
                 predictCode = planInfo.PredictCode;
             }
+            _cacheManager.RemoveByPattern("Lottery.PlanTrack");
             var normPlanDefaultConfig = _normPlanConfigQueryService.GetNormPlanDefaultConfig(lotterInfo.LotteryCode, predictCode);
             var output = new NormPlanDefaultConfigOutput();
             output.ForecastCounts = GetOutputCounts(normPlanDefaultConfig.MinForecastCount,normPlanDefaultConfig.MaxForecastCount);

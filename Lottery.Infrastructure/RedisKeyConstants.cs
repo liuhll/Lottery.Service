@@ -82,5 +82,15 @@
 
         public const string NORM_PLAN_CONFIG_KEY = "Norm.Plan.Config.{0}.{1}";
 
+        public const string POINT_TYPE_KEY = "Point.Type.{0}";
+
+        public const string POINT_USER_RECORD_KEY = "Point.User.Record.{0}";
+
+        public const string POINT_USER_SIGNEDLIST_KEY = "Point.User.SignedList.{0}";
+
+        public const string LOTTERY_GOODS_LIST = "Lottery.Goods.{0}.{1}";
+
+        public const string LOTTERY_PLANTRACK_DETAIL_KEY = "Lottery.PlanTrack.{0}.{1}.{2}";
+
     }
 }

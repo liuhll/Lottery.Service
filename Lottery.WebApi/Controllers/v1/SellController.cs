@@ -2,6 +2,7 @@
 using System.Web.Http;
 using ENode.Commanding;
 using Lottery.AppService.Sell;
+using Lottery.Dtos.Auths;
 using Lottery.Dtos.Sells;
 using Lottery.Infrastructure.Enums;
 
@@ -16,6 +17,10 @@ namespace Lottery.WebApi.Controllers.v1
             _sellAppService = sellAppService;
         }
 
+        /// <summary>
+        /// 获取销售类型
+        /// </summary>
+        /// <returns></returns>
         [Route("salestype")]
         [AllowAnonymous]
         public ICollection<SellTypeOutput> GetSalesType()
@@ -24,11 +29,28 @@ namespace Lottery.WebApi.Controllers.v1
             return _sellAppService.GetSalesType(_lotterySession.MemberRank);
         }
 
-        public ICollection<GoodInfoDto> GetGoodInfos(SellType sellType)
+        /// <summary>
+        /// 获取商品列表
+        /// </summary>
+        /// <param name="sellType"></param>
+        /// <returns></returns>
+        [Route("goodslist")]
+        [AllowAnonymous]
+        public ICollection<GoodsOutput> GetGoodInfos(SellType sellType)
         {
-            return _sellAppService.GetGoodInfos(_lotterySession.UserId,_lotterySession.MemberRank,sellType);
+            return _sellAppService.GetGoodsInfos(_lotterySession.MemberRank,_lotterySession.SystemTypeId,sellType);
         }
 
+        /// <summary>
+        /// 获取用户授权信息
+        /// </summary>
+        /// <returns></returns>
+        [Route("userauth")]
+        [AllowAnonymous]
+        public UserAuthOutput GetMyselfAuthInfo()
+        {
+            return _sellAppService.GetMyselfAuthInfo(_lotterySession.UserId, _lotterySession.SystemTypeId);
+        }
 
     }
 }

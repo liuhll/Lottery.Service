@@ -43,5 +43,7 @@ namespace Lottery.Infrastructure
         public const string OpinionRecordTable = "B_OpinionRecord";
 
         public const string AppInfoTable = "B_AppInfo";
+
+        public const string PointTypeTable = "MS_PointType";
     }
 }

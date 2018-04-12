@@ -166,11 +166,13 @@
     <Compile Include="Enums\AccountRegistType.cs" />
     <Compile Include="Enums\AlgorithmType.cs" />
     <Compile Include="Enums\AppPlatform.cs" />
+    <Compile Include="Enums\AuthStatus.cs" />
     <Compile Include="Enums\ClientRegistType.cs" />
     <Compile Include="Enums\EmailTempletType.cs" />
     <Compile Include="Enums\IdentifyCodeType.cs" />
     <Compile Include="Enums\OnlineHelpType.cs" />
     <Compile Include="Enums\PointOperationType.cs" />
+    <Compile Include="Enums\PointType.cs" />
     <Compile Include="Enums\PurchaseType.cs" />
     <Compile Include="Enums\SellType.cs" />
     <Compile Include="Enums\SystemType.cs" />

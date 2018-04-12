@@ -15,12 +15,12 @@ namespace Lottery.Engine.ComputePredictResult
         }
 
 
-        public override string GetPredictedData(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
+        protected override ICollection<string> GetPredictedDataList(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
         {
             var positionInfo = normPlanInfo.PositionInfos.First();
 
             var valArr = PredictVals(positionInfo.Position, normPlanInfo.DsType);
-            return valArr.Take(userNorm.ForecastCount).ToSplitString(",");
+            return valArr.ToList();
         }
 
         private List<string> PredictVals(int position,PredictType predictType,int maxPosition = 10)

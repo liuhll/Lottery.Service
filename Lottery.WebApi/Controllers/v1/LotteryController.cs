@@ -8,10 +8,12 @@ using ENode.Commanding;
 using Lottery.AppService.LotteryData;
 using Lottery.AppService.Plan;
 using Lottery.Commands.LotteryPredicts;
+using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.Norms;
 using Lottery.Dtos.PageList;
 using Lottery.Infrastructure;
+using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.WebApi.Controllers.v1
@@ -24,13 +26,15 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly ILotteryPredictDataQueryService _lotteryPredictDataQueryService;
         private readonly IPlanTrackAppService _planTrackAppService;
         private readonly ILotteryQueryService _lotteryQueryService;
+        private readonly ICacheManager _cacheManager;
 
         public LotteryController(ILotteryDataAppService lotteryDataAppService,
             ICommandService commandService, 
             INormConfigQueryService normConfigQueryService, 
             ILotteryPredictDataQueryService lotteryPredictDataQueryService, 
             IPlanTrackAppService planTrackAppService,
-            ILotteryQueryService lotteryQueryService) 
+            ILotteryQueryService lotteryQueryService,
+            ICacheManager cacheManager) 
             : base(commandService)
         {
             _lotteryDataAppService = lotteryDataAppService;
@@ -38,6 +42,7 @@ namespace Lottery.WebApi.Controllers.v1
             _lotteryPredictDataQueryService = lotteryPredictDataQueryService;
             _planTrackAppService = planTrackAppService;
             _lotteryQueryService = lotteryQueryService;
+            _cacheManager = cacheManager;
         }
 
         /// <summary>
@@ -113,25 +118,31 @@ namespace Lottery.WebApi.Controllers.v1
             var userNormConfigs =
                 _normConfigQueryService.GetUserOrDefaultNormConfigs(LotteryInfo.Id, _lotterySession.UserId);
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
-            var predictDetailDatas = new List<PlanTrackDetail>();
-            foreach (var userNorm in userNormConfigs)
+            
+            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_PLANTRACK_DETAIL_KEY, LotteryInfo.Id, _lotterySession.MemberRank == MemberRank.Ordinary ? LotteryConstants.SystemUser : _lotterySession.UserId, finalLotteryData.Period);
+            return _cacheManager.Get<ICollection<PlanTrackDetail>>(cacheKey, () =>
             {
-                var planTrackDetail = _planTrackAppService.GetPlanTrackDetail(userNorm,LotteryInfo.LotteryCode, _lotterySession.UserId);
-                predictDetailDatas.Add(planTrackDetail);                
-            }
-            while (predictDetailDatas.Any(p=>p.CurrentPredictData == null || p.CurrentPredictData.CurrentPredictPeriod < finalLotteryData.NextPeriod))
-            {
-                GetPredictDatas();
-                Thread.Sleep(400);
-                predictDetailDatas.Clear();
+                var predictDetailDatas = new List<PlanTrackDetail>();
                 foreach (var userNorm in userNormConfigs)
                 {
                     var planTrackDetail = _planTrackAppService.GetPlanTrackDetail(userNorm, LotteryInfo.LotteryCode, _lotterySession.UserId);
                     predictDetailDatas.Add(planTrackDetail);
                 }
-            }
-         
-            return predictDetailDatas.OrderBy(p=>p.Sort).ToList();
+                while (predictDetailDatas.Any(p => p.CurrentPredictData == null || p.CurrentPredictData.CurrentPredictPeriod < finalLotteryData.NextPeriod))
+                {
+                    GetPredictDatas();
+                    Thread.Sleep(266);
+                    predictDetailDatas.Clear();
+                    foreach (var userNorm in userNormConfigs)
+                    {
+                        var planTrackDetail = _planTrackAppService.GetPlanTrackDetail(userNorm, LotteryInfo.LotteryCode, _lotterySession.UserId);
+                        predictDetailDatas.Add(planTrackDetail);
+                    }
+                }
+
+                return predictDetailDatas.OrderBy(p => p.Sort).ToList();
+            });
+      
         }
 
         /// <summary>
