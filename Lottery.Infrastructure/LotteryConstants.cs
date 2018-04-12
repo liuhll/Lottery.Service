@@ -13,5 +13,7 @@
         public const int HistoryPredictResultCount = 10;
 
         public const int ContinuousSignedDays = 5;
+
+        public const string SystemUser = "System";
     }
 }
