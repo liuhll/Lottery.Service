@@ -74,6 +74,16 @@ namespace Lottery.AppService.Sell
             return result;
         }
 
+        public UserAuthOutput GetMyselfAuthInfo(string userId, string lotteryId)
+        {
+            var authInfo = _sellQueryService.GetMyselfAuthInfo(userId, lotteryId)
+                ?? new UserAuthOutput()
+            {
+                Notes = "普通版授权"
+            };
+            return authInfo;
+        }
+
         private IList<GoodsOutput> GetRmbGoodInfos(MemberRank memberRank, string lotteryId)
         {
             var result = new List<GoodsOutput>();

@@ -58,6 +58,7 @@
     <Compile Include="AppInfo\AppInfoOutput.cs" />
     <Compile Include="AuthRanks\AuthRankDto.cs" />
     <Compile Include="Auths\UserAuthDto.cs" />
+    <Compile Include="Auths\UserAuthOutput.cs" />
     <Compile Include="ConLog\ConLogDto.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeDto.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeOutput.cs" />

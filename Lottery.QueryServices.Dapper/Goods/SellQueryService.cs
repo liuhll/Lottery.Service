@@ -75,6 +75,26 @@ AND B.LotteryId=@LotteryId";
             }
         }
 
+        public UserAuthOutput GetMyselfAuthInfo(string userId, string lotteryId)
+        {
+            using (var conn = GetLotteryConnection())
+            {
+                var sql = @"SELECT *,SalesOrderNo
+  FROM  [dbo].[S_AuthorizeRecord] AS A
+  LEFT JOIN dbo.S_OrderRecord AS B
+  ON B.Id = A.SaleRecordId
+  WHERE InvalidDate <  GETDATE() AND A.Status=0
+  AND A.LotteryId=@LotteryId
+  AND A.AuthUserId=@UserId";
+
+                return conn.Query<UserAuthOutput>(sql, new
+                {
+                    LotteryId = lotteryId,
+                    UserId = userId
+                }).FirstOrDefault();
+            }
+        }
+
         private IList<GoodsInfoDto> GetPointGoodInfos(string lotteryId)
         {
             var cacheKey = string.Format(RedisKeyConstants.LOTTERY_GOODS_LIST, "Point", lotteryId);
