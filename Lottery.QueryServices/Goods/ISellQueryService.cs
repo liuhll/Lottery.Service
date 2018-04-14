@@ -13,5 +13,6 @@ namespace Lottery.QueryServices.Goods
         IList<GoodsInfoDto> GetPointGoodInfos(MemberRank memberRank, string lotteryId);
         UserAuthDto GetUserAuthInfo(string userId, string lotteryId);
         UserAuthOutput GetMyselfAuthInfo(string userId, string lotteryId);
+        GoodsInfoDto GetGoodsInfoById(string goodId);
     }
 }

@@ -11,5 +11,8 @@ namespace Lottery.AppService.Sell
         ICollection<GoodsOutput> GetGoodsInfos(MemberRank memberRank,string lotteryId, SellType sellType);
         
         UserAuthOutput GetMyselfAuthInfo(string userId, string lotteryId);
+        GoodsInfoDto GetGoodsInfoById(string goodId);
+
+        double GetDiscount(string authRankId, SellType sellType);
     }
 }

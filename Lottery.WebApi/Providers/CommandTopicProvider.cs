@@ -9,7 +9,9 @@ using Lottery.Commands.Messages;
 using Lottery.Commands.Norms;
 using Lottery.Commands.OpinionRecords;
 using Lottery.Commands.Points;
+using Lottery.Commands.Sells;
 using Lottery.Commands.UserInfos;
+using Lottery.Core.Domain.Orders;
 using Lottery.Infrastructure;
 
 namespace Lottery.WebApi.Providers
@@ -24,7 +26,8 @@ namespace Lottery.WebApi.Providers
                 typeof(UpdateNextDayFirstPeriodCommand),
                 typeof(InitPredictTableCommand),
                 typeof(CompleteDynamicTableCommand),
-                typeof(PredictDataCommand)
+                typeof(PredictDataCommand),
+                typeof(AddOrderRecordCommand)
             );
 
             RegisterTopic(EQueueTopics.LotteryAccountCommandTopic,

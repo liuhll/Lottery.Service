@@ -84,6 +84,16 @@ namespace Lottery.AppService.Sell
             return authInfo;
         }
 
+        public GoodsInfoDto GetGoodsInfoById(string goodId)
+        {
+            var goodInfo = _sellQueryService.GetGoodsInfoById(goodId);
+            if (goodInfo == null)
+            {
+                throw new LotteryException("获取商品信息失败,请稍后重试");
+            }
+            return goodInfo;
+        }
+
         private IList<GoodsOutput> GetRmbGoodInfos(MemberRank memberRank, string lotteryId)
         {
             var result = new List<GoodsOutput>();
@@ -94,11 +104,12 @@ namespace Lottery.AppService.Sell
                 Debug.Assert(goods.Term.HasValue);
                 var output = new GoodsOutput()
                 {
+                    GoodsId =  goods.Id,
                     GoodsName = goods.GoodName,
                     Count = goods.Term.Value,
                     Discount = GetDiscount(goods.AuthRankId,SellType.Rmb),
                     PurchaseType = GetPurchaseType(userAuthInfo,goods.MemberRank),
-                    OriginalPrice = goods.Price * goods.Term.Value
+                    UnitPrice = goods.Price 
                 };
                 result.Add(output);
             }
@@ -121,7 +132,7 @@ namespace Lottery.AppService.Sell
             }
         }
 
-        private double GetDiscount(string authRankId,SellType sellType)
+        public double GetDiscount(string authRankId,SellType sellType)
         {
             var activity = _activityQueryService.GetAuthAcivity(authRankId,sellType);
             if (activity == null)
@@ -144,7 +155,7 @@ namespace Lottery.AppService.Sell
                     Count = 1,
                     Discount = GetDiscount(goods.AuthRankId, SellType.Point),
                     PurchaseType = GetPurchaseType(userAuthInfo, goods.MemberRank),
-                    OriginalPrice = goods.Price * 1
+                    UnitPrice = goods.Price
                 };
                 result.Add(output);
             }

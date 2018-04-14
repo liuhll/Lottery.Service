@@ -86,6 +86,8 @@
     <Compile Include="Domain\NormGroups\NormGroup.cs" />
     <Compile Include="Domain\OpinionRecords\AddOpinionRecordEvent.cs" />
     <Compile Include="Domain\OpinionRecords\OpinionRecord.cs" />
+    <Compile Include="Domain\Orders\AddOrderRecordEvent.cs" />
+    <Compile Include="Domain\Orders\OrderRecord.cs" />
     <Compile Include="Domain\PlanInfos\PlanInfo.cs" />
     <Compile Include="Domain\PlanInfos\UserPlanNormConfig.cs" />
     <Compile Include="Domain\PlanKeyNumbers\PlanKeyNumber.cs" />

@@ -2,6 +2,8 @@
 {
     public class GoodsInfoDto
     {
+        public string Id { get; set; }
+
         public string AuthRankId { get; set; }
         public string GoodName { get; set; }
 

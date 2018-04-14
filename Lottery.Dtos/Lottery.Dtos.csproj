@@ -117,6 +117,7 @@
     <Compile Include="ScheduleTasks\ScheduleTaskDto.cs" />
     <Compile Include="Sells\GoodsInfoDto.cs" />
     <Compile Include="Sells\GoodsOutput.cs" />
+    <Compile Include="Sells\OrderInput.cs" />
     <Compile Include="Sells\SellTypeOutput.cs" />
     <Compile Include="UserInfo\EntryInfo.cs" />
     <Compile Include="UserInfo\LoginViewModel.cs" />

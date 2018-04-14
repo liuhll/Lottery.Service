@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using ENode.Commanding;
 using Lottery.AppService.Sell;
+using Lottery.Commands.Sells;
 using Lottery.Dtos.Auths;
 using Lottery.Dtos.Sells;
 using Lottery.Infrastructure.Enums;
+using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Tools;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -46,11 +51,54 @@ namespace Lottery.WebApi.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [Route("userauth")]
+        [HttpGet]
         [AllowAnonymous]
         public UserAuthOutput GetMyselfAuthInfo()
         {
             return _sellAppService.GetMyselfAuthInfo(_lotterySession.UserId, _lotterySession.SystemTypeId);
         }
 
+        /// <summary>
+        /// 购买下订单
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [Route("order")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<string> Order(OrderInput input)
+        {
+            var goods = _sellAppService.GetGoodsInfoById(input.GoodId);
+            var discount = _sellAppService.GetDiscount(goods.AuthRankId, input.SellType);
+            if (goods.Term.HasValue)
+            {
+                if (input.Count != goods.Term.Value && input.Price.Equals(goods.Price) &&
+                    input.Discount.Equals(discount))
+                {
+                    throw new LotteryDataException("订单信息错误,核对您的订单");
+                }
+            }
+            else
+            {
+                if (input.Price.Equals(goods.Price) &&
+                    input.Discount.Equals(discount))
+                {
+                    throw new LotteryDataException("订单信息错误,核对您的订单");
+                }
+            }
+            var orderInfo = GenerateOrder(input, goods, discount);
+            await SendCommandAsync(orderInfo);
+
+            return "OK";
+        }
+
+        private AddOrderRecordCommand GenerateOrder(OrderInput input, GoodsInfoDto goods,double discount)
+        {
+            var orderNo = OrderHelper.GenerateOrderNo(OrderType.Order, input.SellType);
+            var orderOriginCost = input.Count * input.Price;
+            var orderCost = orderOriginCost * discount;
+            return new AddOrderRecordCommand(Guid.NewGuid().ToString(),orderNo,goods.AuthRankId,_lotterySession.SystemTypeId, OrderSourceType.V1,
+                input.Count,input.Price,orderOriginCost,orderCost,input.SellType,_lotterySession.UserId);
+        }
     }
 }

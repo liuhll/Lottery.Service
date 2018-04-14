@@ -4,11 +4,15 @@ namespace Lottery.Dtos.Sells
 {
     public class GoodsOutput
     {
+        public string GoodsId { get; set; }
+
         public string GoodsName { get; set; }
 
-        public double Price => OriginalPrice * Discount;
+        public double SellPrice => OriginalPrice * Discount;
 
-        public double OriginalPrice { get; set; }
+        public double OriginalPrice => UnitPrice * Count;
+
+        public double UnitPrice { get; set; }
 
         public int Count { get; set; }
 
