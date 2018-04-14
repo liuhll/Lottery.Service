@@ -6,7 +6,7 @@ namespace Lottery.Dtos.Sells
     {
         public string GoodId { get; set; }
 
-        public double Price { get; set; }
+        public double UnitPrice { get; set; }
 
         public double Discount { get; set; }
 

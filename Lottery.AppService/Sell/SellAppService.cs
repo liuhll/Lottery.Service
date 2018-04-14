@@ -109,7 +109,7 @@ namespace Lottery.AppService.Sell
                     Count = goods.Term.Value,
                     Discount = GetDiscount(goods.AuthRankId,SellType.Rmb),
                     PurchaseType = GetPurchaseType(userAuthInfo,goods.MemberRank),
-                    UnitPrice = goods.Price 
+                    UnitPrice = goods.UnitPrice 
                 };
                 result.Add(output);
             }
@@ -155,7 +155,7 @@ namespace Lottery.AppService.Sell
                     Count = 1,
                     Discount = GetDiscount(goods.AuthRankId, SellType.Point),
                     PurchaseType = GetPurchaseType(userAuthInfo, goods.MemberRank),
-                    UnitPrice = goods.Price
+                    UnitPrice = goods.UnitPrice
                 };
                 result.Add(output);
             }

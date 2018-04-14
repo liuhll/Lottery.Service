@@ -41,7 +41,7 @@ namespace Lottery.Core.Domain.Orders
 
         public string LotteryId { get; private set; }
 
-        public int OrderSourceType { get; private set; }
+        public OrderSourceType OrderSourceType { get; private set; }
 
         public int Count { get; private set; }
 

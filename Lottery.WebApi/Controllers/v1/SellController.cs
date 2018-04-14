@@ -72,7 +72,7 @@ namespace Lottery.WebApi.Controllers.v1
             var discount = _sellAppService.GetDiscount(goods.AuthRankId, input.SellType);
             if (goods.Term.HasValue)
             {
-                if (input.Count != goods.Term.Value && input.Price.Equals(goods.Price) &&
+                if (input.Count != goods.Term.Value && input.UnitPrice.Equals(goods.UnitPrice) &&
                     input.Discount.Equals(discount))
                 {
                     throw new LotteryDataException("订单信息错误,核对您的订单");
@@ -80,7 +80,7 @@ namespace Lottery.WebApi.Controllers.v1
             }
             else
             {
-                if (input.Price.Equals(goods.Price) &&
+                if (input.UnitPrice.Equals(goods.UnitPrice) &&
                     input.Discount.Equals(discount))
                 {
                     throw new LotteryDataException("订单信息错误,核对您的订单");
@@ -95,10 +95,10 @@ namespace Lottery.WebApi.Controllers.v1
         private AddOrderRecordCommand GenerateOrder(OrderInput input, GoodsInfoDto goods,double discount)
         {
             var orderNo = OrderHelper.GenerateOrderNo(OrderType.Order, input.SellType);
-            var orderOriginCost = input.Count * input.Price;
+            var orderOriginCost = input.Count * input.UnitPrice;
             var orderCost = orderOriginCost * discount;
             return new AddOrderRecordCommand(Guid.NewGuid().ToString(),orderNo,goods.AuthRankId,_lotterySession.SystemTypeId, OrderSourceType.V1,
-                input.Count,input.Price,orderOriginCost,orderCost,input.SellType,_lotterySession.UserId);
+                input.Count,input.UnitPrice,orderOriginCost,orderCost,input.SellType,_lotterySession.UserId);
         }
     }
 }

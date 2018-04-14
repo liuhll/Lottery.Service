@@ -13,7 +13,7 @@
 
         public string Title { get; set; }
 
-        public double Price { get; set; }
+        public double UnitPrice { get; set; }
 
        // public double Discount { get; set; } = 1.00;
     }

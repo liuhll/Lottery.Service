@@ -37,7 +37,7 @@ namespace Lottery.QueryServices.Dapper.Goods
                 // AND B.MemberRank>=@MemberRank
                 using (var conn = GetLotteryConnection())
                 {
-                    var sql = @"SELECT A.Id,A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.PointPrice AS Price  FROM [dbo].[S_GoodInfo] AS A
+                    var sql = @"SELECT A.Id,A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.PointPrice AS UnitPrice  FROM [dbo].[S_GoodInfo] AS A
 LEFT JOIN dbo.MS_AuthRank AS B ON b.Id=A.AuthRankId 
 LEFT JOIN dbo.L_LotteryInfo AS C ON C.Id=B.LotteryId
 WHERE B.CanSell = 1 AND A.SellType=0 
@@ -100,7 +100,7 @@ AND B.LotteryId=@LotteryId";
             using (var conn = GetLotteryConnection())
             {
                 var sql =
-                    @"SELECT A.Id, A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.PointPrice AS Price  FROM [dbo].[S_GoodInfo] AS A
+                    @"SELECT A.Id, A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.PointPrice AS UnitPrice  FROM [dbo].[S_GoodInfo] AS A
 LEFT JOIN dbo.MS_AuthRank AS B ON B.Id=A.AuthRankId 
 LEFT JOIN dbo.L_LotteryInfo AS C ON C.Id=B.LotteryId
 WHERE A.Id=@Id";
@@ -121,7 +121,7 @@ WHERE A.Id=@Id";
                 using (var conn = GetLotteryConnection())
                 {
                     var sql =
-                        @"SELECT A.Id, A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.PointPrice AS Price  FROM [dbo].[S_GoodInfo] AS A
+                        @"SELECT A.Id, A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.PointPrice AS UnitPrice  FROM [dbo].[S_GoodInfo] AS A
 LEFT JOIN dbo.MS_AuthRank AS B ON b.Id=A.AuthRankId 
 LEFT JOIN dbo.L_LotteryInfo AS C ON C.Id=B.LotteryId
 WHERE B.CanSell = 1 AND B.EnablePointConsume =1
