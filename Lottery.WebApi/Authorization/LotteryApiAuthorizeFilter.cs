@@ -1,4 +1,8 @@
-﻿using System;
+﻿using ECommon.Components;
+using Lottery.AppService.Authorize;
+using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -6,22 +10,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using ECommon.Components;
-using Lottery.AppService.Authorize;
-using Lottery.Infrastructure.Exceptions;
-using Lottery.Infrastructure.Tools;
 
 namespace Lottery.WebApi.Authorization
 {
     public class LotteryApiAuthorizeFilter : LotteryBaseAuthorizeFilter
     {
-
         private readonly string env;
+
         public LotteryApiAuthorizeFilter()
         {
             env = ConfigHelper.Value("env");
         }
-
 
         public override async Task<HttpResponseMessage> ExecuteAuthorizationFilterAsync(HttpActionContext actionContext, CancellationToken cancellationToken,
             Func<Task<HttpResponseMessage>> continuation)
@@ -51,8 +50,8 @@ namespace Lottery.WebApi.Authorization
             }
             catch (LotteryAuthorizationException ex)
             {
-                _logger.Error(ex);             
-                return CreateUnAuthorizedResponse(actionContext,ex.Message);
+                _logger.Error(ex);
+                return CreateUnAuthorizedResponse(actionContext, ex.Message);
             }
         }
 
@@ -68,7 +67,6 @@ namespace Lottery.WebApi.Authorization
             allApiAuthorizeAttributes.AddRange(lotteryApiAuthenticationAttribute1);
             allApiAuthorizeAttributes.AddRange(lotteryApiAuthenticationAttribute2);
             return allApiAuthorizeAttributes;
-
         }
     }
 }

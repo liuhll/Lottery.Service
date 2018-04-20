@@ -1,23 +1,16 @@
-﻿using System;
+﻿using Lottery.Dtos.Lotteries;
 using System.Collections.Generic;
-using System.Diagnostics;
-using EasyHttp.Http;
-using Lottery.Dtos.Lotteries;
-using Lottery.Infrastructure.Extensions;
 
 namespace Lottery.Crawler.Bjpks
 {
     public class BjpksDataUpdateItem1 : BaseDataUpdateItem
     {
-
         public BjpksDataUpdateItem1(DataSiteDto dataSite) : base(dataSite)
         {
         }
 
-
         protected override IList<LotteryDataDto> RequestDatas(int finalData)
         {
-
             //_httpClient.Request.Accept = HttpContentTypes.ApplicationJson;
             //_httpClient.Request.UserAgent = CHROME_UA;
             //var response = _httpClient.Get(_dataSite.Url, new { gameCode = "bjpk10" });
@@ -50,7 +43,6 @@ namespace Lottery.Crawler.Bjpks
             //    return resultList;
             //}
             return null;
-
         }
     }
 }

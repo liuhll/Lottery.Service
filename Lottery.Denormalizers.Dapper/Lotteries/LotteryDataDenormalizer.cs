@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
-using ECommon.Dapper;
+﻿using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Caching;
 using Lottery.Core.Domain.LotteryDatas;
 using Lottery.Core.Domain.LotteryFinalDatas;
 using Lottery.Infrastructure;
-using Lottery.Infrastructure.Extensions;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper
 {
@@ -24,24 +23,23 @@ namespace Lottery.Denormalizers.Dapper
 
         public Task<AsyncTaskResult> HandleAsync(LotteryDataAddedEvent evnt)
         {
-            return TryInsertRecordAsync( conn =>
-            {
-                var lotteryDataRedisKey = string.Format(RedisKeyConstants.LOTTERY_DATA_ALL_KEY,
-                    evnt.LotteryDataInfo.LotteryId);
-                _cacheManager.Remove(lotteryDataRedisKey);
-                var lotteryFianlDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, evnt.LotteryDataInfo.LotteryId);
-                _cacheManager.Remove(lotteryFianlDataKey);
-                return conn.InsertAsync(new
-                {
-                    Id = evnt.AggregateRootId,
-                    evnt.LotteryDataInfo.Data,
-                    evnt.LotteryDataInfo.InsertTime,
-                    evnt.LotteryDataInfo.LotteryTime,
-                    evnt.LotteryDataInfo.Period,
-                    evnt.LotteryDataInfo.LotteryId
-
-                }, TableNameConstants.LotteryDataTable);
-            });
+            return TryInsertRecordAsync(conn =>
+           {
+               var lotteryDataRedisKey = string.Format(RedisKeyConstants.LOTTERY_DATA_ALL_KEY,
+                   evnt.LotteryDataInfo.LotteryId);
+               _cacheManager.Remove(lotteryDataRedisKey);
+               var lotteryFianlDataKey = string.Format(RedisKeyConstants.LOTTERY_FINAL_DATA_KEY, evnt.LotteryDataInfo.LotteryId);
+               _cacheManager.Remove(lotteryFianlDataKey);
+               return conn.InsertAsync(new
+               {
+                   Id = evnt.AggregateRootId,
+                   evnt.LotteryDataInfo.Data,
+                   evnt.LotteryDataInfo.InsertTime,
+                   evnt.LotteryDataInfo.LotteryTime,
+                   evnt.LotteryDataInfo.Period,
+                   evnt.LotteryDataInfo.LotteryId
+               }, TableNameConstants.LotteryDataTable);
+           });
         }
 
         public Task<AsyncTaskResult> HandleAsync(UpdateLotteryFinalDataEvent evnt)
@@ -75,7 +73,7 @@ namespace Lottery.Denormalizers.Dapper
                     evnt.UpdateTime
                 }, new
                 {
-                    Id = evnt.AggregateRootId 
+                    Id = evnt.AggregateRootId
                 }, TableNameConstants.LotteryFinalDataTable);
             });
         }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lottery.Dtos.Account
+﻿namespace Lottery.Dtos.Account
 {
     public class PassWordInput
     {

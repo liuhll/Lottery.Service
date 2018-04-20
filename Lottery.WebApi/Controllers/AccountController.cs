@@ -1,11 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using ECommon.IO;
+﻿using ECommon.IO;
 using Effortless.Net.Encryption;
 using ENode.Commanding;
 using FluentValidation.Results;
@@ -28,6 +21,12 @@ using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Points;
 using Lottery.WebApi.Extensions;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Lottery.WebApi.Controllers
 {
@@ -166,7 +165,7 @@ namespace Lottery.WebApi.Controllers
             }
 
             var userId = Guid.NewGuid().ToString();
-         
+
             var userInfoCommand = new AddUserInfoCommand(userId, user.Account,
                 EncryptPassword(user.Account, user.Password, accountRegType),
                 user.ClientRegistType, accountRegType, 0);
@@ -233,7 +232,6 @@ namespace Lottery.WebApi.Controllers
             }
             else if (input.ProfileType == AccountRegistType.Phone)
             {
-
                 var bindUserPhoneCommand = new BindUserPhoneCommand(_lotterySession.UserId, input.Profile);
                 result = await SendCommandAsync(bindUserPhoneCommand);
             }
@@ -316,8 +314,6 @@ namespace Lottery.WebApi.Controllers
             return pwd;
         }
 
-
-
         private bool ValidateClient(string clientType, out string clientTypeId)
         {
             if (LotteryConstants.BackOfficeKey.Equals(clientType, StringComparison.CurrentCultureIgnoreCase))
@@ -339,6 +335,6 @@ namespace Lottery.WebApi.Controllers
             return true;
         }
 
-        #endregion
+        #endregion 私有方法
     }
 }

@@ -6,7 +6,6 @@ namespace Lottery.Commands.UserInfos
     {
         private UpdatePasswordCommand()
         {
-
         }
 
         public UpdatePasswordCommand(string id, string password, string updateBy) : base(id)
@@ -15,8 +14,8 @@ namespace Lottery.Commands.UserInfos
             UpdateBy = updateBy;
         }
 
-        public string Password { get;private set; }
+        public string Password { get; private set; }
 
-        public string UpdateBy { get;private set; }
+        public string UpdateBy { get; private set; }
     }
 }

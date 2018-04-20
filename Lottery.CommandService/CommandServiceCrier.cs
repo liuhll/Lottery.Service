@@ -6,7 +6,6 @@ namespace Lottery.CommandService
 {
     public class CommandServiceCrier : ServiceControl
     {
-
         private readonly ILogger _logger = null;
 
         public CommandServiceCrier()

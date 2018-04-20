@@ -15,6 +15,6 @@
 
         public double UnitPrice { get; set; }
 
-       // public double Discount { get; set; } = 1.00;
+        // public double Discount { get; set; } = 1.00;
     }
 }

@@ -17,12 +17,10 @@ namespace Lottery.Dtos.Lotteries
         /// </summary>
         public int Period { get; set; }
 
-
         /// <summary>
         /// 开奖数据
         /// </summary>
         public string Data { get; set; }
-
 
         /// <summary>
         /// 最后一期开奖时间

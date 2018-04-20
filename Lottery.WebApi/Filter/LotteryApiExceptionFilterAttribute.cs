@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
-using System.Web.Http.Filters;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Logging;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
@@ -13,6 +7,12 @@ using Lottery.Infrastructure.RunTime.Session;
 using Lottery.WebApi.Configration;
 using Lottery.WebApi.Helper;
 using Lottery.WebApi.Result.Models;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web;
+using System.Web.Http.Filters;
 using ILoggerFactory = ECommon.Logging.ILoggerFactory;
 
 namespace Lottery.WebApi.Filter
@@ -58,7 +58,7 @@ namespace Lottery.WebApi.Filter
                 context.Response = context.Request.CreateResponse(
                     httpStatusCode,
                     new ResponseMessage(
-                        new ErrorInfo(GetErrorCode(context),httpException.Message),
+                        new ErrorInfo(GetErrorCode(context), httpException.Message),
                         httpStatusCode == HttpStatusCode.Unauthorized || httpStatusCode == HttpStatusCode.Forbidden
                     )
                 );
@@ -69,7 +69,7 @@ namespace Lottery.WebApi.Filter
                     GetStatusCode(context),
                     new ResponseMessage(
                         new ErrorInfo(GetErrorCode(context), context.Exception.Message),
-                        context.Exception is  LotteryAuthorizationException)
+                        context.Exception is LotteryAuthorizationException)
                 );
             }
         }
@@ -78,8 +78,7 @@ namespace Lottery.WebApi.Filter
         {
             if (context.Exception is LotteryException)
             {
-                return ((LotteryException) context.Exception).ErrorCode;
-
+                return ((LotteryException)context.Exception).ErrorCode;
             }
             return ErrorCode.UnknownError;
         }

@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
 using ENode.Commanding;
@@ -8,6 +7,7 @@ using ENode.Infrastructure;
 using ENode.SqlServer;
 using Lottery.Core.Domain.LotteryDatas;
 using Lottery.Infrastructure;
+using System.Reflection;
 
 namespace Lottery.Tests
 {
@@ -35,12 +35,11 @@ namespace Lottery.Tests
             _commandService = ObjectContainer.Resolve<ICommandService>();
 
             ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(LotteryData).Name);
-
         }
 
         protected CommandResult ExecuteCommand(ICommand command)
         {
-            return _commandService.Execute(command, CommandReturnType.EventHandled,550000);
+            return _commandService.Execute(command, CommandReturnType.EventHandled, 550000);
         }
 
         protected void SendCommand(ICommand command)
@@ -53,7 +52,7 @@ namespace Lottery.Tests
             var assemblies = new[]
             {
                 Assembly.Load("Lottery.Infrastructure"),
-                Assembly.Load("Lottery.Commands"),                
+                Assembly.Load("Lottery.Commands"),
                 Assembly.Load("Lottery.CommandHandlers"),
                 Assembly.Load("Lottery.Core"),
                 Assembly.Load("Lottery.Denormalizers.Dapper"),
@@ -62,9 +61,9 @@ namespace Lottery.Tests
                 Assembly.Load("Lottery.QueryServices.Dapper"),
                 Assembly.Load("Lottery.Crawler"),
                 Assembly.Load("Lottery.Engine"),
-                Assembly.Load("Lottery.Dtos"), 
-                Assembly.Load("Lottery.RunApp"), 
-                Assembly.Load("Lottery.AppService"), 
+                Assembly.Load("Lottery.Dtos"),
+                Assembly.Load("Lottery.RunApp"),
+                Assembly.Load("Lottery.AppService"),
                 Assembly.Load("Lottery.Tests")
             };
             //var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
@@ -81,14 +80,14 @@ namespace Lottery.Tests
                 .UseSqlServerEventStore()
                 .UseSqlServerPublishedVersionStore()
                 .UseSqlServerLockService()
-                .RegisterBusinessComponents(assemblies)                
+                .RegisterBusinessComponents(assemblies)
                 .UseEQueue()
                 .UseRedisCache()
                 .BuildContainer()
                 .InitializeSqlServerEventStore(DataConfigSettings.ENodeConnectionString)
                 .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)
                 .InitializeSqlServerLockService(DataConfigSettings.ENodeConnectionString)
-                .InitializeBusinessAssemblies(assemblies)              
+                .InitializeBusinessAssemblies(assemblies)
                 .SetUpDataUpdateItems()
                 .InitLotteryEngine()
                 .InitEmailSeting()
@@ -101,7 +100,6 @@ namespace Lottery.Tests
             _enodeConfiguration.ShutdownEQueue();
             _enodeConfiguration.Stop();
             _logger.Info("ENode shutdown.");
-
         }
     }
 }

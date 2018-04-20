@@ -1,6 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
+using System;
 
 namespace Lottery.Infrastructure.Tools
 {
@@ -17,6 +16,7 @@ namespace Lottery.Infrastructure.Tools
                     case SellType.Point:
                         prefix = "OP";
                         break;
+
                     case SellType.Rmb:
                         prefix = "OR";
                         break;
@@ -29,6 +29,7 @@ namespace Lottery.Infrastructure.Tools
                     case SellType.Point:
                         prefix = "PP";
                         break;
+
                     case SellType.Rmb:
                         prefix = "PR";
                         break;

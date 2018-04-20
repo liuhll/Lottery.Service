@@ -1,5 +1,5 @@
-﻿using System;
-using ENode.Commanding;
+﻿using ENode.Commanding;
+using System;
 
 namespace Lottery.Commands.IdentifyCodes
 {
@@ -9,7 +9,7 @@ namespace Lottery.Commands.IdentifyCodes
         {
         }
 
-        public AddIdentifyCodeCommand(string id,string receiver,
+        public AddIdentifyCodeCommand(string id, string receiver,
             string code, int identifyCodeType, int messageType, DateTime expirationDate, string createBy) : base(id)
         {
             Receiver = receiver;

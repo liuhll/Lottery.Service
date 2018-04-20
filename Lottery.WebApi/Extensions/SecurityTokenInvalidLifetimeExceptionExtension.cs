@@ -1,11 +1,10 @@
-﻿using System;
-using Lottery.Infrastructure;
+﻿using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
-using Lottery.Infrastructure.Json;
 using Lottery.Infrastructure.RunTime.Security;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Lottery.WebApi.Extensions
 {
@@ -17,7 +16,7 @@ namespace Lottery.WebApi.Extensions
             {
                 var errorMsg = exception.Message;
 
-                var planloadStr = errorMsg.Substring(errorMsg.IndexOfCount("{", 2) -1);
+                var planloadStr = errorMsg.Substring(errorMsg.IndexOfCount("{", 2) - 1);
                 planloadStr = planloadStr.Remove(planloadStr.Length - 2);
 
                 var jObj = JObject.Parse(planloadStr);
@@ -34,7 +33,7 @@ namespace Lottery.WebApi.Extensions
             }
             catch (Exception e)
             {
-                throw new LotteryAuthorizationException("无效的Token",ErrorCode.InvalidToken);
+                throw new LotteryAuthorizationException("无效的Token", ErrorCode.InvalidToken);
             }
         }
     }
@@ -52,6 +51,5 @@ namespace Lottery.WebApi.Extensions
         public int ClientNo { get; set; }
 
         public string SystemTypeId { get; set; }
-
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Lottery.Infrastructure.Exceptions;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Lottery.Infrastructure.Exceptions;
-using Newtonsoft.Json;
 
 namespace Lottery.Infrastructure.Extensions
 {
@@ -23,7 +23,7 @@ namespace Lottery.Infrastructure.Extensions
             return string.IsNullOrEmpty(str);
         }
 
-        public static T ToEnum<T>(this string str) where T : struct 
+        public static T ToEnum<T>(this string str) where T : struct
         {
             if (!typeof(T).IsEnum)
             {
@@ -43,7 +43,7 @@ namespace Lottery.Infrastructure.Extensions
             return sb.Remove(sb.Length - split.Length, split.Length).ToString();
         }
 
-        public static T ToObject<T>(this string str) where T : class 
+        public static T ToObject<T>(this string str) where T : class
         {
             if (!str.IsNullOrEmpty())
             {
@@ -54,7 +54,6 @@ namespace Lottery.Infrastructure.Extensions
 
         public static int IndexOfCount(this string str, string keyword, int count)
         {
-
             int index = 0;
             int initCount = 0;
             while ((index = str.IndexOf(keyword, index)) != -1)

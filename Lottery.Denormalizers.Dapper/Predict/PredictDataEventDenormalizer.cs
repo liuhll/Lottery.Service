@@ -1,13 +1,12 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
-using Dapper;
+﻿using Dapper;
 using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Caching;
 using Lottery.Core.Domain.LotteryPredictDatas;
 using Lottery.Infrastructure;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper
 {
@@ -19,7 +18,6 @@ namespace Lottery.Denormalizers.Dapper
         {
             _cacheManager = cacheManager;
         }
-
 
         public async Task<AsyncTaskResult> HandleAsync(AddLotteryPredictDataEvent evnt)
         {
@@ -38,7 +36,7 @@ namespace Lottery.Denormalizers.Dapper
                 {
                     conn.Open();
                     var predictData =
-                        await conn.QueryFirstOrDefaultAsync(sql, new {evnt.NormConfigId, evnt.StartPeriod, evnt.EndPeriod});
+                        await conn.QueryFirstOrDefaultAsync(sql, new { evnt.NormConfigId, evnt.StartPeriod, evnt.EndPeriod });
                     if (predictData == null)
                     {
                         await conn.InsertAsync(new
@@ -61,35 +59,36 @@ namespace Lottery.Denormalizers.Dapper
                         if (predictData.PredictedResult == 2)
                         {
                             await conn.UpdateAsync(new
-                                {
-                                    evnt.PredictedResult,
-                                    evnt.CurrentPredictPeriod,
-                                    evnt.MinorCycle,
-                                    evnt.CurrentScore,
-                                    UpdateBy = evnt.CreateBy,
-                                    UpdateTime = evnt.Timestamp
-                                }, new {
-                                    evnt.NormConfigId,
-                                    evnt.StartPeriod,
-                                    }, 
+                            {
+                                evnt.PredictedResult,
+                                evnt.CurrentPredictPeriod,
+                                evnt.MinorCycle,
+                                evnt.CurrentScore,
+                                UpdateBy = evnt.CreateBy,
+                                UpdateTime = evnt.Timestamp
+                            }, new
+                            {
+                                evnt.NormConfigId,
+                                evnt.StartPeriod,
+                            },
                                 evnt.PredictTable);
                         }
                         else
                         {
                             await conn.UpdateAsync(new
-                                {
-                                    evnt.PredictedResult,
-                                    evnt.CurrentPredictPeriod,
-                                    evnt.MinorCycle,
-                                    evnt.CurrentScore,
-                                    UpdateBy = evnt.CreateBy,
-                                    UpdateTime = evnt.Timestamp,
-                                    evnt.EndPeriod
-                                }, new
-                                {
-                                    evnt.NormConfigId,
-                                    evnt.StartPeriod,
-                                },
+                            {
+                                evnt.PredictedResult,
+                                evnt.CurrentPredictPeriod,
+                                evnt.MinorCycle,
+                                evnt.CurrentScore,
+                                UpdateBy = evnt.CreateBy,
+                                UpdateTime = evnt.Timestamp,
+                                evnt.EndPeriod
+                            }, new
+                            {
+                                evnt.NormConfigId,
+                                evnt.StartPeriod,
+                            },
                                 evnt.PredictTable);
                         }
                     }

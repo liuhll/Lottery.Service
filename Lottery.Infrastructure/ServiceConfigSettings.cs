@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Lottery.Infrastructure
 {
     public class ServiceConfigSettings
     {
-
-       
         public static string BrokerProducerServiceAddress { get; private set; }
 
         public static string BrokerConsumerServiceAddress { get; private set; }
 
         public static string BrokerAdminServiceAddress { get; private set; }
 
-        public static string EqueueStorePath { get;private set; }
+        public static string EqueueStorePath { get; private set; }
 
         public static IList<IPEndPoint> NameServerEndpoints { get; private set; }
 
@@ -37,7 +31,7 @@ namespace Lottery.Infrastructure
             // Get the current settings.
             ThreadPool.GetMinThreads(out minWorker, out minIOC);
             // Change the minimum number of worker threads to four, but
-            // keep the old setting for minimum asynchronous I/O 
+            // keep the old setting for minimum asynchronous I/O
             // completion threads.
             ThreadPool.SetMinThreads(250, minIOC);
             //if (isDevEnv)
@@ -83,11 +77,7 @@ namespace Lottery.Infrastructure
             BrokerName = ConfigurationManager.AppSettings["BrokerName"];
 
             var commandServiceprocessorAddressStr = ConfigurationManager.AppSettings["CommandServiceProcessorAddress"].Split(':');
-            CommandServiceprocessorAddress = new IPEndPoint(IPAddress.Parse(commandServiceprocessorAddressStr[0]),int.Parse(commandServiceprocessorAddressStr[1]));
-
+            CommandServiceprocessorAddress = new IPEndPoint(IPAddress.Parse(commandServiceprocessorAddressStr[0]), int.Parse(commandServiceprocessorAddressStr[1]));
         }
-
-
-
     }
 }

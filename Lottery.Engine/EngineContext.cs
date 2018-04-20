@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.Dtos.Lotteries;
 using Lottery.QueryServices.Lotteries;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Lottery.Engine
 {
@@ -11,12 +11,11 @@ namespace Lottery.Engine
         private static IDictionary<string, ILotterEngine> _lotterEngines;
         private static ILotteryQueryService _lotteryQueryService;
         private static ICollection<LotteryInfoDto> _lotteryInfos;
+
         static EngineContext()
         {
-            
             _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();
             _lotteryInfos = _lotteryQueryService.GetAllLotteryInfo();
-
         }
 
         public static void Initialize()
@@ -27,7 +26,6 @@ namespace Lottery.Engine
             {
                 _lotterEngines[lotteryInfo.Id] = new LotterEngine(lotteryInfo);
             }
-
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -39,7 +37,5 @@ namespace Lottery.Engine
             }
             return _lotterEngines[lotteryId];
         }
-
-
     }
 }

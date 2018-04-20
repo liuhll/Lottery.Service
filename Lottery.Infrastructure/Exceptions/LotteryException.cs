@@ -10,7 +10,7 @@ namespace Lottery.Infrastructure.Exceptions
             ErrorCode = errorCode;
         }
 
-        public LotteryException(string errorMessage,Exception exception) : base(errorMessage, exception)
+        public LotteryException(string errorMessage, Exception exception) : base(errorMessage, exception)
         {
             ErrorCode = LotteryErrorCode.SendMessageError;
         }

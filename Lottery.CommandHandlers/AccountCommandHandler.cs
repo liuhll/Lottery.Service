@@ -1,7 +1,5 @@
 ﻿using ENode.Commanding;
-using Lottery.Commands.LogonLog;
 using Lottery.Commands.UserInfos;
-using Lottery.Core.Domain.LogonLog;
 using Lottery.Core.Domain.UserInfos;
 
 namespace Lottery.CommandHandlers
@@ -15,9 +13,8 @@ namespace Lottery.CommandHandlers
     {
         public void Handle(ICommandContext context, AddUserInfoCommand command)
         {
-            context.Add(new UserInfo(command.AggregateRootId, command.UserName, command.Email, command.Phone, command.Password, true, command.ClientRegistType, command.AccountRegistType,command.Points));
+            context.Add(new UserInfo(command.AggregateRootId, command.UserName, command.Email, command.Phone, command.Password, true, command.ClientRegistType, command.AccountRegistType, command.Points));
         }
-
 
         public void Handle(ICommandContext context, UpdateLastLoginTimeCommand command)
         {
@@ -28,7 +25,6 @@ namespace Lottery.CommandHandlers
         public void Handle(ICommandContext context, BindUserEmailCommand command)
         {
             context.Get<UserInfo>(command.AggregateRootId).BindUserEmail(command.Email);
-
         }
 
         public void Handle(ICommandContext context, BindUserPhoneCommand command)
@@ -43,11 +39,10 @@ namespace Lottery.CommandHandlers
         //        .UserLoginClientCount(command.IsLogin);
         //}
 
-
         public void Handle(ICommandContext context, UpdatePasswordCommand command)
         {
             context.Get<UserInfo>(command.AggregateRootId)
-                .UpdatePassword(command.Password,command.UpdateBy);
+                .UpdatePassword(command.Password, command.UpdateBy);
         }
     }
 }

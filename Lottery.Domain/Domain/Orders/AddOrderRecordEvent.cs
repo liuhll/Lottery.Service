@@ -1,5 +1,4 @@
-﻿using System;
-using ENode.Eventing;
+﻿using ENode.Eventing;
 using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Core.Domain.Orders
@@ -11,7 +10,7 @@ namespace Lottery.Core.Domain.Orders
         }
 
         public AddOrderRecordEvent(string salesOrderNo, string authRankId, string lotteryId, OrderSourceType orderSourceType,
-            int count, double unitPrice, double originalCost, double orderCost, SellType amountType, string createBy,int status)  
+            int count, double unitPrice, double originalCost, double orderCost, SellType amountType, string createBy, int status)
         {
             SalesOrderNo = salesOrderNo;
             AuthRankId = authRankId;
@@ -25,8 +24,6 @@ namespace Lottery.Core.Domain.Orders
             CreateBy = createBy;
             Status = status;
         }
-
-    
 
         public string SalesOrderNo { get; private set; }
 
@@ -49,7 +46,5 @@ namespace Lottery.Core.Domain.Orders
         public string CreateBy { get; private set; }
 
         public int Status { get; private set; }
-
-
     }
 }

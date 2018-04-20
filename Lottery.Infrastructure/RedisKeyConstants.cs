@@ -91,6 +91,5 @@
         public const string LOTTERY_GOODS_LIST = "Lottery.Goods.{0}.{1}";
 
         public const string LOTTERY_PLANTRACK_DETAIL_KEY = "Lottery.PlanTrack.{0}.{1}.{2}";
-
     }
 }

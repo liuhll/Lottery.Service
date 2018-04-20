@@ -1,5 +1,4 @@
-﻿using System;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Utilities;
 using ENode.Commanding;
 using Lottery.AppService.LotteryData;
@@ -7,6 +6,7 @@ using Lottery.Commands.LotteryDatas;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Lottery.Tests
 {
@@ -37,7 +37,6 @@ namespace Lottery.Tests
             }));
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
-
         }
 
         [TestMethod]
@@ -45,15 +44,14 @@ namespace Lottery.Tests
         {
             var lotteryDataService = ObjectContainer.Resolve<ILotteryDataAppService>();
 
-
-            Assert.ThrowsException<LotteryDataException>(()=> {
+            Assert.ThrowsException<LotteryDataException>(() =>
+            {
                 var newPredictDatas1 =
                lotteryDataService.NewLotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467", "");
             });
 
             var newPredictDatas2 =
               lotteryDataService.NewLotteryDataList("ACB89F4E-7C71-4785-BA09-D7E73084B467", "");
-
         }
     }
 }

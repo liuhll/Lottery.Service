@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Lottery.Dtos.Account;
+﻿using Lottery.Dtos.Account;
+using System.Threading.Tasks;
 
 namespace Lottery.QueryServices.UserInfos
 {

@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Web.Http.Controllers;
-using Lottery.Infrastructure.Collections;
+﻿using Lottery.Infrastructure.Collections;
 using Lottery.WebApi.Result;
+using System.Linq;
+using System.Web.Http.Controllers;
 
 namespace Lottery.WebApi.Helper
 {

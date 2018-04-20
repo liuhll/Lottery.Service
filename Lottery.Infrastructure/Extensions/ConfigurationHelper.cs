@@ -11,7 +11,7 @@ namespace Lottery.Infrastructure.Extensions
             {
                 val = ConfigurationManager.AppSettings[key];
                 if (!string.IsNullOrEmpty(val))
-                {                    
+                {
                     return true;
                 }
                 return false;
@@ -63,5 +63,4 @@ namespace Lottery.Infrastructure.Extensions
             }
         }
     }
-
 }

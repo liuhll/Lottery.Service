@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
 using EQueue.Configurations;
@@ -14,7 +13,6 @@ namespace Lottery.NameServerService
         private static ECommonConfiguration _ecommonConfiguration;
         private static NameServerController _nameServer;
 
-
         public static void Initialize()
         {
             InitializeEQueue();
@@ -24,6 +22,7 @@ namespace Lottery.NameServerService
         {
             _nameServer.Start();
         }
+
         public static void Stop()
         {
             if (_nameServer != null)
@@ -44,17 +43,14 @@ namespace Lottery.NameServerService
                 .RegisterEQueueComponents()
                 .BuildContainer();
 
-              ServiceConfigSettings.Initialize();
-              var setting = new NameServerSetting()
-              {
-                 BindingAddress = ServiceConfigSettings.NameServerAddress
-              };
+            ServiceConfigSettings.Initialize();
+            var setting = new NameServerSetting()
+            {
+                BindingAddress = ServiceConfigSettings.NameServerAddress
+            };
 
             _nameServer = new NameServerController(setting);
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Bootstrap).FullName).Info("NameServer initialized.");
         }
-
-
-
     }
 }

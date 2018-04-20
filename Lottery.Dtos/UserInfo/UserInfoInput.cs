@@ -19,11 +19,9 @@ namespace Lottery.Dtos.UserInfo
         /// </summary>
         public string Password { get; set; }
 
-
         /// <summary>
         /// 客户端
         /// </summary>
         public ClientRegistType ClientRegistType { get; set; }
-    
     }
 }

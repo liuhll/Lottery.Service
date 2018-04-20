@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Dapper;
-using ECommon.Dapper;
+﻿using Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Caching;
 using Lottery.Core.Domain.Points;
 using Lottery.Infrastructure;
+using System;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper.Points
 {
@@ -23,8 +22,10 @@ namespace Lottery.Denormalizers.Dapper.Points
         {
             var cacheKey1 = string.Format(RedisKeyConstants.POINT_USER_RECORD_KEY, evnt.CreateBy);
             var cacheKey2 = string.Format(RedisKeyConstants.POINT_USER_SIGNEDLIST_KEY, evnt.CreateBy);
+            var cacheKey3 = string.Format(RedisKeyConstants.USERINFO_KEY, evnt.CreateBy);
             _cacheManager.Remove(cacheKey1);
             _cacheManager.Remove(cacheKey2);
+            _cacheManager.Remove(cacheKey3);
             using (var conn = GetLotteryConnection())
             {
                 try
@@ -52,7 +53,6 @@ namespace Lottery.Denormalizers.Dapper.Points
                         evnt.PointType,
                         evnt.CreateBy,
                         CreateTime = evnt.Timestamp
-
                     }, trans);
                     trans.Commit();
                     return AsyncTaskResult.Success;

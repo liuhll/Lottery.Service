@@ -1,11 +1,9 @@
-﻿using ECommon.Components;
-
-namespace Lottery.Infrastructure.Mail
+﻿namespace Lottery.Infrastructure.Mail
 {
     /// <summary>
-    /// Implementation of <see cref="IEmailSenderConfiguration"/> 
+    /// Implementation of <see cref="IEmailSenderConfiguration"/>
     /// </summary>
-   
+
     public abstract class EmailSenderConfiguration : IEmailSenderConfiguration
     {
         public virtual string DefaultFromAddress
@@ -17,7 +15,5 @@ namespace Lottery.Infrastructure.Mail
         {
             get { return EmailSettingConfigs.DefaultFromDisplayName; }
         }
-
-
     }
 }

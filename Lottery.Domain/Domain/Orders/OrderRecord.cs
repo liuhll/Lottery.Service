@@ -1,7 +1,6 @@
-﻿using System;
-using ENode.Domain;
-using Lottery.Core.Domain.Points;
+﻿using ENode.Domain;
 using Lottery.Infrastructure.Enums;
+using System;
 
 namespace Lottery.Core.Domain.Orders
 {
@@ -22,7 +21,7 @@ namespace Lottery.Core.Domain.Orders
             CreateBy = createBy;
             CreateTime = DateTime.Now;
             Status = 0;
-            ApplyEvent(new AddOrderRecordEvent(salesOrderNo,authRankId,lotteryId,orderSourceType,count,unitPrice,originalCost,orderCost,amountType,createBy, Status));
+            ApplyEvent(new AddOrderRecordEvent(salesOrderNo, authRankId, lotteryId, orderSourceType, count, unitPrice, originalCost, orderCost, amountType, createBy, Status));
         }
 
         public string PayOrderNo { get; private set; }
@@ -54,6 +53,7 @@ namespace Lottery.Core.Domain.Orders
         public SellType AmountType { get; private set; }
 
         public string CreateBy { get; private set; }
+
         /// <summary>
         /// 最后修改人
         /// </summary>
@@ -65,7 +65,6 @@ namespace Lottery.Core.Domain.Orders
         public DateTime? UpdateTime { get; private set; }
 
         public int Status { get; private set; }
-
 
         /// <summary>
         /// 创建时间
@@ -89,7 +88,6 @@ namespace Lottery.Core.Domain.Orders
             CreateTime = evnt.Timestamp;
         }
 
-        #endregion
-
+        #endregion Handle
     }
 }

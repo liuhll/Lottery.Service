@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DateTimeExtensions;
+﻿using DateTimeExtensions;
 using DateTimeExtensions.TimeOfDay;
 using ECommon.Components;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;
-using Expr = MathNet.Symbolics.Expression;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.Engine.TimeRule
 {
     [Component]
     public class TimeRuleManager : ITimeRuleManager
     {
-
         private readonly ITimeRuleQueryService _timeRuleQueryService;
-
 
         private LotteryInfoDto _lotteryInfo;
 
@@ -46,7 +43,6 @@ namespace Lottery.Engine.TimeRule
                 var nextTimeInterval = TodayTimeRule.Tick.TotalSeconds * TodayCurrentCount;
 
                 return todayStartTime.Add(TodayTimeRule.StartTime).AddSeconds(nextTimeInterval);
-
             }
             else
             {
@@ -63,7 +59,6 @@ namespace Lottery.Engine.TimeRule
                 // Todo: 解析其他可能性
                 return null;
             }
-
         }
 
         public bool ParseNextLotteryTime(out DateTime nextLotteryTime)
@@ -74,10 +69,9 @@ namespace Lottery.Engine.TimeRule
                 nextLotteryTime = DateTime.MinValue;
                 return false;
             }
-           
+
             nextLotteryTime = lotteryTime.Value;
             return true;
-
         }
 
         public int TodayCurrentCount
@@ -103,7 +97,6 @@ namespace Lottery.Engine.TimeRule
             }
         }
 
-
         public int TodayTotalCount
         {
             get
@@ -121,7 +114,6 @@ namespace Lottery.Engine.TimeRule
                 return Convert.ToInt32((endTimePoint - startTimePoint + interval) / interval);
             }
         }
-        
 
         public bool IsLotteryDuration
         {
@@ -131,7 +123,7 @@ namespace Lottery.Engine.TimeRule
                 {
                     return false;
                 }
-                var halfTick = (long) TodayTimeRule.Tick.TotalMilliseconds / 2 * 10000;
+                var halfTick = (long)TodayTimeRule.Tick.TotalMilliseconds / 2 * 10000;
                 var redundantEndtime = TodayTimeRule.EndTime.Add(new TimeSpan(halfTick)).ToString();
                 if (DateTime.Now.IsBetween(Time.Parse(TodayTimeRule.StartTime.ToString()),
                     Time.Parse(redundantEndtime.ToString()))) // 设置多半个间隔
@@ -146,15 +138,14 @@ namespace Lottery.Engine.TimeRule
         {
             get
             {
-                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);            
+                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
                 return toadyTimeRule;
             }
-
         }
 
         public bool IsTodayFinalPeriod
         {
-            get { return TodayCurrentCount == TodayTotalCount || TodayCurrentCount -1 == TodayTotalCount; }
+            get { return TodayCurrentCount == TodayTotalCount || TodayCurrentCount - 1 == TodayTotalCount; }
         }
 
         public bool FinalPeriodIsLottery(LotteryFinalDataDto finalData)
@@ -168,7 +159,7 @@ namespace Lottery.Engine.TimeRule
             return true;
         }
 
-        private TimeRuleDto NextDayTimeRule(TimeRuleDto currentDay,int step = 1)
+        private TimeRuleDto NextDayTimeRule(TimeRuleDto currentDay, int step = 1)
         {
             var nextWeekDay = currentDay.Weekday + step;
             if (nextWeekDay >= 7)
@@ -183,7 +174,5 @@ namespace Lottery.Engine.TimeRule
             }
             return NextDayTimeRule(currentDay, step + 1);
         }
-
-       
     }
 }

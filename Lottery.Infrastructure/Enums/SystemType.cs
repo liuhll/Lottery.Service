@@ -21,6 +21,5 @@ namespace Lottery.Infrastructure.Enums
         /// </summary>
         [EnumDescribe("门户网站")]
         OfficialWebsite,
-
     }
 }

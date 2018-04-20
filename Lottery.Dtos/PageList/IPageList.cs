@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace Lottery.Dtos.PageList
+﻿namespace Lottery.Dtos.PageList
 {
-    public interface IPageList<T>  where T : class
+    public interface IPageList<T> where T : class
     {
         int PageSize { get; }
 

@@ -8,7 +8,7 @@ namespace Lottery.Commands.LotteryDatas
         {
         }
 
-        public UpdateNextDayFirstPeriodCommand(string id,string lotteryId,int todayFirstPeriod) : base(id)
+        public UpdateNextDayFirstPeriodCommand(string id, string lotteryId, int todayFirstPeriod) : base(id)
         {
             LotteryId = lotteryId;
             TodayFirstPeriod = todayFirstPeriod;
@@ -16,6 +16,6 @@ namespace Lottery.Commands.LotteryDatas
 
         public string LotteryId { get; private set; }
 
-        public int TodayFirstPeriod { get;private set;}
+        public int TodayFirstPeriod { get; private set; }
     }
 }

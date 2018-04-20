@@ -1,21 +1,17 @@
-﻿using System.Collections.Generic;
-using ENode.Domain;
+﻿using ENode.Domain;
+using System.Collections.Generic;
 
 namespace Lottery.Core.Domain.LotteryPredictDatas
 {
     public class PredictTable : AggregateRoot<string>
     {
-
-
-        public PredictTable(string id,string predictDbName,string lotteryCode, IList<string> predictTableNames) : base(id)
+        public PredictTable(string id, string predictDbName, string lotteryCode, IList<string> predictTableNames) : base(id)
         {
             LotteryCode = lotteryCode;
             PredictTableNames = predictTableNames;
             PredictDbName = predictDbName;
 
             ApplyEvent(new InitPredictTableEvent(PredictTableNames, LotteryCode, PredictDbName));
-
-            
         }
 
         public string LotteryCode { get; private set; }
@@ -23,7 +19,6 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
         public IList<string> PredictTableNames { get; private set; }
 
         public string PredictDbName { get; private set; }
-
 
         #region Handle Methods
 
@@ -34,6 +29,7 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
             LotteryCode = evnt.LotteryCode;
         }
 
-        #endregion 
+        #endregion Handle Methods
+
     }
 }

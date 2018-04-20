@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.Points;
+﻿using Lottery.Dtos.Points;
 using Lottery.Infrastructure.Enums;
+using System.Collections.Generic;
 
 namespace Lottery.QueryServices.Points
 {
@@ -11,6 +11,7 @@ namespace Lottery.QueryServices.Points
         ICollection<SignedDto> GetUserSigneds(string userId);
 
         SignedDto GetUserLastSined(string userId);
+
         PointRecordOutput GetTodaySigned(string userId);
 
         ICollection<PointRecordOutput> GetSignedList(string userId);

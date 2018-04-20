@@ -9,5 +9,7 @@ namespace Lottery.Dtos.Points
         public int DurationDays { get; set; }
 
         public DateTime? LastSignedTime { get; set; }
+
+        public int Points { get; set; }
     }
 }

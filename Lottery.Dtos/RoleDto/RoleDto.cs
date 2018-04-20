@@ -11,6 +11,5 @@ namespace Lottery.Dtos.RoleDto
         public SystemType SystemType { get; set; }
 
         public string Description { get; set; }
-
     }
 }

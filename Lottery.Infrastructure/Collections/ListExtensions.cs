@@ -5,7 +5,6 @@ namespace Lottery.Infrastructure.Collections
 {
     public static class ListExtensions
     {
-
         /// <summary>
         /// Sort a list by a topological sorting, which consider their  dependencies
         /// </summary>
@@ -31,7 +30,7 @@ namespace Lottery.Infrastructure.Collections
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T">The type of the members of values.</typeparam>
         /// <param name="item">Item to resolve</param>

@@ -1,6 +1,5 @@
-﻿
+﻿using Lottery.Dtos.Lotteries;
 using System.Collections.Generic;
-using Lottery.Dtos.Lotteries;
 
 namespace Lottery.QueryServices.Lotteries
 {
@@ -9,7 +8,6 @@ namespace Lottery.QueryServices.Lotteries
         LotteryInfoDto GetLotteryInfoByCode(string lotteryCode);
 
         ICollection<LotteryInfoDto> GetAllLotteryInfo();
-
 
         LotteryInfoDto GetLotteryInfoById(string lotteryId);
     }

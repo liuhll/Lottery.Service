@@ -1,8 +1,6 @@
 ﻿using ENode.Commanding;
 using Lottery.AppService.Authorize;
 using Lottery.Infrastructure;
-using Lottery.WebApi.Authentication;
-using Lottery.WebApi.Authorization;
 using Lottery.WebApi.Controllers.v1;
 
 namespace Lottery.WebApi.Areas.BackOffice.Controllers

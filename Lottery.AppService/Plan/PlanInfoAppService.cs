@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.Plans;
 using Lottery.Infrastructure.Collections;
 using Lottery.QueryServices.Lotteries;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.AppService.Plan
 {
@@ -15,7 +15,7 @@ namespace Lottery.AppService.Plan
         private readonly INormConfigQueryService _normConfigQueryService;
         private readonly INormGroupQueryService _normGroupQueryService;
 
-        public PlanInfoAppService(IPlanInfoQueryService planInfoQueryService, 
+        public PlanInfoAppService(IPlanInfoQueryService planInfoQueryService,
             INormConfigQueryService normConfigQueryService,
             INormGroupQueryService normGroupQueryService)
         {
@@ -34,7 +34,7 @@ namespace Lottery.AppService.Plan
             return _planInfoQueryService.GetPlanInfoById(planId);
         }
 
-        public UserPlanInfoDto GetUserPlanInfo(string lotteryId,string userId)
+        public UserPlanInfoDto GetUserPlanInfo(string lotteryId, string userId)
         {
             var userSelectedUserPlanInfo = new List<PlanInfoOutput>();
             var allPlanInfos = _normGroupQueryService.GetNormGroups(lotteryId);
@@ -44,7 +44,7 @@ namespace Lottery.AppService.Plan
             {
                 foreach (var planInfo in normGroup.PlanInfos)
                 {
-                    if (userPlanConfigs.Any(p=>p.PlanId == planInfo.Id))
+                    if (userPlanConfigs.Any(p => p.PlanId == planInfo.Id))
                     {
                         planInfo.IsSelected = true;
                         userSelectedUserPlanInfo.AddIfNotContains(planInfo);

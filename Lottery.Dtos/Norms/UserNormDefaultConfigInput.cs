@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace Lottery.Dtos.Norms
+﻿namespace Lottery.Dtos.Norms
 {
     public class UserNormDefaultConfigInput
     {
-       /// <summary>
+        /// <summary>
         /// 定码个数
         /// </summary>
         public int ForecastCount { get; set; }
@@ -59,8 +57,6 @@ namespace Lottery.Dtos.Norms
         /// </summary>
         public int ExpectMaxScore { get; set; }
 
- 
         //public string CustomNumbers { get; set; }
-
     }
 }

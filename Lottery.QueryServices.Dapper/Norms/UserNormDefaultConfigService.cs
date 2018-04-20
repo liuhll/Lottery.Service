@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.Norms;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.Norms
 {
@@ -46,13 +46,11 @@ namespace Lottery.QueryServices.Dapper.Norms
 
         public UserNormDefaultConfigDto GetUserNormConfig(string userId, string lotteryId)
         {
-
             using (var conn = GetLotteryConnection())
             {
                 return conn.QueryList<UserNormDefaultConfigDto>(new { UserId = userId, LotteryId = lotteryId },
                     TableNameConstants.UserNormDefaultConfigTable).FirstOrDefault();
             }
-            
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Lottery.Commands.UserInfos
         {
         }
 
-        public BindUserEmailCommand(string id,string email) : base(id)
+        public BindUserEmailCommand(string id, string email) : base(id)
         {
             Email = email;
         }

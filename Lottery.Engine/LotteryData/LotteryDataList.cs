@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Lottery.Dtos.Lotteries;
+﻿using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.Engine.LotteryData
 {
     public class LotteryDataList : ILotteryDataList
     {
-
         private readonly IDictionary<int, ILotteryNumber> _lotteryNumbers;
 
         public LotteryDataList(ICollection<LotteryDataDto> lotteryDatas)
@@ -23,7 +21,7 @@ namespace Lottery.Engine.LotteryData
                 {
                     continue;
                 }
-                _lotteryNumbers.AddIfNotContains(new KeyValuePair<int, ILotteryNumber>(lotteryData.Period,new LotteryNumber(lotteryData)));
+                _lotteryNumbers.AddIfNotContains(new KeyValuePair<int, ILotteryNumber>(lotteryData.Period, new LotteryNumber(lotteryData)));
             }
         }
 
@@ -59,7 +57,7 @@ namespace Lottery.Engine.LotteryData
 
         public void CopyTo(KeyValuePair<int, ILotteryNumber>[] array, int arrayIndex)
         {
-            _lotteryNumbers.CopyTo(array,arrayIndex);
+            _lotteryNumbers.CopyTo(array, arrayIndex);
         }
 
         public bool Remove(KeyValuePair<int, ILotteryNumber> item)
@@ -67,12 +65,16 @@ namespace Lottery.Engine.LotteryData
             return _lotteryNumbers.Remove(item);
         }
 
-        public int Count {
+        public int Count
+        {
             get { return _lotteryNumbers.Count; }
         }
-        public bool IsReadOnly {
+
+        public bool IsReadOnly
+        {
             get { return true; }
         }
+
         public bool ContainsKey(int key)
         {
             return _lotteryNumbers.ContainsKey(key);
@@ -80,7 +82,7 @@ namespace Lottery.Engine.LotteryData
 
         public void Add(int key, ILotteryNumber value)
         {
-            _lotteryNumbers.Add(key,value);
+            _lotteryNumbers.Add(key, value);
         }
 
         public bool Remove(int key)
@@ -90,7 +92,6 @@ namespace Lottery.Engine.LotteryData
 
         public bool TryGetValue(int key, out ILotteryNumber value)
         {
-
             return _lotteryNumbers.TryGetValue(key, out value);
         }
 
@@ -100,20 +101,21 @@ namespace Lottery.Engine.LotteryData
             set { _lotteryNumbers[key] = value; }
         }
 
-        public ICollection<int> Keys {
+        public ICollection<int> Keys
+        {
             get { return _lotteryNumbers.Keys; }
         }
-        public ICollection<ILotteryNumber> Values {
+
+        public ICollection<ILotteryNumber> Values
+        {
             get { return _lotteryNumbers.Values; }
         }
 
-
         private static void CheckLotteryDataItem()
         {
-
         }
 
-        #endregion
+        #endregion Dic Base Methods
 
         public void AddLotteryData(LotteryDataDto data)
         {
@@ -121,7 +123,7 @@ namespace Lottery.Engine.LotteryData
             {
                 throw new LotteryDataException("已经存在这一期的开奖数据");
             }
-            _lotteryNumbers.Add(data.Period,new LotteryNumber(data));
+            _lotteryNumbers.Add(data.Period, new LotteryNumber(data));
         }
 
         public void RemoveLotteryData(LotteryDataDto data)
@@ -169,7 +171,7 @@ namespace Lottery.Engine.LotteryData
             return result;
         }
 
-        public ICollection<int> LotteryDatas(NumberType numberType = NumberType.Number,params int[] position)
+        public ICollection<int> LotteryDatas(NumberType numberType = NumberType.Number, params int[] position)
         {
             var result = new List<int>();
             foreach (var ps in position)
@@ -184,7 +186,7 @@ namespace Lottery.Engine.LotteryData
             var result = new List<int>();
             foreach (var ps in position)
             {
-                result.AddRange(LotteryDatas(ps,step));
+                result.AddRange(LotteryDatas(ps, step));
             }
             return result;
         }

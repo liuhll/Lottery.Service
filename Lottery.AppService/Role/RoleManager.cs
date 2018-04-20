@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.AppService.Power;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Power;
@@ -8,6 +6,8 @@ using Lottery.Dtos.RoleDto;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Roles;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lottery.AppService.Role
 {
@@ -18,7 +18,6 @@ namespace Lottery.AppService.Role
         private readonly IPowerManager _powerManager;
         private readonly ICacheManager _cacheManager;
         private readonly IRolePowerStore _rolePowerStore;
-
 
         public RoleManager(IRoleQueryService roleQueryService,
             IPowerManager powerManager,
@@ -45,7 +44,6 @@ namespace Lottery.AppService.Role
             return cacheItem.GrantedPowers.Contains(power.PowerCode);
         }
 
-       
         public ICollection<RoleDto> GetUserRoles(string userId)
         {
             return _roleQueryService.GetUserRoles(userId);

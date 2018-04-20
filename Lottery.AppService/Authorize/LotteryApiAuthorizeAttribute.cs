@@ -8,7 +8,7 @@ namespace Lottery.AppService.Authorize
         /// A list of permissions to authorize.
         /// </summary>
         public string[] Permissions { get; }
-   
+
         /// <summary>
         /// If this property is set to true, all of the <see cref="Permissions"/> must be granted.
         /// If it's false, at least one of the <see cref="Permissions"/> must be granted.

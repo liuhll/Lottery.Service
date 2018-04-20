@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Http;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Lottery.AppService.Sell;
 using Lottery.Commands.Sells;
 using Lottery.Dtos.Auths;
@@ -10,6 +6,10 @@ using Lottery.Dtos.Sells;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Tools;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -17,6 +17,7 @@ namespace Lottery.WebApi.Controllers.v1
     public class SellController : BaseApiV1Controller
     {
         private readonly ISellAppService _sellAppService;
+
         public SellController(ICommandService commandService, ISellAppService sellAppService) : base(commandService)
         {
             _sellAppService = sellAppService;
@@ -30,7 +31,6 @@ namespace Lottery.WebApi.Controllers.v1
         [AllowAnonymous]
         public ICollection<SellTypeOutput> GetSalesType()
         {
-
             return _sellAppService.GetSalesType(_lotterySession.MemberRank);
         }
 
@@ -43,7 +43,7 @@ namespace Lottery.WebApi.Controllers.v1
         [AllowAnonymous]
         public ICollection<GoodsOutput> GetGoodInfos(SellType sellType)
         {
-            return _sellAppService.GetGoodsInfos(_lotterySession.MemberRank,_lotterySession.SystemTypeId,sellType);
+            return _sellAppService.GetGoodsInfos(_lotterySession.MemberRank, _lotterySession.SystemTypeId, sellType);
         }
 
         /// <summary>
@@ -92,13 +92,13 @@ namespace Lottery.WebApi.Controllers.v1
             return "OK";
         }
 
-        private AddOrderRecordCommand GenerateOrder(OrderInput input, GoodsInfoDto goods,double discount)
+        private AddOrderRecordCommand GenerateOrder(OrderInput input, GoodsInfoDto goods, double discount)
         {
             var orderNo = OrderHelper.GenerateOrderNo(OrderType.Order, input.SellType);
             var orderOriginCost = input.Count * input.UnitPrice;
             var orderCost = orderOriginCost * discount;
-            return new AddOrderRecordCommand(Guid.NewGuid().ToString(),orderNo,goods.AuthRankId,_lotterySession.SystemTypeId, OrderSourceType.V1,
-                input.Count,input.UnitPrice,orderOriginCost,orderCost,input.SellType,_lotterySession.UserId);
+            return new AddOrderRecordCommand(Guid.NewGuid().ToString(), orderNo, goods.AuthRankId, _lotterySession.SystemTypeId, OrderSourceType.V1,
+                input.Count, input.UnitPrice, orderOriginCost, orderCost, input.SellType, _lotterySession.UserId);
         }
     }
 }

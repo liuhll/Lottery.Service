@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using ECommon.Dapper;
+﻿using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Caching;
-using Lottery.Core.Domain.LogonLog;
 using Lottery.Core.Domain.UserInfos;
 using Lottery.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper.Account
 {
@@ -17,7 +16,6 @@ namespace Lottery.Denormalizers.Dapper.Account
         IMessageHandler<UpdateUserLoginClientCountEvent>,
         IMessageHandler<UpdatePasswordEvent>
 
-
     {
         private readonly ICacheManager _cacheManager;
 
@@ -25,8 +23,6 @@ namespace Lottery.Denormalizers.Dapper.Account
         {
             _cacheManager = cacheManager;
         }
-
-
 
         public Task<AsyncTaskResult> HandleAsync(UpdateUserLoginClientCountEvent evnt)
         {
@@ -74,7 +70,6 @@ namespace Lottery.Denormalizers.Dapper.Account
             });
         }
 
-
         public Task<AsyncTaskResult> HandleAsync(BindUserEmailEvent evnt)
         {
             return TryUpdateRecordAsync(conn =>
@@ -93,7 +88,6 @@ namespace Lottery.Denormalizers.Dapper.Account
             });
         }
 
-
         public Task<AsyncTaskResult> HandleAsync(BindUserPhoneEvent evnt)
         {
             return TryUpdateRecordAsync(conn =>
@@ -111,7 +105,6 @@ namespace Lottery.Denormalizers.Dapper.Account
                 }, TableNameConstants.UserInfoTable);
             });
         }
- 
 
         public Task<AsyncTaskResult> HandleAsync(UpdateLoginTimeEvent evnt)
         {
@@ -128,7 +121,6 @@ namespace Lottery.Denormalizers.Dapper.Account
                 }, TableNameConstants.UserInfoTable);
             });
         }
-
 
         public Task<AsyncTaskResult> HandleAsync(UpdatePasswordEvent evnt)
         {

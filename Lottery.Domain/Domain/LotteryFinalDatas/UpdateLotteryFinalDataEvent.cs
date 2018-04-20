@@ -1,7 +1,5 @@
-﻿using System;
-using ENode.Eventing;
-using Lottery.Core.Domain.LotteryDatas;
-using Lottery.Infrastructure.Enums;
+﻿using ENode.Eventing;
+using System;
 
 namespace Lottery.Core.Domain.LotteryFinalDatas
 {
@@ -11,7 +9,7 @@ namespace Lottery.Core.Domain.LotteryFinalDatas
         {
         }
 
-        public UpdateLotteryFinalDataEvent(string lotteryId,int finalPeriod,string data,DateTime lotteryTime)
+        public UpdateLotteryFinalDataEvent(string lotteryId, int finalPeriod, string data, DateTime lotteryTime)
         {
             LotteryId = lotteryId;
             FinalPeriod = finalPeriod;

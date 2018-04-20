@@ -1,9 +1,7 @@
-﻿using Lottery.Dtos.Lotteries;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Dtos.UserInfo
 {
-   
     public class UserInfoOutput
     {
         /// <summary>
@@ -30,12 +28,12 @@ namespace Lottery.Dtos.UserInfo
         /// qq
         /// </summary>
         public string QQCode { get; set; }
-        
+
         /// <summary>
-        ///微信账号 
+        ///微信账号
         /// </summary>
         public string Wechat { get; set; }
-        
+
         /// <summary>
         /// 账户余额
         /// </summary>
@@ -71,7 +69,5 @@ namespace Lottery.Dtos.UserInfo
         /// </summary>
 
         public string SystemTypeId { get; set; }
-
-       
     }
 }

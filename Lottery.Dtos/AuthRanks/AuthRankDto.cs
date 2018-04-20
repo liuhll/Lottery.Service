@@ -20,7 +20,6 @@ namespace Lottery.Dtos.AuthRanks
 
         public string Title { get; set; }
 
-
         public string Describe { get; set; }
 
         public string Notes { get; set; }
@@ -30,6 +29,5 @@ namespace Lottery.Dtos.AuthRanks
         public bool CanSell { get; set; }
 
         public int Status { get; set; }
-
     }
 }

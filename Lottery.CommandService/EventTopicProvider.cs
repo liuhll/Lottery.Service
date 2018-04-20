@@ -1,7 +1,6 @@
 ﻿using ECommon.Components;
 using ENode.EQueue;
 using ENode.Eventing;
-using Lottery.Commands.OpinionRecords;
 using Lottery.Core.Domain.IdentifyCode;
 using Lottery.Core.Domain.LogonLog;
 using Lottery.Core.Domain.LotteryDatas;

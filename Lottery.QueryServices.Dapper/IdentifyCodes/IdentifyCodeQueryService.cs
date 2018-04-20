@@ -26,7 +26,7 @@ namespace Lottery.QueryServices.Dapper.IdentifyCodes
                 return _cacheManager.Get<IdentifyCodeDto>(cacheKey, () =>
                 {
                     var sql = "SELECT TOP 1 * FROM [dbo].[B_IdentifyCode] WHERE Receiver=@Receiver AND Status=0";
-                    return conn.QueryFirstOrDefault<IdentifyCodeDto>(sql,new { @Receiver = receiver });
+                    return conn.QueryFirstOrDefault<IdentifyCodeDto>(sql, new { @Receiver = receiver });
                 });
             }
         }

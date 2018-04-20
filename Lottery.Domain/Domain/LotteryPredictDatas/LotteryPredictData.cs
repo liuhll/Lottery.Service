@@ -1,5 +1,5 @@
-﻿using System;
-using ENode.Domain;
+﻿using ENode.Domain;
+using System;
 
 namespace Lottery.Core.Domain.LotteryPredictDatas
 {
@@ -40,42 +40,39 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
             else
             {
                 ApplyEvent(new AddLotteryPredictDataEvent(normConfigId, currentPredictPeriod, startPeriod, endPeriod, minorCycle,
-                    predictedData, predictedResult, currentScore, createBy, predictTable,lotteryCode));
-
+                    predictedData, predictedResult, currentScore, createBy, predictTable, lotteryCode));
             }
-
         }
-
 
         public string LotteryCode { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string NormConfigId { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int CurrentPredictPeriod { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int? StartPeriod { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int? EndPeriod { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int? MinorCycle { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string PredictedData { get; private set; }
 
@@ -85,32 +82,31 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
         public int? PredictedResult { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public double? CurrentScore { get; private set; }
 
         public string PredictTable { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string CreateBy { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public DateTime? CreateTime { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string UpdateBy { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public DateTime? UpdateTime { get; private set; }
-
 
         #region Handle Methods
 
@@ -129,7 +125,6 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
             LotteryCode = evnt.LotteryCode;
         }
 
-        #endregion
-
+        #endregion Handle Methods
     }
 }

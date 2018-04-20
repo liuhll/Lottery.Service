@@ -1,5 +1,4 @@
-﻿using System;
-using ENode.Eventing;
+﻿using ENode.Eventing;
 
 namespace Lottery.Core.Domain.MessageRecords
 {
@@ -9,7 +8,7 @@ namespace Lottery.Core.Domain.MessageRecords
         {
         }
 
-        public AddMessageRecordEvent( string sender, string receiver, string title,
+        public AddMessageRecordEvent(string sender, string receiver, string title,
             string content, int messageType, int snderPlatform, string createBy)
 
         {
@@ -20,8 +19,8 @@ namespace Lottery.Core.Domain.MessageRecords
             MessageType = messageType;
             SenderPlatform = snderPlatform;
             CreateBy = createBy;
-
         }
+
         public string Sender { get; private set; }
 
         public string Receiver { get; private set; }
@@ -38,6 +37,5 @@ namespace Lottery.Core.Domain.MessageRecords
         /// 创建人
         /// </summary>
         public string CreateBy { get; private set; }
-      
     }
 }

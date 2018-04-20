@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Lottery.AppService.Norm;
 using Lottery.AppService.Validations;
 using Lottery.Commands.Norms;
@@ -16,6 +9,11 @@ using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Norms;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -33,14 +31,14 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly IPlanInfoQueryService _planInfoQueryService;
         private readonly ICacheManager _cacheManager;
 
-        public NormController(ICommandService commandService, 
+        public NormController(ICommandService commandService,
             INormConfigAppService normConfigAppService,
-            UserNormConfigInputValidator userNormDefaultConfigInputValidator, 
-            IUserNormDefaultConfigService userNormDefaultConfigService, 
+            UserNormConfigInputValidator userNormDefaultConfigInputValidator,
+            IUserNormDefaultConfigService userNormDefaultConfigService,
             INormPlanConfigQueryService normPlanConfigQueryService,
             ILotteryQueryService lotteryQueryService,
             IPlanInfoQueryService planInfoQueryService,
-            ICacheManager cacheManager) 
+            ICacheManager cacheManager)
             : base(commandService)
         {
             _normConfigAppService = normConfigAppService;
@@ -76,22 +74,22 @@ namespace Lottery.WebApi.Controllers.v1
             var validatorResult = await _userNormDefaultConfigInputValidator.ValidateAsync(input);
             if (!validatorResult.IsValid)
             {
-                throw new LotteryDataException(validatorResult.Errors.Select(p=>p.ErrorMessage + "</br>").ToString(";"));
+                throw new LotteryDataException(validatorResult.Errors.Select(p => p.ErrorMessage + "</br>").ToString(";"));
             }
             var userNormConfig =
                 _userNormDefaultConfigService.GetUserNormConfig(_lotterySession.UserId, LotteryInfo.Id);
             if (userNormConfig == null)
             {
-                var command = new AddUserNormDefaultConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId, LotteryInfo.Id, input.PlanCycle, input.ForecastCount, input.UnitHistoryCount,input.HistoryCount,
+                var command = new AddUserNormDefaultConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId, LotteryInfo.Id, input.PlanCycle, input.ForecastCount, input.UnitHistoryCount, input.HistoryCount,
                     input.MinRightSeries, input.MaxRightSeries, input.MinErrorSeries, input.MaxErrorSeries, input.LookupPeriodCount, input.ExpectMinScore, input.ExpectMaxScore);
                 await SendCommandAsync(command);
             }
             else
             {
-                var command = new UpdateUserNormDefaultConfigCommand(userNormConfig.Id,  input.PlanCycle, input.ForecastCount, input.UnitHistoryCount, input.HistoryCount,
+                var command = new UpdateUserNormDefaultConfigCommand(userNormConfig.Id, input.PlanCycle, input.ForecastCount, input.UnitHistoryCount, input.HistoryCount,
                     input.MinRightSeries, input.MaxRightSeries, input.MinErrorSeries, input.MaxErrorSeries, input.LookupPeriodCount, input.ExpectMinScore, input.ExpectMaxScore);
                 await SendCommandAsync(command);
-            }         
+            }
             return "设置默认的公式指标成功";
         }
 
@@ -116,8 +114,8 @@ namespace Lottery.WebApi.Controllers.v1
             _cacheManager.RemoveByPattern("Lottery.PlanTrack");
             var normPlanDefaultConfig = _normPlanConfigQueryService.GetNormPlanDefaultConfig(lotterInfo.LotteryCode, predictCode);
             var output = new NormPlanDefaultConfigOutput();
-            output.ForecastCounts = GetOutputCounts(normPlanDefaultConfig.MinForecastCount,normPlanDefaultConfig.MaxForecastCount);
-            output.PlanCycles = GetOutputCounts(normPlanDefaultConfig.MinPlanCycle,normPlanDefaultConfig.MaxPlanCycle);
+            output.ForecastCounts = GetOutputCounts(normPlanDefaultConfig.MinForecastCount, normPlanDefaultConfig.MaxForecastCount);
+            output.PlanCycles = GetOutputCounts(normPlanDefaultConfig.MinPlanCycle, normPlanDefaultConfig.MaxPlanCycle);
             return output;
         }
 
@@ -129,7 +127,6 @@ namespace Lottery.WebApi.Controllers.v1
                 result.Add(i);
             }
             return result;
-
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.Lotteries;
+﻿using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.Norms;
+using System.Collections.Generic;
 
 namespace Lottery.AppService.Norm
 {
@@ -9,7 +9,6 @@ namespace Lottery.AppService.Norm
         ICollection<NormConfigDto> GetNormConfigsByUserIdOrDefault(string userId = "");
 
         UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId);
-
 
         ICollection<NormConfigDto> GetUserNormConfig(string lotteryId, string userId);
 

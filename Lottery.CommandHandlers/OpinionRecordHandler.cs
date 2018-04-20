@@ -8,8 +8,8 @@ namespace Lottery.CommandHandlers
     {
         public void Handle(ICommandContext context, AddOpinionRecordCommand command)
         {
-            context.Add(new OpinionRecord(command.AggregateRootId,command.OpinionType,
-                command.Content,command.Platform,command.ContactWay,command.CreateBy));
+            context.Add(new OpinionRecord(command.AggregateRootId, command.OpinionType,
+                command.Content, command.Platform, command.ContactWay, command.CreateBy));
         }
     }
 }

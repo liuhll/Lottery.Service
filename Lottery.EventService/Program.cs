@@ -4,13 +4,12 @@ using Topshelf;
 
 namespace Lottery.EventService
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (args.Any())
             {
-               
                 HostFactory.Run(x =>
                 {
                     Bootstrap.Initialize();
@@ -27,12 +26,9 @@ namespace Lottery.EventService
                     x.SetDisplayName("LotteryEventService");
                     x.SetServiceName("LotteryEventService");
                 });
-
-
             }
             else
             {
-
                 Bootstrap.Initialize();
                 Bootstrap.Start();
 
@@ -45,6 +41,7 @@ namespace Lottery.EventService
                         case "cls":
                             Console.Clear();
                             break;
+
                         default:
                             return;
                     }

@@ -1,16 +1,15 @@
-﻿using System;
+﻿using ECommon.Components;
+using Lottery.Infrastructure.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ECommon.Components;
-using Lottery.Infrastructure.Collections;
 
 namespace Lottery.Infrastructure.Reflection
 {
     [Component]
     public class TypeFinder : ITypeFinder
     {
-
         private readonly IAssemblyFinder _assemblyFinder;
         private readonly object _syncObj = new object();
         private Type[] _types;

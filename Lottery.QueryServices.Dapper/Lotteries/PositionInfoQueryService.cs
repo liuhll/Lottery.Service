@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
-using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Lotteries;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.Lotteries
 {
@@ -20,7 +19,6 @@ namespace Lottery.QueryServices.Dapper.Lotteries
         {
             _cacheManager = cacheManager;
         }
-
 
         public ICollection<PositionInfoDto> GetAll()
         {

@@ -1,6 +1,6 @@
-﻿using System;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Logging;
+using System;
 using Topshelf;
 
 namespace Lottery.BrokerService
@@ -34,7 +34,7 @@ namespace Lottery.BrokerService
             try
             {
                 Bootstrap.Stop();
-                hostControl.Stop();                          
+                hostControl.Stop();
                 _logger.Info("BrokerServer 服务停止成功");
                 return true;
             }

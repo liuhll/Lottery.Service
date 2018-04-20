@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Extensions;
 using Lottery.AppService.LotteryData;
 using Lottery.Dtos.Lotteries;
 using Lottery.QueryServices.Lotteries;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.AppService.Plan
 {
@@ -18,7 +15,6 @@ namespace Lottery.AppService.Plan
         private readonly IPlanInfoQueryService _planInfoQueryService;
         private readonly ILotteryDataAppService _lotteryDataAppService;
 
-
         public PlanTrackAppService(ILotteryPredictDataQueryService lotteryPredictDataQueryService,
             IPlanInfoQueryService planInfoQueryService,
             ILotteryDataAppService lotteryDataAppService)
@@ -28,14 +24,13 @@ namespace Lottery.AppService.Plan
             _lotteryDataAppService = lotteryDataAppService;
         }
 
-        public PlanTrackDetail GetPlanTrackDetail(NormConfigDto userNorm, string lotteryCode,string userId)
+        public PlanTrackDetail GetPlanTrackDetail(NormConfigDto userNorm, string lotteryCode, string userId)
         {
-           
             var planInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
-            var prodictDatas = _lotteryPredictDataQueryService.GetNormPredictDatas(userNorm.Id,planInfo.PlanNormTable,userNorm.LookupPeriodCount + 1, lotteryCode);
+            var prodictDatas = _lotteryPredictDataQueryService.GetNormPredictDatas(userNorm.Id, planInfo.PlanNormTable, userNorm.LookupPeriodCount + 1, lotteryCode);
             var currentPredictData = AutoMapper.Mapper.Map<PredictDataDetail>(prodictDatas.FirstOrDefault(p => p.PredictedResult == 2));
             currentPredictData.PredictType = planInfo.DsType;
-           // currentPredictData.LotteryData = _lotteryDataAppService.GetLotteryData(planInfo.LotteryInfo.Id,currentPredictData.CurrentPredictPeriod).Data;
+            // currentPredictData.LotteryData = _lotteryDataAppService.GetLotteryData(planInfo.LotteryInfo.Id,currentPredictData.CurrentPredictPeriod).Data;
             var historyPredictDatas = AutoMapper.Mapper.Map<ICollection<PredictDataDetail>>(prodictDatas.Where(p => p.PredictedResult != 2).ToList());
             historyPredictDatas.ForEach(item =>
             {
@@ -44,19 +39,19 @@ namespace Lottery.AppService.Plan
             });
             var planTrackDetail = new PlanTrackDetail()
             {
-               CurrentPredictData = currentPredictData,
-               FinalLotteryData = _lotteryDataAppService.GetFinalLotteryData(planInfo.LotteryInfo.Id),
-               HistoryPredictDatas = historyPredictDatas,
-               NormId = userNorm.Id,
-               PlanId = planInfo.Id,
-               PlanName = planInfo.PlanName,
-               Sort = userNorm.Sort,
-               StatisticData = ComputeStatisticData(currentPredictData, historyPredictDatas, userNorm)
+                CurrentPredictData = currentPredictData,
+                FinalLotteryData = _lotteryDataAppService.GetFinalLotteryData(planInfo.LotteryInfo.Id),
+                HistoryPredictDatas = historyPredictDatas,
+                NormId = userNorm.Id,
+                PlanId = planInfo.Id,
+                PlanName = planInfo.PlanName,
+                Sort = userNorm.Sort,
+                StatisticData = ComputeStatisticData(currentPredictData, historyPredictDatas, userNorm)
             };
             return planTrackDetail;
         }
 
-        private StatisticData ComputeStatisticData(PredictDataDetail currentPredictData, ICollection<PredictDataDetail> historyPredictDatas,NormConfigDto userNorm)
+        private StatisticData ComputeStatisticData(PredictDataDetail currentPredictData, ICollection<PredictDataDetail> historyPredictDatas, NormConfigDto userNorm)
         {
             if (currentPredictData == null)
             {
@@ -82,7 +77,7 @@ namespace Lottery.AppService.Plan
                 }
             }
             statisticData.CurrentSerie = currentSerie;
-            var minorCycleStatistic = new Dictionary<int,int>();
+            var minorCycleStatistic = new Dictionary<int, int>();
             for (int i = 1; i <= userNorm.PlanCycle; i++)
             {
                 var thisCysleRightCount = historyPredictDatas.Count(p => p.PredictedResult == 0 && p.MinorCycle == i);
@@ -113,8 +108,5 @@ namespace Lottery.AppService.Plan
             }
             return maxSerie;
         }
-
-
-
     }
 }

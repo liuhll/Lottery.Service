@@ -1,10 +1,10 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.AppService.Account;
 using Lottery.AppService.Member;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Lottery.AppService.Authorize
 {
@@ -13,7 +13,7 @@ namespace Lottery.AppService.Authorize
     {
         private readonly IMermberManager _mermberManager;
 
-        public AppPowerChecker(IUserManager userManager, 
+        public AppPowerChecker(IUserManager userManager,
             IMermberManager mermberManager) : base(userManager)
         {
             _mermberManager = mermberManager;
@@ -21,10 +21,10 @@ namespace Lottery.AppService.Authorize
 
         public override async Task<bool> IsGrantedAsync(string permissionName)
         {
-            return !string.IsNullOrEmpty(_lotterySession.UserId) 
+            return !string.IsNullOrEmpty(_lotterySession.UserId)
                 && _lotterySession.SystemType == SystemType.App
                 && !string.IsNullOrEmpty(_lotterySession.SystemTypeId)
-                && await _mermberManager.IsGrantedAsync(_lotterySession.UserId,_lotterySession.SystemTypeId, permissionName);
+                && await _mermberManager.IsGrantedAsync(_lotterySession.UserId, _lotterySession.SystemTypeId, permissionName);
         }
 
         public override async Task<bool> IsGrantedAsync(string userId, string permissionName)
@@ -37,15 +37,12 @@ namespace Lottery.AppService.Authorize
             return !string.IsNullOrEmpty(_lotterySession.UserId)
                    && _lotterySession.SystemType == SystemType.App
                    && !string.IsNullOrEmpty(_lotterySession.SystemTypeId)
-                   && await _mermberManager.IsGrantedAsync(_lotterySession.UserId, _lotterySession.SystemTypeId, urlPath,method);
+                   && await _mermberManager.IsGrantedAsync(_lotterySession.UserId, _lotterySession.SystemTypeId, urlPath, method);
         }
 
         public override async Task<bool> IsGrantedAsync(string userId, string urlPath, HttpMethod method)
         {
             throw new LotteryAuthorizationException("无法判其他用户的授权信息,只允许用户自己获取授权信息");
         }
-
-
-       
     }
 }

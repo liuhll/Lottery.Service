@@ -1,27 +1,25 @@
-﻿using System;
-using Aliyun.Acs.Core;
+﻿using Aliyun.Acs.Core;
 using Aliyun.Acs.Core.Exceptions;
 using Aliyun.Acs.Core.Profile;
 using Aliyun.Acs.Dysmsapi.Model.V20170525;
 using ECommon.Components;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Tools;
+using System;
 
 namespace Lottery.Infrastructure.Sms
 {
     [Component]
     public class AliyunSmsSender : ISmsSender
     {
-        private readonly IClientProfile _clientProfile;  
+        private readonly IClientProfile _clientProfile;
         private readonly IAcsClient _acsClient;
-
 
         public AliyunSmsSender()
         {
             _clientProfile = DefaultProfile.GetProfile(AliyunSmsSettingConfigs.RegionIdForPop, AliyunSmsSettingConfigs.AccessId, AliyunSmsSettingConfigs.AccessSecret); ;
             DefaultProfile.AddEndpoint(AliyunSmsSettingConfigs.RegionIdForPop, AliyunSmsSettingConfigs.RegionIdForPop, AliyunSmsSettingConfigs.ProductName, AliyunSmsSettingConfigs.DomainForPop);
             _acsClient = new DefaultAcsClient(_clientProfile);
-            
         }
 
         public void Send(string to, string content)
@@ -49,21 +47,19 @@ namespace Lottery.Infrastructure.Sms
                     TemplateParam = templateParam,
                     OutId = "Clmeng"
                 };
-               var result = _acsClient.GetAcsResponse(request);
+                var result = _acsClient.GetAcsResponse(request);
                 if (result.Code == "")
                 {
-                    
                 }
             }
             catch (ServerException e)
             {
-                throw new LotteryException("短信服务端异常",e);
+                throw new LotteryException("短信服务端异常", e);
             }
             catch (ClientException e)
             {
-                throw new LotteryException("短信客户端异常",e);
+                throw new LotteryException("短信客户端异常", e);
             }
         }
-
     }
 }

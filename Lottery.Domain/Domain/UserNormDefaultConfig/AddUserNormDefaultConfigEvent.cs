@@ -9,7 +9,7 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         }
 
         public AddUserNormDefaultConfigEvent(string userId, string lotteryId, int planCycle, int forecastCount,
-            int unitHistoryCount,int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
+            int unitHistoryCount, int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
             int lookupPeriodCount, int expectMinScore, int expectMaxScore, string customNumbers)
         {
             UserId = userId;
@@ -26,7 +26,6 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             ExpectMinScore = expectMinScore;
             CustomNumbers = customNumbers;
             HistoryCount = historyCount;
-
         }
 
         public AddUserNormDefaultConfigEvent(UserNormDefaultConfig userNorm)
@@ -45,8 +44,6 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             ExpectMinScore = userNorm.ExpectMinScore;
             CustomNumbers = userNorm.CustomNumbers;
             HistoryCount = userNorm.HistoryCount;
-
-
         }
 
         public int ForecastCount { get; private set; }

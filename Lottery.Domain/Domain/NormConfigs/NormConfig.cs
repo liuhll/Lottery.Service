@@ -1,6 +1,5 @@
-﻿using System;
-using System.Globalization;
-using ENode.Domain;
+﻿using ENode.Domain;
+using System;
 
 namespace Lottery.Core.Domain.NormConfigs
 {
@@ -46,26 +45,26 @@ namespace Lottery.Core.Domain.NormConfigs
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string UserId { get; private set; }
 
         public string LotteryId { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string PlanId { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int PlanCycle { get; private set; }
 
         public int LastStartPeriod { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int ForecastCount { get; private set; }
 
@@ -114,45 +113,45 @@ namespace Lottery.Core.Domain.NormConfigs
         public int ExpectMaxScore { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public bool IsEnable { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public bool IsDefualt { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string CreateBy { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public DateTime? CreateTime { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string UpdateBy { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public DateTime? UpdateTime { get; private set; }
 
         public int Sort { get; private set; }
 
         #region public Methods
+
         public void DeleteNormConfig(string aggregateRootId)
         {
-           ApplyEvent(new DeleteNormConfigEvent(UserId,LotteryId));
+            ApplyEvent(new DeleteNormConfigEvent(UserId, LotteryId));
         }
 
-
-        public void UpdateNormConfig(int lastStartPeriod, int planCycle, int forecastCount, int unitHistoryCount,int historyCount, int minRightSeries,
+        public void UpdateNormConfig(int lastStartPeriod, int planCycle, int forecastCount, int unitHistoryCount, int historyCount, int minRightSeries,
             int maxRightSeries, int minErrortSeries, int maxErrortSeries, int lookupPeriodCount, int expectMinScore, int expectMaxScore, string customNumbers)
         {
             ApplyEvent(new UpdateNormConfigEvent(UserId, LotteryId, lastStartPeriod,
@@ -160,13 +159,12 @@ namespace Lottery.Core.Domain.NormConfigs
                 maxErrortSeries, lookupPeriodCount, expectMinScore, expectMaxScore, customNumbers));
         }
 
-        #endregion
+        #endregion public Methods
 
         #region handle Methods
 
         private void Handle(AddNormConfigEvent evnt)
         {
-
             UserId = evnt.UserId;
             LotteryId = evnt.LotteryId;
             PlanId = evnt.PlanId;
@@ -189,7 +187,6 @@ namespace Lottery.Core.Domain.NormConfigs
 
         private void Handle(UpdateNormConfigEvent evnt)
         {
-
             UserId = evnt.UserId;
             LotteryId = evnt.LotteryId;
             LastStartPeriod = evnt.LastStartPeriod;
@@ -213,7 +210,6 @@ namespace Lottery.Core.Domain.NormConfigs
             LotteryId = evnt.LotteryId;
         }
 
-        #endregion
-
+        #endregion handle Methods
     }
 }

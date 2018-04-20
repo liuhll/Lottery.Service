@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Lottery.WebApi.Result;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
-using Lottery.WebApi.Result;
 
 namespace Lottery.WebApi.Configration
 {

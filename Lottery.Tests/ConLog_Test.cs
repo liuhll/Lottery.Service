@@ -1,8 +1,4 @@
-﻿using System;
-using ECommon.Components;
-using Lottery.Commands.LogonLog;
-using Lottery.QueryServices.UserInfos;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lottery.Tests
 {
@@ -13,7 +9,6 @@ namespace Lottery.Tests
         public static void ClassInitialize(TestContext context)
         {
             Initialize();
-            
         }
 
         [TestMethod]

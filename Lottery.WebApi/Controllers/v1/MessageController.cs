@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Lottery.AppService.Account;
 using Lottery.AppService.IdentifyCode;
 using Lottery.Commands.IdentifyCodes;
 using Lottery.Commands.Messages;
-using Lottery.Commands.UserInfos;
 using Lottery.Dtos.IdentifyCodes;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.Mail;
-using Lottery.Infrastructure.RunTime.Session;
 using Lottery.Infrastructure.Sms;
 using Lottery.Infrastructure.Tools;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -29,10 +26,10 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly IUserManager _userManager;
 
         public MessageController(ICommandService commandService,
-            IIdentifyCodeAppService identifyCodeAppService, 
+            IIdentifyCodeAppService identifyCodeAppService,
             ISmsSender smsSender,
             IEmailSender emailSender,
-            IUserManager userManager) 
+            IUserManager userManager)
             : base(commandService)
         {
             _identifyCodeAppService = identifyCodeAppService;
@@ -64,6 +61,7 @@ namespace Lottery.WebApi.Controllers.v1
                 case AccountRegistType.Email:
                     SendIdentifyCodeByEmail(account, identifyCode, identifyCodeType);
                     break;
+
                 case AccountRegistType.Phone:
                     SendIdentifyCodeByPhone(account, identifyCode, identifyCodeType);
                     break;
@@ -71,7 +69,6 @@ namespace Lottery.WebApi.Controllers.v1
 
             return "验证码获取成功,请注意查收";
         }
-
 
         /// <summary>
         /// 通过账号获取验证码
@@ -89,18 +86,19 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 throw new LotteryException("只能通过手机号码或Email获取验证码");
             }
-            var identifyCode = _identifyCodeAppService.GenerateIdentifyCode(account,accountType);
+            var identifyCode = _identifyCodeAppService.GenerateIdentifyCode(account, accountType);
 
             switch (accountType)
             {
-               case AccountRegistType.Email:
+                case AccountRegistType.Email:
                     SendIdentifyCodeByEmail(account, identifyCode, identifyCodeType);
                     break;
-               case AccountRegistType.Phone:
-                    SendIdentifyCodeByPhone(account, identifyCode,identifyCodeType);
+
+                case AccountRegistType.Phone:
+                    SendIdentifyCodeByPhone(account, identifyCode, identifyCodeType);
                     break;
             }
-           
+
             return "验证码获取成功,请注意查收";
         }
 
@@ -115,7 +113,6 @@ namespace Lottery.WebApi.Controllers.v1
         [AllowAnonymous]
         public async Task<string> IdentifyCode3(IdentifyCodeValidInput input)
         {
-           
             if (input.Account.IsNullOrEmpty())
             {
                 throw new LotteryException("账号不允许为空");
@@ -153,7 +150,7 @@ namespace Lottery.WebApi.Controllers.v1
 
         private void SendIdentifyCodeByEmail(string email, IdentifyCodeOutput identifyCode, IdentifyCodeType identifyCodeType)
         {
-            var templetParams = new Dictionary<string,string>()
+            var templetParams = new Dictionary<string, string>()
             {
                 { "code", identifyCode.Code }
             };
@@ -161,10 +158,11 @@ namespace Lottery.WebApi.Controllers.v1
             var emailTitle = string.Empty;
             switch (identifyCodeType)
             {
-               case IdentifyCodeType.Register:
+                case IdentifyCodeType.Register:
                     emailTitle = "注册用户";
-                    emailContent = EmailTempletHelper.ReadContent("RegisterTemplet",templetParams);                    
+                    emailContent = EmailTempletHelper.ReadContent("RegisterTemplet", templetParams);
                     break;
+
                 case IdentifyCodeType.RetrievePwd:
                     emailTitle = "找回密码";
                     emailContent = EmailTempletHelper.ReadContent("RetrievePwd", templetParams);
@@ -175,15 +173,15 @@ namespace Lottery.WebApi.Controllers.v1
             if (identifyCode.IsNew)
             {
                 SendCommandAsync(new AddIdentifyCodeCommand(identifyCode.IdentifyCodeId, email, identifyCode.Code,
-                    (int) identifyCodeType, (int) AccountRegistType.Email,
+                    (int)identifyCodeType, (int)AccountRegistType.Email,
                     identifyCode.ExpirationDate, _lotterySession.UserId));
             }
             else
             {
-                SendCommandAsync(new UpdateIdentifyCodeCommand(identifyCode.IdentifyCodeId, identifyCode.Code, email, 
+                SendCommandAsync(new UpdateIdentifyCodeCommand(identifyCode.IdentifyCodeId, identifyCode.Code, email,
                     identifyCode.ExpirationDate, _lotterySession.UserId));
             }
-            _emailSender.Send(email, emailTitle,emailContent,false);
+            _emailSender.Send(email, emailTitle, emailContent, false);
         }
 
         private void SendIdentifyCodeByPhone(string phone, IdentifyCodeOutput identifyCode, IdentifyCodeType identifyCodeType)
@@ -192,14 +190,16 @@ namespace Lottery.WebApi.Controllers.v1
             string title = "";
             switch (identifyCodeType)
             {
-               case IdentifyCodeType.Register:
-                   smsTempleteCode = "SMS_128575019";
-                   title = "用户注册";
+                case IdentifyCodeType.Register:
+                    smsTempleteCode = "SMS_128575019";
+                    title = "用户注册";
                     break;
-               case IdentifyCodeType.RetrievePwd:
-                   smsTempleteCode = "SMS_128545037";
-                   title = "找回密码";
+
+                case IdentifyCodeType.RetrievePwd:
+                    smsTempleteCode = "SMS_128545037";
+                    title = "找回密码";
                     break;
+
                 default:
                     throw new LotteryException("无法获取该种类型的验证码");
             }
@@ -220,6 +220,5 @@ namespace Lottery.WebApi.Controllers.v1
             }
             _smsSender.Send(phone, templateParam, smsTempleteCode);
         }
-
     }
 }

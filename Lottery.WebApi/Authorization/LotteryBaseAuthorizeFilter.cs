@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http.Controllers;
-using System.Web.Http.Filters;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Logging;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
@@ -14,6 +6,14 @@ using Lottery.Infrastructure.RunTime.Session;
 using Lottery.WebApi.Configration;
 using Lottery.WebApi.Helper;
 using Lottery.WebApi.Result.Models;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
 
 namespace Lottery.WebApi.Authorization
 {
@@ -36,7 +36,6 @@ namespace Lottery.WebApi.Authorization
             CancellationToken cancellationToken,
             Func<Task<HttpResponseMessage>> continuation);
 
-      
         protected virtual HttpResponseMessage CreateUnAuthorizedResponse(HttpActionContext actionContext, string errorMessage)
         {
             var statusCode = GetUnAuthorizedStatusCode(actionContext);
@@ -53,10 +52,9 @@ namespace Lottery.WebApi.Authorization
             return new HttpResponseMessage(statusCode)
             {
                 Content = new ObjectContent<ResponseMessage>(
-                    new ResponseMessage(new ErrorInfo(errorMessage), 
+                    new ResponseMessage(new ErrorInfo(errorMessage),
                     statusCode == HttpStatusCode.Unauthorized || statusCode == HttpStatusCode.Forbidden),
                     _lotteryApiConfiguration.HttpConfiguration.Formatters.JsonFormatter)
-
             };
         }
 
@@ -81,6 +79,5 @@ namespace Lottery.WebApi.Authorization
                 ? HttpStatusCode.Forbidden
                 : HttpStatusCode.Unauthorized;
         }
-
     }
 }

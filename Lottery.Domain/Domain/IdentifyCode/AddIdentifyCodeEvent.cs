@@ -1,5 +1,5 @@
-﻿using System;
-using ENode.Eventing;
+﻿using ENode.Eventing;
+using System;
 
 namespace Lottery.Core.Domain.IdentifyCode
 {
@@ -10,7 +10,7 @@ namespace Lottery.Core.Domain.IdentifyCode
         }
 
         public AddIdentifyCodeEvent(string receiver,
-            string code,int identifyCodeType, int messageType,DateTime expirationDate, string createBy)
+            string code, int identifyCodeType, int messageType, DateTime expirationDate, string createBy)
         {
             Receiver = receiver;
             Code = code;

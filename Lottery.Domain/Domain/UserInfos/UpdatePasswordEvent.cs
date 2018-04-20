@@ -6,10 +6,9 @@ namespace Lottery.Core.Domain.UserInfos
     {
         private UpdatePasswordEvent()
         {
-
         }
 
-        public UpdatePasswordEvent(string password, string updateBy) 
+        public UpdatePasswordEvent(string password, string updateBy)
         {
             Password = password;
             UpdateBy = updateBy;

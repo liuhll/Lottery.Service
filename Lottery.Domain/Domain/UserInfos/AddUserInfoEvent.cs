@@ -1,6 +1,6 @@
-﻿using System;
-using ENode.Eventing;
+﻿using ENode.Eventing;
 using Lottery.Infrastructure.Enums;
+using System;
 
 namespace Lottery.Core.Domain.UserInfos
 {
@@ -17,7 +17,7 @@ namespace Lottery.Core.Domain.UserInfos
             bool isActive,
             ClientRegistType clientRegistType,
             bool isDelete,
-            AccountRegistType accountRegistType,int points)
+            AccountRegistType accountRegistType, int points)
         {
             UserName = userName;
             Email = email;
@@ -29,7 +29,6 @@ namespace Lottery.Core.Domain.UserInfos
             IsDelete = isDelete;
             AccountRegistType = accountRegistType;
             Points = points;
-
         }
 
         public AddUserInfoEvent(string userName, string email, string phone, string password,
@@ -80,10 +79,8 @@ namespace Lottery.Core.Domain.UserInfos
 
         public bool IsDelete { get; private set; }
 
-
         public ClientRegistType ClientRegistType { get; private set; }
 
         public AccountRegistType AccountRegistType { get; private set; }
-
     }
 }

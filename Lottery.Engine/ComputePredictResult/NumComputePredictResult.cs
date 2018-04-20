@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Lottery.Dtos.Lotteries;
+using Lottery.Infrastructure.Enums;
 using System.Collections.Generic;
 using System.Linq;
-using Lottery.Dtos.Lotteries;
-using Lottery.Infrastructure.Collections;
-using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Engine.ComputePredictResult
 {
@@ -15,8 +13,6 @@ namespace Lottery.Engine.ComputePredictResult
 
         protected override ICollection<string> GetPredictedDataList(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
         {
-            
-
             if (normPlanInfo.DsType == PredictType.Fix)
             {
                 var predictedDataList = _predictedDataRate.OrderByDescending(p => p.Value).Select(p => p.Key.ToString()).ToList();

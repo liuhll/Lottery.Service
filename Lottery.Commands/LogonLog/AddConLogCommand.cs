@@ -1,6 +1,5 @@
-﻿using System;
-using ENode.Commanding;
-using Lottery.Infrastructure.Enums;
+﻿using ENode.Commanding;
+using System;
 
 namespace Lottery.Commands.LogonLog
 {
@@ -10,7 +9,7 @@ namespace Lottery.Commands.LogonLog
         {
         }
 
-        public AddConLogCommand(string id,string userId, int clientNo,string systemTypeId, string ip,DateTime invalidDateTime, string createBy) :base(id)
+        public AddConLogCommand(string id, string userId, int clientNo, string systemTypeId, string ip, DateTime invalidDateTime, string createBy) : base(id)
         {
             UserId = userId;
             SystemTypeId = systemTypeId;

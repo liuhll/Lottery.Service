@@ -9,7 +9,6 @@ namespace Lottery.WebApi.Result
         public DontWrapResultAttribute()
             : base(false, false)
         {
-
         }
     }
 }

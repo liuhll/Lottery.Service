@@ -1,9 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using ECommon.Components;
+﻿using ECommon.Components;
 using FluentValidation;
 using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
+using System.Text.RegularExpressions;
 
 namespace Lottery.AppService.Validations
 {
@@ -12,7 +12,6 @@ namespace Lottery.AppService.Validations
     {
         public UserProfileInputValidator()
         {
-
             // RuleFor(m => m.Profile).NotEmpty().WithMessage("账号不允许为空");
             string message = "{Message}";
             RuleFor(m => m.ProfileType).Must((m, p, context) =>
@@ -24,7 +23,7 @@ namespace Lottery.AppService.Validations
                 }
                 if (p == AccountRegistType.Email)
                 {
-                    if (!Regex.IsMatch(m.Profile,RegexConstants.Email))
+                    if (!Regex.IsMatch(m.Profile, RegexConstants.Email))
                     {
                         context.MessageFormatter.AppendArgument("Message", "电子邮件格式不合法");
                         return false;

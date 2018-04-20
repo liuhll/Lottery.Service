@@ -8,7 +8,7 @@ namespace Lottery.Commands.UserInfos
         {
         }
 
-        public BindUserPhoneCommand(string id,string phone) : base(id)
+        public BindUserPhoneCommand(string id, string phone) : base(id)
         {
             Phone = phone;
         }

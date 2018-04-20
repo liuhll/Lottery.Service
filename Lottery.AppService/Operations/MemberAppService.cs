@@ -27,9 +27,8 @@ namespace Lottery.AppService.Operations
             {
                 return MemberRank.Ordinary.ToString();
             }
-            
-            return ((MemberRank) userMember.ComputeMemberRank()).ToString();
 
+            return ((MemberRank)userMember.ComputeMemberRank()).ToString();
         }
     }
 }

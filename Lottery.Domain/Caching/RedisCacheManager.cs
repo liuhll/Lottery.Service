@@ -1,35 +1,33 @@
-﻿using System;
-using System.Text;
-using ECommon.Components;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StackExchange.Redis;
+using System;
+using System.Text;
 
 namespace Lottery.Core.Caching
-{  
+{
     public partial class RedisCacheManager : ICacheManager
     {
         #region Fields
+
         private readonly IRedisConnectionWrapper _connectionWrapper;
         private readonly IDatabase _db;
 
-
-        #endregion
+        #endregion Fields
 
         #region Ctor
 
-        public RedisCacheManager( IRedisConnectionWrapper connectionWrapper)
+        public RedisCacheManager(IRedisConnectionWrapper connectionWrapper)
         {
-        //    if (String.IsNullOrEmpty(redisConnString))
-        //        throw new Exception("Redis connection string is empty");
+            //    if (String.IsNullOrEmpty(redisConnString))
+            //        throw new Exception("Redis connection string is empty");
 
             // ConnectionMultiplexer.Connect should only be called once and shared between callers
             this._connectionWrapper = connectionWrapper;
 
             this._db = _connectionWrapper.Database();
-           
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Utilities
 
@@ -38,6 +36,7 @@ namespace Lottery.Core.Caching
             var jsonString = JsonConvert.SerializeObject(item);
             return Encoding.UTF8.GetBytes(jsonString);
         }
+
         protected virtual T Deserialize<T>(byte[] serializedObject)
         {
             try
@@ -58,7 +57,7 @@ namespace Lottery.Core.Caching
             }
         }
 
-        #endregion
+        #endregion Utilities
 
         #region Methods
 
@@ -156,6 +155,6 @@ namespace Lottery.Core.Caching
             //    _connectionWrapper.Dispose();
         }
 
-        #endregion
+        #endregion Methods
     }
 }

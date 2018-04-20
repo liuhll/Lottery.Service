@@ -1,5 +1,5 @@
-﻿using System;
-using Lottery.Dtos.Lotteries;
+﻿using Lottery.Dtos.Lotteries;
+using System;
 
 namespace Lottery.RunApp.Events
 {

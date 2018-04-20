@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Lottery.Infrastructure.Enums;
+using System;
 using System.Collections.Generic;
-using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Engine.Predictor
 {
@@ -8,6 +8,6 @@ namespace Lottery.Engine.Predictor
     {
         AlgorithmType AlgorithmType { get; }
 
-        IDictionary<int, double> Predictor(List<int> data, int count,int k,int historyCount, Tuple<int, int> valInfo);
+        IDictionary<int, double> Predictor(List<int> data, int count, int k, int historyCount, Tuple<int, int> valInfo);
     }
 }

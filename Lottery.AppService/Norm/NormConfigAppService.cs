@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure;
@@ -9,6 +6,9 @@ using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Norms;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.AppService.Norm
 {
@@ -38,12 +38,11 @@ namespace Lottery.AppService.Norm
 
         public UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId)
         {
-            var userDefaultConfig = _normDefaultConfigService.GetUserNormOrDefaultConfig(userId,lotteryId);
+            var userDefaultConfig = _normDefaultConfigService.GetUserNormOrDefaultConfig(userId, lotteryId);
             SetSelectedLotteryNumbers(lotteryId, userDefaultConfig);
             return userDefaultConfig;
         }
 
-       
         public ICollection<NormConfigDto> GetUserNormConfig(string lotteryId, string userId)
         {
             return _normConfigQueryService.GetUserNormConfigs(lotteryId, userId);
@@ -54,20 +53,20 @@ namespace Lottery.AppService.Norm
             try
             {
                 var userplanNorm = _normConfigQueryService.GetUserNormConfigById(userId, normId);
-                SetSelectedLotteryNumbers(userplanNorm.LotteryId,userplanNorm);
+                SetSelectedLotteryNumbers(userplanNorm.LotteryId, userplanNorm);
                 return userplanNorm;
             }
             catch
             {
                 throw new LotteryDataException("获取公式指标配置异常");
-            }           
+            }
         }
 
         public UserPlanNormOutput GetUserNormConfigByPlanId(string userId, string lotteryId, string planId)
         {
             try
             {
-                var userplanNorm = _normConfigQueryService.GetUserNormConfigByPlanId(userId, lotteryId,planId);
+                var userplanNorm = _normConfigQueryService.GetUserNormConfigByPlanId(userId, lotteryId, planId);
                 if (userplanNorm == null)
                 {
                     var userDefaultConfig = _normDefaultConfigService.GetUserNormOrDefaultConfig(userId, lotteryId);
@@ -78,17 +77,17 @@ namespace Lottery.AppService.Norm
                 if (plan.PredictCode == PredictCodeDefinition.NumCode)
                 {
                     SetSelectedLotteryNumbers(userplanNorm.LotteryId, userplanNorm);
-                }               
+                }
                 return userplanNorm;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
                 throw new LotteryDataException("获取公式指标配置异常");
             }
         }
 
         #region private methods
+
         private void SetSelectedLotteryNumbers(string lotteryId, UserNormDefaultConfigOutput normConfig)
         {
             var lotteryPositions = _positionInfoQueryService.GetLotteryPositions(lotteryId);
@@ -122,6 +121,7 @@ namespace Lottery.AppService.Norm
                 }
             }
         }
-        #endregion
+
+        #endregion private methods
     }
 }

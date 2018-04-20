@@ -4,6 +4,5 @@
     {
         Right = 0,
         Error = 1,
-
     }
 }

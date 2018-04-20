@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Lottery.Dtos.Lotteries;
+﻿using Lottery.Dtos.Lotteries;
 using Lottery.Engine.LotteryData;
+using System;
+using System.Collections.Generic;
 
 namespace Lottery.AppService.LotteryData
 {
@@ -39,6 +39,5 @@ namespace Lottery.AppService.LotteryData
         FinalLotteryDataOutput GetFinalLotteryData(string lotteryId);
 
         LotteryDataDto GetLotteryData(string lotteryInfoId, int currentPredictPeriod);
-       
     }
 }

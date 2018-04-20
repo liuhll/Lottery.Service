@@ -1,5 +1,5 @@
-﻿using System;
-using ENode.Eventing;
+﻿using ENode.Eventing;
+using System;
 
 namespace Lottery.Core.Domain.LogonLog
 {
@@ -7,10 +7,9 @@ namespace Lottery.Core.Domain.LogonLog
     {
         private LogoutEvent()
         {
-           
         }
 
-        public LogoutEvent(string userId,DateTime logoutTime,int onlineTime)
+        public LogoutEvent(string userId, DateTime logoutTime, int onlineTime)
         {
             UserId = userId;
             OnlineTime = onlineTime;

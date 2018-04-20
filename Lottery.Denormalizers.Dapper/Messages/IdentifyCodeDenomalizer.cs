@@ -1,14 +1,14 @@
-﻿using System.Threading.Tasks;
-using ECommon.Dapper;
+﻿using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Caching;
 using Lottery.Core.Domain.IdentifyCode;
 using Lottery.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper.Messages
 {
-    public class IdentifyCodeDenomalizer :AbstractDenormalizer, IMessageHandler<AddIdentifyCodeEvent>, IMessageHandler<UpdateIdentifyCodeEvent>,IMessageHandler<InvalidIdentifyCodeEvent>
+    public class IdentifyCodeDenomalizer : AbstractDenormalizer, IMessageHandler<AddIdentifyCodeEvent>, IMessageHandler<UpdateIdentifyCodeEvent>, IMessageHandler<InvalidIdentifyCodeEvent>
     {
         private readonly ICacheManager _cacheManager;
 

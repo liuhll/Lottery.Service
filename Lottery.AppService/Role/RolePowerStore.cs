@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Extensions;
 using Lottery.Dtos.Power;
 using Lottery.Dtos.RoleDto;
 using Lottery.QueryServices.Powers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.AppService.Role
 {
@@ -17,7 +17,6 @@ namespace Lottery.AppService.Role
         {
             _rolePowerQueryService = rolePowerQueryService;
         }
-
 
         public ICollection<PowerGrantInfo> GetPermissions(RoleDto role)
         {
@@ -34,6 +33,5 @@ namespace Lottery.AppService.Role
             var rolePowers = GetPermissions(roleId);
             return rolePowers.Safe().FirstOrDefault(p => p.PowerCode == powerGrantInfo.PowerCode) != null;
         }
-
     }
 }

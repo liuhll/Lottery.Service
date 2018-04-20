@@ -4,8 +4,8 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
 {
     public class UserNormDefaultConfig : AggregateRoot<string>
     {
-        public UserNormDefaultConfig(string id, string userId, string lotteryId, int planCycle,int forecastCount,
-            int unitHistoryCount,int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
+        public UserNormDefaultConfig(string id, string userId, string lotteryId, int planCycle, int forecastCount,
+            int unitHistoryCount, int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
             int lookupPeriodCount, int expectMinScore, int expectMaxScore) : base(id)
         {
             UserId = userId;
@@ -35,8 +35,6 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         /// 彩种Id
         /// </summary>
         public string LotteryId { get; private set; }
-
-       
 
         /// <summary>
         /// 周期数
@@ -92,15 +90,14 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         /// </summary>
         public string CustomNumbers { get; private set; }
 
-
         #region public Methods
 
         public void UpdateUserNormDefaultConfig(int planCycle, int forecastCount, int unitHistoryCount, int historyCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries, int lookupPeriodCount, int expectMinScore, int expectMaxScore)
         {
-            ApplyEvent(new UpdateUserNormDefaultConfigEvent(UserId,LotteryId,planCycle,forecastCount,unitHistoryCount, historyCount, minRightSeries, maxRightSeries, minErrortSeries, maxErrortSeries, lookupPeriodCount,expectMinScore,expectMaxScore));
+            ApplyEvent(new UpdateUserNormDefaultConfigEvent(UserId, LotteryId, planCycle, forecastCount, unitHistoryCount, historyCount, minRightSeries, maxRightSeries, minErrortSeries, maxErrortSeries, lookupPeriodCount, expectMinScore, expectMaxScore));
         }
 
-        #endregion
+        #endregion public Methods
 
         #region Handler Methods
 
@@ -121,6 +118,7 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             CustomNumbers = evnt.CustomNumbers;
             HistoryCount = evnt.HistoryCount;
         }
+
         private void Handle(UpdateUserNormDefaultConfigEvent evnt)
         {
             PlanCycle = evnt.PlanCycle;
@@ -136,8 +134,6 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
             HistoryCount = evnt.HistoryCount;
         }
 
-        #endregion
-
-
+        #endregion Handler Methods
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.Menbers;
+﻿using Lottery.Dtos.Menbers;
+using System.Collections.Generic;
 
 namespace Lottery.QueryServices.Operations
 {

@@ -9,8 +9,8 @@ namespace Lottery.Commands.Sells
         {
         }
 
-        public AddOrderRecordCommand(string id,string salesOrderNo,string authRankId,string lotteryId, OrderSourceType orderSourceType,
-            int count,double unitPrice, double originalCost,double orderCost,SellType amountType,string createBy) : base(id)
+        public AddOrderRecordCommand(string id, string salesOrderNo, string authRankId, string lotteryId, OrderSourceType orderSourceType,
+            int count, double unitPrice, double originalCost, double orderCost, SellType amountType, string createBy) : base(id)
         {
             SalesOrderNo = salesOrderNo;
             AuthRankId = authRankId;

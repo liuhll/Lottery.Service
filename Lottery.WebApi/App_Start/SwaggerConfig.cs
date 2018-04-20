@@ -1,9 +1,9 @@
-using System.Linq;
-using System.Web.Http;
-using WebActivatorEx;
 using Lottery.WebApi;
 using Lottery.WebApi.Authentication;
 using Swashbuckle.Application;
+using System.Linq;
+using System.Web.Http;
+using WebActivatorEx;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 

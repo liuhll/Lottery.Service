@@ -1,17 +1,17 @@
-﻿using System;
-using System.Linq;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.RunTime.Security;
+using System;
+using System.Linq;
 
 namespace Lottery.Infrastructure.RunTime.Session
 {
     internal class ClaimsLotterySession : LotterySessionBase
     {
-        public override string UserId {
+        public override string UserId
+        {
             get
             {
-
                 var userIdClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.UserId);
                 if (string.IsNullOrEmpty(userIdClaim?.Value))
                 {
@@ -51,13 +51,13 @@ namespace Lottery.Infrastructure.RunTime.Session
                 }
 
                 string userName = userNameClaim.Value;
-               
+
                 return userName;
             }
-
         }
 
-        public override string Email {
+        public override string Email
+        {
             get
             {
                 var emailClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.Email);
@@ -72,7 +72,8 @@ namespace Lottery.Infrastructure.RunTime.Session
             }
         }
 
-        public override string Phone {
+        public override string Phone
+        {
             get
             {
                 var phoneClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.Phone);
@@ -119,7 +120,8 @@ namespace Lottery.Infrastructure.RunTime.Session
             }
         }
 
-        public override SystemType SystemType {
+        public override SystemType SystemType
+        {
             get
             {
                 if (SystemTypeId == LotteryConstants.BackOfficeKey)

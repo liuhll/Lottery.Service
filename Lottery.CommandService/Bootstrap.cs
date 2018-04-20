@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
 using ENode.Configurations;
@@ -9,6 +7,7 @@ using ENode.SqlServer;
 using Lottery.Core.Domain.LotteryDatas;
 using Lottery.Core.Domain.NormConfigs;
 using Lottery.Infrastructure;
+using System.Reflection;
 
 namespace Lottery.CommandService
 {
@@ -21,7 +20,6 @@ namespace Lottery.CommandService
             InitializeENode();
             InitializeCommandService();
         }
-
 
         private static void InitializeENode()
         {
@@ -38,7 +36,6 @@ namespace Lottery.CommandService
                 Assembly.Load("Lottery.CommandService"),
             };
             // var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
-
 
             _enodeConfiguration = Configuration
                 .Create()
@@ -59,9 +56,7 @@ namespace Lottery.CommandService
                 .InitializeSqlServerEventStore(DataConfigSettings.ENodeConnectionString)
                 .InitializeSqlServerLockService(DataConfigSettings.ENodeConnectionString)
                 .Start();
-
         }
-
 
         private static void InitializeCommandService()
         {
@@ -74,6 +69,7 @@ namespace Lottery.CommandService
         {
             _enodeConfiguration.StartEQueue();
         }
+
         public static void Stop()
         {
             _enodeConfiguration.ShutdownEQueue();

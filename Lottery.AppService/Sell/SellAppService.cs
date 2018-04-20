@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.Dtos.Auths;
 using Lottery.Dtos.Sells;
 using Lottery.Infrastructure.Enums;
@@ -8,6 +6,9 @@ using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.RunTime.Session;
 using Lottery.QueryServices.Activities;
 using Lottery.QueryServices.Goods;
+using Lottery.QueryServices.Lotteries;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Lottery.AppService.Sell
 {
@@ -17,12 +18,15 @@ namespace Lottery.AppService.Sell
         private readonly ISellQueryService _sellQueryService;
         private readonly ILotterySession _lotterySession;
         private readonly IActivityQueryService _activityQueryService;
+        private readonly ILotteryQueryService _lotteryQueryService;
 
         public SellAppService(ISellQueryService sellQueryService,
-            IActivityQueryService activityQueryService)
+            IActivityQueryService activityQueryService,
+            ILotteryQueryService lotteryQueryService)
         {
             _sellQueryService = sellQueryService;
             _activityQueryService = activityQueryService;
+            _lotteryQueryService = lotteryQueryService;
             _lotterySession = NullLotterySession.Instance;
         }
 
@@ -44,6 +48,7 @@ namespace Lottery.AppService.Sell
                         SellTypeName = "购买"
                     });
                     break;
+
                 case MemberRank.Specialty:
                 case MemberRank.Team:
                     result.Add(new SellTypeOutput()
@@ -56,7 +61,6 @@ namespace Lottery.AppService.Sell
             return result;
         }
 
-
         public ICollection<GoodsOutput> GetGoodsInfos(MemberRank memberRank, string lotteryId, SellType sellType)
         {
             IList<GoodsOutput> result;
@@ -65,9 +69,11 @@ namespace Lottery.AppService.Sell
                 case SellType.Point:
                     result = GetPointGoodInfos(memberRank, lotteryId);
                     break;
+
                 case SellType.Rmb:
                     result = GetRmbGoodInfos(memberRank, lotteryId);
                     break;
+
                 default:
                     throw new LotteryException("参数错误，不存在该销售类型");
             }
@@ -78,9 +84,10 @@ namespace Lottery.AppService.Sell
         {
             var authInfo = _sellQueryService.GetMyselfAuthInfo(userId, lotteryId)
                 ?? new UserAuthOutput()
-            {
-                Notes = "普通版授权"
-            };
+                {
+                    Notes = "普通版授权",
+                    LotteryName = _lotteryQueryService.GetLotteryInfoById(_lotterySession.SystemTypeId).Name
+                };
             return authInfo;
         }
 
@@ -97,32 +104,32 @@ namespace Lottery.AppService.Sell
         private IList<GoodsOutput> GetRmbGoodInfos(MemberRank memberRank, string lotteryId)
         {
             var result = new List<GoodsOutput>();
-            var goodOutputs = _sellQueryService.GetRmbGoodInfos(memberRank,lotteryId);
-            var userAuthInfo = _sellQueryService.GetUserAuthInfo(_lotterySession.UserId,lotteryId);
+            var goodOutputs = _sellQueryService.GetRmbGoodInfos(memberRank, lotteryId);
+            var userAuthInfo = _sellQueryService.GetUserAuthInfo(_lotterySession.UserId, lotteryId);
             foreach (var goods in goodOutputs)
             {
                 Debug.Assert(goods.Term.HasValue);
                 var output = new GoodsOutput()
                 {
-                    GoodsId =  goods.Id,
+                    GoodsId = goods.Id,
                     GoodsName = goods.GoodName,
                     Count = goods.Term.Value,
-                    Discount = GetDiscount(goods.AuthRankId,SellType.Rmb),
-                    PurchaseType = GetPurchaseType(userAuthInfo,goods.MemberRank),
-                    UnitPrice = goods.UnitPrice 
+                    Discount = GetDiscount(goods.AuthRankId, SellType.Rmb),
+                    PurchaseType = GetPurchaseType(userAuthInfo, goods.MemberRank),
+                    UnitPrice = goods.UnitPrice
                 };
                 result.Add(output);
             }
             return result;
         }
 
-        private PurchaseType GetPurchaseType(UserAuthDto userAuthInfo,int memberRank)
+        private PurchaseType GetPurchaseType(UserAuthDto userAuthInfo, int memberRank)
         {
             if (userAuthInfo == null)
             {
                 return PurchaseType.New;
             }
-            else if ((int) _lotterySession.MemberRank == memberRank)
+            else if ((int)_lotterySession.MemberRank == memberRank)
             {
                 return PurchaseType.Continuation;
             }
@@ -132,9 +139,9 @@ namespace Lottery.AppService.Sell
             }
         }
 
-        public double GetDiscount(string authRankId,SellType sellType)
+        public double GetDiscount(string authRankId, SellType sellType)
         {
-            var activity = _activityQueryService.GetAuthAcivity(authRankId,sellType);
+            var activity = _activityQueryService.GetAuthAcivity(authRankId, sellType);
             if (activity == null)
             {
                 return 1.00;

@@ -19,6 +19,5 @@ namespace Lottery.Dtos.Lotteries
         /// 彩种名称
         /// </summary>
         public string Name { get; set; }
-
     }
 }

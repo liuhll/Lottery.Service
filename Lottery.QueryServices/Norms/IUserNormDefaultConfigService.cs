@@ -6,6 +6,6 @@ namespace Lottery.QueryServices.Norms
     {
         UserNormDefaultConfigOutput GetUserNormOrDefaultConfig(string userId, string lotteryId);
 
-        UserNormDefaultConfigDto GetUserNormConfig(string userId,string lotteryId);
+        UserNormDefaultConfigDto GetUserNormConfig(string userId, string lotteryId);
     }
 }

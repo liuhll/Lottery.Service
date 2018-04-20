@@ -1,12 +1,12 @@
-﻿using System;
-using ENode.Domain;
+﻿using ENode.Domain;
 using Lottery.Infrastructure.Enums;
+using System;
 
 namespace Lottery.Core.Domain.Points
 {
     public class PointRecord : AggregateRoot<string>
     {
-        public PointRecord(string id,int point,PointType pointType,PointOperationType operationType,string notes,string createBy) : base(id)
+        public PointRecord(string id, int point, PointType pointType, PointOperationType operationType, string notes, string createBy) : base(id)
         {
             Point = point;
             PointType = pointType;
@@ -15,7 +15,7 @@ namespace Lottery.Core.Domain.Points
             CreateBy = createBy;
             CreateTime = DateTime.Now;
 
-            ApplyEvent(new AddPointRecordEvent(Point,PointType,OperationType,Notes,CreateBy));
+            ApplyEvent(new AddPointRecordEvent(Point, PointType, OperationType, Notes, CreateBy));
         }
 
         public int Point { get; private set; }
@@ -42,6 +42,6 @@ namespace Lottery.Core.Domain.Points
             CreateTime = evnt.Timestamp;
         }
 
-        #endregion
+        #endregion handle
     }
 }

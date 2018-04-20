@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Lottery.Dtos.ConLog;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Lottery.Dtos.ConLog;
 
 namespace Lottery.QueryServices.Canlogs
 {

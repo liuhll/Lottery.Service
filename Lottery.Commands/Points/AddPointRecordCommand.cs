@@ -8,6 +8,7 @@ namespace Lottery.Commands.Points
         private AddPointRecordCommand()
         {
         }
+
         public AddPointRecordCommand(string id, int point, PointType pointType, PointOperationType operationType, string notes, string createBy) : base(id)
         {
             Point = point;

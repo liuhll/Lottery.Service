@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Lottery.Infrastructure;
+﻿using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
+using System.Collections.Generic;
 
 namespace Lottery.Engine.ComputePredictResult
 {
@@ -14,21 +14,25 @@ namespace Lottery.Engine.ComputePredictResult
                 case PredictCodeDefinition.NumCode:
                     predictResult = new NumComputePredictResult(predictedDataRate);
                     break;
+
                 case PredictCodeDefinition.LhCode:
                     predictResult = new LhComputePredictResult(predictedDataRate);
                     break;
+
                 case PredictCodeDefinition.RankCode:
                     predictResult = new RankComputePredictResult(predictedDataRate);
                     break;
+
                 case PredictCodeDefinition.ShapeCode:
                     predictResult = new ShapeComputePredictResult(predictedDataRate);
                     break;
+
                 case PredictCodeDefinition.SizeCode:
                     predictResult = new SizeComputePredictResult(predictedDataRate);
                     break;
+
                 default:
                     throw new LotteryException("不存在该类型的数据结果计算器");
-
             }
             return predictResult;
         }

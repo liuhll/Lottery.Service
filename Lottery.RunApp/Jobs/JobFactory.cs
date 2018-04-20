@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Extensions;
 using ECommon.IO;
 using ENode.Commanding;
 using FluentScheduler;
 using Lottery.AppService.Predict;
 using Lottery.Commands.LotteryPredicts;
-using Lottery.Core.Domain.LotteryInfos;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.ScheduleTasks;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.ScheduleTasks;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lottery.RunApp.Jobs
 {
@@ -27,7 +26,7 @@ namespace Lottery.RunApp.Jobs
         private readonly INormConfigQueryService _normConfigQueryService;
         private readonly ILotteryPredictDataQueryService _lotteryPredictDataQueryService;
         private readonly ICommandService _commandService;
-     
+
         private const string SystemUser = "System";
 
         public JobFactory()
@@ -44,7 +43,7 @@ namespace Lottery.RunApp.Jobs
 
         private void InitScheduleJob()
         {
-            Debug.Assert(_scheduleTasks != null && _scheduleTasks.Any(),"系统还未设置作业");
+            Debug.Assert(_scheduleTasks != null && _scheduleTasks.Any(), "系统还未设置作业");
 
             foreach (var task in _scheduleTasks)
             {
@@ -60,7 +59,6 @@ namespace Lottery.RunApp.Jobs
                         (job as ILotteryJob).EachTaskExcuteAfterHandler += JobNEachTaskExcuteAfterHandler;
                     }
                 }
-               
             }
         }
 
@@ -74,7 +72,7 @@ namespace Lottery.RunApp.Jobs
             var userNorms = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryInfo.Id);
             foreach (var userNorm in userNorms)
             {
-                predictDatas.AddRange(_lotteryPredictDataService.PredictNormData(lotteryInfo.Id,userNorm, predictPeroid, e.LotteryCode));
+                predictDatas.AddRange(_lotteryPredictDataService.PredictNormData(lotteryInfo.Id, userNorm, predictPeroid, e.LotteryCode));
             }
             predictDatas.GroupBy(p => p.NormConfigId).ForEach(item =>
             {
@@ -92,21 +90,21 @@ namespace Lottery.RunApp.Jobs
                     PredictData = newestPredictDataDto.PredictedData,
                     CurrentPredictPeriod = newestPredictDataDto.CurrentPredictPeriod,
                     PredictType = planInfo.DsType,
-                    HistoryPredictResults = GetHistoryPredictResults(item.OrderByDescending(p => p.StartPeriod), item.Key, normConfig.LookupPeriodCount, planInfo.PlanNormTable,lotteryInfo.LotteryCode),
+                    HistoryPredictResults = GetHistoryPredictResults(item.OrderByDescending(p => p.StartPeriod), item.Key, normConfig.LookupPeriodCount, planInfo.PlanNormTable, lotteryInfo.LotteryCode),
                 };
                 var rightCount = planTrackNumber.HistoryPredictResults.Count(p => p == 0);
                 var totleCount = planTrackNumber.HistoryPredictResults.Count(p => p != 2);
                 var currentScore = Math.Round((double)rightCount / totleCount, 2);
                 planTrackNumber.CurrentScore = currentScore;
-                WritePlanTrackNumbers(item, planInfo, currentScore,lotteryInfo.LotteryCode);               
+                WritePlanTrackNumbers(item, planInfo, currentScore, lotteryInfo.LotteryCode);
             });
 
             Console.WriteLine(e.LotteryCode + ":" + e.LotteryFinalData.FinalPeriod + "-" + e.LotteryFinalData.Data);
         }
 
-        #region private methods 
+        #region private methods
 
-        private int[] GetHistoryPredictResults(IOrderedEnumerable<PredictDataDto> predictDatas, string normId, int lookupPeriodCount, string planNormTable,string lotteryCode)
+        private int[] GetHistoryPredictResults(IOrderedEnumerable<PredictDataDto> predictDatas, string normId, int lookupPeriodCount, string planNormTable, string lotteryCode)
         {
             var historyPredictResults = new List<int>();
             ICollection<PredictDataDto> dbPredictResultData = null;
@@ -116,7 +114,6 @@ namespace Lottery.RunApp.Jobs
             {
                 dbPredictResultData =
                     _lotteryPredictDataQueryService.GetNormHostoryPredictDatas(normId, planNormTable, lookupPeriodCount - notRunningResultCount, lotteryCode);
-
             }
             var count = 0;
             foreach (var item in notRunningResult)
@@ -135,7 +132,7 @@ namespace Lottery.RunApp.Jobs
             return historyPredictResults.ToArray();
         }
 
-        private void WritePlanTrackNumbers(IGrouping<string, PredictDataDto> item, PlanInfoDto planInfo, double currentScore,string lotteryCode)
+        private void WritePlanTrackNumbers(IGrouping<string, PredictDataDto> item, PlanInfoDto planInfo, double currentScore, string lotteryCode)
         {
             var finalPredictData = _lotteryPredictDataQueryService.GetLastPredictData(item.Key, planInfo.PlanNormTable, lotteryCode);
 
@@ -152,7 +149,6 @@ namespace Lottery.RunApp.Jobs
                     predictData.PredictedResult, currentScore,
                     SystemUser, planInfo.PlanNormTable, lotteryCode, false));
             }
-
         }
 
         /// <summary>异步发送给定的命令
@@ -165,6 +161,6 @@ namespace Lottery.RunApp.Jobs
             return _commandService.SendAsync(command).TimeoutAfter(millisecondsDelay);
         }
 
-        #endregion
+        #endregion private methods
     }
 }

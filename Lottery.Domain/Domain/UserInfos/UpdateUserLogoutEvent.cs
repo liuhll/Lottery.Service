@@ -10,7 +10,6 @@ namespace Lottery.Core.Domain.UserInfos
 
         public UpdateUserLogoutEvent(string userId)
         {
-
         }
 
         public string UserId { get; set; }

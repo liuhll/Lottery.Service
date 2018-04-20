@@ -1,5 +1,4 @@
-﻿using System;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 
 namespace Lottery.Commands.LogonLog
 {
@@ -9,7 +8,7 @@ namespace Lottery.Commands.LogonLog
         {
         }
 
-        public LogoutCommand(string conLogId,string updateBy) : base(conLogId)
+        public LogoutCommand(string conLogId, string updateBy) : base(conLogId)
         {
             UpdateBy = updateBy;
         }

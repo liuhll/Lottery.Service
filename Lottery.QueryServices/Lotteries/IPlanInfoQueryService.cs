@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.Lotteries;
+﻿using Lottery.Dtos.Lotteries;
+using System.Collections.Generic;
 
 namespace Lottery.QueryServices.Lotteries
 {
@@ -11,6 +11,6 @@ namespace Lottery.QueryServices.Lotteries
 
         ICollection<PlanInfoDto> GetAll();
 
-        ICollection<PlanInfoDto> GetPlanInfoByLotteryId(string lotteryId);       
+        ICollection<PlanInfoDto> GetPlanInfoByLotteryId(string lotteryId);
     }
 }

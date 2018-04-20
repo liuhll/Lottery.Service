@@ -12,7 +12,8 @@ namespace Lottery.Infrastructure.Attributes
             _describe = describe;
         }
 
-        public string Describe {
+        public string Describe
+        {
             get { return _describe; }
         }
     }

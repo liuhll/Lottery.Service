@@ -1,5 +1,5 @@
-﻿using System;
-using ENode.Eventing;
+﻿using ENode.Eventing;
+using System;
 
 namespace Lottery.Core.Domain.LotteryFinalDatas
 {
@@ -9,14 +9,12 @@ namespace Lottery.Core.Domain.LotteryFinalDatas
         {
         }
 
-
-        public UpdateTodayFirstPeriodEvent(int todayFirstPeriod,string lotteryId)
+        public UpdateTodayFirstPeriodEvent(int todayFirstPeriod, string lotteryId)
         {
             TodayFirstPeriod = todayFirstPeriod;
             LotteryId = lotteryId;
             UpdateTime = DateTime.Now;
         }
-
 
         public int TodayFirstPeriod { get; private set; }
 

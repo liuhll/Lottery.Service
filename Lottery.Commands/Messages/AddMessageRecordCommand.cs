@@ -36,7 +36,5 @@ namespace Lottery.Commands.Messages
         /// 创建人
         /// </summary>
         public string CreateBy { get; private set; }
-
-
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.Lotteries;
+﻿using Lottery.Dtos.Lotteries;
+using System.Collections.Generic;
 
 namespace Lottery.Crawler
 {

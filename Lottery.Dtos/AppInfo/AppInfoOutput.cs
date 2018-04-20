@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lottery.Dtos.AppInfo
+﻿namespace Lottery.Dtos.AppInfo
 {
     public class AppInfoOutput
     {

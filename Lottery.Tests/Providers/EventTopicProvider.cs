@@ -36,7 +36,6 @@ namespace Lottery.Tests.Providers
                 typeof(AddUserNormDefaultConfigEvent),
                 typeof(UpdateUserNormDefaultConfigEvent),
                 typeof(AddNormConfigEvent));
-
         }
     }
 }

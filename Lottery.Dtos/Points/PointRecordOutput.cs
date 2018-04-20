@@ -1,6 +1,6 @@
-﻿using System;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
+using System;
 
 namespace Lottery.Dtos.Points
 {

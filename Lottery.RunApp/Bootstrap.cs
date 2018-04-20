@@ -1,16 +1,17 @@
-﻿using System.Reflection;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
 using ENode.Configurations;
 using Lottery.Infrastructure;
 using Lottery.RunApp.Services;
+using System.Reflection;
 
 namespace Lottery.RunApp
 {
     public class Bootstrap
     {
         private static ENodeConfiguration _configuration;
+
         public static void InitializeFramework()
         {
             ServiceConfigSettings.Initialize();
@@ -33,7 +34,7 @@ namespace Lottery.RunApp
                 Assembly.Load("Lottery.Commands"),
                 Assembly.Load("Lottery.QueryServices"),
                 Assembly.Load("Lottery.QueryServices.Dapper"),
-                Assembly.Load("Lottery.AppService"), 
+                Assembly.Load("Lottery.AppService"),
                 Assembly.Load("Lottery.RunApp")
             };
 
@@ -53,7 +54,6 @@ namespace Lottery.RunApp
                 .InitializeBusinessAssemblies(assemblies)
                 .SetUpDataUpdateItems()
                 .InitLotteryEngine();
-               
 
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("ENode initialized.");
         }

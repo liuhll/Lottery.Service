@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Lottery.Infrastructure
+﻿namespace Lottery.Infrastructure
 {
     public class TableNameConstants
     {

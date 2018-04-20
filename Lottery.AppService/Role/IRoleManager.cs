@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Lottery.Dtos.Power;
+﻿using Lottery.Dtos.Power;
 using Lottery.Dtos.RoleDto;
 using Lottery.Infrastructure.Enums;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lottery.AppService.Role
 {

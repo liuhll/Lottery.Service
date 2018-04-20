@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Plans;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.Lotteries;
+using System.Collections.Generic;
 
 namespace Lottery.QueryServices.Dapper.Lotteries
 {
-
     [Component]
     public class NormGroupQueryService : BaseQueryService, INormGroupQueryService
     {
@@ -26,18 +24,18 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 conn.Open();
                 var redisKey = RedisKeyConstants.LOTTERY_NORMGROUP_ALL_KEY;
-                var sql = @"SELECT * FROM dbo.L_NormGroup AS A 
+                var sql = @"SELECT * FROM dbo.L_NormGroup AS A
                           INNER JOIN dbo.L_PlanInfo AS B ON  B.NormGroupId = A.Id
                           WHERE B.LotteryId = @LotteryId ORDER BY A.Sort,B.Sort";
 
-                var lookup = new Dictionary<string,NormGroupOutput>();
+                var lookup = new Dictionary<string, NormGroupOutput>();
 
                 return _cacheManager.Get<ICollection<NormGroupOutput>>(redisKey, () =>
                 {
                     conn.Query<NormGroupOutput, PlanInfoOutput, NormGroupOutput>(sql, (ng, pi) =>
                     {
                         NormGroupOutput p;
-                        if (!lookup.TryGetValue(ng.Id,out p))
+                        if (!lookup.TryGetValue(ng.Id, out p))
                         {
                             ng.PlanInfos = new List<PlanInfoOutput>();
                             lookup.Add(ng.Id, p = ng);
@@ -45,7 +43,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
 
                         p.PlanInfos.Add(pi);
                         return p;
-                    },new { LotteryId = lotteryId });
+                    }, new { LotteryId = lotteryId });
 
                     return lookup.Values;
                 });

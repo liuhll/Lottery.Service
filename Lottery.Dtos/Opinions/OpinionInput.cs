@@ -9,6 +9,5 @@
         public int Platform { get; set; }
 
         public string ContactWay { get; set; }
-
     }
 }

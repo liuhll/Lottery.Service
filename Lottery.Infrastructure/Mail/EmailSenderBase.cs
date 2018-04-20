@@ -12,7 +12,8 @@ namespace Lottery.Infrastructure.Mail
     {
         private readonly IEmailSenderConfiguration _configuration;
 
-        public IEmailSenderConfiguration Configuration {
+        public IEmailSenderConfiguration Configuration
+        {
             get { return _configuration; }
         }
 

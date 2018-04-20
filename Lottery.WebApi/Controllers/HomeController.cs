@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Lottery.Infrastructure.Tools;
 
 namespace Lottery.WebApi.Controllers
 {
@@ -24,7 +23,7 @@ namespace Lottery.WebApi.Controllers
             {
                 return Redirect("test/swagger/ui/index#/");
             }
-            return Redirect("/swagger/ui/index#/");   
+            return Redirect("/swagger/ui/index#/");
 #endif
         }
     }

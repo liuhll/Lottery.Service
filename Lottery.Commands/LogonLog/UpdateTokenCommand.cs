@@ -1,5 +1,5 @@
-﻿using System;
-using ENode.Commanding;
+﻿using ENode.Commanding;
+using System;
 
 namespace Lottery.Commands.LogonLog
 {
@@ -9,12 +9,11 @@ namespace Lottery.Commands.LogonLog
         {
         }
 
-        public UpdateTokenCommand(string id,DateTime invalidTime, string updateBy):base(id)
+        public UpdateTokenCommand(string id, DateTime invalidTime, string updateBy) : base(id)
         {
             InvalidTime = invalidTime;
             UpdateBy = updateBy;
         }
-
 
         public DateTime InvalidTime { get; private set; }
 

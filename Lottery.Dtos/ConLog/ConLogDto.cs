@@ -23,6 +23,5 @@ namespace Lottery.Dtos.ConLog
         public string Ip { get; set; }
 
         public int UpdateTokenCount { get; set; }
-
     }
 }

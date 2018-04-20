@@ -1,6 +1,6 @@
-﻿using System.Net.Http;
+﻿using Lottery.Infrastructure.Enums;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Lottery.Infrastructure.Enums;
 
 namespace Lottery.AppService.Member
 {

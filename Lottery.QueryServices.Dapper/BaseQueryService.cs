@@ -1,6 +1,6 @@
-﻿using System.Data;
+﻿using Lottery.Infrastructure;
+using System.Data;
 using System.Data.SqlClient;
-using Lottery.Infrastructure;
 
 namespace Lottery.QueryServices.Dapper
 {
@@ -18,7 +18,7 @@ namespace Lottery.QueryServices.Dapper
 
         protected IDbConnection GetForecastLotteryConnection(string lotteryCode)
         {
-            return new SqlConnection(string.Format(DataConfigSettings.ForecastLotteryConnectionString,lotteryCode));
+            return new SqlConnection(string.Format(DataConfigSettings.ForecastLotteryConnectionString, lotteryCode));
         }
     }
 }

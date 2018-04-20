@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Lottery.Infrastructure.Collections;
+﻿using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
-using Lottery.Infrastructure.Json;
 using Lottery.Infrastructure.Threading;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Lottery.AppService.Authorize
 {
@@ -147,7 +144,7 @@ namespace Lottery.AppService.Authorize
         /// <param name="permissionCodes">Name of the permissions to authorize</param>
         /// <exception cref="LotteryAuthorizationException">Throws authorization exception if</exception>
         public static void Authorize(this IPowerChecker powerChecker, params string[] permissionCodes)
-        {            
+        {
             Authorize(powerChecker, false, permissionCodes);
         }
 
@@ -181,14 +178,13 @@ namespace Lottery.AppService.Authorize
             return AuthorizeAsync(powerChecker, false, permissionCodes);
         }
 
-        public static async Task AuthorizeAsync(this IPowerChecker powerChecker,string userId, string absolutePath,
+        public static async Task AuthorizeAsync(this IPowerChecker powerChecker, string userId, string absolutePath,
             HttpMethod method)
         {
             await powerChecker.IsGrantedAsync(userId, absolutePath, method);
-           
         }
 
-        public static async Task AuthorizeAsync(this IPowerChecker powerChecker,string absolutePath,
+        public static async Task AuthorizeAsync(this IPowerChecker powerChecker, string absolutePath,
             HttpMethod method)
         {
             await powerChecker.IsGrantedAsync(absolutePath, method);
@@ -217,14 +213,11 @@ namespace Lottery.AppService.Authorize
             if (requireAll)
             {
                 throw new LotteryAuthorizeException($"需要被授予所有的{permissionNameStrs}权限");
-
             }
             else
             {
                 throw new LotteryAuthorizeException($"需要被授予至少一个的{permissionNameStrs}权限");
             }
         }
-
-  
     }
 }

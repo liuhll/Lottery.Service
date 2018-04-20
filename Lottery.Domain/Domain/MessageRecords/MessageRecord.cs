@@ -1,12 +1,12 @@
-﻿using System;
-using ENode.Domain;
+﻿using ENode.Domain;
+using System;
 
 namespace Lottery.Core.Domain.MessageRecords
 {
     public class MessageRecord : AggregateRoot<string>
     {
-        public MessageRecord(string id,string sender,string receiver,string title,
-            string content,int messageType,int snderPlatform, string createBy,
+        public MessageRecord(string id, string sender, string receiver, string title,
+            string content, int messageType, int snderPlatform, string createBy,
             string updateBy)
             : base(id)
         {
@@ -20,7 +20,7 @@ namespace Lottery.Core.Domain.MessageRecords
             UpdateBy = updateBy;
             CreateTime = DateTime.Now;
             UpdateTime = DateTime.Now;
-            ApplyEvent(new AddMessageRecordEvent(sender,receiver,title,content,messageType,SenderPlatform,createBy));
+            ApplyEvent(new AddMessageRecordEvent(sender, receiver, title, content, messageType, SenderPlatform, createBy));
         }
 
         public string Sender { get; private set; }
@@ -62,6 +62,6 @@ namespace Lottery.Core.Domain.MessageRecords
             CreateBy = evnt.CreateBy;
         }
 
-        #endregion
+        #endregion Handle Methods
     }
 }

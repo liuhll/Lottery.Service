@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Dapper;
 using ECommon.Extensions;
 using Lottery.Core.Caching;
@@ -9,11 +6,14 @@ using Lottery.Dtos.AuthRanks;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.AuthRanks;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.AuthRanks
 {
     [Component]
-    public class AuthRankQueryService : BaseQueryService,IAuthRankQueryService
+    public class AuthRankQueryService : BaseQueryService, IAuthRankQueryService
     {
         private readonly ICacheManager _cacheManager;
 
@@ -29,13 +29,13 @@ namespace Lottery.QueryServices.Dapper.AuthRanks
 
         public ICollection<AuthRankDto> GetAuthRanksByLotteryId(string lotteryId)
         {
-            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_AUTHRANK_KEY,lotteryId);
+            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_AUTHRANK_KEY, lotteryId);
             return _cacheManager.Get<IList<AuthRankDto>>(cacheKey, () =>
             {
                 using (var conn = GetLotteryConnection())
                 {
                     conn.Open();
-                    return conn.QueryList<AuthRankDto>(new {LotteryId = lotteryId}, TableNameConstants.AuthRankTable).ToList();
+                    return conn.QueryList<AuthRankDto>(new { LotteryId = lotteryId }, TableNameConstants.AuthRankTable).ToList();
                 }
             });
         }

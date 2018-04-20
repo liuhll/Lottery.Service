@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Power;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.Powers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.Powers
 {
@@ -25,7 +24,7 @@ namespace Lottery.QueryServices.Dapper.Powers
         {
             using (var conn = GetLotteryConnection())
             {
-                return conn.QueryList<PowerDto>(new { PowerCode = powerCode, IsDelete = 0 },TableNameConstants.PowerTable).FirstOrDefault();
+                return conn.QueryList<PowerDto>(new { PowerCode = powerCode, IsDelete = 0 }, TableNameConstants.PowerTable).FirstOrDefault();
             }
         }
 
@@ -50,14 +49,14 @@ namespace Lottery.QueryServices.Dapper.Powers
         {
             using (var conn = GetLotteryConnection())
             {
-                var sql = @"SELECT * FROM dbo.F_Power AS A 
+                var sql = @"SELECT * FROM dbo.F_Power AS A
                                 INNER JOIN dbo.F_RolePower AS B ON B.PowerId = A.Id
                                 INNER JOIN dbo.F_Role AS C ON C.Id = B.RoleId
                                 INNER JOIN dbo.F_UserRole AS D ON D.RoleId = C.Id
                                 INNER JOIN dbo.F_UserInfo AS E ON E.Id = D.UserId
-                                WHERE E.Id = @UserId  AND A.IsDelete = 0 AND B.IsDelete = 0 
+                                WHERE E.Id = @UserId  AND A.IsDelete = 0 AND B.IsDelete = 0
                                 AND C.IsDelete = 0 AND D.IsDelete = 0 AND E.IsDelete = 0";
-                return conn.Query<PowerDto>(sql,new { UserId = userId}).ToList();
+                return conn.Query<PowerDto>(sql, new { UserId = userId }).ToList();
             }
         }
     }

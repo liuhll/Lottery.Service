@@ -1,70 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using ENode.Domain;
-using Lottery.Core.Domain.LotteryDatas;
-using Lottery.Core.Domain.NormConfigs;
-using Lottery.Core.Domain.NormGroups;
-using Lottery.Infrastructure.Enums;
+﻿using ENode.Domain;
+using System;
 
 namespace Lottery.Core.Domain.LotteryFinalDatas
 {
-   public class LotteryFinalData : AggregateRoot<string>
-   {
-       private LotteryFinalData()
-       {
-       }
+    public class LotteryFinalData : AggregateRoot<string>
+    {
+        private LotteryFinalData()
+        {
+        }
 
-       public LotteryFinalData(
-        string id,
-        string lotteryId,
-        int todayFirstPeriod
-        ) : base(id)
-      {
+        public LotteryFinalData(
+         string id,
+         string lotteryId,
+         int todayFirstPeriod
+         ) : base(id)
+        {
             LotteryId = lotteryId;
             TodayFirstPeriod = todayFirstPeriod;
-      }         
- 
-      /// <summary>
-      /// 彩种Id
-      /// </summary>
-      public string LotteryId { get; private set; }
-      
-      /// <summary>
-      /// 期数
-      /// </summary>
-      public int FinalPeriod { get; private set; }
+        }
 
-      /// <summary>
-      /// 今日开奖的第一期
-      /// </summary>
-      public int TodayFirstPeriod { get; private set; }
+        /// <summary>
+        /// 彩种Id
+        /// </summary>
+        public string LotteryId { get; private set; }
 
+        /// <summary>
+        /// 期数
+        /// </summary>
+        public int FinalPeriod { get; private set; }
+
+        /// <summary>
+        /// 今日开奖的第一期
+        /// </summary>
+        public int TodayFirstPeriod { get; private set; }
 
         #region public methods
-       public void UpdateFirstPeriod(int todayFirstPeriod,string lotteryId)
-       {
-           if (string.IsNullOrEmpty(lotteryId))
-           {
-               throw new Exception("LotteryId 不允许为空");
-           }
-           ApplyEvent(new UpdateTodayFirstPeriodEvent(todayFirstPeriod, lotteryId));
-           
-       }
 
-        #endregion
+        public void UpdateFirstPeriod(int todayFirstPeriod, string lotteryId)
+        {
+            if (string.IsNullOrEmpty(lotteryId))
+            {
+                throw new Exception("LotteryId 不允许为空");
+            }
+            ApplyEvent(new UpdateTodayFirstPeriodEvent(todayFirstPeriod, lotteryId));
+        }
 
+        #endregion public methods
 
-       #region handle methods
+        #region handle methods
 
-       private void Handle(UpdateTodayFirstPeriodEvent evnt)
-       {
-           TodayFirstPeriod = evnt.TodayFirstPeriod;
-           LotteryId = evnt.LotteryId;
-       }
+        private void Handle(UpdateTodayFirstPeriodEvent evnt)
+        {
+            TodayFirstPeriod = evnt.TodayFirstPeriod;
+            LotteryId = evnt.LotteryId;
+        }
 
-       #endregion
-
-
-       
-   }
+        #endregion handle methods
+    }
 }

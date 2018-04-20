@@ -5,6 +5,7 @@ namespace Lottery.Infrastructure.RunTime.Session
     public class NullLotterySession : LotterySessionBase
     {
         private readonly ClaimsLotterySession _instance;
+
         private NullLotterySession()
         {
             _instance = new ClaimsLotterySession();

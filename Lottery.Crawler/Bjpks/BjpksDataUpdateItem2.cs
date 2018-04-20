@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using EasyHttp.Http;
+﻿using EasyHttp.Http;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Lottery.Crawler.Bjpks
 {
@@ -13,11 +13,10 @@ namespace Lottery.Crawler.Bjpks
         {
         }
 
-
         protected override IList<LotteryDataDto> RequestDatas(int finalData)
         {
             _httpClient.Request.Accept = HttpContentTypes.ApplicationJson;
-            var response = _httpClient.Post(_dataSite.Url,new { limit = _dataSite.Count},contentType: "application/json");
+            var response = _httpClient.Post(_dataSite.Url, new { limit = _dataSite.Count }, contentType: "application/json");
             var crawlResult = response.DynamicBody;
             if (crawlResult.status == 1)
             {
@@ -33,7 +32,6 @@ namespace Lottery.Crawler.Bjpks
                     }
                     var data = new LotteryDataDto()
                     {
-                        
                         Data = GetLotteryData(item.kjhm),
                         LotteryId = _dataSite.LotteryId,
                         LotteryTime = DateTimeExtensions.TimeStampConvetDateTime(Convert.ToInt64(item.kjtime)),
@@ -59,7 +57,7 @@ namespace Lottery.Crawler.Bjpks
             {
                 lotteryData += item.Value + ",";
             }
-            Debug.Assert(!string.IsNullOrEmpty(lotteryData),"!string.IsNullOrEmpty(lotteryData)");
+            Debug.Assert(!string.IsNullOrEmpty(lotteryData), "!string.IsNullOrEmpty(lotteryData)");
             lotteryData = lotteryData.Remove(lotteryData.Length - 1);
             return lotteryData;
         }

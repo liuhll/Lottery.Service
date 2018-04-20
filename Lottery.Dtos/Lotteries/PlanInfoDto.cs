@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
+using System.Collections.Generic;
 
 namespace Lottery.Dtos.Lotteries
 {
@@ -42,6 +42,5 @@ namespace Lottery.Dtos.Lotteries
                 return PlanPosition.Multiple;
             }
         }
-
     }
 }

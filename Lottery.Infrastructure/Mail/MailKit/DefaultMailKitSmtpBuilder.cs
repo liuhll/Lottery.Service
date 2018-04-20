@@ -48,6 +48,5 @@ namespace Lottery.Infrastructure.Mail.MailKit
                 _smtpEmailSenderConfiguration.Password
             );
         }
-
     }
 }

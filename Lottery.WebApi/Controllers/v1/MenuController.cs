@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Lottery.AppService.Power;
 using Lottery.Dtos.Menus;
+using System.Collections.Generic;
+using System.Web.Http;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -11,8 +11,8 @@ namespace Lottery.WebApi.Controllers.v1
     {
         private readonly IPowerManager _powerManager;
 
-        public MenuController(ICommandService commandService, 
-            IPowerManager powerManager) 
+        public MenuController(ICommandService commandService,
+            IPowerManager powerManager)
             : base(commandService)
         {
             _powerManager = powerManager;

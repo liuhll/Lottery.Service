@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Extensions;
 using ECommon.IO;
 using ENode.Commanding;
@@ -13,6 +8,11 @@ using Lottery.Dtos.Lotteries;
 using Lottery.Engine.TimeRule;
 using Lottery.QueryServices.Lotteries;
 using Lottery.RunApp.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Lottery.RunApp.Jobs
 {
@@ -61,7 +61,6 @@ namespace Lottery.RunApp.Jobs
 
         protected LotteryFinalDataDto LotteryFinalData => _lotteryFinalData;
 
-
         protected abstract void PreInitialize();
 
         protected abstract void PostinItialize();
@@ -78,7 +77,6 @@ namespace Lottery.RunApp.Jobs
 
                 if (_timeRuleManager.ParseNextLotteryTime(out nextDateTime))
                 {
-                
                     if (!JudgeCurrentPeriodIsLottery() || _isStart)
                     {
                         IList<LotteryDataDto> lotteryDatas = null;
@@ -90,14 +88,12 @@ namespace Lottery.RunApp.Jobs
                                 // 抓取新的数据
                                 foreach (var updateItem in _dataUpdateItems)
                                 {
-
                                     var crawlNewDatas = updateItem.CrawlDatas(LotteryFinalData.FinalPeriod);
                                     if (crawlNewDatas.Safe().Any())
                                     {
                                         lotteryDatas = crawlNewDatas.Safe().OrderBy(p => p.Period).ToList();
                                         break;
                                     }
-
                                 }
 
                                 if (lotteryDatas.Safe().Any())
@@ -120,7 +116,6 @@ namespace Lottery.RunApp.Jobs
                                                 _lotteryFinalData = _lotteryFinalDataQueryService.GetFinalData(lotteryData.LotteryId);
                                             }
                                         }
-
                                     }
                                     if (_timeRuleManager.IsTodayFinalPeriod)
                                     {
@@ -129,8 +124,7 @@ namespace Lottery.RunApp.Jobs
                                         UpdateNextFirstPeriod(todayLastLotteryData);
                                     }
 
-
-                                    EachTaskExcuteAfterHandler?.Invoke(this,new LotteryJobEventArgs(_lotteryCode,_lotteryInfo.Id, _lotteryFinalData));
+                                    EachTaskExcuteAfterHandler?.Invoke(this, new LotteryJobEventArgs(_lotteryCode, _lotteryInfo.Id, _lotteryFinalData));
                                     //int dayFirstPeriod = 0;
                                     //if (IsNeedSetFirstPeriod(out dayFirstPeriod))
                                     //{
@@ -144,9 +138,7 @@ namespace Lottery.RunApp.Jobs
                             {
                                 _isStart = false;
                             }
-
                         }
-
                     }
                 }
             }
@@ -154,7 +146,6 @@ namespace Lottery.RunApp.Jobs
 
         private void VerifyTodayFirstPeriod(LotteryDataDto crawlFinalData)
         {
-
             var startTimePoint = _timeRuleManager.TodayTimeRule.StartTime.TotalSeconds;
             var endTimePoint = crawlFinalData.LotteryTime.TimeOfDay.TotalSeconds;
             var interval = _timeRuleManager.TodayTimeRule.Tick.TotalSeconds;
@@ -164,7 +155,7 @@ namespace Lottery.RunApp.Jobs
 
             if (computeTodayFirstPeriod != _lotteryFinalData.TodayFirstPeriod)
             {
-                SendCommandAsync(new UpdateNextDayFirstPeriodCommand(LotteryFinalData.Id, crawlFinalData.LotteryId,computeTodayFirstPeriod));
+                SendCommandAsync(new UpdateNextDayFirstPeriodCommand(LotteryFinalData.Id, crawlFinalData.LotteryId, computeTodayFirstPeriod));
             }
         }
 
@@ -183,7 +174,7 @@ namespace Lottery.RunApp.Jobs
         private bool JudgeCurrentPeriodIsLottery()
         {
             //当前实际上的开奖期数
-          //  var actualLotteryCount = LotteryFinalData.FinalPeriod - LotteryFinalData.TodayFirstPeriod + 1;
+            //  var actualLotteryCount = LotteryFinalData.FinalPeriod - LotteryFinalData.TodayFirstPeriod + 1;
 
             // 今日开到的期数
             var todayCurrentCount = _timeRuleManager.TodayCurrentCount;
@@ -233,7 +224,6 @@ namespace Lottery.RunApp.Jobs
             return false;
         }
 
-
         /// <summary>异步发送给定的命令
         /// </summary>
         /// <param name="command"></param>
@@ -253,7 +243,5 @@ namespace Lottery.RunApp.Jobs
         {
             _commandService.Execute(command, millisecondsDelay);
         }
-
-
     }
 }

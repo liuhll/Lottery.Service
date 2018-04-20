@@ -2,17 +2,17 @@
 
 namespace Lottery.WebApi.Areas.BackOffice
 {
-    public class BackOfficeAreaRegistration : AreaRegistration 
+    public class BackOfficeAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
+        public override string AreaName
         {
-            get 
+            get
             {
                 return "BackOffice";
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "BackOffice_default",

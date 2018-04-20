@@ -1,7 +1,4 @@
-﻿using System;
-using Lottery.Infrastructure.Enums;
-
-namespace Lottery.Dtos.Menbers
+﻿namespace Lottery.Dtos.Menbers
 {
     public class MemberInfoDto : MemberInfoBase
     {
@@ -10,6 +7,5 @@ namespace Lottery.Dtos.Menbers
         public string LotteryId { get; set; }
 
         public string LastAuthOrderId { get; set; }
-    
     }
 }

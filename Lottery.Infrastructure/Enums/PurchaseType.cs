@@ -15,6 +15,6 @@
         /// <summary>
         /// 升级
         /// </summary>
-        Upgrade 
+        Upgrade
     }
 }

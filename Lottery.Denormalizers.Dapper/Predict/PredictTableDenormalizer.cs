@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
-using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Domain.LotteryInfos;
 using Lottery.Core.Domain.LotteryPredictDatas;
 using Lottery.Infrastructure;
+using System;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper
 {
@@ -22,8 +18,6 @@ namespace Lottery.Denormalizers.Dapper
     {
         public async Task<AsyncTaskResult> HandleAsync(InitPredictTableEvent evnt)
         {
-
-
             using (var conn = GetLotteryConnection())
             {
                 //// 判断是否存在数据库
@@ -45,8 +39,8 @@ namespace Lottery.Denormalizers.Dapper
                     var i = 1;
                     foreach (var tableName in evnt.PredictTableNames)
                     {
-                        var createTableSql = string.Format(SqlConstants.CreatePredictTableSql, tableName,i);
-                        conn.Execute(createTableSql,transaction:trans);
+                        var createTableSql = string.Format(SqlConstants.CreatePredictTableSql, tableName, i);
+                        conn.Execute(createTableSql, transaction: trans);
                         i++;
                     }
                     trans.Commit();
@@ -59,7 +53,6 @@ namespace Lottery.Denormalizers.Dapper
             }
 
             return AsyncTaskResult.Success;
-           
         }
 
         public Task<AsyncTaskResult> HandleAsync(CompleteDynamicTableEvent evnt)
@@ -68,7 +61,7 @@ namespace Lottery.Denormalizers.Dapper
             {
                 var sql = "UPDATE dbo.L_LotteryInfo SET IsCompleteDynamicTable=@IsCompleteDynamicTable WHERE Id=@Id";
                 conn.Open();
-                return conn.ExecuteAsync(sql, new { IsCompleteDynamicTable = evnt.IsCompleteDynamicTable,Id=evnt.AggregateRootStringId });
+                return conn.ExecuteAsync(sql, new { IsCompleteDynamicTable = evnt.IsCompleteDynamicTable, Id = evnt.AggregateRootStringId });
             }, GetLotteryConnection());
         }
     }

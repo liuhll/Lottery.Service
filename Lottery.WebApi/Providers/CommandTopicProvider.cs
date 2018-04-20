@@ -11,7 +11,6 @@ using Lottery.Commands.OpinionRecords;
 using Lottery.Commands.Points;
 using Lottery.Commands.Sells;
 using Lottery.Commands.UserInfos;
-using Lottery.Core.Domain.Orders;
 using Lottery.Infrastructure;
 
 namespace Lottery.WebApi.Providers
@@ -54,7 +53,6 @@ namespace Lottery.WebApi.Providers
                 typeof(InvalidIdentifyCodeCommand),
                 typeof(AddOpinionRecordCommand),
                 typeof(AddPointRecordCommand));
-           
         }
     }
 }

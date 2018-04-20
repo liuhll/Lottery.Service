@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace Lottery.Infrastructure.Tools
 {
@@ -22,7 +21,6 @@ namespace Lottery.Infrastructure.Tools
                 return AccountRegistType.Phone;
             }
             throw new LotteryDataException("注册账号不合法");
-
         }
     }
 }

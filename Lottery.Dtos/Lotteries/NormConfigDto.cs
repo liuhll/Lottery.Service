@@ -34,6 +34,5 @@
         public string CustomNumbers { get; set; }
 
         public int Sort { get; set; }
-
     }
 }

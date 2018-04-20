@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
-using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.Lotteries
 {
     [Component]
-    public class PlanInfoQueryService : BaseQueryService,IPlanInfoQueryService
+    public class PlanInfoQueryService : BaseQueryService, IPlanInfoQueryService
     {
         private readonly ICacheManager _cacheManager;
 
@@ -57,27 +56,26 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                 {
                     conn.Open();
 
-                    var querySql = @"SELECT A.*,B.*,C.*,D.* FROM dbo.L_PlanInfo AS A 
+                    var querySql = @"SELECT A.*,B.*,C.*,D.* FROM dbo.L_PlanInfo AS A
                                     INNER JOIN dbo.L_LotteryInfo AS B ON A.LotteryId=B.Id
                                     INNER JOIN dbo.L_PlanKeyNumber AS C ON C.PlanId=A.Id
                                     INNER JOIN dbo.L_PositionInfo AS D ON D.Id=C.PositionId";
                     var lookUp = new Dictionary<string, PlanInfoDto>();
 
-                    conn.Query<PlanInfoDto,LotteryInfoDto,dynamic,PositionInfoDto,PlanInfoDto>(querySql, (planInfo,lotteryInfo,obj,positionInfo) =>
-                    {
-                        PlanInfoDto p;
-                        if (!lookUp.TryGetValue(planInfo.PlanCode,out p))
+                    conn.Query<PlanInfoDto, LotteryInfoDto, dynamic, PositionInfoDto, PlanInfoDto>(querySql, (planInfo, lotteryInfo, obj, positionInfo) =>
                         {
-                            planInfo.LotteryInfo = lotteryInfo;
-                            planInfo.PositionInfos = new List<PositionInfoDto>();
-                            lookUp.Add(planInfo.PlanCode, p = planInfo);
+                            PlanInfoDto p;
+                            if (!lookUp.TryGetValue(planInfo.PlanCode, out p))
+                            {
+                                planInfo.LotteryInfo = lotteryInfo;
+                                planInfo.PositionInfos = new List<PositionInfoDto>();
+                                lookUp.Add(planInfo.PlanCode, p = planInfo);
+                            }
+                            positionInfo.NumberType = (NumberType)Convert.ToInt32(obj.NumberType);
+                            p.PositionInfos.Add(positionInfo);
 
-                        }
-                        positionInfo.NumberType = (NumberType)Convert.ToInt32(obj.NumberType);
-                        p.PositionInfos.Add(positionInfo);
-
-                        return p;
-                    });
+                            return p;
+                        });
                     return lookUp.Values;
                 }
             });

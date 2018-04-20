@@ -15,6 +15,5 @@ namespace Lottery.Infrastructure.Enums
 
         [EnumDescribe("分享App")]
         ShareApp = 4
-
     }
 }

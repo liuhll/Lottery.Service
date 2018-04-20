@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using ECommon.Dapper;
+﻿using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Domain.Orders;
 using Lottery.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper.Orders
 {
@@ -13,7 +13,6 @@ namespace Lottery.Denormalizers.Dapper.Orders
         {
             return TryInsertRecordAsync(conn =>
             {
-
                 return conn.InsertAsync(new
                 {
                     Id = evt.AggregateRootId,
@@ -26,7 +25,7 @@ namespace Lottery.Denormalizers.Dapper.Orders
                     evt.OrderCost,
                     evt.OrderSourceType,
                     evt.OriginalCost,
-                    evt.UnitPrice,                   
+                    evt.UnitPrice,
                     CreateTime = evt.Timestamp
                 }, TableNameConstants.OrderRecorTable);
             });

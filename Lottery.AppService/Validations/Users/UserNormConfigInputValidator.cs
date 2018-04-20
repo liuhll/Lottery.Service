@@ -25,7 +25,7 @@ namespace Lottery.AppService.Validations
                 {
                     return false;
                 }
-                if (p.MaxErrorSeries >10 || p.MaxRightSeries >10)
+                if (p.MaxErrorSeries > 10 || p.MaxRightSeries > 10)
                 {
                     return false;
                 }
@@ -42,9 +42,7 @@ namespace Lottery.AppService.Validations
                     return false;
                 }
                 return true;
-              
             }).WithMessage("无效的计划指标");
-           
         }
     }
 }
