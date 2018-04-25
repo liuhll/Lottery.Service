@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lottery.Infrastructure.Extensions;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -66,9 +67,9 @@ namespace Lottery.WebApi.Controllers.v1
         [Route("order")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<string> Order(OrderInput input)
+        public async Task<OrderOutput> Order(OrderInput input)
         {
-            var goods = _sellAppService.GetGoodsInfoById(input.GoodId);
+            var goods = _sellAppService.GetGoodsInfoById(input.GoodId,input.SellType);
             var discount = _sellAppService.GetDiscount(goods.AuthRankId, input.SellType);
             if (goods.Term.HasValue)
             {
@@ -89,7 +90,213 @@ namespace Lottery.WebApi.Controllers.v1
             var orderInfo = GenerateOrder(input, goods, discount);
             await SendCommandAsync(orderInfo);
 
+            var orderDic = new List<OrderInfoItem>();
+            orderDic.Add(new OrderInfoItem()
+            {
+                Label = "订单号",
+                Value = orderInfo.SalesOrderNo,
+                Key = "SalesOrderNo",
+            });
+            orderDic.Add(new OrderInfoItem()
+            {
+                Label = "商品名称",
+                Value = goods.GoodName,
+                Key = "GoodName"
+            });
+            orderDic.Add(new OrderInfoItem()
+            {
+                Label = "授权版本",
+                Value = ((MemberRank)goods.MemberRank).GetChineseDescribe(),
+                Key = "MemberRank"
+            });
+
+            orderDic.Add(new OrderInfoItem()
+            {
+                Label = "有效期",
+                Value = DateTime.Now.AddMonths(orderInfo.Count).ToString("yyyy-MM-dd HH:mm:ss"),
+                Key = "ValidDate"
+            });
+
+            if (!discount.Equals(1.00))
+            {
+                orderDic.Add(new OrderInfoItem()
+                {
+                    Label = "原价",
+                    Value = orderInfo.OriginalCost.ToString("0.00"),
+                    Key = "OriginalCost"
+                });
+
+                orderDic.Add(new OrderInfoItem()
+                {
+                    Label = "折扣",
+                    Value = discount.ToString("0.00"),
+                    Key = "discount"
+                });
+
+            }
+
+            var output = new OrderOutput()
+            {
+                OrderPrice = orderInfo.OrderCost,
+                OrderInfo = orderDic,
+                OrderNo = orderInfo.SalesOrderNo,
+            };
+            return output;
+        }
+
+        /// <summary>
+        /// 根据订单Id获取订单信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [Route("order")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<OrderOutput> GetOrder(string orderNo)
+        {
+            var orderInfo = _sellAppService.GetOrderInfo(orderNo);
+            var goods = _sellAppService.GetGoodsInfoById(orderInfo.GoodsId, SellType.Rmb);
+            var discount = orderInfo.OrderCost / orderInfo.OriginalCost;
+            var orderDic = new List<OrderInfoItem>();
+            orderDic.Add(new OrderInfoItem()
+            {
+                Label = "订单号",
+                Value = orderInfo.SalesOrderNo,
+                Key = "SalesOrderNo",
+            });
+            orderDic.Add(new OrderInfoItem()
+            {
+                Label = "商品名称",
+                Value = goods.GoodName,
+                Key = "GoodName"
+            });
+            orderDic.Add(new OrderInfoItem()
+            {
+                Label = "授权版本",
+                Value = ((MemberRank)goods.MemberRank).GetChineseDescribe(),
+                Key = "MemberRank"
+            });
+
+            orderDic.Add(new OrderInfoItem()
+            {
+                Label = "有效期",
+                Value = DateTime.Now.AddMonths(orderInfo.Count).ToString("yyyy-MM-dd HH:mm:ss"),
+                Key = "ValidDate"
+            });
+
+            if (!discount.Equals(1.00))
+            {
+                orderDic.Add(new OrderInfoItem()
+                {
+                    Label = "原价",
+                    Value = orderInfo.OriginalCost.ToString("0.00"),
+                    Key = "OriginalCost"
+                });
+
+                orderDic.Add(new OrderInfoItem()
+                {
+                    Label = "折扣",
+                    Value = discount.ToString("0.00"),
+                    Key = "discount"
+                });
+
+            }
+
+            var output = new OrderOutput()
+            {
+                OrderPrice = orderInfo.OrderCost,
+                OrderInfo = orderDic,
+                OrderNo = orderInfo.SalesOrderNo,
+            };
+            return output;
+
+        }
+
+        /// <summary>
+        /// 调起支付接口
+        /// </summary>
+        /// <param name="input">支付订单信息</param>
+        /// <returns></returns>
+        [Route("pay")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<PayOutput> Pay(PayInput input)
+        {
+            var orderInfo = _sellAppService.GetOrderInfo(input.OrderId);
+            if (orderInfo == null)
+            {
+                throw new LotteryDataException("下单失败,请稍后重试");
+            }
+            if (!orderInfo.OrderCost.Equals(input.Price))
+            {
+                throw new LotteryDataException("订单金额错误,请核对订单信息");
+            }
+            if (input.IsType != PayType.AliPay && input.IsType != PayType.Wechat)
+            {
+                throw new LotteryDataException("请选择支付方式");
+            }
+            var paysApiInfo = _sellAppService.GetPaysApiInfo();
+            var payInfo = new PayOrderDto()
+            {
+                Uid = paysApiInfo.Uid,
+                Price = input.Price.ToString("#0.00"),
+                Istype = (int)input.IsType,
+              //  Goodsname = input.GoodsName,
+                Notify_url = paysApiInfo.NotifyUrl,
+                Return_url = paysApiInfo.ReturnUrl,
+                Orderid = input.OrderId,
+                Orderuid = _lotterySession.UserName,
+
+            };
+            payInfo.Key = GetPayKey(payInfo, paysApiInfo.Token);
+
+            return _sellAppService.GetPayOrderInfo(payInfo, paysApiInfo.PaysApi);
+        }
+
+        [Route("notify")]
+        [HttpPost]
+        [AllowAnonymous]
+        public string Notify()
+        {
             return "OK";
+        }
+
+        private string GetPayKey(PayOrderDto payInfo, string token)
+        {
+
+            var keyLine = string.Empty; // payInfo.Goodsname + payInfo.Istype + payInfo.Notify_url + payInfo.Orderid + payInfo.Orderuid
+                                        //+ payInfo.Price + payInfo.Return_url + token + payInfo.Uid;
+            if (!payInfo.Goodsname.IsNullOrEmpty())
+            {
+                keyLine += payInfo.Goodsname;
+            }
+
+            keyLine += payInfo.Istype;
+
+            if (!payInfo.Notify_url.IsNullOrEmpty())
+            {
+                keyLine += payInfo.Notify_url;
+            }
+            if (!payInfo.Orderid.IsNullOrEmpty())
+            {
+                keyLine += payInfo.Orderid;
+            }
+            if (!payInfo.Orderuid.IsNullOrEmpty())
+            {
+                keyLine += payInfo.Orderuid;
+            }
+            keyLine += payInfo.Price;
+            if (!payInfo.Return_url.IsNullOrEmpty())
+            {
+                keyLine += payInfo.Return_url;
+            }
+            keyLine += token;
+            if (!payInfo.Uid.IsNullOrEmpty())
+            {
+                keyLine += payInfo.Uid;
+            }
+
+            return EncryptHelper.Md5(keyLine);
         }
 
         private AddOrderRecordCommand GenerateOrder(OrderInput input, GoodsInfoDto goods, double discount)
@@ -97,7 +304,7 @@ namespace Lottery.WebApi.Controllers.v1
             var orderNo = OrderHelper.GenerateOrderNo(OrderType.Order, input.SellType);
             var orderOriginCost = input.Count * input.UnitPrice;
             var orderCost = orderOriginCost * discount;
-            return new AddOrderRecordCommand(Guid.NewGuid().ToString(), orderNo, goods.AuthRankId, _lotterySession.SystemTypeId, OrderSourceType.V1,
+            return new AddOrderRecordCommand(Guid.NewGuid().ToString(), orderNo,goods.Id, goods.AuthRankId, _lotterySession.SystemTypeId, OrderSourceType.V1,
                 input.Count, input.UnitPrice, orderOriginCost, orderCost, input.SellType, _lotterySession.UserId);
         }
     }

@@ -15,6 +15,8 @@ namespace Lottery.QueryServices.Goods
 
         UserAuthOutput GetMyselfAuthInfo(string userId, string lotteryId);
 
-        GoodsInfoDto GetGoodsInfoById(string goodId);
+        GoodsInfoDto GetGoodsInfoById(string goodId, SellType sellType);
+        OrderInfoDto GetOrderInfo(string orderNo);
+        PaysApiInfo GetPaysApiInfo();
     }
 }

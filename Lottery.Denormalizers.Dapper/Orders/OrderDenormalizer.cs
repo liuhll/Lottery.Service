@@ -17,6 +17,7 @@ namespace Lottery.Denormalizers.Dapper.Orders
                 {
                     Id = evt.AggregateRootId,
                     evt.SalesOrderNo,
+                    evt.GoodsId,
                     evt.AmountType,
                     evt.AuthRankId,
                     evt.Count,

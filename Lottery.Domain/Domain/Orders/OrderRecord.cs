@@ -6,10 +6,11 @@ namespace Lottery.Core.Domain.Orders
 {
     public class OrderRecord : AggregateRoot<string>
     {
-        public OrderRecord(string id, string salesOrderNo, string authRankId, string lotteryId, OrderSourceType orderSourceType,
+        public OrderRecord(string id, string salesOrderNo,string goodsId, string authRankId, string lotteryId, OrderSourceType orderSourceType,
             int count, double unitPrice, double originalCost, double orderCost, SellType amountType, string createBy) : base(id)
         {
             SalesOrderNo = salesOrderNo;
+            GoodsId = goodsId;
             AuthRankId = authRankId;
             LotteryId = lotteryId;
             OrderSourceType = orderSourceType;
@@ -21,10 +22,12 @@ namespace Lottery.Core.Domain.Orders
             CreateBy = createBy;
             CreateTime = DateTime.Now;
             Status = 0;
-            ApplyEvent(new AddOrderRecordEvent(salesOrderNo, authRankId, lotteryId, orderSourceType, count, unitPrice, originalCost, orderCost, amountType, createBy, Status));
+            ApplyEvent(new AddOrderRecordEvent(salesOrderNo,goodsId, authRankId, lotteryId, orderSourceType, count, unitPrice, originalCost, orderCost, amountType, createBy, Status));
         }
 
         public string PayOrderNo { get; private set; }
+
+        public string GoodsId { get; private set; }
 
         public string ThirdPayOrderNo { get; private set; }
 
@@ -76,6 +79,7 @@ namespace Lottery.Core.Domain.Orders
         private void Handle(AddOrderRecordEvent evnt)
         {
             SalesOrderNo = evnt.SalesOrderNo;
+            GoodsId = evnt.GoodsId;
             AuthRankId = evnt.AuthRankId;
             LotteryId = evnt.LotteryId;
             OrderSourceType = evnt.OrderSourceType;

@@ -9,6 +9,10 @@ using Lottery.QueryServices.Goods;
 using Lottery.QueryServices.Lotteries;
 using System.Collections.Generic;
 using System.Diagnostics;
+using EasyHttp.Http;
+using Lottery.Infrastructure;
+using Lottery.Infrastructure.Extensions;
+using Lottery.Infrastructure.Json;
 
 namespace Lottery.AppService.Sell
 {
@@ -19,6 +23,7 @@ namespace Lottery.AppService.Sell
         private readonly ILotterySession _lotterySession;
         private readonly IActivityQueryService _activityQueryService;
         private readonly ILotteryQueryService _lotteryQueryService;
+        private readonly HttpClient _httpClient;
 
         public SellAppService(ISellQueryService sellQueryService,
             IActivityQueryService activityQueryService,
@@ -28,6 +33,7 @@ namespace Lottery.AppService.Sell
             _activityQueryService = activityQueryService;
             _lotteryQueryService = lotteryQueryService;
             _lotterySession = NullLotterySession.Instance;
+            _httpClient = new HttpClient();
         }
 
         public ICollection<SellTypeOutput> GetSalesType(MemberRank memberRank)
@@ -91,9 +97,9 @@ namespace Lottery.AppService.Sell
             return authInfo;
         }
 
-        public GoodsInfoDto GetGoodsInfoById(string goodId)
+        public GoodsInfoDto GetGoodsInfoById(string goodId, SellType sellType)
         {
-            var goodInfo = _sellQueryService.GetGoodsInfoById(goodId);
+            var goodInfo = _sellQueryService.GetGoodsInfoById(goodId,sellType);
             if (goodInfo == null)
             {
                 throw new LotteryException("获取商品信息失败,请稍后重试");
@@ -148,6 +154,44 @@ namespace Lottery.AppService.Sell
             }
             return activity.Discount;
         }
+
+        public OrderInfoDto GetOrderInfo(string orderNo)
+        {
+            return _sellQueryService.GetOrderInfo(orderNo);
+        }
+
+        public PaysApiInfo GetPaysApiInfo()
+        {
+            return _sellQueryService.GetPaysApiInfo();
+        }
+
+        public PayOutput GetPayOrderInfo(PayOrderDto payInfo, string payApi)
+        {
+            var formData = new Dictionary<string, object>();
+            formData.Add("uid", payInfo.Uid);
+            formData.Add("price", payInfo.Price);
+            formData.Add("istype", payInfo.Istype);
+            formData.Add("notify_url", payInfo.Notify_url);
+            formData.Add("return_url", payInfo.Return_url);
+            formData.Add("orderid", payInfo.Orderid);
+            formData.Add("orderuid", payInfo.Orderuid);
+            formData.Add("goodsname", payInfo.Goodsname);
+            formData.Add("key", payInfo.Key);
+
+            var response = _httpClient.Post(payApi,formData,null, new { format = "json" });
+            
+            dynamic result = response.RawText.ToObject();
+            
+            var output = new PayOutput()
+            {
+                IsType = result.data.istype,
+                Msg = payInfo.Goodsname,
+                QrCode = string.Format(LotteryConstants.QrCodeUrl,result.data.qrcode),
+                RealPrice = result.data.realprice
+            };
+            return output;
+        }
+
 
         private IList<GoodsOutput> GetPointGoodInfos(MemberRank memberRank, string lotteryId)
         {

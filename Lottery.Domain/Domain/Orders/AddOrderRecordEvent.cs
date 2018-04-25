@@ -9,10 +9,11 @@ namespace Lottery.Core.Domain.Orders
         {
         }
 
-        public AddOrderRecordEvent(string salesOrderNo, string authRankId, string lotteryId, OrderSourceType orderSourceType,
+        public AddOrderRecordEvent(string salesOrderNo,string goodsId, string authRankId, string lotteryId, OrderSourceType orderSourceType,
             int count, double unitPrice, double originalCost, double orderCost, SellType amountType, string createBy, int status)
         {
             SalesOrderNo = salesOrderNo;
+            GoodsId = goodsId;
             AuthRankId = authRankId;
             LotteryId = lotteryId;
             OrderSourceType = orderSourceType;
@@ -24,6 +25,8 @@ namespace Lottery.Core.Domain.Orders
             CreateBy = createBy;
             Status = status;
         }
+
+        public string GoodsId { get; private set; }
 
         public string SalesOrderNo { get; private set; }
 

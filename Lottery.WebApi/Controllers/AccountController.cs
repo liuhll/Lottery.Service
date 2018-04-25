@@ -47,7 +47,8 @@ namespace Lottery.WebApi.Controllers
             UserProfileInputValidator userProfileInputValidator,
             ILotteryQueryService lotteryQueryService,
             IConLogQueryService conLogQueryService,
-            IIdentifyCodeAppService identifyCodeAppService, IPointQueryService pointQueryService) : base(commandService)
+            IIdentifyCodeAppService identifyCodeAppService,
+            IPointQueryService pointQueryService) : base(commandService)
         {
             _userManager = userManager;
             _userInfoInputValidator = userInfoInputValidator;

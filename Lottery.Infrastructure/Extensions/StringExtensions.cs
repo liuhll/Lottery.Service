@@ -52,6 +52,15 @@ namespace Lottery.Infrastructure.Extensions
             return default(T);
         }
 
+        public static dynamic ToObject(this string str)
+        {
+            if (!str.IsNullOrEmpty())
+            {
+                return JsonConvert.DeserializeObject(str);
+            }
+            return null;
+        }
+
         public static int IndexOfCount(this string str, string keyword, int count)
         {
             int index = 0;

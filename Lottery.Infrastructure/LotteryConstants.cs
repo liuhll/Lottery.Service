@@ -15,5 +15,7 @@
         public const int ContinuousSignedDays = 5;
 
         public const string SystemUser = "System";
+
+        public const string QrCodeUrl = "https://pan.baidu.com/share/qrcode?w=180&h=180&url={0}";
     }
 }

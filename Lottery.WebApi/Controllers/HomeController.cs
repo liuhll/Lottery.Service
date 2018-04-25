@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Lottery.Infrastructure.Tools;
 
 namespace Lottery.WebApi.Controllers
 {

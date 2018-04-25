@@ -37,7 +37,7 @@ namespace Lottery.WebApi.Authentication
         private static Tuple<string, string>[] whitelist = new Tuple<string, string>[] { new Tuple<string, string>("/account/login","POST"),
             new Tuple<string, string>("/account/register","POST"), new Tuple<string, string>("/v1/lottery/list","GET"),
             new Tuple<string, string>("/v1/message/identifycode1","GET"), new Tuple<string, string>("/v1/message/identifycode","POST"),
-            new Tuple<string, string>("/account/retrievepassword","PUT"),
+            new Tuple<string, string>("/account/retrievepassword","PUT"), new Tuple<string, string>("/v1/sell/notify","POST"), 
         };
 
         public TokenValidationHandler()

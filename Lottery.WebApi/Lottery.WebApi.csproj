@@ -274,7 +274,6 @@
     <Compile Include="Controllers\v1\MenuController.cs" />
     <Compile Include="Controllers\v1\MessageController.cs" />
     <Compile Include="Controllers\v1\NormController.cs" />
-    <Compile Include="Controllers\v1\PayController.cs" />
     <Compile Include="Controllers\v1\PlanController.cs" />
     <Compile Include="Controllers\v1\OperationController.cs" />
     <Compile Include="Controllers\v1\SellController.cs" />

@@ -13,8 +13,13 @@ namespace Lottery.AppService.Sell
 
         UserAuthOutput GetMyselfAuthInfo(string userId, string lotteryId);
 
-        GoodsInfoDto GetGoodsInfoById(string goodId);
+        GoodsInfoDto GetGoodsInfoById(string goodId, SellType sellType);
 
         double GetDiscount(string authRankId, SellType sellType);
+
+        OrderInfoDto GetOrderInfo(string orderNo);
+
+        PaysApiInfo GetPaysApiInfo();
+        PayOutput GetPayOrderInfo(PayOrderDto payInfo,string payApi);
     }
 }

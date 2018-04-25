@@ -70,7 +70,7 @@ namespace Lottery.Engine.DiscreteMarkov
             }
             else
             {
-                Console.WriteLine("马氏性 检验失败,无法进行下一步预测");
+                throw  new Exception("马氏性 检验失败");
             }
         }
 
@@ -152,6 +152,23 @@ namespace Lottery.Engine.DiscreteMarkov
                     //滞时期j的数据状态
                     var state = last[last.Count - 1 - j] - 1;
                     PredictValue[i] += Wk[j] * ProbMatrix[j][state, i];
+
+                   
+                    if (double.IsNaN(PredictValue[i]))
+                    {
+                        try
+                        {
+                            var numberCount = StateList.Count(p => p == i + 1);
+                            PredictValue[i] = (double)numberCount / StateList.Count;
+
+                        }
+                        catch (Exception e)
+                        {
+                            var random = new Random();
+                            PredictValue[i] = (double)random.Next(0, 100) / 100;
+                        }
+                       
+                    }
                 }
                 PredictValue1.Add(i + 1, PredictValue[i]);
             }

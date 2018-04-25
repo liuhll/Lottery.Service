@@ -8,7 +8,7 @@ namespace Lottery.CommandHandlers
     {
         public void Handle(ICommandContext context, AddOrderRecordCommand command)
         {
-            context.Add(new OrderRecord(command.Id, command.SalesOrderNo, command.AuthRankId, command.LotteryId, command.OrderSourceType, command.Count,
+            context.Add(new OrderRecord(command.AggregateRootId, command.SalesOrderNo,command.GoodsId, command.AuthRankId, command.LotteryId, command.OrderSourceType, command.Count,
                 command.UnitPrice, command.OriginalCost, command.OrderCost, command.AmountType, command.CreateBy));
         }
     }

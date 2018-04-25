@@ -2,9 +2,9 @@
 {
     public enum PayType
     {
-        AliPay,
+        AliPay = 1,
 
-        Wechat,
+        Wechat = 2,
 
         PaysApi
     }

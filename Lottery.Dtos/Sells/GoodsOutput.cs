@@ -1,4 +1,5 @@
 ﻿using Lottery.Infrastructure.Enums;
+using Lottery.Infrastructure.Extensions;
 
 namespace Lottery.Dtos.Sells
 {
@@ -17,6 +18,8 @@ namespace Lottery.Dtos.Sells
         public int Count { get; set; }
 
         public PurchaseType PurchaseType { get; set; }
+
+        public string PurchaseTypeDesc => PurchaseType.GetChineseDescribe();
 
         public double Discount { get; set; } = 1.00;
     }

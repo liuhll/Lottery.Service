@@ -9,6 +9,7 @@ using Lottery.QueryServices.Goods;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Lottery.Infrastructure.Tools;
 
 namespace Lottery.QueryServices.Dapper.Goods
 {
@@ -35,7 +36,7 @@ namespace Lottery.QueryServices.Dapper.Goods
                 // AND B.MemberRank>=@MemberRank
                 using (var conn = GetLotteryConnection())
                 {
-                    var sql = @"SELECT A.Id,A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.PointPrice AS UnitPrice  FROM [dbo].[S_GoodInfo] AS A
+                    var sql = @"SELECT A.Id,A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.AccountPrice AS UnitPrice  FROM [dbo].[S_GoodInfo] AS A
 LEFT JOIN dbo.MS_AuthRank AS B ON b.Id=A.AuthRankId
 LEFT JOIN dbo.L_LotteryInfo AS C ON C.Id=B.LotteryId
 WHERE B.CanSell = 1 AND A.SellType=0
@@ -94,21 +95,59 @@ AND B.LotteryId=@LotteryId";
             }
         }
 
-        public GoodsInfoDto GetGoodsInfoById(string goodId)
+        public GoodsInfoDto GetGoodsInfoById(string goodId, SellType sellType)
         {
             using (var conn = GetLotteryConnection())
             {
-                var sql =
-                    @"SELECT A.Id, A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.PointPrice AS UnitPrice  FROM [dbo].[S_GoodInfo] AS A
+                string sql = string.Empty;
+                if (sellType == SellType.Point)
+                {
+                    sql =
+                        @"SELECT A.Id, A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.PointPrice AS UnitPrice  FROM [dbo].[S_GoodInfo] AS A
 LEFT JOIN dbo.MS_AuthRank AS B ON B.Id=A.AuthRankId
 LEFT JOIN dbo.L_LotteryInfo AS C ON C.Id=B.LotteryId
 WHERE A.Id=@Id";
+                }
+                else
+                {
+                    sql =
+                        @"SELECT A.Id, A.GoodName,A.Term,A.AuthRankId,B.MemberRank,B.Title,B.AccountPrice AS UnitPrice  FROM [dbo].[S_GoodInfo] AS A
+LEFT JOIN dbo.MS_AuthRank AS B ON B.Id=A.AuthRankId
+LEFT JOIN dbo.L_LotteryInfo AS C ON C.Id=B.LotteryId
+WHERE A.Id=@Id";
+                }
 
                 return conn.Query<GoodsInfoDto>(sql, new
                 {
                     Id = goodId
                 }).FirstOrDefault();
             }
+        }
+
+        public OrderInfoDto GetOrderInfo(string orderNo)
+        {
+            using (var conn = GetLotteryConnection())
+            {
+                conn.Open();
+                var sql = "SELECT * FROM [dbo].[S_OrderRecord] WHERE SalesOrderNo=@OrderNo";
+                return conn.Query<OrderInfoDto>(sql, new {OrderNo = orderNo}).FirstOrDefault();
+            }
+        }
+
+        public PaysApiInfo GetPaysApiInfo()
+        {
+            var cacheKey = RedisKeyConstants.PAYSAPICONFIG;
+            return _cacheManager.Get<PaysApiInfo>(cacheKey, () =>
+            {
+                return new PaysApiInfo()
+                {
+                    Uid = ConfigHelper.Value("paysapi.uid"),
+                    Token = ConfigHelper.Value("paysapi.token"),
+                    NotifyUrl = ConfigHelper.Value("paysapi.notifyurl"),
+                    ReturnUrl = ConfigHelper.Value("paysapi.returnurl"),
+                    PaysApi = ConfigHelper.Value("paysapi.payapi")
+                };
+            });
         }
 
         private IList<GoodsInfoDto> GetPointGoodInfos(string lotteryId)

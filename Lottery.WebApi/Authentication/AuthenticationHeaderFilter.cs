@@ -8,7 +8,7 @@ namespace Lottery.WebApi.Authentication
 {
     public class AuthenticationHeaderFilter : IOperationFilter
     {
-        private static string[] _whiteList = new string[] { "login", "createuser", "getalllotteryinfos", "identifycode1", "identifycode3", "retrievepassword" };
+        private static string[] _whiteList = new string[] { "login", "createuser", "getalllotteryinfos", "identifycode1", "identifycode3", "retrievepassword", "notify" };
 
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {

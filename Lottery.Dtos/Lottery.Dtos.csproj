@@ -117,7 +117,14 @@
     <Compile Include="ScheduleTasks\ScheduleTaskDto.cs" />
     <Compile Include="Sells\GoodsInfoDto.cs" />
     <Compile Include="Sells\GoodsOutput.cs" />
+    <Compile Include="Sells\OrderInfoDto.cs" />
+    <Compile Include="Sells\OrderInfoItem.cs" />
     <Compile Include="Sells\OrderInput.cs" />
+    <Compile Include="Sells\OrderOutput.cs" />
+    <Compile Include="Sells\PayInput.cs" />
+    <Compile Include="Sells\PayOrderDto.cs" />
+    <Compile Include="Sells\PayOutput.cs" />
+    <Compile Include="Sells\PaysApiInfo.cs" />
     <Compile Include="Sells\SellTypeOutput.cs" />
     <Compile Include="UserInfo\EntryInfo.cs" />
     <Compile Include="UserInfo\LoginViewModel.cs" />
