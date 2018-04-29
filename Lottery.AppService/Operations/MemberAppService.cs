@@ -30,5 +30,19 @@ namespace Lottery.AppService.Operations
 
             return ((MemberRank)userMember.ComputeMemberRank()).ToString();
         }
+
+        public MemberRank GetUserMemRank(string userId, string systemTypeId)
+        {
+            if (systemTypeId == LotteryConstants.BackOfficeKey)
+            {
+                return MemberRank.Ordinary;
+            }
+            var userMember = _memberService.GetUserMenberInfo(userId, systemTypeId);
+            if (userMember == null)
+            {
+                return MemberRank.Ordinary;
+            }
+            return userMember.ComputeMemberRank();
+        }
     }
 }

@@ -130,7 +130,7 @@ namespace Lottery.AppService.Sell
                     GoodsName = goods.GoodName,
                     Count = goods.Term.Value,
                     Discount = GetDiscount(goods.AuthRankId, SellType.Rmb),
-                    PurchaseType = GetPurchaseType(userAuthInfo, goods.MemberRank),
+                    PurchaseType = GetPurchaseType(userAuthInfo, memberRank, goods.MemberRank),
                     UnitPrice = goods.UnitPrice
                 };
                 result.Add(output);
@@ -138,13 +138,13 @@ namespace Lottery.AppService.Sell
             return result;
         }
 
-        private PurchaseType GetPurchaseType(UserAuthDto userAuthInfo, int memberRank)
+        private PurchaseType GetPurchaseType(UserAuthDto userAuthInfo, MemberRank userMemberRank, int memberRank)
         {
             if (userAuthInfo == null)
             {
                 return PurchaseType.New;
             }
-            else if ((int)_lotterySession.MemberRank == memberRank)
+            else if ((int)userMemberRank == memberRank)
             {
                 return PurchaseType.Continuation;
             }
@@ -269,7 +269,7 @@ namespace Lottery.AppService.Sell
                     GoodsName = goods.GoodName,
                     Count = 1,
                     Discount = GetDiscount(goods.AuthRankId, SellType.Point),
-                    PurchaseType = GetPurchaseType(userAuthInfo, goods.MemberRank),
+                    PurchaseType = GetPurchaseType(userAuthInfo,memberRank, goods.MemberRank),
                     UnitPrice = goods.UnitPrice
                 };
                 result.Add(output);

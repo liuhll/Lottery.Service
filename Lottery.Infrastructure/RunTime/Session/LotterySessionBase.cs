@@ -23,6 +23,6 @@ namespace Lottery.Infrastructure.RunTime.Session
 
         public abstract int ClientNo { get; }
 
-        public abstract MemberRank MemberRank { get; }
+        //public abstract MemberRank MemberRank { get; }
     }
 }

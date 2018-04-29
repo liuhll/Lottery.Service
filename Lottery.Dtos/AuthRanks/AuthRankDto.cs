@@ -12,6 +12,8 @@ namespace Lottery.Dtos.AuthRanks
 
         public MemberRank MemberRank { get; set; }
 
+        public int PlanCount { get; set; }
+
         public decimal AccountPrice { get; set; }
 
         public int PointPrice { get; set; }

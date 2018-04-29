@@ -136,21 +136,21 @@ namespace Lottery.Infrastructure.RunTime.Session
             }
         }
 
-        public override MemberRank MemberRank
-        {
-            get
-            {
-                var memberRankClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.MemberRank);
-                if (string.IsNullOrEmpty(memberRankClaim?.Value))
-                {
-                    return MemberRank.Ordinary;
-                }
+        //public override MemberRank MemberRank
+        //{
+        //    get
+        //    {
+        //        var memberRankClaim = PrincipalAccessor.Principal?.Claims.FirstOrDefault(c => c.Type == LotteryClaimTypes.MemberRank);
+        //        if (string.IsNullOrEmpty(memberRankClaim?.Value))
+        //        {
+        //            return MemberRank.Ordinary;
+        //        }
 
-                var clientType = memberRankClaim.Value.ToEnum<MemberRank>();
+        //        var clientType = memberRankClaim.Value.ToEnum<MemberRank>();
 
-                return clientType;
-            }
-        }
+        //        return clientType;
+        //    }
+        //}
 
         protected IPrincipalAccessor PrincipalAccessor { get; }
 

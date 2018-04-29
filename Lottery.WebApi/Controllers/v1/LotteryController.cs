@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web.Http;
+using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -67,6 +68,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpPut]
         [Route("predictdatas")]
         [AllowAnonymous]
+        [AppAuthFilter("您没有切换计划公式的权限,是否购买授权?")]
         public ICollection<PlanTrackNumber> UpdatePredictDatas()
         {
             var lotteryId = _lotterySession.SystemTypeId;
@@ -82,6 +84,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpPut]
         [Route("predictdata")]
         [AllowAnonymous]
+        [AppAuthFilter("您没有切换计划公式的权限,是否购买授权?")]
         public string UpdatePredictData(UpdatePredictDataInput input)
         {
             var lotteryId = _lotterySession.SystemTypeId;
@@ -117,7 +120,7 @@ namespace Lottery.WebApi.Controllers.v1
                 _normConfigQueryService.GetUserOrDefaultNormConfigs(LotteryInfo.Id, _lotterySession.UserId);
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
 
-            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_PLANTRACK_DETAIL_KEY, LotteryInfo.Id, _lotterySession.MemberRank == MemberRank.Ordinary ? LotteryConstants.SystemUser : _lotterySession.UserId, finalLotteryData.Period);
+            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_PLANTRACK_DETAIL_KEY, LotteryInfo.Id, _userMemberRank == MemberRank.Ordinary ? LotteryConstants.SystemUser : _lotterySession.UserId, finalLotteryData.Period);
             return _cacheManager.Get<ICollection<PlanTrackDetail>>(cacheKey, () =>
             {
                 var predictDetailDatas = new List<PlanTrackDetail>();

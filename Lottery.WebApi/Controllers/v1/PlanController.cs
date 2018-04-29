@@ -15,6 +15,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lottery.Infrastructure;
+using Lottery.Infrastructure.Enums;
+using Lottery.QueryServices.AuthRanks;
+using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -31,6 +35,7 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly INormConfigAppService _normConfigAppService;
         private readonly UserNormConfigInputValidator _userNormConfigInputValidator;
         private readonly INormPlanConfigQueryService _normPlanConfigQueryService;
+        private readonly IAuthRankQueryService _authRankQueryService;
         private readonly ICacheManager _cacheManager;
 
         public PlanController(ICommandService commandService,
@@ -41,7 +46,8 @@ namespace Lottery.WebApi.Controllers.v1
             INormConfigAppService normConfigAppService,
             UserNormConfigInputValidator userNormConfigInputValidator,
             INormPlanConfigQueryService normPlanConfigQueryService,
-            ICacheManager cacheManager) : base(commandService)
+            ICacheManager cacheManager, 
+            IAuthRankQueryService authRankQueryService) : base(commandService)
         {
             _planInfoAppService = planInfoAppService;
             _userNormDefaultConfigService = userNormDefaultConfigService;
@@ -51,6 +57,7 @@ namespace Lottery.WebApi.Controllers.v1
             _userNormConfigInputValidator = userNormConfigInputValidator;
             _normPlanConfigQueryService = normPlanConfigQueryService;
             _cacheManager = cacheManager;
+            _authRankQueryService = authRankQueryService;
         }
 
         /// <summary>
@@ -74,6 +81,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpPut]
         [Route("userplans")]
         [AllowAnonymous]
+        [AppAuthFilter("您没有修改计划的权限,是否购买授权?")]
         public async Task<string> UpdateUserPlans(UserPlanInfoInput input)
         {
             var validatorResult = await _planInfoInputValidator.ValidateAsync(input);
@@ -81,6 +89,16 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 throw new LotteryDataException(validatorResult.Errors.Select(p => p.ErrorMessage + "</br>").ToString(";"));
             }
+
+            var authRankInfo =
+                _authRankQueryService.GetAuthRankByLotteryIdAndRank(_lotterySession.SystemTypeId,
+                    _userMemberRank);
+
+            if (input.PlanIds.Count > authRankInfo.PlanCount)
+            {
+                throw new LotteryException($"您至多允许选择{authRankInfo.PlanCount}个计划,如果需要选择更多计划,请先升级授权版本");
+            }
+        
             _cacheManager.RemoveByPattern("Lottery.PlanTrack");
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
 
@@ -179,6 +197,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpPut]
         [Route("userplannorm")]
         [AllowAnonymous]
+        [AppAuthFilter("您没有修改该计划指标权限,是否购买授权?")]
         public async Task<string> UpdateUserPlanNorm(UserNormPlanConfigInput input)
         {
             var validatorResult = await _userNormConfigInputValidator.ValidateAsync(input);

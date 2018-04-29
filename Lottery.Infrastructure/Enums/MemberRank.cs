@@ -27,5 +27,11 @@ namespace Lottery.Infrastructure.Enums
         /// </summary>
         [EnumDescribe("精英版")]
         Elite,
+
+        /// <summary>
+        /// 测试版
+        /// </summary>
+        [EnumDescribe("测试版")]
+        Testing
     }
 }

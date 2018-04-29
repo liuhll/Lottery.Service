@@ -34,7 +34,7 @@ namespace Lottery.WebApi.Controllers.v1
         {
             var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
             var userInfoOutput = AutoMapper.Mapper.Map<UserInfoOutput>(userInfo);
-            userInfoOutput.MemberRank = _lotterySession.MemberRank;
+            userInfoOutput.MemberRank = _userMemberRank;
             userInfoOutput.SystemType = _lotterySession.SystemType;
             userInfoOutput.SystemTypeId = _lotterySession.SystemTypeId;
             var entryInfo = new EntryInfo()

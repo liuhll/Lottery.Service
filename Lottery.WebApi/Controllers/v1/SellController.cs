@@ -39,7 +39,7 @@ namespace Lottery.WebApi.Controllers.v1
         [AllowAnonymous]
         public ICollection<SellTypeOutput> GetSalesType()
         {
-            return _sellAppService.GetSalesType(_lotterySession.MemberRank);
+            return _sellAppService.GetSalesType(_userMemberRank);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Lottery.WebApi.Controllers.v1
         [AllowAnonymous]
         public ICollection<GoodsOutput> GetGoodInfos(SellType sellType)
         {
-            return _sellAppService.GetGoodsInfos(_lotterySession.MemberRank, _lotterySession.SystemTypeId, sellType);
+            return _sellAppService.GetGoodsInfos(_userMemberRank, _lotterySession.SystemTypeId, sellType);
         }
 
         /// <summary>

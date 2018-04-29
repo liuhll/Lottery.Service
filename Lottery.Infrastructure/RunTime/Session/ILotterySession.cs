@@ -24,6 +24,6 @@ namespace Lottery.Infrastructure.RunTime.Session
 
         SystemType SystemType { get; }
 
-        MemberRank MemberRank { get; }
+        //MemberRank MemberRank { get; }
     }
 }

@@ -282,6 +282,7 @@
     <Compile Include="Extensions\ENodeExtensions.cs" />
     <Compile Include="Extensions\HttpRequestExtensions.cs" />
     <Compile Include="Extensions\SecurityTokenInvalidLifetimeExceptionExtension.cs" />
+    <Compile Include="Filter\AppAuthFilter.cs" />
     <Compile Include="Filter\LotteryApiExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -23,6 +23,6 @@ namespace Lottery.Infrastructure.RunTime.Session
         public override int ClientNo => _instance.ClientNo;
         public override string SystemTypeId => _instance.SystemTypeId;
         public override SystemType SystemType => _instance.SystemType;
-        public override MemberRank MemberRank => _instance.MemberRank;
+        //public override MemberRank MemberRank => _instance.MemberRank;
     }
 }

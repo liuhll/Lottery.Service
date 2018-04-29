@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -69,6 +70,7 @@ namespace Lottery.WebApi.Controllers.v1
         [Route("usernormdefaultconfig")]
         [HttpPut]
         [AllowAnonymous]
+        [AppAuthFilter("您没有修改默认计划指标,是否购买授权?")]
         public async Task<string> GetUserNormDefaultConfig(UserNormDefaultConfigInput input)
         {
             var validatorResult = await _userNormDefaultConfigInputValidator.ValidateAsync(input);
