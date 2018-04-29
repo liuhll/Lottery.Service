@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.UserInfos;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -15,7 +15,7 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly IUserInfoService _userInfoService;
         private readonly ILotteryQueryService _lotteryQueryService;
 
-        public UserInfoController(ICommandService commandService, 
+        public UserInfoController(ICommandService commandService,
             IUserInfoService userInfoService,
             ILotteryQueryService lotteryQueryService) : base(commandService)
         {
@@ -32,10 +32,9 @@ namespace Lottery.WebApi.Controllers.v1
         [AllowAnonymous]
         public async Task<EntryInfo> GetUserInfo()
         {
-            
             var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
             var userInfoOutput = AutoMapper.Mapper.Map<UserInfoOutput>(userInfo);
-            userInfoOutput.MemberRank = _lotterySession.MemberRank;
+            userInfoOutput.MemberRank = _userMemberRank;
             userInfoOutput.SystemType = _lotterySession.SystemType;
             userInfoOutput.SystemTypeId = _lotterySession.SystemTypeId;
             var entryInfo = new EntryInfo()
@@ -49,6 +48,5 @@ namespace Lottery.WebApi.Controllers.v1
             }
             return entryInfo;
         }
-
     }
 }

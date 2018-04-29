@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Lottery.Dtos.Lotteries;
+using System;
 using System.Collections.Generic;
-using Lottery.Dtos.Lotteries;
-using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.Engine.TimeRule
 {

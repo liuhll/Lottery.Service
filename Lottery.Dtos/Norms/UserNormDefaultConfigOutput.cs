@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using AutoMapper.Attributes;
+﻿using AutoMapper.Attributes;
+using System.Collections.Generic;
 
 namespace Lottery.Dtos.Norms
 {
@@ -69,6 +69,5 @@ namespace Lottery.Dtos.Norms
         /// 是否系统默认
         /// </summary>
         public bool IsDefualt { get; set; }
-
     }
 }

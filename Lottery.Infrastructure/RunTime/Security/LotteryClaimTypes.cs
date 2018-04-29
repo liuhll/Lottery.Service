@@ -4,7 +4,6 @@ namespace Lottery.Infrastructure.RunTime.Security
 {
     public static class LotteryClaimTypes
     {
- 
         public static string UserName { get; set; } = ClaimTypes.Name;
 
         public static string UserId { get; set; } = ClaimTypes.NameIdentifier;

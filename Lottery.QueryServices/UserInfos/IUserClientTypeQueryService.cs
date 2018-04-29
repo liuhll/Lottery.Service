@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.Account;
+﻿using Lottery.Dtos.Account;
+using System.Collections.Generic;
 
 namespace Lottery.QueryServices.UserInfos
 {

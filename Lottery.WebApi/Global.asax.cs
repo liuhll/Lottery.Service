@@ -1,9 +1,4 @@
-﻿using System.Reflection;
-using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-using Autofac;
+﻿using Autofac;
 using Autofac.Integration.WebApi;
 using ECommon.Autofac;
 using ECommon.Components;
@@ -13,13 +8,17 @@ using ENode.Configurations;
 using ENode.SqlServer;
 using Lottery.Infrastructure;
 using Lottery.WebApi.Extensions;
+using System.Reflection;
+using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Lottery.WebApi
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
         private ILogger _logger;
-  
+
         protected void Application_Start()
         {
             InitializeENode();
@@ -31,14 +30,12 @@ namespace Lottery.WebApi
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             RegisterControllers();
-
         }
 
         private void InitializeENode()
         {
             ServiceConfigSettings.Initialize();
             DataConfigSettings.Initialize();
-
 
             var assemblies = new[]
             {
@@ -71,8 +68,8 @@ namespace Lottery.WebApi
                 .InitLotteryEngine()
                 .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)
                 .StartEQueue()
-                .Start(); 
-           
+                .Start();
+
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType());
             _logger.Info("ENode initialized.");
         }
@@ -98,7 +95,5 @@ namespace Lottery.WebApi
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
-
-       
     }
 }

@@ -12,6 +12,8 @@ namespace Lottery.Dtos.AuthRanks
 
         public MemberRank MemberRank { get; set; }
 
+        public int PlanCount { get; set; }
+
         public decimal AccountPrice { get; set; }
 
         public int PointPrice { get; set; }
@@ -19,7 +21,6 @@ namespace Lottery.Dtos.AuthRanks
         public bool EnablePointConsume { get; set; }
 
         public string Title { get; set; }
-
 
         public string Describe { get; set; }
 
@@ -30,6 +31,5 @@ namespace Lottery.Dtos.AuthRanks
         public bool CanSell { get; set; }
 
         public int Status { get; set; }
-
     }
 }

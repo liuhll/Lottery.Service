@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lottery.Dtos.Lotteries;
+﻿using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Enums;
-using Lottery.Infrastructure.Extensions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.Engine.ComputePredictResult
 {
@@ -21,17 +20,17 @@ namespace Lottery.Engine.ComputePredictResult
             "第九名",
             "第十名",
         };
+
         public RankComputePredictResult(IDictionary<int, double> predictedDataRate) : base(predictedDataRate)
         {
         }
-
 
         protected override ICollection<string> GetPredictedDataList(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
         {
             var resultVal = new List<string>();
             if (normPlanInfo.DsType == PredictType.Fix)
             {
-                var percentRate  = _predictedDataRate.OrderByDescending(p => p.Value);
+                var percentRate = _predictedDataRate.OrderByDescending(p => p.Value);
                 foreach (var item in percentRate)
                 {
                     resultVal.Add(valList[item.Key - 1]);

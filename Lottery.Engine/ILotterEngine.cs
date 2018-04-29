@@ -7,12 +7,10 @@ namespace Lottery.Engine
 {
     public interface ILotterEngine
     {
-
         LotteryInfoDto LotteryInfo { get; }
 
         ITimeRuleManager TimeRuleManager { get; }
 
         IPerdictor GetPerdictor(AlgorithmType algorithmType);
-
     }
 }

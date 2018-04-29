@@ -1,15 +1,14 @@
-﻿using System;
-using ENode.Domain;
+﻿using ENode.Domain;
+using System;
 
 namespace Lottery.Core.Domain.IdentifyCode
 {
     public class IdentifyCode : AggregateRoot<string>
     {
         public IdentifyCode(string id, string receiver,
-            string code,int identifyCodeType, int messageType,DateTime expirationDate, string createBy,
+            string code, int identifyCodeType, int messageType, DateTime expirationDate, string createBy,
             string updateBy) : base(id)
         {
-
             Receiver = receiver;
             Code = code;
             IdentifyCodeType = identifyCodeType;
@@ -21,7 +20,7 @@ namespace Lottery.Core.Domain.IdentifyCode
             ExpirationDate = expirationDate;
             ValidateDate = null;
             Status = 0;
-            ApplyEvent(new AddIdentifyCodeEvent(receiver,code, identifyCodeType,messageType, expirationDate, createBy));
+            ApplyEvent(new AddIdentifyCodeEvent(receiver, code, identifyCodeType, messageType, expirationDate, createBy));
         }
 
         public string Code { get; private set; }
@@ -35,7 +34,7 @@ namespace Lottery.Core.Domain.IdentifyCode
 
         public DateTime? ValidateDate { get; private set; }
 
-        public int Status { get;private set; }
+        public int Status { get; private set; }
 
         /// <summary>
         /// 创建人
@@ -52,18 +51,18 @@ namespace Lottery.Core.Domain.IdentifyCode
         public DateTime? UpdateTime { get; private set; }
 
         #region 公有方法
-   
-        public void UpdateIdentifyCode(string code,DateTime expirationData,string updateBy)
+
+        public void UpdateIdentifyCode(string code, DateTime expirationData, string updateBy)
         {
-            ApplyEvent(new UpdateIdentifyCodeEvent(code,Receiver,expirationData, updateBy));
+            ApplyEvent(new UpdateIdentifyCodeEvent(code, Receiver, expirationData, updateBy));
         }
 
         public void InvalidIdentifyCode(string updateBy)
         {
-            ApplyEvent(new InvalidIdentifyCodeEvent(Receiver,updateBy));
+            ApplyEvent(new InvalidIdentifyCodeEvent(Receiver, updateBy));
         }
 
-        #endregion
+        #endregion 公有方法
 
         #region Handle Methods
 
@@ -77,13 +76,13 @@ namespace Lottery.Core.Domain.IdentifyCode
             this.IdentifyCodeType = evt.IdentifyCodeType;
         }
 
-
         private void Handle(UpdateIdentifyCodeEvent evt)
         {
             Code = evt.Code;
             Receiver = evt.Receiver;
             ExpirationDate = evt.ExpirationDate;
         }
+
         private void Handle(InvalidIdentifyCodeEvent evt)
         {
             ValidateDate = evt.ValidateDate;
@@ -92,6 +91,6 @@ namespace Lottery.Core.Domain.IdentifyCode
             Receiver = evt.Receiver;
         }
 
-        #endregion
+        #endregion Handle Methods
     }
 }

@@ -22,6 +22,7 @@ namespace Lottery.BrokerService
         {
             _broker.Start();
         }
+
         public static void Stop()
         {
             if (_broker != null)
@@ -43,7 +44,7 @@ namespace Lottery.BrokerService
                 .BuildContainer();
 
             ServiceConfigSettings.Initialize();
-           
+
             var brokerSetting = new BrokerSetting(false, ServiceConfigSettings.EqueueStorePath)
             {
                 NameServerList = ServiceConfigSettings.NameServerEndpoints
@@ -57,7 +58,6 @@ namespace Lottery.BrokerService
 
             _broker = BrokerController.Create(brokerSetting);
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program).FullName).Info("Broker initialized.");
-
         }
     }
 }

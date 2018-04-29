@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Account;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.UserInfos;
+using System.Threading.Tasks;
 
 namespace Lottery.QueryServices.Dapper.UserInfos
 {
@@ -20,7 +20,7 @@ namespace Lottery.QueryServices.Dapper.UserInfos
 
         public Task<UserTicketDto> GetValidTicketInfo(string userId)
         {
-            var userValidTicketKey = string.Format(RedisKeyConstants.USERINFO_TiCKET_KEY,userId);
+            var userValidTicketKey = string.Format(RedisKeyConstants.USERINFO_TiCKET_KEY, userId);
             var ticketInfo = _cacheManager.Get<UserTicketDto>(userValidTicketKey, () =>
             {
                 using (var conn = GetLotteryConnection())

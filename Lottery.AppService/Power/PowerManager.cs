@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Extensions;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Menus;
@@ -11,6 +8,8 @@ using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Powers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.AppService.Power
 {
@@ -21,7 +20,7 @@ namespace Lottery.AppService.Power
         private readonly ICacheManager _cacheManager;
         private readonly IUserPowerQueryService _userPowerQueryService;
 
-        public PowerManager(IPowerQueryService powerQueryService, 
+        public PowerManager(IPowerQueryService powerQueryService,
             IUserPowerQueryService userPowerQueryService,
             ICacheManager cacheManager)
         {
@@ -37,20 +36,22 @@ namespace Lottery.AppService.Power
 
         public PowerDto GetPermission(string urlPath, string method)
         {
-            return _powerQueryService.GetPermissionByApi(urlPath,method);
+            return _powerQueryService.GetPermissionByApi(urlPath, method);
         }
 
         public ICollection<RouteDto> GetUserRoutes(string userId, SystemType systemType)
         {
-            ICollection<RouteDto> routeDtos = null; 
+            ICollection<RouteDto> routeDtos = null;
             switch (systemType)
             {
                 case SystemType.App:
                     routeDtos = GetUserAppRoutes(userId);
-                    break;               
+                    break;
+
                 case SystemType.BackOffice:
                     routeDtos = GetUseBoRoutes(userId);
                     break;
+
                 case SystemType.OfficialWebsite:
                     throw new LotteryException("门户网站无法调用该接口");
                 default:
@@ -68,7 +69,6 @@ namespace Lottery.AppService.Power
                 var boRouters = BuildRouteByPowers(boPowers);
                 return boRouters;
             });
-           
         }
 
         private ICollection<RouteDto> BuildRouteByPowers(ICollection<PowerDto> appPowers)
@@ -76,12 +76,12 @@ namespace Lottery.AppService.Power
             var routes = new List<RouteDto>();
             var hiddenRouters = BuildHiddenRouters(appPowers.Where(p => p.PowerType == 0));
             routes.AddRange(hiddenRouters);
-            var tabbarRouters = BuildNavBarSelfRouters(appPowers.Where(p => p.PowerType != 0).ToList(),true);
+            var tabbarRouters = BuildNavBarSelfRouters(appPowers.Where(p => p.PowerType != 0).ToList(), true);
             routes.AddRange(tabbarRouters);
             return routes;
         }
 
-        private IEnumerable<RouteDto> BuildNavBarSelfRouters(ICollection<PowerDto> powers,bool isRoot,string parentId = "")
+        private IEnumerable<RouteDto> BuildNavBarSelfRouters(ICollection<PowerDto> powers, bool isRoot, string parentId = "")
         {
             IList<RouteDto> routes = new List<RouteDto>();
             if (isRoot)
@@ -99,7 +99,6 @@ namespace Lottery.AppService.Power
                     {
                         routes.Add(rootRoute);
                     }
-
                 }
             }
             else
@@ -119,10 +118,8 @@ namespace Lottery.AppService.Power
                         {
                             routes.Add(route);
                         }
-                       
                     }
                 }
-              
             }
 
             return routes;
@@ -152,7 +149,6 @@ namespace Lottery.AppService.Power
                 var appRouters = BuildRouteByPowers(appPowers);
                 return appRouters;
             });
-           
         }
     }
 }

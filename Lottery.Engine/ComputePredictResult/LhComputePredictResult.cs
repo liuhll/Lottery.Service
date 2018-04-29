@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lottery.Dtos.Lotteries;
+﻿using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Enums;
-using Lottery.Infrastructure.Extensions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.Engine.ComputePredictResult
 {
@@ -10,10 +9,10 @@ namespace Lottery.Engine.ComputePredictResult
     {
         private const string longVal = "龙";
         private const string huVal = "虎";
+
         public LhComputePredictResult(IDictionary<int, double> predictedDataRate) : base(predictedDataRate)
         {
         }
-
 
         protected override ICollection<string> GetPredictedDataList(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
         {
@@ -23,7 +22,7 @@ namespace Lottery.Engine.ComputePredictResult
             return valArr.ToList();
         }
 
-        private List<string> PredictVals(int position,PredictType predictType,int maxPosition = 10)
+        private List<string> PredictVals(int position, PredictType predictType, int maxPosition = 10)
         {
             var valArr = new List<string>();
             var longPosition = position;
@@ -41,7 +40,6 @@ namespace Lottery.Engine.ComputePredictResult
                     valArr.Add(huVal);
                     valArr.Add(longVal);
                 }
-
             }
             else
             {
@@ -52,11 +50,9 @@ namespace Lottery.Engine.ComputePredictResult
                 }
                 else
                 {
-
                     valArr.Add(longVal);
                     valArr.Add(huVal);
                 }
-
             }
             return valArr;
         }

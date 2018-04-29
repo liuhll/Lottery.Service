@@ -1,11 +1,8 @@
-﻿using System;
-using ENode.Commanding;
-using ENode.Infrastructure;
-using Lottery.Core.Domain.NormConfigs;
+﻿using ENode.Infrastructure;
 
 namespace Lottery.CommandHandlers
 {
-    public class PlanCommandHandler 
+    public class PlanCommandHandler
     {
         private readonly ILockService _lockService;
 
@@ -13,7 +10,5 @@ namespace Lottery.CommandHandlers
         {
             _lockService = lockService;
         }
-
-      
     }
 }

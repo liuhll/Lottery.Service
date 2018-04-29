@@ -2,6 +2,8 @@
 {
     public class GoodsInfoDto
     {
+        public string Id { get; set; }
+
         public string AuthRankId { get; set; }
         public string GoodName { get; set; }
 
@@ -11,8 +13,8 @@
 
         public string Title { get; set; }
 
-        public double Price { get; set; }
+        public double UnitPrice { get; set; }
 
-       // public double Discount { get; set; } = 1.00;
+        // public double Discount { get; set; } = 1.00;
     }
 }

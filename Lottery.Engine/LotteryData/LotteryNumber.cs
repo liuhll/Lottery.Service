@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Lottery.Dtos.Lotteries;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lottery.Dtos.Lotteries;
 
 namespace Lottery.Engine.LotteryData
 {
@@ -16,7 +16,8 @@ namespace Lottery.Engine.LotteryData
             _datas = _lotteryData.Data.Split(',').Select(p => Convert.ToInt32(p)).ToArray();
         }
 
-        public LotteryDataDto LotteryData {
+        public LotteryDataDto LotteryData
+        {
             get { return _lotteryData; }
         }
 
@@ -25,11 +26,13 @@ namespace Lottery.Engine.LotteryData
             get { return _datas[position - 1]; }
         }
 
-        public int[] Datas {
+        public int[] Datas
+        {
             get { return _datas; }
         }
 
-        public int Period {
+        public int Period
+        {
             get { return _lotteryData.Period; }
         }
 

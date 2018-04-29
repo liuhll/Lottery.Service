@@ -1,12 +1,11 @@
-﻿using System;
-using ENode.Domain;
-using Lottery.Core.Domain.UserInfos;
+﻿using ENode.Domain;
+using System;
 
 namespace Lottery.Core.Domain.LogonLog
 {
     public class ConLog : AggregateRoot<string>
     {
-        public ConLog(string id,int clientNo,string systemTypeId,string ip,string userId,DateTime invalidTime,string createBy) : base(id)
+        public ConLog(string id, int clientNo, string systemTypeId, string ip, string userId, DateTime invalidTime, string createBy) : base(id)
         {
             UserId = userId;
             UpdateTokenCount = 0;
@@ -16,7 +15,7 @@ namespace Lottery.Core.Domain.LogonLog
             SystemTypeId = systemTypeId;
             InvalidTime = invalidTime;
             CreateTime = DateTime.Now;
-            ApplyEvent(new AddConLogEvent(UserId,ClientNo, SystemTypeId, Ip,InvalidTime, CreateBy));           
+            ApplyEvent(new AddConLogEvent(UserId, ClientNo, SystemTypeId, Ip, InvalidTime, CreateBy));
         }
 
         public string UserId { get; private set; }
@@ -48,14 +47,14 @@ namespace Lottery.Core.Domain.LogonLog
         public void UpdateToken(DateTime invalidTime, string updateBy)
         {
             UpdateTokenCount = UpdateTokenCount + 1;
-            ApplyEvent(new UpdateTokenEvent(invalidTime, UpdateTokenCount, updateBy));         
+            ApplyEvent(new UpdateTokenEvent(invalidTime, UpdateTokenCount, updateBy));
         }
 
         public void Logout(string updateBy)
         {
             LogoutTime = DateTime.Now;
             OnlineTime = (int)(LogoutTime - LoginTime).TotalSeconds;
-            ApplyEvent(new LogoutEvent(updateBy,LogoutTime, OnlineTime));
+            ApplyEvent(new LogoutEvent(updateBy, LogoutTime, OnlineTime));
         }
 
         #region hander event
@@ -89,8 +88,6 @@ namespace Lottery.Core.Domain.LogonLog
             UpdateTime = evt.Timestamp;
         }
 
-        #endregion
-
-
+        #endregion hander event
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lottery.AppService.Authorize;
+using Lottery.Infrastructure.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -6,8 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using Lottery.AppService.Authorize;
-using Lottery.Infrastructure.Enums;
 
 namespace Lottery.WebApi.Authorization
 {
@@ -17,13 +17,11 @@ namespace Lottery.WebApi.Authorization
     /// </summary>
     public class SystemTypeAuthorizationFilter : LotteryBaseAuthorizeFilter
     {
-        
         /// <summary>
         /// 系统客户端类型授权过滤器
         /// </summary>
-        public SystemTypeAuthorizationFilter() :base()
+        public SystemTypeAuthorizationFilter() : base()
         {
-            
         }
 
         public override async Task<HttpResponseMessage> ExecuteAuthorizationFilterAsync(HttpActionContext actionContext, CancellationToken cancellationToken,
@@ -34,7 +32,7 @@ namespace Lottery.WebApi.Authorization
             {
                 return await continuation();
             }
-            // 获取所有允许的客户端类型         
+            // 获取所有允许的客户端类型
             var allowedClientTypes = GetAllowedClientTypes(actionContext);
             // 如果未指定，则默认允许所有的客户端
             if (!allowedClientTypes.Any())
@@ -42,11 +40,11 @@ namespace Lottery.WebApi.Authorization
                 return await continuation();
             }
             // 如果允许了该客户端
-            if (allowedClientTypes.Any(p=> p == _lotterySession.SystemType))
+            if (allowedClientTypes.Any(p => p == _lotterySession.SystemType))
             {
                 return await continuation();
             }
-            return CreateUnAuthorizedResponse(actionContext, GetUnAuthorizedErrorMessage(GetUnAuthorizedStatusCode(actionContext),allowedClientTypes));
+            return CreateUnAuthorizedResponse(actionContext, GetUnAuthorizedErrorMessage(GetUnAuthorizedStatusCode(actionContext), allowedClientTypes));
         }
 
         protected virtual ICollection<SystemType> GetAllowedClientTypes(HttpActionContext actionContext)
@@ -70,6 +68,5 @@ namespace Lottery.WebApi.Authorization
                 .ToList();
             return allowedClientTypes;
         }
-
     }
 }

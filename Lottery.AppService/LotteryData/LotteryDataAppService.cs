@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using ECommon.Components;
-using ECommon.Extensions;
+﻿using ECommon.Components;
 using Lottery.AppService.Predict;
 using Lottery.Dtos.Lotteries;
 using Lottery.Engine.LotteryData;
 using Lottery.Engine.TimeRule;
-using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Predicts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace Lottery.AppService.LotteryData
 {
     [Component]
     public class LotteryDataAppService : ILotteryDataAppService
     {
-        private readonly ILotteryDataQueryService _lotteryDataQueryService;       
+        private readonly ILotteryDataQueryService _lotteryDataQueryService;
         private readonly INormConfigQueryService _normConfigQueryService;
         private readonly ILotteryPredictDataService _lotteryPredictDataService;
         private readonly ILotteryFinalDataQueryService _lotteryFinalDataQueryService;
@@ -27,7 +25,7 @@ namespace Lottery.AppService.LotteryData
 
         public LotteryDataAppService(
             ILotteryDataQueryService lotteryDataQueryService,
-            INormConfigQueryService normConfigQueryService, 
+            INormConfigQueryService normConfigQueryService,
             ILotteryPredictDataService lotteryPredictDataService,
             ILotteryFinalDataQueryService lotteryFinalDataQueryService,
             ILotteryQueryService lotteryQueryService,
@@ -81,7 +79,7 @@ namespace Lottery.AppService.LotteryData
             foreach (var userNorm in userNorms)
             {
                 var planInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
-                _predictService.DeleteHistoryPredictDatas(planInfo.LotteryInfo.LotteryCode, planInfo.PlanNormTable,userNorm.LookupPeriodCount,userNorm.PlanCycle);
+                _predictService.DeleteHistoryPredictDatas(planInfo.LotteryInfo.LotteryCode, planInfo.PlanNormTable, userNorm.LookupPeriodCount, userNorm.PlanCycle);
                 Thread.Sleep(200);
                 userNorm.HistoryCount = random.Next(1, 10) * userNorm.HistoryCount;
                 userNorm.UnitHistoryCount = random.Next(1, 10) * userNorm.UnitHistoryCount;
@@ -96,7 +94,7 @@ namespace Lottery.AppService.LotteryData
             var finalLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
             var predictPeroid = finalLotteryData.FinalPeriod + 1;
             var predictDatas = new List<PredictDataDto>();
-            
+
             var userNorm = _normConfigQueryService.GetUserNormConfig(normId);
             var planInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
             _predictService.DeleteHistoryPredictDatas(planInfo.LotteryInfo.LotteryCode, planInfo.PlanNormTable, userNorm.LookupPeriodCount, userNorm.PlanCycle);
@@ -116,16 +114,15 @@ namespace Lottery.AppService.LotteryData
             {
                 datas = _lotteryDataQueryService.GetLotteryDatas(lotteryId, lotteryTime.Value);
             }
-           
-            return datas;
 
+            return datas;
         }
 
         public FinalLotteryDataOutput GetFinalLotteryData(string lotteryId)
         {
             var lotteryInfo = _lotteryQueryService.GetLotteryInfoById(lotteryId);
             var finalData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
-           // var todayActLotteryCount = finalData.FinalPeriod - finalData.TodayFirstPeriod + 1;
+            // var todayActLotteryCount = finalData.FinalPeriod - finalData.TodayFirstPeriod + 1;
             var lotteryTimerManager = new TimeRuleManager(lotteryInfo);
 
             var finalLotteryDataOutput = new FinalLotteryDataOutput()
@@ -133,10 +130,10 @@ namespace Lottery.AppService.LotteryData
                 Period = finalData.FinalPeriod,
                 Data = finalData.Data,
                 LotteryTime = finalData.LotteryTime,
-              //  NextLotteryTime = lotteryTimerManager.NextLotteryTime().Value,
+                //  NextLotteryTime = lotteryTimerManager.NextLotteryTime().Value,
                 NextPeriod = finalData.FinalPeriod + 1,
             };
-         
+
             if (lotteryTimerManager.FinalPeriodIsLottery(finalData))
             {
                 finalLotteryDataOutput.IsLotteryData = true;
@@ -147,7 +144,6 @@ namespace Lottery.AppService.LotteryData
                     var intervalTime = nextLotteryTime - DateTime.Now;
                     finalLotteryDataOutput.RemainSeconds = (int)intervalTime.TotalSeconds;
                 }
-
             }
             else
             {
@@ -155,24 +151,20 @@ namespace Lottery.AppService.LotteryData
                 finalLotteryDataOutput.RemainSeconds = 0;
             }
             return finalLotteryDataOutput;
-
         }
 
         public LotteryDataDto GetLotteryData(string lotteryInfoId, int currentPredictPeriod)
         {
-            return GetList(lotteryInfoId,null).First(p => p.Period == currentPredictPeriod);
+            return GetList(lotteryInfoId, null).First(p => p.Period == currentPredictPeriod);
         }
-
 
         #region 私有方法
+
         private IEnumerable<PredictDataDto> PredictNormData(LotteryInfoDto lotteryInfo, NormConfigDto userNorm, int predictPeroid, bool isSwitchFormula = false)
         {
-            return _lotteryPredictDataService.PredictNormData(lotteryInfo.Id, userNorm, predictPeroid,lotteryInfo.LotteryCode, isSwitchFormula);
+            return _lotteryPredictDataService.PredictNormData(lotteryInfo.Id, userNorm, predictPeroid, lotteryInfo.LotteryCode, isSwitchFormula);
         }
 
-
-        #endregion
-
-
+        #endregion 私有方法
     }
 }

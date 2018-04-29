@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Lottery.WebApi.Result.Models
+﻿namespace Lottery.WebApi.Result.Models
 {
     //[Serializable]
     public class ErrorInfo
@@ -23,13 +18,11 @@ namespace Lottery.WebApi.Result.Models
         /// </summary>
         public string Details { get; set; }
 
-
         /// <summary>
         /// Creates a new instance of <see cref="ErrorInfo"/>.
         /// </summary>
         private ErrorInfo()
         {
-
         }
 
         /// <summary>

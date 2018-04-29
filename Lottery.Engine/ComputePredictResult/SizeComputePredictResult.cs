@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Lottery.Dtos.Lotteries;
 using System.Collections.Generic;
 using System.Linq;
-using Lottery.Dtos.Lotteries;
-using Lottery.Infrastructure.Enums;
-using Lottery.Infrastructure.Extensions;
 
 namespace Lottery.Engine.ComputePredictResult
 {
@@ -11,10 +8,10 @@ namespace Lottery.Engine.ComputePredictResult
     {
         private const string bigVal = "大";
         private const string smallVal = "小";
+
         public SizeComputePredictResult(IDictionary<int, double> predictedDataRate) : base(predictedDataRate)
         {
         }
-
 
         protected override ICollection<string> GetPredictedDataList(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
         {
@@ -41,7 +38,6 @@ namespace Lottery.Engine.ComputePredictResult
             {
                 perdictedVal.Add(smallVal);
                 perdictedVal.Add(bigVal);
-
             }
             return perdictedVal.ToList();
         }

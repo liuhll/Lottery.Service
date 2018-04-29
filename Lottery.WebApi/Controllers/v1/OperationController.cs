@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Lottery.AppService.Operations;
 using Lottery.AppService.Validations.Opinions;
 using Lottery.Commands.OpinionRecords;
@@ -18,6 +13,13 @@ using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.AppInfos;
 using Lottery.QueryServices.Points;
+using Lottery.QueryServices.UserInfos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -28,18 +30,21 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly IOnlineHelpAppService _onlineHelpAppService;
         private readonly IAppInfoQueryService _appInfoQueryService;
         private readonly IPointQueryService _pointQueryService;
+        private readonly IUserInfoService _userInfoService;
 
         public OperationController(ICommandService commandService,
             OpinionInputValidtor opinionInputValidtor,
             IOnlineHelpAppService onlineHelpAppService,
-            IAppInfoQueryService appInfoQueryService, 
-            IPointQueryService pointQueryService) 
+            IAppInfoQueryService appInfoQueryService,
+            IPointQueryService pointQueryService,
+            IUserInfoService userInfoService)
             : base(commandService)
         {
             _opinionInputValidtor = opinionInputValidtor;
             _onlineHelpAppService = onlineHelpAppService;
             _appInfoQueryService = appInfoQueryService;
             _pointQueryService = pointQueryService;
+            _userInfoService = userInfoService;
         }
 
         [Route("activity")]
@@ -58,13 +63,13 @@ namespace Lottery.WebApi.Controllers.v1
         [AllowAnonymous]
         public async Task<string> CreateOpinion(OpinionInput input)
         {
-            var validResult =await _opinionInputValidtor.ValidateAsync(input);
+            var validResult = await _opinionInputValidtor.ValidateAsync(input);
             if (!validResult.IsValid)
             {
                 throw new LotteryDataException(validResult.Errors.First().ErrorMessage);
             }
             await SendCommandAsync(new AddOpinionRecordCommand(Guid.NewGuid().ToString(), input.OpinionType,
-                input.Content, input.Platform, input.ContactWay, _lotterySession.UserId)); 
+                input.Content, input.Platform, input.ContactWay, _lotterySession.UserId));
             return "您的意见意见被收录,感谢您的反馈!";
         }
 
@@ -119,15 +124,15 @@ namespace Lottery.WebApi.Controllers.v1
                 PointType.Signed, PointOperationType.Increase, sinedNotes, _lotterySession.UserId));
 
             var signeds = _pointQueryService.GetUserLastSined(_lotterySession.UserId);
-            if (signeds != null && signeds.CurrentPeriodEndDate.Date == DateTime.Now.Date && signeds.DurationDays!=0 && signeds.DurationDays % LotteryConstants.ContinuousSignedDays == 0)
+            if (signeds != null && signeds.CurrentPeriodEndDate.Date == DateTime.Now.Date && signeds.DurationDays != 0 && signeds.DurationDays % LotteryConstants.ContinuousSignedDays == 0)
             {
                 var signAdditionalPointInfo = _pointQueryService.GetPointInfoByType(PointType.SignAdditional);
                 var signAdditionalNotes = $"{DateTime.Now.ToString("yyyy-MM-dd")}日,连续签到五日,获得额外{signAdditionalPointInfo.Point}点积分";
                 await SendCommandAsync(new AddPointRecordCommand(Guid.NewGuid().ToString(), signAdditionalPointInfo.Point,
                     PointType.SignAdditional, PointOperationType.Increase, signAdditionalNotes, _lotterySession.UserId));
             }
-
-            return SignedInfo();
+            Thread.Sleep(200);
+            return await SignedInfo();
         }
 
         /// <summary>
@@ -137,7 +142,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpGet]
         [Route("signedinfo")]
         [AllowAnonymous]
-        public SignedInfoOutput SignedInfo()
+        public async Task<SignedInfoOutput> SignedInfo()
         {
             var output = new SignedInfoOutput()
             {
@@ -145,16 +150,23 @@ namespace Lottery.WebApi.Controllers.v1
                 TodayIsSiged = false,
             };
             var todaySignedInfo = _pointQueryService.GetTodaySigned(_lotterySession.UserId);
-            if (todaySignedInfo !=null)
+            if (todaySignedInfo != null)
             {
                 output.TodayIsSiged = true;
             }
             var signeds = _pointQueryService.GetUserLastSined(_lotterySession.UserId);
             if (signeds != null)
             {
-                output.DurationDays = signeds.DurationDays;
+                // output.DurationDays = signeds.DurationDays;
                 output.LastSignedTime = signeds.CurrentPeriodEndDate;
+                var ts = DateTime.Now - signeds.CurrentPeriodEndDate;
+                if (ts.Days <= 1)
+                {
+                    output.DurationDays = signeds.DurationDays;
+                }
             }
+            var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
+            output.Points = userInfo.Points;
             return output;
         }
 
@@ -167,7 +179,7 @@ namespace Lottery.WebApi.Controllers.v1
         [AllowAnonymous]
         public ICollection<PointRecordOutput> SignedList()
         {
-            return  _pointQueryService.GetSignedList(_lotterySession.UserId);
+            return _pointQueryService.GetSignedList(_lotterySession.UserId);
         }
     }
 }

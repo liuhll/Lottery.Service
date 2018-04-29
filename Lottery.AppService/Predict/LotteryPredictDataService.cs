@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Extensions;
 using ECommon.Logging;
 using Lottery.Dtos.Lotteries;
@@ -13,6 +10,9 @@ using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Logs;
 using Lottery.QueryServices.Lotteries;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.AppService.Predict
 {
@@ -70,7 +70,7 @@ namespace Lottery.AppService.Predict
             PredictDataDto lastPredictData;
             bool isNewPredict;
 
-            var lastPredictPeriod = GetLastPredictNormPeriod(lotteryId, userNorm,lotteryCode,out lastPredictData,out isNewPredict);
+            var lastPredictPeriod = GetLastPredictNormPeriod(lotteryId, userNorm, lotteryCode, out lastPredictData, out isNewPredict);
             int startPredict;
             if (!isNewPredict)
             {
@@ -90,14 +90,10 @@ namespace Lottery.AppService.Predict
                     startPredict = i + 1;
                     var thispredictData = PredictAppointedPeroidNormData(lotteryId, startPredict, userNorm, isSwitchFormula);
                     predictDataResult.Add(startPredict, thispredictData);
-
                 }
-
             }
             return predictDataResult.Values;
-
         }
-
 
         #region private Methods
 
@@ -145,7 +141,6 @@ namespace Lottery.AppService.Predict
                 var predictedResult = JudgePredictDataResult(lotteryId, startPeriodData, userNormConfig);
                 if (predictedResult == PredictedResult.Right)
                 {
-
                     startPeriodData.EndPeriod = period;
                     startPeriodData.PredictedResult = (int)PredictedResult.Right;
 
@@ -168,7 +163,6 @@ namespace Lottery.AppService.Predict
                 }
             }
         }
-
 
         private PredictDataDto PredictAppointedPeroidNormData(string lotteryId, int predictPeriod, NormConfigDto userNorm, bool isSwitchFormula = false)
         {
@@ -193,11 +187,11 @@ namespace Lottery.AppService.Predict
                 {
                     algorithmType = AlgorithmType.Mock;
                 }
-                
+
                 try
                 {
                     predictedDataRate = lotteryEngine.GetPerdictor(algorithmType)
-                        .Predictor(predictData, count, userNorm.UnitHistoryCount, userNorm.HistoryCount,new Tuple<int,int>(positionInfo.MinValue,positionInfo.MaxValue));
+                        .Predictor(predictData, count, userNorm.UnitHistoryCount, userNorm.HistoryCount, new Tuple<int, int>(positionInfo.MinValue, positionInfo.MaxValue));
                 }
                 catch (Exception e)
                 {
@@ -215,18 +209,17 @@ namespace Lottery.AppService.Predict
                     }
                 }
 
-                var computePredictResult = ComputePredictFatory.CreateComputePredictResult(normPlanInfo.PredictCode,predictedDataRate);
+                var computePredictResult = ComputePredictFatory.CreateComputePredictResult(normPlanInfo.PredictCode, predictedDataRate);
 
                 predictedData = computePredictResult.GetPredictedData(normPlanInfo, userNorm);
-                //predictedDataRate != null ? 
-                //GetPredictedDataByRate(predictedDataRate, normPlanInfo.DsType, userNorm) 
+                //predictedDataRate != null ?
+                //GetPredictedDataByRate(predictedDataRate, normPlanInfo.DsType, userNorm)
                 //: GetPredictedDataMock(normPlanInfo, userNorm);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
                 predictedData = GetPredictedDataMock(normPlanInfo, userNorm);
-
             }
             var predictDataInfo = new PredictDataDto()
             {
@@ -238,7 +231,6 @@ namespace Lottery.AppService.Predict
                 PredictedData = predictedData,
                 PredictedResult = (int)PredictedResult.Running,
                 PredictType = normPlanInfo.DsType,
-
             };
 
             return predictDataInfo;
@@ -246,8 +238,10 @@ namespace Lottery.AppService.Predict
 
         private int GetHistoryLotteryCount(NormConfigDto normConfig)
         {
-            var random = new Random(unchecked((int)DateTime.Now.Ticks));       
-            var r = random.Next(normConfig.UnitHistoryCount, normConfig.HistoryCount);
+            var random = new Random(unchecked((int)DateTime.Now.Ticks));
+            var min = Math.Min(normConfig.UnitHistoryCount, normConfig.HistoryCount);
+            var max = Math.Min(normConfig.UnitHistoryCount, normConfig.HistoryCount);
+            var r = random.Next(min, max);
             return r;
         }
 
@@ -265,7 +259,6 @@ namespace Lottery.AppService.Predict
             return result;
         }
 
-   
         private string GetPredictedDataByRate(IDictionary<int, double> predictedDataRate, PredictType dsType, NormConfigDto userNorm)
         {
             if (dsType == PredictType.Fix)
@@ -282,8 +275,7 @@ namespace Lottery.AppService.Predict
             }
         }
 
-      
-        private PredictedResult JudgePredictDataResult(string lotteryId,PredictDataDto startPeriodData, NormConfigDto userNormConfig)
+        private PredictedResult JudgePredictDataResult(string lotteryId, PredictDataDto startPeriodData, NormConfigDto userNormConfig)
         {
             var planInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
             var lotteryData = _lotteryDataQueryService.GetPredictPeriodData(lotteryId, startPeriodData.CurrentPredictPeriod);
@@ -296,7 +288,7 @@ namespace Lottery.AppService.Predict
             if (planInfo.PlanPosition == PlanPosition.Single)
             {
                 var postion = planInfo.PositionInfos.First().Position;
-               
+
                 var lotteryNumberData = GetLotteryNumberData(lotteryNumber, postion, normPlanInfo); //lotteryNumber[postion];
                 bool isRight;
                 if (normPlanInfo.PredictCode == PredictCodeDefinition.NumCode)
@@ -407,7 +399,7 @@ namespace Lottery.AppService.Predict
                     }
                 }
 
-                #endregion
+                #endregion 不定位预测结果判定正错
             }
             else
             {
@@ -438,7 +430,6 @@ namespace Lottery.AppService.Predict
                     return PredictedResult.Running;
                 }
             }
-            
         }
 
         private object GetLotteryNumberData(LotteryNumber lotteryNumber, int postion, PlanInfoDto planInfo)
@@ -450,6 +441,7 @@ namespace Lottery.AppService.Predict
                 case PredictCodeDefinition.NumCode:
                     lotteryData = lotteryNumber[postion].ToString();
                     break;
+
                 case PredictCodeDefinition.LhCode:
                     var firstVal = lotteryNumber[postion];
                     var secondVal = lotteryNumber[lotteryNumber.Datas.Length - postion + 1];
@@ -462,11 +454,13 @@ namespace Lottery.AppService.Predict
                         lotteryData = huVal;
                     }
                     break;
+
                 case PredictCodeDefinition.RankCode:
                     // lotteryData = valList[postion];
                     var lotteryRank = lotteryNumber.Datas.IndexOf(postion);
                     lotteryData = valList[lotteryRank];
                     break;
+
                 case PredictCodeDefinition.ShapeCode:
                     if (numData % 2 == 0)
                     {
@@ -478,6 +472,7 @@ namespace Lottery.AppService.Predict
                     }
 
                     break;
+
                 case PredictCodeDefinition.SizeCode:
                     var sizeCriticalVal = planInfo.PositionInfos.First().MaxValue / 2;
                     if (numData > sizeCriticalVal)
@@ -488,12 +483,10 @@ namespace Lottery.AppService.Predict
                     {
                         lotteryData = smallVal;
                     }
-                    break;  
-
+                    break;
             }
             return lotteryData;
         }
-
 
         private List<int> GetPredictData(PlanInfoDto normPlanInfo, LotteryDataList lotteryDataList)
         {
@@ -517,11 +510,10 @@ namespace Lottery.AppService.Predict
             return predictData;
         }
 
-
-        private int GetLastPredictNormPeriod(string lotteryId, NormConfigDto userNorm, string lotteryCode,out PredictDataDto lastPredictData, out bool isNewPredict)
+        private int GetLastPredictNormPeriod(string lotteryId, NormConfigDto userNorm, string lotteryCode, out PredictDataDto lastPredictData, out bool isNewPredict)
         {
             var normPlanInfo = _planInfoQueryService.GetPlanInfoById(userNorm.PlanId);
-            lastPredictData = _lotteryPredictDataQueryService.GetLastPredictData(userNorm.Id, normPlanInfo.PlanNormTable,lotteryCode);
+            lastPredictData = _lotteryPredictDataQueryService.GetLastPredictData(userNorm.Id, normPlanInfo.PlanNormTable, lotteryCode);
             var lastLotteryData = _lotteryFinalDataQueryService.GetFinalData(lotteryId);
             var predictCount = userNorm.PlanCycle * userNorm.LookupPeriodCount;
             var theoryStartPredictPreoid = lastLotteryData.FinalPeriod - predictCount;
@@ -538,6 +530,6 @@ namespace Lottery.AppService.Predict
             return theoryStartPredictPreoid;
         }
 
-        #endregion
+        #endregion private Methods
     }
 }

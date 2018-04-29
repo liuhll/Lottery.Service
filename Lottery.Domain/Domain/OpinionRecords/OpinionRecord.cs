@@ -1,12 +1,12 @@
-﻿using System;
-using ENode.Domain;
+﻿using ENode.Domain;
+using System;
 
 namespace Lottery.Core.Domain.OpinionRecords
 {
     public class OpinionRecord : AggregateRoot<string>
     {
-        public OpinionRecord(string id,int opinionType,string content,int platform,
-            string contactWay,string createBy) : base(id)
+        public OpinionRecord(string id, int opinionType, string content, int platform,
+            string contactWay, string createBy) : base(id)
         {
             OpinionType = opinionType;
             Content = content;
@@ -15,7 +15,7 @@ namespace Lottery.Core.Domain.OpinionRecords
             CreateBy = createBy;
             CreateTime = DateTime.Now;
             Status = 0;
-            ApplyEvent(new AddOpinionRecordEvent(opinionType,content,platform,contactWay,createBy, Status));
+            ApplyEvent(new AddOpinionRecordEvent(opinionType, content, platform, contactWay, createBy, Status));
         }
 
         public int OpinionType { get; private set; }
@@ -61,6 +61,6 @@ namespace Lottery.Core.Domain.OpinionRecords
             Status = evt.Status;
         }
 
-        #endregion
+        #endregion handle
     }
 }

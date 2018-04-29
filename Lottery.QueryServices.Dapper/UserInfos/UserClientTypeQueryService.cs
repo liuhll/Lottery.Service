@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Account;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.UserInfos;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.UserInfos
 {
     [Component]
-    public class UserClientTypeQueryService : BaseQueryService,IUserClientTypeQueryService
+    public class UserClientTypeQueryService : BaseQueryService, IUserClientTypeQueryService
     {
         private readonly ICacheManager _cacheManager;
 

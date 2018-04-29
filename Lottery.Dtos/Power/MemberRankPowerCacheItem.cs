@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
+using System.Collections.Generic;
 
 namespace Lottery.Dtos.Power
 {
@@ -21,7 +21,7 @@ namespace Lottery.Dtos.Power
             RoleIds = new List<string>();
         }
 
-        public MemberRankPowerCacheItem(string lotteryId,MemberRank memberRank)
+        public MemberRankPowerCacheItem(string lotteryId, MemberRank memberRank)
             : this()
         {
             LotteryId = lotteryId;

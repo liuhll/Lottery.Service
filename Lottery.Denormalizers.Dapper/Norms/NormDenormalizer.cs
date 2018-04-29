@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using ECommon.Dapper;
+﻿using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Caching;
 using Lottery.Core.Domain.NormConfigs;
 using Lottery.Core.Domain.UserNormDefaultConfig;
 using Lottery.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper.Norms
 {
@@ -47,35 +47,32 @@ namespace Lottery.Denormalizers.Dapper.Norms
                     Id = evnt.AggregateRootId,
                     CreateBy = evnt.UserId,
                     CreateTime = evnt.Timestamp,
-
                 }, TableNameConstants.UserNormDefaultConfigTable);
             });
         }
 
         public Task<AsyncTaskResult> HandleAsync(UpdateUserNormDefaultConfigEvent evnt)
         {
-
             var redisKey = string.Format(RedisKeyConstants.LOTTERY_USERNORM_KEY, evnt.LotteryId, evnt.UserId);
             _cacheManager.Remove(redisKey);
             return TryUpdateRecordAsync(conn =>
             {
                 return conn.UpdateAsync(new
-                    {
-                        evnt.ExpectMaxScore,
-                        evnt.ExpectMinScore,
-                        evnt.LookupPeriodCount,
-                        evnt.MaxErrorSeries,
-                        evnt.MinErrorSeries,
-                        evnt.MaxRightSeries,
-                        evnt.MinRightSeries,
-                        evnt.PlanCycle,
-                        evnt.ForecastCount,
-                        evnt.UnitHistoryCount,
-                        evnt.HistoryCount,
-                        UpdateBy = evnt.UserId,
-                        UpdateTime = evnt.Timestamp,
-
-                    }, new {Id = evnt.AggregateRootId}, TableNameConstants.UserNormDefaultConfigTable
+                {
+                    evnt.ExpectMaxScore,
+                    evnt.ExpectMinScore,
+                    evnt.LookupPeriodCount,
+                    evnt.MaxErrorSeries,
+                    evnt.MinErrorSeries,
+                    evnt.MaxRightSeries,
+                    evnt.MinRightSeries,
+                    evnt.PlanCycle,
+                    evnt.ForecastCount,
+                    evnt.UnitHistoryCount,
+                    evnt.HistoryCount,
+                    UpdateBy = evnt.UserId,
+                    UpdateTime = evnt.Timestamp,
+                }, new { Id = evnt.AggregateRootId }, TableNameConstants.UserNormDefaultConfigTable
                 );
             });
         }
@@ -110,7 +107,6 @@ namespace Lottery.Denormalizers.Dapper.Norms
                     Id = evnt.AggregateRootId,
                     CreateBy = evnt.UserId,
                     CreateTime = evnt.Timestamp,
-
                 }, TableNameConstants.NormConfigTable);
             });
         }
@@ -124,7 +120,7 @@ namespace Lottery.Denormalizers.Dapper.Norms
             using (var conn = GetLotteryConnection())
             {
                 conn.Open();
-                await conn.DeleteAsync(new {Id = evnt.AggregateRootId}, TableNameConstants.NormConfigTable);
+                await conn.DeleteAsync(new { Id = evnt.AggregateRootId }, TableNameConstants.NormConfigTable);
             }
             return AsyncTaskResult.Success;
         }
@@ -152,8 +148,7 @@ namespace Lottery.Denormalizers.Dapper.Norms
                     HistoryCount = evnt.HistoryCount,
                     UpdateBy = evnt.UserId,
                     UpdateTime = evnt.Timestamp,
-
-                }, new {Id = evnt.AggregateRootId}, TableNameConstants.NormConfigTable);
+                }, new { Id = evnt.AggregateRootId }, TableNameConstants.NormConfigTable);
             });
         }
     }

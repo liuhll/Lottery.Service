@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Lottery.Infrastructure
+﻿namespace Lottery.Infrastructure
 {
     public class TableNameConstants
     {
@@ -45,5 +43,9 @@ namespace Lottery.Infrastructure
         public const string AppInfoTable = "B_AppInfo";
 
         public const string PointTypeTable = "MS_PointType";
+
+        public const string OrderdRecordTable = "S_OrderRecord";
+
+        public const string AuthorizeRecordTable = "S_AuthorizeRecord";
     }
 }

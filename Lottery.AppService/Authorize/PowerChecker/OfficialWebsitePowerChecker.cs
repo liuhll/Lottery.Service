@@ -1,7 +1,7 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.AppService.Account;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Lottery.AppService.Authorize
 {
@@ -31,7 +31,5 @@ namespace Lottery.AppService.Authorize
         {
             return await Task.FromResult(true);
         }
-
-     
     }
 }

@@ -9,7 +9,7 @@ namespace Lottery.Core.Domain.Points
         {
         }
 
-        public AddPointRecordEvent(int point, PointType pointType, PointOperationType operationType, string notes, string createBy) 
+        public AddPointRecordEvent(int point, PointType pointType, PointOperationType operationType, string notes, string createBy)
         {
             Point = point;
             PointType = pointType;
@@ -27,6 +27,5 @@ namespace Lottery.Core.Domain.Points
         public string Notes { get; private set; }
 
         public string CreateBy { get; private set; }
-
     }
 }

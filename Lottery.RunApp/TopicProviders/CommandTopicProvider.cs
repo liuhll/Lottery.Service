@@ -1,5 +1,4 @@
-﻿using ECommon.Components;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using ENode.EQueue;
 using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.LotteryPredicts;

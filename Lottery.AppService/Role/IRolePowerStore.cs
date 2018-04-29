@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Lottery.Dtos.Power;
+﻿using Lottery.Dtos.Power;
 using Lottery.Dtos.RoleDto;
+using System.Collections.Generic;
 
 namespace Lottery.AppService.Role
 {
     public interface IRolePowerStore
     {
-
         /// <summary>
         /// Gets permission grant setting informations for a role.
         /// </summary>
@@ -29,6 +27,5 @@ namespace Lottery.AppService.Role
         /// <param name="powerGrantInfo">Permission grant setting info</param>
         /// <returns></returns>
         bool HasPermission(string roleId, PowerGrantInfo powerGrantInfo);
-
     }
 }

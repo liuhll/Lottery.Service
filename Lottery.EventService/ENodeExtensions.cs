@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Reflection;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
 using EQueue.Clients.Consumers;
@@ -10,7 +7,7 @@ using EQueue.Configurations;
 using EQueue.Protocols;
 using Lottery.Core.Caching;
 using Lottery.Infrastructure;
-
+using System.Reflection;
 
 namespace Lottery.EventService
 {
@@ -33,7 +30,7 @@ namespace Lottery.EventService
             var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.RegisterEQueueComponents();
 
-            _commandService =new CommandService();
+            _commandService = new CommandService();
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
 
             return enodeConfiguration;
@@ -46,7 +43,7 @@ namespace Lottery.EventService
                 NameServerList = ServiceConfigSettings.NameServerEndpoints
             });
 
-            _eventConsumer = new DomainEventConsumer().Initialize(setting:new ConsumerSetting()
+            _eventConsumer = new DomainEventConsumer().Initialize(setting: new ConsumerSetting()
             {
                 NameServerList = ServiceConfigSettings.NameServerEndpoints,
                 ConsumeFromWhere = ConsumeFromWhere.LastOffset,

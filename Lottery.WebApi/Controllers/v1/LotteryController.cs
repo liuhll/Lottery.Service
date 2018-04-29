@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Web.Http;
-using ECommon.Extensions;
+﻿using ECommon.Extensions;
 using ENode.Commanding;
 using Lottery.AppService.LotteryData;
 using Lottery.AppService.Plan;
@@ -15,6 +10,12 @@ using Lottery.Dtos.PageList;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Lotteries;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Web.Http;
+using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -29,12 +30,12 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly ICacheManager _cacheManager;
 
         public LotteryController(ILotteryDataAppService lotteryDataAppService,
-            ICommandService commandService, 
-            INormConfigQueryService normConfigQueryService, 
-            ILotteryPredictDataQueryService lotteryPredictDataQueryService, 
+            ICommandService commandService,
+            INormConfigQueryService normConfigQueryService,
+            ILotteryPredictDataQueryService lotteryPredictDataQueryService,
             IPlanTrackAppService planTrackAppService,
             ILotteryQueryService lotteryQueryService,
-            ICacheManager cacheManager) 
+            ICacheManager cacheManager)
             : base(commandService)
         {
             _lotteryDataAppService = lotteryDataAppService;
@@ -60,7 +61,6 @@ namespace Lottery.WebApi.Controllers.v1
             return GetPlanTrackNumberByPredictData(lotteryId, data);
         }
 
-  
         /// <summary>
         /// 切换公式接口(变更计划追号)
         /// </summary>
@@ -68,6 +68,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpPut]
         [Route("predictdatas")]
         [AllowAnonymous]
+        [AppAuthFilter("您没有切换计划公式的权限,是否购买授权?")]
         public ICollection<PlanTrackNumber> UpdatePredictDatas()
         {
             var lotteryId = _lotterySession.SystemTypeId;
@@ -83,6 +84,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpPut]
         [Route("predictdata")]
         [AllowAnonymous]
+        [AppAuthFilter("您没有切换计划公式的权限,是否购买授权?")]
         public string UpdatePredictData(UpdatePredictDataInput input)
         {
             var lotteryId = _lotterySession.SystemTypeId;
@@ -102,9 +104,8 @@ namespace Lottery.WebApi.Controllers.v1
         [Route("predictdetaildata")]
         public PlanTrackDetail GetPredictDetailData(string normId)
         {
-            return GetPredictDetailDatas().First(p=>p.NormId == normId);
+            return GetPredictDetailDatas().First(p => p.NormId == normId);
         }
-
 
         /// <summary>
         /// 计划追号详情(All)
@@ -118,8 +119,8 @@ namespace Lottery.WebApi.Controllers.v1
             var userNormConfigs =
                 _normConfigQueryService.GetUserOrDefaultNormConfigs(LotteryInfo.Id, _lotterySession.UserId);
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
-            
-            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_PLANTRACK_DETAIL_KEY, LotteryInfo.Id, _lotterySession.MemberRank == MemberRank.Ordinary ? LotteryConstants.SystemUser : _lotterySession.UserId, finalLotteryData.Period);
+
+            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_PLANTRACK_DETAIL_KEY, LotteryInfo.Id, _userMemberRank == MemberRank.Ordinary ? LotteryConstants.SystemUser : _lotterySession.UserId, finalLotteryData.Period);
             return _cacheManager.Get<ICollection<PlanTrackDetail>>(cacheKey, () =>
             {
                 var predictDetailDatas = new List<PlanTrackDetail>();
@@ -142,12 +143,11 @@ namespace Lottery.WebApi.Controllers.v1
 
                 return predictDetailDatas.OrderBy(p => p.Sort).ToList();
             });
-      
         }
 
         /// <summary>
         /// 获取历史开奖数据
-        /// </summary>     
+        /// </summary>
         /// <param name="pageIndex">分页数</param>
         /// <param name="lotteryTime">开奖的时间</param>
         /// <returns>开奖数据</returns>
@@ -156,8 +156,8 @@ namespace Lottery.WebApi.Controllers.v1
         public IPageList<LotteryDataDto> List(int pageIndex = 1, DateTime? lotteryTime = null)
         {
             var lotteryId = _lotterySession.SystemTypeId;
-            var list = _lotteryDataAppService.GetList(lotteryId,lotteryTime);
-            return new DefaultPageList<LotteryDataDto>(list,pageIndex);
+            var list = _lotteryDataAppService.GetList(lotteryId, lotteryTime);
+            return new DefaultPageList<LotteryDataDto>(list, pageIndex);
         }
 
         /// <summary>
@@ -185,20 +185,18 @@ namespace Lottery.WebApi.Controllers.v1
             return AutoMapper.Mapper.Map<ICollection<LotteryInfoOutput>>(lotteryInfos);
         }
 
+        #region private methods
 
-        #region private methods 
-
-        private int[] GetHistoryPredictResults(IOrderedEnumerable<PredictDataDto> predictDatas,string normId,int lookupPeriodCount,string planNormTable)
+        private int[] GetHistoryPredictResults(IOrderedEnumerable<PredictDataDto> predictDatas, string normId, int lookupPeriodCount, string planNormTable)
         {
             var historyPredictResults = new List<int>();
             ICollection<PredictDataDto> dbPredictResultData = null;
-            var notRunningResult = predictDatas.Where(p => p.PredictedResult != 2).OrderByDescending(p=>p.CurrentPredictPeriod).ToList();
+            var notRunningResult = predictDatas.Where(p => p.PredictedResult != 2).OrderByDescending(p => p.CurrentPredictPeriod).ToList();
             var notRunningResultCount = notRunningResult.Count();
             if (notRunningResultCount < lookupPeriodCount)
             {
                 dbPredictResultData =
                     _lotteryPredictDataQueryService.GetNormHostoryPredictDatas(normId, planNormTable, lookupPeriodCount - notRunningResultCount, LotteryInfo.LotteryCode);
-
             }
             var count = 0;
             foreach (var item in notRunningResult)
@@ -236,7 +234,6 @@ namespace Lottery.WebApi.Controllers.v1
                     predictData.PredictedResult, currentScore,
                     _lotterySession.UserId, planInfo.PlanNormTable, LotteryInfo.LotteryCode, false));
             }
-
         }
 
         private ICollection<PlanTrackNumber> GetPlanTrackNumberByPredictData(string lotteryId, IList<PredictDataDto> data)
@@ -272,7 +269,6 @@ namespace Lottery.WebApi.Controllers.v1
             return planTrackNumbers.OrderBy(p => p.Sort).ToList();
         }
 
-
-        #endregion
+        #endregion private methods
     }
 }

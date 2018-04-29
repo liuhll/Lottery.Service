@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.AuthRanks;
+﻿using Lottery.Dtos.AuthRanks;
 using Lottery.Infrastructure.Enums;
+using System.Collections.Generic;
 
 namespace Lottery.QueryServices.AuthRanks
 {

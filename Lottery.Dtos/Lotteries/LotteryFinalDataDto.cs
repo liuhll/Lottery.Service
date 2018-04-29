@@ -35,6 +35,5 @@ namespace Lottery.Dtos.Lotteries
         /// 开奖时间
         /// </summary>
         public DateTime LotteryTime { get; set; }
-
     }
 }

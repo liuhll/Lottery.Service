@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.Power;
+﻿using Lottery.Dtos.Power;
+using System.Collections.Generic;
 
 namespace Lottery.AppService.Account
 {
@@ -19,6 +19,5 @@ namespace Lottery.AppService.Account
         /// <param name="permissionGrant">Permission grant setting info</param>
         /// <returns></returns>
         bool HasPermission(string userId, PowerGrantInfo permissionGrant);
-
     }
 }

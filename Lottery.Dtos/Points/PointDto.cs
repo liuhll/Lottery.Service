@@ -9,6 +9,5 @@ namespace Lottery.Dtos.Points
         public int Point { get; set; }
 
         public string Notes { get; set; }
-
     }
 }

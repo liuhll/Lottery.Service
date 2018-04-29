@@ -1,22 +1,21 @@
-﻿using System;
+﻿using FluentScheduler;
+using Lottery.RunApp.Jobs;
+using System;
 using System.Linq;
 using System.Threading;
-using ECommon.Socketing;
-using FluentScheduler;
-using Lottery.RunApp.Jobs;
 using Topshelf;
 
 namespace Lottery.RunApp
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             int minWorker, minIOC;
             // Get the current settings.
             ThreadPool.GetMinThreads(out minWorker, out minIOC);
             // Change the minimum number of worker threads to four, but
-            // keep the old setting for minimum asynchronous I/O 
+            // keep the old setting for minimum asynchronous I/O
             // completion threads.
             ThreadPool.SetMinThreads(250, minIOC);
 
@@ -24,7 +23,6 @@ namespace Lottery.RunApp
             {
                 HostFactory.Run(x =>
                 {
-
                     x.Service<LotteryAppCrier>(s =>
                     {
                         Bootstrap.InitializeFramework();
@@ -45,7 +43,7 @@ namespace Lottery.RunApp
             }
             else
             {
-                Bootstrap.InitializeFramework();               
+                Bootstrap.InitializeFramework();
                 Bootstrap.InitializePredictTable();
                 JobManager.Initialize(new JobFactory());
                 Bootstrap.Start();
@@ -58,6 +56,7 @@ namespace Lottery.RunApp
                         case "cls":
                             Console.Clear();
                             break;
+
                         default:
                             return;
                     }

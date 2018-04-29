@@ -1,12 +1,7 @@
-﻿using System;
-using FluentScheduler;
-using Lottery.Crawler;
-
-namespace Lottery.RunApp.Jobs
+﻿namespace Lottery.RunApp.Jobs
 {
     public class BjpksJob : RunLotteryAbstractJob
     {
-   
         public BjpksJob()
         {
         }
@@ -18,7 +13,6 @@ namespace Lottery.RunApp.Jobs
 
         protected override void PostinItialize()
         {
-            
         }
     }
 }

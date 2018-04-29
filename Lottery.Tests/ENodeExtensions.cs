@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Threading;
-using ECommon.Components;
-using ECommon.Extensions;
+﻿using ECommon.Components;
 using ECommon.Logging;
 using ECommon.Scheduling;
 using ENode.Commanding;
@@ -24,6 +17,11 @@ using Lottery.Crawler;
 using Lottery.Engine;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Mail;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Threading;
 
 namespace Lottery.Tests
 {
@@ -61,7 +59,6 @@ namespace Lottery.Tests
 
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
-  
             var nameServerSetting = new NameServerSetting()
             {
                 BindingAddress = ServiceConfigSettings.NameServerAddress
@@ -77,7 +74,6 @@ namespace Lottery.Tests
             var brokerSetting = new BrokerSetting(false, brokerStorePath)
             {
                 NameServerList = ServiceConfigSettings.NameServerEndpoints,
-                
             };
 
             brokerSetting.BrokerInfo.ProducerAddress = ServiceConfigSettings.BrokerProducerServiceAddress;
@@ -132,6 +128,7 @@ namespace Lottery.Tests
 
             return enodeConfiguration;
         }
+
         public static ENodeConfiguration ShutdownEQueue(this ENodeConfiguration enodeConfiguration)
         {
             _commandService.Shutdown();

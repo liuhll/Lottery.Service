@@ -1,6 +1,6 @@
-﻿using System;
+﻿using StackExchange.Redis;
+using System;
 using System.Net;
-using StackExchange.Redis;
 
 namespace Lottery.Core.Caching
 {
@@ -11,7 +11,6 @@ namespace Lottery.Core.Caching
 
         private volatile ConnectionMultiplexer _connection;
         private readonly object _lock = new object();
-
 
         public RedisConnectionWrapper(string redisConfigString)
         {
@@ -44,9 +43,6 @@ namespace Lottery.Core.Caching
 
             return _connection;
         }
-
-
-
 
         public IDatabase Database(int? db = null)
         {

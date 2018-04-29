@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Dapper;
 using ECommon.Extensions;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Menbers;
 using Lottery.Infrastructure;
-using Lottery.Infrastructure.Collections;
 using Lottery.QueryServices.Operations;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.Operations
 {
@@ -25,7 +24,7 @@ namespace Lottery.QueryServices.Dapper.Operations
 
         public MemberInfoDto GetUserMenberInfo(string userId, string lotteryId)
         {
-            return GetMenberInfos(lotteryId).Safe().FirstOrDefault(p=> p.UserId == userId);
+            return GetMenberInfos(lotteryId).Safe().FirstOrDefault(p => p.UserId == userId);
         }
 
         public ICollection<MemberInfoDto> GetMenberInfos(string lotteryId)
@@ -39,9 +38,8 @@ namespace Lottery.QueryServices.Dapper.Operations
                     {
                         LotteryId = lotteryId,
                         // Status = 0,
-                    }, TableNameConstants.MemberTable).Safe().Where(p=>p.InvalidDate >= DateTime.Now).ToList();
+                    }, TableNameConstants.MemberTable).Safe().Where(p => p.InvalidDate >= DateTime.Now).ToList();
                 }
-
             });
         }
     }

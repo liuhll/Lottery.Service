@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Swashbuckle.Swagger;
+using System;
 using System.Linq;
 using System.Web.Http.Description;
-using Swashbuckle.Swagger;
 
 namespace Lottery.WebApi
 {
@@ -34,7 +34,6 @@ namespace Lottery.WebApi
                     if (customAttribute != null)
                     {
                         param.@default = customAttribute.Value;
-                      
                     }
                 }
             }

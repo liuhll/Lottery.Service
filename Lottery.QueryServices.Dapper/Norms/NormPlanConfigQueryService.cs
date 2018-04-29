@@ -1,16 +1,16 @@
-﻿using System.ComponentModel;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Norms;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Norms;
+using System.ComponentModel;
 
 namespace Lottery.QueryServices.Dapper.Norms
 {
     [Component]
-    public class NormPlanConfigQueryService : BaseQueryService,INormPlanConfigQueryService
+    public class NormPlanConfigQueryService : BaseQueryService, INormPlanConfigQueryService
     {
         private readonly ICacheManager _cacheManager;
 
@@ -43,7 +43,7 @@ namespace Lottery.QueryServices.Dapper.Norms
                     else
                     {
                         sql = @"SELECT TOP 1 * FROM [dbo].[L_NormPlanConfig] WHERE LotteryCode=@LotteryCode AND PredictCode=@PredictCode";
-                    }                 
+                    }
                     conn.Open();
                     return conn.QueryFirstOrDefault<NormPlanConfigDto>(sql, new
                     {

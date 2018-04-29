@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Lottery.Dtos.OnlineHelp;
 
 namespace Lottery.QueryServices.OnlineHelps
 {

@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using ENode.Configurations;
+﻿using ENode.Configurations;
 using ENode.EQueue;
 using ENode.Eventing;
 using ENode.Infrastructure;
@@ -9,6 +8,7 @@ using EQueue.Configurations;
 using EQueue.Protocols;
 using Lottery.Core.Caching;
 using Lottery.Infrastructure;
+using System.Reflection;
 
 namespace Lottery.CommandService
 {
@@ -43,12 +43,11 @@ namespace Lottery.CommandService
                 NameServerList = ServiceConfigSettings.NameServerEndpoints
             });
 
-            _commandConsumer = new CommandConsumer().Initialize(setting:new ConsumerSetting()
+            _commandConsumer = new CommandConsumer().Initialize(setting: new ConsumerSetting()
             {
                 NameServerList = ServiceConfigSettings.NameServerEndpoints,
                 ConsumeFromWhere = ConsumeFromWhere.LastOffset,
                 MessageHandleMode = MessageHandleMode.Parallel,
-
             });
 
             _commandConsumer
@@ -72,7 +71,6 @@ namespace Lottery.CommandService
                 new RedisCacheManager(new RedisConnectionWrapper(DataConfigSettings.RedisServiceAddress)));
             return enodeConfiguration;
         }
-
 
         public static ENodeConfiguration ShutdownEQueue(this ENodeConfiguration enodeConfiguration)
         {

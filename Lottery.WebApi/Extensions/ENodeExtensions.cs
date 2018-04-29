@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Reflection;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Socketing;
 using ENode.Commanding;
 using ENode.Configurations;
@@ -11,10 +9,11 @@ using Lottery.Core.Caching;
 using Lottery.Engine;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Mail;
-using Lottery.Infrastructure.Sms;
 using Lottery.Infrastructure.Tools;
 using Lottery.WebApi.Configration;
 using Lottery.WebApi.Configration.Mapper;
+using System.Net;
+using System.Reflection;
 
 namespace Lottery.WebApi.Extensions
 {
@@ -35,6 +34,7 @@ namespace Lottery.WebApi.Extensions
 
             return enodeConfiguration;
         }
+
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
             var commandResultPort = ConfigHelper.ValueInt("CommandResultPort");
@@ -64,7 +64,7 @@ namespace Lottery.WebApi.Extensions
         public static ENodeConfiguration UseRedisCache(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
-          
+
             configuration.SetDefault<ICacheManager, RedisCacheManager>(new RedisCacheManager(new RedisConnectionWrapper(DataConfigSettings.RedisServiceAddress)));
 
             return enodeConfiguration;

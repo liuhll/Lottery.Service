@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Web.Http.Controllers;
-using ECommon.Components;
-using ECommon.Extensions;
+﻿using ECommon.Extensions;
 using Lottery.WebApi.Configration;
 using Lottery.WebApi.Result;
+using System.Linq;
+using System.Web.Http.Controllers;
 
 namespace Lottery.WebApi.Dynamic
 {
@@ -27,7 +26,6 @@ namespace Lottery.WebApi.Dynamic
                 httpActionDescriptor.Properties["__LotteryApiDontWrapResultAttribute"] =
                     wrapResultAttributes.First().GetType();
             }
-
             else if (_lotteryApiConfiguration.SetDefaultWrapResult)
             {
                 httpActionDescriptor.Properties["__LotteryApiDontWrapResultAttribute"] =

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using AutoMapper.Attributes;
+﻿using AutoMapper.Attributes;
 using Lottery.Dtos.Power;
+using System.Collections.Generic;
 
 namespace Lottery.Dtos.Menus
 {

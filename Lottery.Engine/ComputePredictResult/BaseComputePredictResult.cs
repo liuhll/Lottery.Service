@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Lottery.Dtos.Lotteries;
+using Lottery.Infrastructure.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lottery.Dtos.Lotteries;
-using Lottery.Infrastructure.Enums;
-using Lottery.Infrastructure.Extensions;
 
 namespace Lottery.Engine.ComputePredictResult
 {
@@ -33,7 +32,6 @@ namespace Lottery.Engine.ComputePredictResult
                 var skipCount = random.Next(0, skipMaxCount);
                 return predictedDatas.Skip(skipCount).Take(userNorm.ForecastCount).ToSplitString();
             }
-
         }
     }
 }

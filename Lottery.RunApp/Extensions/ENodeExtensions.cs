@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Reflection;
-using ECommon.Socketing;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
 using EQueue.Clients.Producers;
@@ -10,6 +7,7 @@ using Lottery.Core.Caching;
 using Lottery.Crawler;
 using Lottery.Engine;
 using Lottery.Infrastructure;
+using System.Reflection;
 
 namespace Lottery.RunApp
 {
@@ -22,6 +20,7 @@ namespace Lottery.RunApp
             enodeConfiguration.GetCommonConfiguration().BuildContainer();
             return enodeConfiguration;
         }
+
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {
             var assemblies = new[] { Assembly.GetExecutingAssembly() };
@@ -35,9 +34,9 @@ namespace Lottery.RunApp
 
             return enodeConfiguration;
         }
+
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
-
             var commandResultProcessor = new CommandResultProcessor().Initialize(ServiceConfigSettings.CommandServiceprocessorAddress);
 
             _commandService.Initialize(commandResultProcessor, new ProducerSetting
@@ -74,7 +73,5 @@ namespace Lottery.RunApp
             EngineContext.Initialize();
             return enodeConfiguration;
         }
-
-
     }
 }

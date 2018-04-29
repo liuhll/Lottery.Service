@@ -5,7 +5,7 @@ namespace Lottery.Core.Domain.LotteryDatas
     [Serializable]
     public class LotteryDataInfo
     {
-        public LotteryDataInfo(string lotteryDataId,int period,string lotteryId,string data,DateTime lotteryTime)
+        public LotteryDataInfo(string lotteryDataId, int period, string lotteryId, string data, DateTime lotteryTime)
         {
             LotteryDataId = lotteryDataId;
             Period = period;
@@ -25,7 +25,6 @@ namespace Lottery.Core.Domain.LotteryDatas
 
         public DateTime LotteryTime { get; private set; }
 
-   
         public DateTime InsertTime { get; private set; }
     }
 }

@@ -1,24 +1,20 @@
-﻿
-
+﻿using ECommon.Components;
+using Lottery.QueryServices.Lotteries;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using ECommon.Components;
-using Lottery.Infrastructure;
-using Lottery.QueryServices.Lotteries;
 
 namespace Lottery.Crawler
 {
     public class DataUpdateContext
     {
-        static readonly IDictionary<string, IList<IDataUpdateItem>> _lotteryDataUpdateItems;
+        private static readonly IDictionary<string, IList<IDataUpdateItem>> _lotteryDataUpdateItems;
 
         static DataUpdateContext()
         {
             _lotteryDataUpdateItems = new Dictionary<string, IList<IDataUpdateItem>>();
         }
-
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static void Initialize()
@@ -42,7 +38,6 @@ namespace Lottery.Crawler
                             Activator.CreateInstance(dataUpdateItemType, new[] { dataSite }) as IDataUpdateItem;
                         _lotteryDataUpdateItems[lotteryInfo.Id].Add(dataUpdateItem);
                     }
-                  
                 }
             }
         }

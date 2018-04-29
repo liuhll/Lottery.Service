@@ -1,5 +1,5 @@
-﻿using System;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
+using System;
 
 namespace Lottery.Dtos.Auths
 {
@@ -9,6 +9,8 @@ namespace Lottery.Dtos.Auths
 
         public string SaleRecordId { get; set; }
 
+        public string LotteryId { get; set; }
+
         public SellType AuthType { get; set; }
 
         public DateTime AuthTime { get; set; }
@@ -17,6 +19,6 @@ namespace Lottery.Dtos.Auths
 
         public string Notes { get; set; }
 
-      //  public AuthStatus Status { get; set; }
+        //  public AuthStatus Status { get; set; }
     }
 }

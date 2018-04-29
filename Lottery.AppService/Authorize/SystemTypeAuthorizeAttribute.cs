@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Lottery.Infrastructure.Collections;
+﻿using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.AppService.Authorize
 {
@@ -21,7 +21,8 @@ namespace Lottery.AppService.Authorize
             }
         }
 
-        public SystemType[] ClientTypes {
+        public SystemType[] ClientTypes
+        {
             get { return _clientTypes.ToArray(); }
         }
     }

@@ -1,11 +1,11 @@
-﻿using System.Reflection;
-using System.Threading;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
 using ENode.Configurations;
 using ENode.SqlServer;
 using Lottery.Infrastructure;
+using System.Reflection;
+using System.Threading;
 
 namespace Lottery.EventService
 {
@@ -24,7 +24,7 @@ namespace Lottery.EventService
             // Get the current settings.
             ThreadPool.GetMinThreads(out minWorker, out minIOC);
             // Change the minimum number of worker threads to four, but
-            // keep the old setting for minimum asynchronous I/O 
+            // keep the old setting for minimum asynchronous I/O
             // completion threads.
             ThreadPool.SetMinThreads(250, minIOC);
 
@@ -41,31 +41,31 @@ namespace Lottery.EventService
                 Assembly.Load("Lottery.EventService")
             };
 
-          _enodeConfiguration = Configuration
-                .Create()
-                .UseAutofac()
-                .RegisterCommonComponents()
-                .UseLog4Net()
-                .UseJsonNet()
-                .RegisterUnhandledExceptionHandler()
-                .CreateENode()
-                .RegisterENodeComponents()
-                .RegisterBusinessComponents(assemblies)
-                .UseSqlServerPublishedVersionStore()
-                .UseEQueue()
-                .UseRedisCache()
-                .BuildContainer()
-                .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)
-                .InitializeBusinessAssemblies(assemblies);
+            _enodeConfiguration = Configuration
+                  .Create()
+                  .UseAutofac()
+                  .RegisterCommonComponents()
+                  .UseLog4Net()
+                  .UseJsonNet()
+                  .RegisterUnhandledExceptionHandler()
+                  .CreateENode()
+                  .RegisterENodeComponents()
+                  .RegisterBusinessComponents(assemblies)
+                  .UseSqlServerPublishedVersionStore()
+                  .UseEQueue()
+                  .UseRedisCache()
+                  .BuildContainer()
+                  .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)
+                  .InitializeBusinessAssemblies(assemblies);
 
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("Event service initialized.");
-
         }
 
         public static void Start()
         {
             _enodeConfiguration.StartEQueue();
         }
+
         public static void Stop()
         {
             _enodeConfiguration.ShutdownEQueue();

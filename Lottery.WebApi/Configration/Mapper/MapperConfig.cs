@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using AutoMapper.Attributes;
+﻿using AutoMapper.Attributes;
+using System.Reflection;
 
 namespace Lottery.WebApi.Configration.Mapper
 {

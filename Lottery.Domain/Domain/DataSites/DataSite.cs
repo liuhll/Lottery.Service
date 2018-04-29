@@ -4,7 +4,7 @@ namespace Lottery.Core.Domain.DataSites
 {
     public class DataSite : AggregateRoot<string>
     {
-        public DataSite(string id,string lotteryId,string name,string url,int count,string crawlType,bool status,int sort) 
+        public DataSite(string id, string lotteryId, string name, string url, int count, string crawlType, bool status, int sort)
             : base(id)
         {
             this.LotteryId = lotteryId;

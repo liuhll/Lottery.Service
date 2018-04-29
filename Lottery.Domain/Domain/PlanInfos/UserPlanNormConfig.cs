@@ -2,7 +2,7 @@
 {
     public class UserPlanNormConfig
     {
-        public UserPlanNormConfig(string planId,int planCycle, int forecastCount,int lastStartPeriod,
+        public UserPlanNormConfig(string planId, int planCycle, int forecastCount, int lastStartPeriod,
             int unitHistoryCount, int minRightSeries, int maxRightSeries, int minErrortSeries, int maxErrortSeries,
             int lookupPeriodCount, int expectMinScore, int expectMaxScore)
         {

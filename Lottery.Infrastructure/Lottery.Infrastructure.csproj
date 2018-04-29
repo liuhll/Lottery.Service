@@ -170,7 +170,12 @@
     <Compile Include="Enums\ClientRegistType.cs" />
     <Compile Include="Enums\EmailTempletType.cs" />
     <Compile Include="Enums\IdentifyCodeType.cs" />
+    <Compile Include="Enums\MD5Length.cs" />
     <Compile Include="Enums\OnlineHelpType.cs" />
+    <Compile Include="Enums\OrderSourceType.cs" />
+    <Compile Include="Enums\OrderType.cs" />
+    <Compile Include="Enums\PayStatus.cs" />
+    <Compile Include="Enums\PayType.cs" />
     <Compile Include="Enums\PointOperationType.cs" />
     <Compile Include="Enums\PointType.cs" />
     <Compile Include="Enums\PurchaseType.cs" />
@@ -249,6 +254,8 @@
     <Compile Include="Threading\Extensions\LockExtensions.cs" />
     <Compile Include="Tools\AccountHelper.cs" />
     <Compile Include="Tools\ConfigHelper.cs" />
+    <Compile Include="Tools\EncryptHelper.cs" />
+    <Compile Include="Tools\OrderHelper.cs" />
     <Compile Include="Tools\RandomHelper.cs" />
   </ItemGroup>
   <ItemGroup />

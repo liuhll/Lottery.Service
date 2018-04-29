@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.IO;
 using ECommon.Logging;
 using Lottery.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 using IOException = System.IO.IOException;
 
 namespace Lottery.Denormalizers.Dapper
@@ -17,6 +15,7 @@ namespace Lottery.Denormalizers.Dapper
     {
         protected readonly ILogger logger =
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(AbstractDenormalizer));
+
         protected async Task<AsyncTaskResult> TryInsertRecordAsync(Func<IDbConnection, Task<long>> action, IDbConnection connection = null)
         {
             try
@@ -41,7 +40,8 @@ namespace Lottery.Denormalizers.Dapper
                 throw new IOException("Insert record failed.", ex);
             }
         }
-        protected async Task<AsyncTaskResult> TryUpdateRecordAsync(Func<IDbConnection, Task<int>> action,IDbConnection connection = null)
+
+        protected async Task<AsyncTaskResult> TryUpdateRecordAsync(Func<IDbConnection, Task<int>> action, IDbConnection connection = null)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Lottery.Denormalizers.Dapper
             }
         }
 
-        protected AsyncTaskResult TryTransactionAsync(Func<IDbConnection, IDbTransaction,ICollection<Action>> func, IDbConnection conn = null)
+        protected AsyncTaskResult TryTransactionAsync(Func<IDbConnection, IDbTransaction, ICollection<Action>> func, IDbConnection conn = null)
         {
             if (conn == null)
             {
@@ -74,7 +74,6 @@ namespace Lottery.Denormalizers.Dapper
                 var transaction = connection.BeginTransaction();
                 try
                 {
-
                     var actions = func(conn, transaction);
 
                     foreach (var action in actions)
@@ -100,7 +99,7 @@ namespace Lottery.Denormalizers.Dapper
 
         protected IDbConnection GetForecastLotteryConnection(string lotteryCode)
         {
-            return new SqlConnection(string.Format(DataConfigSettings.ForecastLotteryConnectionString,lotteryCode));
+            return new SqlConnection(string.Format(DataConfigSettings.ForecastLotteryConnectionString, lotteryCode));
         }
     }
 }

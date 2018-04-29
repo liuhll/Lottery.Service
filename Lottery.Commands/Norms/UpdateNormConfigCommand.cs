@@ -9,8 +9,8 @@ namespace Lottery.Commands.Norms
         }
 
         public UpdateNormConfigCommand(string id, string userId, string lotteryId, string planId, int planCycle, int forecastCount, int lastStartPeriod,
-            int unitHistoryCount,int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
-            int lookupPeriodCount, int expectMinScore, int expectMaxScore,string customNumbers) : base(id)
+            int unitHistoryCount, int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
+            int lookupPeriodCount, int expectMinScore, int expectMaxScore, string customNumbers) : base(id)
         {
             UserId = userId;
             LotteryId = lotteryId;
@@ -88,6 +88,5 @@ namespace Lottery.Commands.Norms
         public int ExpectMaxScore { get; private set; }
 
         public string CustomNumbers { get; private set; }
-
     }
 }

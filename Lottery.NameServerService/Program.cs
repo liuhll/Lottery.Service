@@ -4,13 +4,12 @@ using Topshelf;
 
 namespace Lottery.NameServerService
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (args.Any())
             {
-                
                 HostFactory.Run(x =>
                 {
                     x.Service<NameServerCrier>(s =>
@@ -27,12 +26,9 @@ namespace Lottery.NameServerService
                     x.SetDisplayName("LotteryNameServer");
                     x.SetServiceName("LotteryNameServer");
                 });
-
-
             }
             else
             {
-
                 Bootstrap.Initialize();
                 Bootstrap.Start();
 
@@ -45,13 +41,13 @@ namespace Lottery.NameServerService
                         case "cls":
                             Console.Clear();
                             break;
+
                         default:
                             return;
                     }
                     line = Console.ReadLine();
                 }
             }
-
         }
     }
 }

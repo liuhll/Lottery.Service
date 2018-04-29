@@ -24,6 +24,5 @@
         /// 下一期开奖结果计算完成
         /// </summary>
         CalculateNumCompleted = 4,
-
     }
 }

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Lottery.Infrastructure.Attributes;
+using System;
 using System.Linq;
-using System.Reflection;
-using Lottery.Infrastructure.Attributes;
 
 namespace Lottery.Infrastructure.Extensions
 {

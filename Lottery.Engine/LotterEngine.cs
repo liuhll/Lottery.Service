@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using ECommon.Components;
-using Lottery.Core.Domain.LotteryDatas;
+﻿using ECommon.Components;
 using Lottery.Dtos.Lotteries;
 using Lottery.Engine.Predictor;
 using Lottery.Engine.TimeRule;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Reflection;
 using Lottery.QueryServices.Lotteries;
+using System.Collections.Generic;
 
 namespace Lottery.Engine
 {
@@ -31,7 +26,7 @@ namespace Lottery.Engine
             _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();
             _finalDataQueryService = ObjectContainer.Resolve<ILotteryFinalDataQueryService>();
             _typeFinder = ObjectContainer.Resolve<ITypeFinder>();
-   
+
             InitializationPerdictor();
         }
 
@@ -44,22 +39,19 @@ namespace Lottery.Engine
             //    _perdictors[predictor.PredictCode.ToUpper()] = predictor;
             //}
 
-            _perdictors[AlgorithmType.DiscreteMarkov] = new DiscreteMarkovPredictor(LotteryInfo,AlgorithmType.DiscreteMarkov);
-            _perdictors[AlgorithmType.Mock] = new MockPredictor(LotteryInfo,AlgorithmType.Mock);
-          //  _perdictors[AlgorithmType.Stochastic] = new StochasticPredictor(LotteryInfo,AlgorithmType.Stochastic);
+            _perdictors[AlgorithmType.DiscreteMarkov] = new DiscreteMarkovPredictor(LotteryInfo, AlgorithmType.DiscreteMarkov);
+            _perdictors[AlgorithmType.Mock] = new MockPredictor(LotteryInfo, AlgorithmType.Mock);
+            //  _perdictors[AlgorithmType.Stochastic] = new StochasticPredictor(LotteryInfo,AlgorithmType.Stochastic);
             _perdictors[AlgorithmType.Temperature] = new TemperatureMarkovPredictor(LotteryInfo, AlgorithmType.Temperature);
         }
 
         public LotteryInfoDto LotteryInfo => _lotteryInfo;
 
-
         public ITimeRuleManager TimeRuleManager => _timeRuleManager;
-
-
 
         public IPerdictor GetPerdictor(AlgorithmType algorithmType)
         {
-            IPerdictor perdictor = _perdictors[algorithmType];  
+            IPerdictor perdictor = _perdictors[algorithmType];
             return perdictor;
         }
     }

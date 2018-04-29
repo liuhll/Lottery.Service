@@ -1,16 +1,15 @@
-﻿using System;
-using ENode.Eventing;
+﻿using ENode.Eventing;
+using System;
 
 namespace Lottery.Core.Domain.LogonLog
 {
     public class AddConLogEvent : DomainEvent<string>
     {
-
         private AddConLogEvent()
         {
         }
 
-        public AddConLogEvent(string userId,int clientNo,string systemTypeId,string ip,DateTime invalidTime, string createBy)
+        public AddConLogEvent(string userId, int clientNo, string systemTypeId, string ip, DateTime invalidTime, string createBy)
         {
             UserId = userId;
             ClientNo = clientNo;

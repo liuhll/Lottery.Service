@@ -251,7 +251,6 @@
   <ItemGroup>
     <Compile Include="Areas\BackOffice\BackOfficeAreaRegistration.cs" />
     <Compile Include="Areas\BackOffice\Controllers\BoBaseApiV1Controller.cs" />
-    <Compile Include="Areas\BackOffice\Controllers\v1\RoleController.cs" />
     <Compile Include="Authentication\AuthenticationHeaderFilter.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -271,10 +270,8 @@
     <Compile Include="Controllers\v1\BaseApiV1Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\v1\LotteryController.cs" />
-    <Compile Include="Controllers\v1\MenuController.cs" />
     <Compile Include="Controllers\v1\MessageController.cs" />
     <Compile Include="Controllers\v1\NormController.cs" />
-    <Compile Include="Controllers\v1\PayController.cs" />
     <Compile Include="Controllers\v1\PlanController.cs" />
     <Compile Include="Controllers\v1\OperationController.cs" />
     <Compile Include="Controllers\v1\SellController.cs" />
@@ -283,6 +280,7 @@
     <Compile Include="Extensions\ENodeExtensions.cs" />
     <Compile Include="Extensions\HttpRequestExtensions.cs" />
     <Compile Include="Extensions\SecurityTokenInvalidLifetimeExceptionExtension.cs" />
+    <Compile Include="Filter\AppAuthFilter.cs" />
     <Compile Include="Filter\LotteryApiExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -321,6 +319,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\BackOffice\Controllers\v1\" />
     <Folder Include="Areas\BackOffice\Models\" />
   </ItemGroup>
   <ItemGroup>

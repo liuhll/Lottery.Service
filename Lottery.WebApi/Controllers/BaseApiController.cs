@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Extensions;
 using ECommon.IO;
 using ECommon.Logging;
@@ -11,6 +9,10 @@ using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Logs;
 using Lottery.Infrastructure.RunTime.Session;
 using Lottery.QueryServices.Lotteries;
+using System.Threading.Tasks;
+using System.Web.Http;
+using Lottery.AppService.Operations;
+using Lottery.QueryServices.AuthRanks;
 
 namespace Lottery.WebApi.Controllers
 {
@@ -20,8 +22,12 @@ namespace Lottery.WebApi.Controllers
         protected readonly ILotterySession _lotterySession;
         protected readonly ILogger _logger;
         private readonly ILotteryQueryService _lotteryQueryService;
+        private readonly IMemberAppService _memberAppService;
+
+        protected readonly MemberRank _userMemberRank;
 
         protected LotteryInfoDto _lotteryInfo;
+
         protected LotteryInfoDto LotteryInfo
         {
             get
@@ -37,12 +43,16 @@ namespace Lottery.WebApi.Controllers
         protected BaseApiController(ICommandService commandService)
         {
             _commandService = commandService;
-            _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();          
+            _lotteryQueryService = ObjectContainer.Resolve<ILotteryQueryService>();
             _lotterySession = NullLotterySession.Instance;
             _logger = NullLotteryLogger.Instance;
+            _memberAppService = ObjectContainer.Resolve<IMemberAppService>();
+
             if (_lotterySession.SystemType == SystemType.App)
             {
                 InitLotteryInfo();
+                _userMemberRank =
+                    _memberAppService.GetUserMemRank(_lotterySession.UserId, _lotterySession.SystemTypeId);
             }
         }
 

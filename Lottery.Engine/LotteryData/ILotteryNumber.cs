@@ -15,6 +15,5 @@ namespace Lottery.Engine.LotteryData
         int[] GetLotteryNumbers(int[] positions);
 
         int GetRankNumber(int rank);
-
     }
 }

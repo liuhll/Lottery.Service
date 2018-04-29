@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Dtos.ConLog;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.Canlogs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lottery.QueryServices.Dapper.Canlogs
 {
     [Component]
-    public class ConLogQueryService :BaseQueryService, IConLogQueryService
+    public class ConLogQueryService : BaseQueryService, IConLogQueryService
     {
         public async Task<int> GetUserLoginCount(string userId, string systemTypeId)
         {
@@ -20,9 +20,8 @@ namespace Lottery.QueryServices.Dapper.Canlogs
             {
                 conn.Open();
                 var sql = "SELECT COUNT(*) FROM F_Conlog WHERE UserId=@UserId AND SysTemTypeId=@SystemTypeId AND LogoutTime IS null AND InvalidTime > GETDATE()";
-                var result = await conn.QueryFirstOrDefaultAsync<int>(sql, new {UserId = userId, SysTemTypeId = systemTypeId});
+                var result = await conn.QueryFirstOrDefaultAsync<int>(sql, new { UserId = userId, SysTemTypeId = systemTypeId });
                 return result;
-
             }
         }
 
@@ -31,7 +30,7 @@ namespace Lottery.QueryServices.Dapper.Canlogs
             using (var conn = GetLotteryConnection())
             {
                 conn.Open();
-                return conn.QueryList<ConLogDto>(new {UserId = userId, SysTemTypeId = systemTypeId},
+                return conn.QueryList<ConLogDto>(new { UserId = userId, SysTemTypeId = systemTypeId },
                     TableNameConstants.ConLogTable).ToList();
             }
         }
@@ -51,7 +50,7 @@ namespace Lottery.QueryServices.Dapper.Canlogs
             }
         }
 
-        public ConLogDto GetUserNewestConLog(string userId,string systemTypeId, int clientNo)
+        public ConLogDto GetUserNewestConLog(string userId, string systemTypeId, int clientNo)
         {
             using (var conn = GetLotteryConnection())
             {
@@ -59,7 +58,7 @@ namespace Lottery.QueryServices.Dapper.Canlogs
                 var sql = @"SELECT TOP 1 *
                             FROM  [dbo].[F_ConLog] WHERE InvalidTime > GETDATE() AND ClientNo=@ClientNo AND UserId = @UserId
                             AND SystemTypeId=@SystemTypeId AND LogoutTime IS NULL ORDER BY CreateTime DESC";
-                return conn.QueryFirstOrDefault<ConLogDto>(sql,new { UserId  = userId, SystemTypeId = systemTypeId, ClientNo = clientNo });
+                return conn.QueryFirstOrDefault<ConLogDto>(sql, new { UserId = userId, SystemTypeId = systemTypeId, ClientNo = clientNo });
             }
         }
     }

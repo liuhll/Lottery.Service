@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Extensions;
+using System.Collections.Generic;
 
 namespace Lottery.Dtos.OnlineHelp
 {
@@ -8,11 +8,11 @@ namespace Lottery.Dtos.OnlineHelp
     {
         public OnlineHelpType HelpType { get; set; }
 
-        public string HelpTypeDesc {
+        public string HelpTypeDesc
+        {
             get { return HelpType.GetChineseDescribe(); }
         }
 
         public ICollection<OnlineItemOutput> OnlineItems { get; set; }
-
     }
 }

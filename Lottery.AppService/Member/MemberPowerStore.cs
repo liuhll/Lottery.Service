@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.Dtos.Power;
 using Lottery.QueryServices.Powers;
+using System.Collections.Generic;
 
 namespace Lottery.AppService.Member
 {
@@ -14,7 +14,6 @@ namespace Lottery.AppService.Member
         {
             _memberPowerQueryService = memberPowerQueryService;
         }
-
 
         public ICollection<PowerGrantInfo> GetMermberPermissions(string lotteryId, int memberRank)
         {

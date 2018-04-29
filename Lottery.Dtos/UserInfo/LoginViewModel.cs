@@ -21,6 +21,5 @@
         /// 系统类型
         /// </summary>
         public string SystemType { get; set; }
-
     }
 }

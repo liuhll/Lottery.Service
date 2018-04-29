@@ -11,6 +11,5 @@
         public const string RankCode = "RANK";
 
         public const string LhCode = "LH";
-
     }
 }

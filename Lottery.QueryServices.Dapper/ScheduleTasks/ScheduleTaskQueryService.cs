@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
 using Lottery.Dtos.ScheduleTasks;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.ScheduleTasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.ScheduleTasks
 {
@@ -23,7 +23,7 @@ namespace Lottery.QueryServices.Dapper.ScheduleTasks
         {
             using (var conn = GetLotteryConnection())
             {
-               return  _cacheManager.Get<IList<ScheduleTaskDto>>(RedisKeyConstants.SCHEDULE_TASK_ALL_KEY, () =>
+                return _cacheManager.Get<IList<ScheduleTaskDto>>(RedisKeyConstants.SCHEDULE_TASK_ALL_KEY, () =>
                {
                    return conn.QueryList<ScheduleTaskDto>(null, TableNameConstants.ScheduleTaskTable).ToList();
                });

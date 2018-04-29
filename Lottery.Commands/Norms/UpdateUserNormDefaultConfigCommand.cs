@@ -23,9 +23,7 @@ namespace Lottery.Commands.Norms
             LookupPeriodCount = lookupPeriodCount;
             ExpectMaxScore = expectMaxScore;
             ExpectMinScore = expectMinScore;
-
         }
-
 
         public int ForecastCount { get; private set; }
 

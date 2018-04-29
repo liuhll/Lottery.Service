@@ -1,5 +1,5 @@
-﻿using System;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
+using System;
 
 namespace Lottery.Dtos.Menbers
 {

@@ -8,7 +8,7 @@ namespace Lottery.CommandHandlers
     {
         public void Handle(ICommandContext context, AddPointRecordCommand command)
         {
-           context.Add(new PointRecord(command.AggregateRootId,command.Point,command.PointType,command.OperationType,command.Notes,command.CreateBy));
+            context.Add(new PointRecord(command.AggregateRootId, command.Point, command.PointType, command.OperationType, command.Notes, command.CreateBy));
         }
     }
 }

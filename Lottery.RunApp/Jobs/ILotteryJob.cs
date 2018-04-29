@@ -1,6 +1,6 @@
-﻿using System;
-using FluentScheduler;
+﻿using FluentScheduler;
 using Lottery.RunApp.Events;
+using System;
 
 namespace Lottery.RunApp.Jobs
 {

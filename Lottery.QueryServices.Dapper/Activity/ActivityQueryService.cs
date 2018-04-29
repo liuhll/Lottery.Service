@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using Lottery.Dtos.Activity;
 using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Activities;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.Activity
 {
@@ -16,7 +16,7 @@ namespace Lottery.QueryServices.Dapper.Activity
             using (var conn = GetLotteryConnection())
             {
                 conn.Open();
-                return conn.Query(sql, new { AuthRankId=authRankId }).FirstOrDefault();
+                return conn.Query(sql, new { AuthRankId = authRankId }).FirstOrDefault();
             }
         }
     }

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using EasyHttp.Http;
+﻿using EasyHttp.Http;
 using ECommon.Components;
 using ECommon.Logging;
 using Lottery.Dtos.Lotteries;
+using System;
+using System.Collections.Generic;
 
 namespace Lottery.Crawler
 {
@@ -16,7 +16,6 @@ namespace Lottery.Crawler
         protected const string CHROME_UA = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36";
 
         protected readonly object _lockObj = new object();
-
 
         protected BaseDataUpdateItem(DataSiteDto dataSite)
         {
@@ -33,11 +32,10 @@ namespace Lottery.Crawler
                 {
                     return RequestDatas(finalData);
                 }
-                
             }
             catch (Exception e)
             {
-               _logger.Error(e.Message);
+                _logger.Error(e.Message);
                 return null;
             }
         }

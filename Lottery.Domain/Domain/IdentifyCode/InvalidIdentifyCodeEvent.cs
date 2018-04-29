@@ -1,5 +1,5 @@
-﻿using System;
-using ENode.Eventing;
+﻿using ENode.Eventing;
+using System;
 
 namespace Lottery.Core.Domain.IdentifyCode
 {
@@ -9,7 +9,7 @@ namespace Lottery.Core.Domain.IdentifyCode
         {
         }
 
-        public InvalidIdentifyCodeEvent(string receiver,string updateBy)
+        public InvalidIdentifyCodeEvent(string receiver, string updateBy)
         {
             ValidateDate = DateTime.Now;
             Status = 1;

@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace Lottery.Infrastructure.Enums
+﻿namespace Lottery.Infrastructure.Enums
 {
     public enum AuthStatus
     {

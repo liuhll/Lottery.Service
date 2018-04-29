@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Account;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.UserInfos;
+using System.Threading.Tasks;
 
 namespace Lottery.QueryServices.Dapper.UserInfos
 {
@@ -29,7 +29,6 @@ namespace Lottery.QueryServices.Dapper.UserInfos
                 var userInfo = conn.QueryFirstOrDefault<UserInfoDto>(sql, new { @UserName = account });
                 return Task.FromResult(userInfo);
             }
-           
         }
 
         public Task<UserInfoDto> GetUserInfoById(string id)

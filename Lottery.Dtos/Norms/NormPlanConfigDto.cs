@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lottery.Dtos.Norms
+﻿namespace Lottery.Dtos.Norms
 {
     public class NormPlanConfigDto
     {

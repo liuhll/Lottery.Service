@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Extensions;
 using Lottery.AppService.Account;
 using Lottery.AppService.Operations;
@@ -17,6 +14,9 @@ using Lottery.QueryServices.AuthRanks;
 using Lottery.QueryServices.Canlogs;
 using Lottery.QueryServices.Operations;
 using Lottery.QueryServices.UserInfos;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Lottery.AppService.Member
 {
@@ -27,12 +27,12 @@ namespace Lottery.AppService.Member
         private readonly IMemberQueryService _memberQueryService;
 
         public MermberManager(IUserInfoService userInfoService,
-            IUserTicketService userTicketService, 
+            IUserTicketService userTicketService,
             IUserClientTypeQueryService userClientTypeQueryService,
-            IPowerManager powerManager, 
+            IPowerManager powerManager,
             IRoleManager roleManager,
             ICacheManager cacheManager,
-            IUserPowerStore userPowerStore, 
+            IUserPowerStore userPowerStore,
             IMemberPowerStore memberPowerStore,
             IMemberQueryService memberQueryService,
             IMemberAppService memberAppService,
@@ -43,7 +43,7 @@ namespace Lottery.AppService.Member
                 userClientTypeQueryService,
                 powerManager,
                 roleManager,
-                cacheManager, 
+                cacheManager,
                 userPowerStore,
                 memberAppService,
                 conLogQueryService,
@@ -52,6 +52,7 @@ namespace Lottery.AppService.Member
             _memberPowerStore = memberPowerStore;
             _memberQueryService = memberQueryService;
         }
+
         async Task<bool> IMermberManager.IsGrantedAsync(string userId, string lotteryId, string powerCode)
         {
             try
@@ -74,7 +75,7 @@ namespace Lottery.AppService.Member
                 return await IsGrantedAsync(
                     userId,
                     lotteryId,
-                    _powerManager.GetPermission(urlPath,method.ToString())
+                    _powerManager.GetPermission(urlPath, method.ToString())
                 );
             }
             catch (ArgumentNullException e)
@@ -91,10 +92,9 @@ namespace Lottery.AppService.Member
                 return MemberRank.Ordinary;
             }
             return memberInfo.ComputeMemberRank();
-
         }
 
-        protected virtual async Task<bool> IsGrantedAsync(string userId,string lotteryId, PowerDto power)
+        protected virtual async Task<bool> IsGrantedAsync(string userId, string lotteryId, PowerDto power)
         {
             var isGranted = false;
             if (power == null)
@@ -103,7 +103,7 @@ namespace Lottery.AppService.Member
             }
             var memberRank = GetUserMemberRank(userId, lotteryId);
             //Get cached user permissions
-            var cacheItem = await GetMemberPowerCacheItemAsync(lotteryId,memberRank);
+            var cacheItem = await GetMemberPowerCacheItemAsync(lotteryId, memberRank);
             if (cacheItem == null)
             {
                 throw new LotteryAuthorizeException($"没有权限{power.PowerName}");
@@ -130,13 +130,12 @@ namespace Lottery.AppService.Member
 
         protected virtual Task<MemberRankPowerCacheItem> GetMemberPowerCacheItemAsync(string lotteryId, MemberRank memberRank)
         {
-            var redisKey = string.Format(RedisKeyConstants.MEMBERRANK_POWER_KEY,lotteryId, memberRank);
+            var redisKey = string.Format(RedisKeyConstants.MEMBERRANK_POWER_KEY, lotteryId, memberRank);
 
             return Task.FromResult(_cacheManager.Get<MemberRankPowerCacheItem>(redisKey, () =>
             {
-
                 var newCacheItem = new MemberRankPowerCacheItem(lotteryId, memberRank);
-                var roles = _roleManager.GetMermberRoles(lotteryId,memberRank);
+                var roles = _roleManager.GetMermberRoles(lotteryId, memberRank);
 
                 foreach (var role in roles.Safe())
                 {
@@ -149,7 +148,6 @@ namespace Lottery.AppService.Member
                     {
                         newCacheItem.GrantedPowers.Add(permissionInfo.PowerCode);
                     }
-
                 }
                 return newCacheItem;
             }));

@@ -92,12 +92,12 @@ namespace Lottery.Core.Domain.NormConfigs
         public int ExpectMaxScore { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public bool IsEnable { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public bool IsDefualt { get; private set; }
 

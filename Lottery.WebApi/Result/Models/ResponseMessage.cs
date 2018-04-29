@@ -8,7 +8,6 @@
         /// </summary>
         public ResponseMessage()
         {
-
         }
 
         /// <summary>
@@ -18,7 +17,6 @@
         public ResponseMessage(bool success)
             : base(success)
         {
-
         }
 
         /// <summary>
@@ -29,7 +27,6 @@
         public ResponseMessage(object result)
             : base(result)
         {
-
         }
 
         /// <summary>
@@ -41,7 +38,6 @@
         public ResponseMessage(ErrorInfo error, bool unAuthorizedRequest = false)
             : base(error, unAuthorizedRequest)
         {
-
         }
     }
 }

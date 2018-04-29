@@ -1,9 +1,8 @@
-﻿using Lottery.Dtos.Menus;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Dtos.Power
 {
-    public class PowerDto 
+    public class PowerDto
     {
         public string Id { get; set; }
 
@@ -52,6 +51,5 @@ namespace Lottery.Dtos.Power
         /// 描述
         /// </summary>
         public string Description { get; set; }
-
     }
 }

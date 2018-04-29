@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.Power;
+﻿using Lottery.Dtos.Power;
+using System.Collections.Generic;
 
 namespace Lottery.AppService.Member
 {

@@ -1,5 +1,5 @@
-﻿using System;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
+using System;
 
 namespace Lottery.Dtos.Menbers
 {
@@ -15,7 +15,7 @@ namespace Lottery.Dtos.Menbers
             {
                 return MemberRank.Ordinary;
             }
-            return (MemberRank) memberInfo.MemberRank;
+            return (MemberRank)memberInfo.MemberRank;
         }
     }
 }

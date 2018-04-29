@@ -24,7 +24,7 @@ namespace Lottery.WebApi.Controllers
             {
                 return Redirect("test/swagger/ui/index#/");
             }
-            return Redirect("/swagger/ui/index#/");   
+            return Redirect("/swagger/ui/index#/");
 #endif
         }
     }

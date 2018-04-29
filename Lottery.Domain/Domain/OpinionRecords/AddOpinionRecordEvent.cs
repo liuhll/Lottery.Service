@@ -1,5 +1,5 @@
-﻿using System;
-using ENode.Eventing;
+﻿using ENode.Eventing;
+using System;
 
 namespace Lottery.Core.Domain.OpinionRecords
 {

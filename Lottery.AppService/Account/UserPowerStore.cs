@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Extensions;
 using Lottery.Dtos.Power;
 using Lottery.QueryServices.Powers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.AppService.Account
 {

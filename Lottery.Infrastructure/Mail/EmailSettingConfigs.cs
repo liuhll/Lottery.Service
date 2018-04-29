@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration;
-using Lottery.Infrastructure.Exceptions;
+﻿using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
 
 namespace Lottery.Infrastructure.Mail
@@ -19,7 +17,6 @@ namespace Lottery.Infrastructure.Mail
         private static string _domain;
         private static bool _enableSsl;
         private static bool _useDefaultCredentials;
-
 
         public static void InitEmailSetting()
         {
@@ -55,12 +52,11 @@ namespace Lottery.Infrastructure.Mail
             {
                 _enableSsl = true;
             }
-     
+
             if (!ConfigurationHelper.TryGetAppSettingBoolVal("Email.Smtp.UseDefaultCredentials", out _useDefaultCredentials))
             {
                 _useDefaultCredentials = false;
             }
-        
         }
 
         /// <summary>
@@ -98,7 +94,6 @@ namespace Lottery.Infrastructure.Mail
         /// </summary>
         public static class Smtp
         {
-           
             /// <summary>
             /// Lottery.Infrastructure.Mail.Smtp.Host
             /// </summary>
@@ -177,7 +172,6 @@ namespace Lottery.Infrastructure.Mail
             {
                 get
                 {
-                    
                     return _enableSsl;
                 }
             }
@@ -189,7 +183,6 @@ namespace Lottery.Infrastructure.Mail
             {
                 get
                 {
-                   
                     return _useDefaultCredentials;
                 }
             }

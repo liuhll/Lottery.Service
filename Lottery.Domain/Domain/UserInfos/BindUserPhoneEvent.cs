@@ -1,5 +1,4 @@
-﻿using ENode.Commanding;
-using ENode.Eventing;
+﻿using ENode.Eventing;
 
 namespace Lottery.Core.Domain.UserInfos
 {

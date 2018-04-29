@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
-using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.Lotteries
 {
     [Component]
-    public class LotteryFinalDataQueryService :BaseQueryService, ILotteryFinalDataQueryService
+    public class LotteryFinalDataQueryService : BaseQueryService, ILotteryFinalDataQueryService
     {
         private readonly ICacheManager _cacheManager;
 
@@ -27,8 +25,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 using (var conn = GetLotteryConnection())
                 {
-                    
-                    return conn.QueryList<LotteryFinalDataDto>(new { LotteryId = lotteryId },TableNameConstants.LotteryFinalDataTable).FirstOrDefault();
+                    return conn.QueryList<LotteryFinalDataDto>(new { LotteryId = lotteryId }, TableNameConstants.LotteryFinalDataTable).FirstOrDefault();
                 }
             });
         }

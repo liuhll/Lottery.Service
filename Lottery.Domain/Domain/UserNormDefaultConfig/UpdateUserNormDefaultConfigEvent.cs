@@ -9,7 +9,7 @@ namespace Lottery.Core.Domain.UserNormDefaultConfig
         }
 
         public UpdateUserNormDefaultConfigEvent(string userId, string lotteryId, int planCycle, int forecastCount,
-            int unitHistoryCount,int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
+            int unitHistoryCount, int historyCount, int minRightSeries, int maxRightSeries, int minErrorSeries, int maxErrorSeries,
             int lookupPeriodCount, int expectMinScore, int expectMaxScore)
         {
             UserId = userId;

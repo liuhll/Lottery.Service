@@ -1,9 +1,8 @@
-﻿using System.Net.Mail;
-using System.Threading.Tasks;
-using ECommon.Components;
+﻿using ECommon.Components;
 using MimeKit;
-using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 using System.Net.Mail;
+using System.Threading.Tasks;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace Lottery.Infrastructure.Mail.MailKit
 {
@@ -11,6 +10,7 @@ namespace Lottery.Infrastructure.Mail.MailKit
     public class MailKitEmailSender : EmailSenderBase
     {
         private readonly IMailKitSmtpBuilder _smtpBuilder;
+
         public MailKitEmailSender(IEmailSenderConfiguration configuration, IMailKitSmtpBuilder smtpBuilder) : base(configuration)
         {
             _smtpBuilder = smtpBuilder;

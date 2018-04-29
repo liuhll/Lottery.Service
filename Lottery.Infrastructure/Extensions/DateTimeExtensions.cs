@@ -25,7 +25,5 @@ namespace Lottery.Infrastructure.Extensions
             DateTime dt = startTime.AddSeconds(timestamp);
             return dt;
         }
-
-
     }
 }

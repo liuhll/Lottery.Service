@@ -1,7 +1,6 @@
 ﻿using ECommon.Components;
 using ENode.EQueue;
 using ENode.Eventing;
-using Lottery.Commands.OpinionRecords;
 using Lottery.Core.Domain.IdentifyCode;
 using Lottery.Core.Domain.LogonLog;
 using Lottery.Core.Domain.LotteryDatas;
@@ -11,6 +10,7 @@ using Lottery.Core.Domain.LotteryPredictDatas;
 using Lottery.Core.Domain.MessageRecords;
 using Lottery.Core.Domain.NormConfigs;
 using Lottery.Core.Domain.OpinionRecords;
+using Lottery.Core.Domain.Orders;
 using Lottery.Core.Domain.Points;
 using Lottery.Core.Domain.UserInfos;
 using Lottery.Core.Domain.UserNormDefaultConfig;
@@ -29,7 +29,8 @@ namespace Lottery.CommandService
                 typeof(UpdateTodayFirstPeriodEvent),
                 typeof(InitPredictTableEvent),
                 typeof(CompleteDynamicTableEvent),
-                typeof(AddLotteryPredictDataEvent));
+                typeof(AddLotteryPredictDataEvent),
+                typeof(AddOrderRecordEvent));
 
             RegisterTopic(EQueueTopics.LotteryAccountEventTopic,
                 typeof(AddConLogEvent),

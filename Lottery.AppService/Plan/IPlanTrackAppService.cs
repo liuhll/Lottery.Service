@@ -4,6 +4,6 @@ namespace Lottery.AppService.Plan
 {
     public interface IPlanTrackAppService
     {
-        PlanTrackDetail GetPlanTrackDetail(NormConfigDto userNorm,string lotteryCode,string userId);
+        PlanTrackDetail GetPlanTrackDetail(NormConfigDto userNorm, string lotteryCode, string userId);
     }
 }

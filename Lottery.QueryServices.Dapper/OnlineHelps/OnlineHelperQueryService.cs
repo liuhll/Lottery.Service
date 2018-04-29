@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using Lottery.Core.Caching;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.OnlineHelps;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.OnlineHelps
 {
@@ -31,7 +31,6 @@ namespace Lottery.QueryServices.Dapper.OnlineHelps
                     return conn.Query(sql, new { Code = lotteryCode }).ToList();
                 }
             });
-        
         }
     }
 }

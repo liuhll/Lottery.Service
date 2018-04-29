@@ -8,9 +8,9 @@ namespace Lottery.Commands.OpinionRecords
         {
         }
 
-        public AddOpinionRecordCommand(string id,int opinionType, string content, int platform,
+        public AddOpinionRecordCommand(string id, int opinionType, string content, int platform,
             string contactWay, string createBy) : base(id)
-        { 
+        {
             OpinionType = opinionType;
             Content = content;
             Platform = platform;
@@ -26,12 +26,9 @@ namespace Lottery.Commands.OpinionRecords
 
         public string ContactWay { get; private set; }
 
-
         /// <summary>
         /// 创建人
         /// </summary>
         public string CreateBy { get; private set; }
-
-
     }
 }

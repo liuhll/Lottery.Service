@@ -36,7 +36,8 @@ namespace Lottery.Core.Caching
         {
             if (cacheManager.IsSet(key))
             {
-                return cacheManager.Get<T>(key);
+                var val = cacheManager.Get<T>(key);
+                return val;
             }
 
             var result = acquire();

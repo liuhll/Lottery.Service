@@ -3,7 +3,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Lottery.Infrastructure.Json
 {
-    public  static class JsonExtensions
+    public static class JsonExtensions
     {
         /// <summary>
         /// Converts given object to JSON string.

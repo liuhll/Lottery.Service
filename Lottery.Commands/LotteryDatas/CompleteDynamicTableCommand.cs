@@ -6,10 +6,9 @@ namespace Lottery.Commands.LotteryDatas
     {
         private CompleteDynamicTableCommand()
         {
-
         }
 
-        public CompleteDynamicTableCommand(string id,bool isComplteDynamicTable) : base(id)
+        public CompleteDynamicTableCommand(string id, bool isComplteDynamicTable) : base(id)
         {
             IsComplteDynamicTable = isComplteDynamicTable;
         }

@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.AppService.Account;
 
 namespace Lottery.AppService.Authorize

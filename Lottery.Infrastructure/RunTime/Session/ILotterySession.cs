@@ -4,7 +4,6 @@ namespace Lottery.Infrastructure.RunTime.Session
 {
     public interface ILotterySession
     {
-
         /// <summary>
         /// Gets current UserId or null.
         /// It can be null if no user logged in.
@@ -25,6 +24,6 @@ namespace Lottery.Infrastructure.RunTime.Session
 
         SystemType SystemType { get; }
 
-        MemberRank MemberRank { get; }
+        //MemberRank MemberRank { get; }
     }
 }

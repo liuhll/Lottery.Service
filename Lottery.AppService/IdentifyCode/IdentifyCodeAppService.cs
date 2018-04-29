@@ -1,11 +1,11 @@
-﻿using System;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.Core.Caching;
 using Lottery.Dtos.IdentifyCodes;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Tools;
 using Lottery.QueryServices.IdentifyCodes;
+using System;
 
 namespace Lottery.AppService.IdentifyCode
 {
@@ -15,7 +15,7 @@ namespace Lottery.AppService.IdentifyCode
         private readonly int _identifyCodeDuration = 0;
         private readonly IIdentifyCodeQueryService _identifyCodeQueryService;
 
-        public IdentifyCodeAppService(ICacheManager cacheManager, 
+        public IdentifyCodeAppService(ICacheManager cacheManager,
             IIdentifyCodeQueryService identifyCodeQueryService)
         {
             _identifyCodeQueryService = identifyCodeQueryService;
@@ -23,7 +23,7 @@ namespace Lottery.AppService.IdentifyCode
         }
 
         public IdentifyCodeOutput GenerateIdentifyCode(string account, AccountRegistType accountType)
-        {          
+        {
             var identifyCode = _identifyCodeQueryService.GetIdentifyCode(account);
             var code = RandomHelper.GenerateIdentifyCode();
             var output = new IdentifyCodeOutput
@@ -35,7 +35,6 @@ namespace Lottery.AppService.IdentifyCode
             };
 
             return output;
-
         }
 
         public IdentifyCodeValidOutput ValidIdentifyCode(string account, string identifyCode)
@@ -73,7 +72,6 @@ namespace Lottery.AppService.IdentifyCode
                 IsValid = true,
                 IsOvertime = false
             };
-
         }
     }
 }

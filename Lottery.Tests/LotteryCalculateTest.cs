@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.AppService.LotteryData;
 using Lottery.AppService.Plan;
 using Lottery.Engine;
 using Lottery.Infrastructure.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Lottery.Tests
 {
@@ -28,7 +28,7 @@ namespace Lottery.Tests
             var numberPredictor = lotteryEngine.GetPerdictor(AlgorithmType.DiscreteMarkov);
 
             List<int> data = new List<int>();
-          
+
             Debug.Assert(lotteryEngine != null);
         }
 

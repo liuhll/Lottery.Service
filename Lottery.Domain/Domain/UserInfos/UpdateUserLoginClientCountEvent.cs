@@ -2,7 +2,7 @@
 
 namespace Lottery.Core.Domain.UserInfos
 {
-    public class UpdateUserLoginClientCountEvent :DomainEvent<string>
+    public class UpdateUserLoginClientCountEvent : DomainEvent<string>
     {
         private UpdateUserLoginClientCountEvent()
         {

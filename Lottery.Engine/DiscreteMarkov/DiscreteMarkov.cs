@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Lottery.Infrastructure.Collections;
+using MathNet.Numerics.LinearAlgebra.Double;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lottery.Infrastructure.Collections;
-using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Lottery.Engine.DiscreteMarkov
 {
@@ -10,23 +10,31 @@ namespace Lottery.Engine.DiscreteMarkov
     public class DiscreteMarkov
     {
         #region 属性
+
         /// <summary>样本点状态时间序列,按照时间升序</summary>
         public List<int> StateList { get; set; }
+
         /// <summary>状态总数,对应模型的m</summary>
         public int Count { get; set; }
+
         /// <summary>概率转移矩阵Pij</summary>
         public List<DenseMatrix> ProbMatrix { get; set; }
+
         /// <summary>各阶的自相关系数</summary>
         public double[] Rk { get; set; }
+
         /// <summary>各阶的权重/summary>
         public double[] Wk { get; set; }
+
         /// <summary>频数矩阵/summary>
         public int[][] CountStatic { get; set; }
+
         /// <summary>目标序列是否满足"马氏性"/summary>
         public Boolean IsMarkov
         {
             get { return ValidateMarkov(); }
         }
+
         /// <summary>滞时期，K/summary>
         public int LagPeriod { get; set; }
 
@@ -35,9 +43,10 @@ namespace Lottery.Engine.DiscreteMarkov
 
         public IDictionary<int, double> PredictValue1 { get; private set; }
 
-        #endregion
+        #endregion 属性
 
         #region 构造函数
+
         public DiscreteMarkov(List<int> data, int count, int K = 5)
         {
             this.StateList = data;
@@ -61,12 +70,14 @@ namespace Lottery.Engine.DiscreteMarkov
             }
             else
             {
-                Console.WriteLine("马氏性 检验失败,无法进行下一步预测");
+                throw  new Exception("马氏性 检验失败");
             }
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 验证
+
         /// <summary>验证是否满足马氏性,默认的显著性水平是0.05，自由度25</summary>
         /// <returns></returns>
         public Boolean ValidateMarkov()
@@ -92,7 +103,7 @@ namespace Lottery.Engine.DiscreteMarkov
                 }
             }
             //查表求a = 0.05时，伽马分布的临界值F(m-1)^2,如果实际的gm值大于差别求得的值，则满足
-            //查表要自己做表，这里只演示0.05的情况  卡方分布            
+            //查表要自己做表，这里只演示0.05的情况  卡方分布
             return gm >= 37.65;
         }
 
@@ -133,7 +144,7 @@ namespace Lottery.Engine.DiscreteMarkov
 
             //1.先取最后K期数据
             var last = StateList.GetRange(StateList.Count - LagPeriod, LagPeriod);
-            //2.注意last数据是升序,最后一位对于的滞时期 是k =1 
+            //2.注意last数据是升序,最后一位对于的滞时期 是k =1
             for (int i = 0; i < Count; i++)
             {
                 for (int j = 0; j < LagPeriod; j++)
@@ -141,13 +152,32 @@ namespace Lottery.Engine.DiscreteMarkov
                     //滞时期j的数据状态
                     var state = last[last.Count - 1 - j] - 1;
                     PredictValue[i] += Wk[j] * ProbMatrix[j][state, i];
+
+                   
+                    if (double.IsNaN(PredictValue[i]))
+                    {
+                        try
+                        {
+                            var numberCount = StateList.Count(p => p == i + 1);
+                            PredictValue[i] = (double)numberCount / StateList.Count;
+
+                        }
+                        catch (Exception e)
+                        {
+                            var random = new Random();
+                            PredictValue[i] = (double)random.Next(0, 100) / 100;
+                        }
+                       
+                    }
                 }
-                PredictValue1.Add(i+1,PredictValue[i]);
+                PredictValue1.Add(i + 1, PredictValue[i]);
             }
         }
-        #endregion
+
+        #endregion 验证
 
         #region 静态 辅助方法
+
         /// <summary>统计频数矩阵</summary>
         /// <param name="data">升序数据</param>
         public static int[][] StaticCount(List<int> data, int statusCount)
@@ -160,6 +190,7 @@ namespace Lottery.Engine.DiscreteMarkov
 
             return res;
         }
+
         /// <summary>根据频数，计算转移概率矩阵</summary>
         /// <param name="data">频率矩阵</param>
         public static double[][] StaticProbability(int[][] data)
@@ -172,6 +203,7 @@ namespace Lottery.Engine.DiscreteMarkov
             }
             return res;
         }
-        #endregion
+
+        #endregion 静态 辅助方法
     }
 }

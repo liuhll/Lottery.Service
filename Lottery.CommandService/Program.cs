@@ -4,13 +4,12 @@ using Topshelf;
 
 namespace Lottery.CommandService
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (args.Any())
             {
-                
                 HostFactory.Run(x =>
                 {
                     x.Service<CommandServiceCrier>(s =>
@@ -27,12 +26,9 @@ namespace Lottery.CommandService
                     x.SetDisplayName("LotteryCommandService");
                     x.SetServiceName("LotteryCommandService");
                 });
-
-
             }
             else
             {
-
                 Bootstrap.Initialize();
                 Bootstrap.Start();
 
@@ -45,6 +41,7 @@ namespace Lottery.CommandService
                         case "cls":
                             Console.Clear();
                             break;
+
                         default:
                             return;
                     }

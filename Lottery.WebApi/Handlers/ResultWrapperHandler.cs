@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Lottery.Infrastructure.Extensions;
+using Lottery.WebApi.Configration;
+using Lottery.WebApi.Helper;
+using Lottery.WebApi.Result.Models;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using ECommon.Extensions;
-using Lottery.Infrastructure.Extensions;
-using Lottery.WebApi.Configration;
-using Lottery.WebApi.Helper;
-using Lottery.WebApi.Result.Models;
 
 namespace Lottery.WebApi.Handlers
 {
@@ -70,7 +69,7 @@ namespace Lottery.WebApi.Handlers
             {
                 response.StatusCode = HttpStatusCode.OK;
                 response.Content = new ObjectContent<ResponseMessage>(
-                    new ResponseMessage(), 
+                    new ResponseMessage(),
                     _configuration.HttpConfiguration.Formatters.JsonFormatter
                 );
                 return;

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using ECommon.Dapper;
+﻿using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Domain.MessageRecords;
 using Lottery.Infrastructure;
-
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper.Messages
 {
@@ -26,7 +24,6 @@ namespace Lottery.Denormalizers.Dapper.Messages
                     evnt.Title,
                     evnt.Content,
                     CreateTime = evnt.Timestamp,
-
                 }, TableNameConstants.MessageRecordTable);
             });
         }

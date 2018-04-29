@@ -8,8 +8,8 @@ namespace Lottery.Core.Domain.NormConfigs
         {
         }
 
-        public UpdateNormConfigEvent(string userId,string lotteryId,int lastStartPeriod, int planCycle, int forecastCount, int unitHistoryCount,
-            int historyCount,int minRightSeries,
+        public UpdateNormConfigEvent(string userId, string lotteryId, int lastStartPeriod, int planCycle, int forecastCount, int unitHistoryCount,
+            int historyCount, int minRightSeries,
             int maxRightSeries, int minErrortSeries, int maxErrortSeries, int lookupPeriodCount, int expectMinScore, int expectMaxScore, string customNumbers)
         {
             UserId = userId;
@@ -32,7 +32,6 @@ namespace Lottery.Core.Domain.NormConfigs
         public string UserId { get; private set; }
 
         public string LotteryId { get; private set; }
-    
 
         public int LastStartPeriod { get; private set; }
 
@@ -86,6 +85,5 @@ namespace Lottery.Core.Domain.NormConfigs
         public int ExpectMaxScore { get; private set; }
 
         public string CustomNumbers { get; private set; }
-
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lottery.Dtos.RoleDto;
+﻿using Lottery.Dtos.RoleDto;
+using System.Collections.Generic;
 
 namespace Lottery.QueryServices.Roles
 {

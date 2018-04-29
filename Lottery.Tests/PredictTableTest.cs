@@ -1,5 +1,4 @@
 ﻿using ECommon.Components;
-using Lottery.RunApp;
 using Lottery.RunApp.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,11 +16,9 @@ namespace Lottery.Tests
         [TestMethod]
         public void InitPredictTableTest()
         {
+            var lotteryPredictTableService = ObjectContainer.Resolve<ILotteryPredictTableService>();
 
-             var lotteryPredictTableService = ObjectContainer.Resolve<ILotteryPredictTableService>();
-
-             lotteryPredictTableService.InitLotteryPredictTables();
-             
+            lotteryPredictTableService.InitLotteryPredictTables();
         }
     }
 }

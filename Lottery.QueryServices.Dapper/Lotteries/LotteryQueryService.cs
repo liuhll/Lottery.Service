@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dapper;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Dapper;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.Lotteries;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.Lotteries
 {
     [Component]
     public class LotteryQueryService : BaseQueryService, ILotteryQueryService
     {
-
         protected readonly ICacheManager _cacheManager;
 
         public LotteryQueryService(ICacheManager cacheManager)
@@ -35,10 +33,9 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 if (GetAllLotteryInfo().Any())
                 {
-                    return GetAllLotteryInfo().FirstOrDefault(p => lotteryCode.Equals(p.LotteryCode,StringComparison.CurrentCultureIgnoreCase));
+                    return GetAllLotteryInfo().FirstOrDefault(p => lotteryCode.Equals(p.LotteryCode, StringComparison.CurrentCultureIgnoreCase));
                 }
                 return null;
-
             });
         }
 
@@ -48,7 +45,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 using (var conn = GetLotteryConnection())
                 {
-                    return conn.QueryList<LotteryInfoDto>(new { Status = 1 },TableNameConstants.LotteryInfoTable).ToList();
+                    return conn.QueryList<LotteryInfoDto>(new { Status = 1 }, TableNameConstants.LotteryInfoTable).ToList();
                 }
             });
         }
@@ -64,7 +61,6 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                     return GetAllLotteryInfo().FirstOrDefault(p => p.Id == lotteryId);
                 }
                 return null;
-
             });
         }
     }

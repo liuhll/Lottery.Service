@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using ENode.Eventing;
+﻿using ENode.Eventing;
+using System.Collections.Generic;
 
 namespace Lottery.Core.Domain.LotteryPredictDatas
 {
     public class InitPredictTableEvent : DomainEvent<string>
     {
- 
-
         private InitPredictTableEvent()
         {
         }
 
-        public InitPredictTableEvent(IList<string> predictTableNames,string lotteryCode,string predictDbName)
+        public InitPredictTableEvent(IList<string> predictTableNames, string lotteryCode, string predictDbName)
         {
             PredictTableNames = predictTableNames;
             PredictDbName = predictDbName;
@@ -23,7 +21,5 @@ namespace Lottery.Core.Domain.LotteryPredictDatas
         public IList<string> PredictTableNames { get; private set; }
 
         public string PredictDbName { get; private set; }
-
-
     }
 }

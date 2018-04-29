@@ -1,17 +1,14 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using ECommon.Components;
-using ECommon.Extensions;
+﻿using ECommon.Components;
 using Effortless.Net.Encryption;
 using ENode.Commanding;
-using Lottery.Commands.LotteryDatas;
 using Lottery.Commands.UserInfos;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.QueryServices.UserInfos;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using System;
+using System.Text.RegularExpressions;
 
 namespace Lottery.Tests
 {
@@ -27,12 +24,10 @@ namespace Lottery.Tests
             _userTicketService = ObjectContainer.Resolve<IUserTicketService>();
         }
 
-
         [TestMethod]
         public void Login_Test()
         {
             var id = Guid.NewGuid().ToString();
-
         }
 
         [TestMethod]
@@ -42,11 +37,10 @@ namespace Lottery.Tests
             var pwd = "123qwe";
             var accountRegType = ReferAccountRegType(account);
             var userInfoCommand = new AddUserInfoCommand(Guid.NewGuid().ToString(), account, EncryptPassword(account, pwd, accountRegType),
-                ClientRegistType.Web, accountRegType,0);
+                ClientRegistType.Web, accountRegType, 0);
 
             var commandResult = ExecuteCommand(userInfoCommand);
-            Assert.AreEqual(commandResult.Status,CommandStatus.Success);
-           
+            Assert.AreEqual(commandResult.Status, CommandStatus.Success);
         }
 
         [TestMethod]
@@ -59,7 +53,6 @@ namespace Lottery.Tests
 
             var commandResult = ExecuteCommand(userProfileCommand);
             Assert.AreEqual(commandResult.Status, CommandStatus.Success);
-
         }
 
         private string EncryptPassword(string userAccount, string userPassword, AccountRegistType accountRegType)
@@ -83,7 +76,6 @@ namespace Lottery.Tests
                 return AccountRegistType.Phone;
             }
             throw new LotteryDataException("注册账号不合法");
-
         }
     }
 }

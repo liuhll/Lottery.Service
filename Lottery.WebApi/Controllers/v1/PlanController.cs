@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Lottery.AppService.LotteryData;
 using Lottery.AppService.Norm;
 using Lottery.AppService.Plan;
@@ -14,8 +10,15 @@ using Lottery.Dtos.Plans;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
-using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Norms;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using Lottery.Infrastructure;
+using Lottery.Infrastructure.Enums;
+using Lottery.QueryServices.AuthRanks;
+using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -32,9 +35,10 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly INormConfigAppService _normConfigAppService;
         private readonly UserNormConfigInputValidator _userNormConfigInputValidator;
         private readonly INormPlanConfigQueryService _normPlanConfigQueryService;
+        private readonly IAuthRankQueryService _authRankQueryService;
         private readonly ICacheManager _cacheManager;
 
-        public PlanController(ICommandService commandService, 
+        public PlanController(ICommandService commandService,
             IPlanInfoAppService planInfoAppService,
             IUserNormDefaultConfigService userNormDefaultConfigService,
             UserPlanInfoInputValidator planInfoInputValidator,
@@ -42,7 +46,8 @@ namespace Lottery.WebApi.Controllers.v1
             INormConfigAppService normConfigAppService,
             UserNormConfigInputValidator userNormConfigInputValidator,
             INormPlanConfigQueryService normPlanConfigQueryService,
-            ICacheManager cacheManager) : base(commandService)
+            ICacheManager cacheManager, 
+            IAuthRankQueryService authRankQueryService) : base(commandService)
         {
             _planInfoAppService = planInfoAppService;
             _userNormDefaultConfigService = userNormDefaultConfigService;
@@ -52,6 +57,7 @@ namespace Lottery.WebApi.Controllers.v1
             _userNormConfigInputValidator = userNormConfigInputValidator;
             _normPlanConfigQueryService = normPlanConfigQueryService;
             _cacheManager = cacheManager;
+            _authRankQueryService = authRankQueryService;
         }
 
         /// <summary>
@@ -75,6 +81,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpPut]
         [Route("userplans")]
         [AllowAnonymous]
+        [AppAuthFilter("您没有修改计划的权限,是否购买授权?")]
         public async Task<string> UpdateUserPlans(UserPlanInfoInput input)
         {
             var validatorResult = await _planInfoInputValidator.ValidateAsync(input);
@@ -82,16 +89,26 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 throw new LotteryDataException(validatorResult.Errors.Select(p => p.ErrorMessage + "</br>").ToString(";"));
             }
+
+            var authRankInfo =
+                _authRankQueryService.GetAuthRankByLotteryIdAndRank(_lotterySession.SystemTypeId,
+                    _userMemberRank);
+
+            if (input.PlanIds.Count > authRankInfo.PlanCount)
+            {
+                throw new LotteryException($"您至多允许选择{authRankInfo.PlanCount}个计划,如果需要选择更多计划,请先升级授权版本");
+            }
+        
             _cacheManager.RemoveByPattern("Lottery.PlanTrack");
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
 
-            var userDefaultNormConfig = 
+            var userDefaultNormConfig =
                 _userNormDefaultConfigService.GetUserNormOrDefaultConfig(_lotterySession.UserId, LotteryInfo.Id);
 
             var userNormConfigs = _normConfigAppService.GetUserNormConfig(LotteryInfo.Id, _lotterySession.UserId);
-            if (userNormConfigs!= null && userNormConfigs.Any())
+            if (userNormConfigs != null && userNormConfigs.Any())
             {
-                var deleteUserNormConfigsPlanIds = userNormConfigs.Select(p => p.PlanId).Except(input.PlanIds.Select(p=>p.PlanId));
+                var deleteUserNormConfigsPlanIds = userNormConfigs.Select(p => p.PlanId).Except(input.PlanIds.Select(p => p.PlanId));
                 var deleteUserNormConfigs =
                     userNormConfigs.Where(p => deleteUserNormConfigsPlanIds.Any(q => q == p.PlanId));
                 // 移出本次未选中但是之前选中的计划
@@ -100,11 +117,11 @@ namespace Lottery.WebApi.Controllers.v1
                     await SendCommandAsync(new DeteteNormConfigCommand(config.Id));
                 }
             }
-           
+
             foreach (var plan in input.PlanIds)
             {
                 // 如果用户选中的计划则忽略
-                if (userNormConfigs!= null && userNormConfigs.Any(p=>p.PlanId == plan.PlanId))
+                if (userNormConfigs != null && userNormConfigs.Any(p => p.PlanId == plan.PlanId))
                 {
                     continue;
                 }
@@ -126,10 +143,10 @@ namespace Lottery.WebApi.Controllers.v1
                     }
                 }
 
-                var command = new AddNormConfigCommand(Guid.NewGuid().ToString(),_lotterySession.UserId,
+                var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId,
                     LotteryInfo.Id, plan.PlanId, planCycle,
                     forecastCount, finalLotteryData.Period,
-                    userDefaultNormConfig.UnitHistoryCount,userDefaultNormConfig.HistoryCount,
+                    userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.HistoryCount,
                     userDefaultNormConfig.MinRightSeries,
                     userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrorSeries,
                     userDefaultNormConfig.MaxErrorSeries, userDefaultNormConfig.LookupPeriodCount,
@@ -180,6 +197,7 @@ namespace Lottery.WebApi.Controllers.v1
         [HttpPut]
         [Route("userplannorm")]
         [AllowAnonymous]
+        [AppAuthFilter("您没有修改该计划指标权限,是否购买授权?")]
         public async Task<string> UpdateUserPlanNorm(UserNormPlanConfigInput input)
         {
             var validatorResult = await _userNormConfigInputValidator.ValidateAsync(input);
@@ -200,7 +218,7 @@ namespace Lottery.WebApi.Controllers.v1
                     input.PlanCycle, input.ForecastCount, finalLotteryData.Period,
                     input.UnitHistoryCount, input.HistoryCount, input.MinRightSeries, input.MaxRightSeries,
                     input.MinErrorSeries, input.MaxErrorSeries, input.LookupPeriodCount,
-                    input.ExpectMinScore, input.ExpectMaxScore,planInfo.Sort,input.CustomNumbers);
+                    input.ExpectMinScore, input.ExpectMaxScore, planInfo.Sort, input.CustomNumbers);
                 await SendCommandAsync(command);
             }
             else
@@ -213,7 +231,6 @@ namespace Lottery.WebApi.Controllers.v1
                 await SendCommandAsync(command);
             }
             return "设置公式指标成功";
-         
         }
     }
 }

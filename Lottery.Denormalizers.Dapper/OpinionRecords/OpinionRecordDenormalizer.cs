@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using ECommon.Dapper;
+﻿using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Domain.OpinionRecords;
 using Lottery.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper.OpinionRecords
 {
@@ -14,7 +13,6 @@ namespace Lottery.Denormalizers.Dapper.OpinionRecords
         {
             return TryInsertRecordAsync(conn =>
             {
-
                 return conn.InsertAsync(new
                 {
                     Id = evt.AggregateRootId,

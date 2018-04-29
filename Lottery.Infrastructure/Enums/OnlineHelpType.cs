@@ -15,6 +15,5 @@ namespace Lottery.Infrastructure.Enums
 
         [EnumDescribe("彩种玩法")]
         Lottery = 3
-
     }
 }

@@ -19,6 +19,5 @@ namespace Lottery.Dtos.Lotteries
         public PredictDataDetail CurrentPredictData { get; set; }
 
         public ICollection<PredictDataDetail> HistoryPredictDatas { get; set; }
-
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Lottery.ProcessManagers
 {
-    public class ConLogProcessManager 
+    public class ConLogProcessManager
     {
         private readonly ICommandService _commandService;
 
@@ -10,9 +10,6 @@ namespace Lottery.ProcessManagers
         {
             _commandService = commandService;
         }
-
-
-       
 
         //public Task<AsyncTaskResult> HandleAsync(UpdateUserLogoutEvent evt)
         //{

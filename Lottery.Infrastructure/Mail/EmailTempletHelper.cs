@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Lottery.Infrastructure.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Infrastructure.Mail
 {
     public static class EmailTempletHelper
     {
-        public static string ReadContent(string templetName,IDictionary<string,string> templetParams, EmailTempletType templetType = EmailTempletType.Text)
+        public static string ReadContent(string templetName, IDictionary<string, string> templetParams, EmailTempletType templetType = EmailTempletType.Text)
         {
             var baseDir = AppDomain.CurrentDomain.BaseDirectory;
             var emailTempletName = "";
@@ -16,6 +16,7 @@ namespace Lottery.Infrastructure.Mail
                 case EmailTempletType.Text:
                     emailTempletName = templetName + ".txt";
                     break;
+
                 case EmailTempletType.Html:
                     emailTempletName = templetName + ".html";
                     break;
@@ -28,7 +29,7 @@ namespace Lottery.Infrastructure.Mail
             {
                 foreach (var param in templetParams)
                 {
-                    content = content.Replace("${" + param.Key +"}", param.Value);
+                    content = content.Replace("${" + param.Key + "}", param.Value);
                 }
             }
             return content;

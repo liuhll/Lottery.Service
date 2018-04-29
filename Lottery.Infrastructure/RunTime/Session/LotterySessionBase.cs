@@ -6,10 +6,10 @@ namespace Lottery.Infrastructure.RunTime.Session
     {
         protected LotterySessionBase()
         {
-
         }
 
         public abstract string UserId { get; }
+
         //public abstract string TicketId { get; }
         public abstract string UserName { get; }
 
@@ -23,6 +23,6 @@ namespace Lottery.Infrastructure.RunTime.Session
 
         public abstract int ClientNo { get; }
 
-        public abstract MemberRank MemberRank { get; }
+        //public abstract MemberRank MemberRank { get; }
     }
 }

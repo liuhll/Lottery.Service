@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using ECommon.Components;
+﻿using ECommon.Components;
 using ECommon.Logging;
 using ENode.Commanding;
 using Lottery.AppService.Account;
@@ -20,9 +11,18 @@ using Lottery.QueryServices.Canlogs;
 using Lottery.WebApi.Extensions;
 using Lottery.WebApi.Result.Models;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
 using SecurityToken = Microsoft.IdentityModel.Tokens.SecurityToken;
-using SecurityTokenValidationException = Microsoft.IdentityModel.Tokens.SecurityTokenValidationException;
 using SecurityTokenInvalidLifetimeException = Microsoft.IdentityModel.Tokens.SecurityTokenInvalidLifetimeException;
+using SecurityTokenValidationException = Microsoft.IdentityModel.Tokens.SecurityTokenValidationException;
 
 namespace Lottery.WebApi.Authentication
 {
@@ -34,10 +34,10 @@ namespace Lottery.WebApi.Authentication
         private readonly IConLogQueryService _conLogQueryService;
         private static ILogger _logger;
 
-        private static Tuple<string,string>[] whitelist = new Tuple<string, string>[] { new Tuple<string, string>("/account/login","POST"),
-            new Tuple<string, string>("/account/register","POST"), new Tuple<string, string>("/v1/lottery/list","GET"), 
+        private static Tuple<string, string>[] whitelist = new Tuple<string, string>[] { new Tuple<string, string>("/account/login","POST"),
+            new Tuple<string, string>("/account/register","POST"), new Tuple<string, string>("/v1/lottery/list","GET"),
             new Tuple<string, string>("/v1/message/identifycode1","GET"), new Tuple<string, string>("/v1/message/identifycode","POST"),
-            new Tuple<string, string>("/account/retrievepassword","PUT"),
+            new Tuple<string, string>("/account/retrievepassword","PUT"), new Tuple<string, string>("/v1/sell/notify","POST"), 
         };
 
         public TokenValidationHandler()
@@ -56,8 +56,8 @@ namespace Lottery.WebApi.Authentication
 
             if (!request.Headers.TryGetValues("Authorization", out authzHeaders) || authzHeaders.Count() > 1)
             {
-                if (whitelist.Any(p=> request.RequestUri.AbsolutePath.ToLower().Contains(p.Item1) 
-                && request.Method.Method.ToUpper().Equals(p.Item2)) 
+                if (whitelist.Any(p => request.RequestUri.AbsolutePath.ToLower().Contains(p.Item1)
+                && request.Method.Method.ToUpper().Equals(p.Item2))
                 || request.RequestUri.AbsolutePath.ToLower().Contains("swagger"))
                 {
                     return false;
@@ -83,7 +83,7 @@ namespace Lottery.WebApi.Authentication
 
             //determine whether a jwt exists or not
             if (!TryRetrieveToken(request, out token))
-            {               
+            {
                 return await base.SendAsync(request, cancellationToken);
             }
 
@@ -96,7 +96,7 @@ namespace Lottery.WebApi.Authentication
                 TokenValidationParameters validationParameters = new TokenValidationParameters()
                 {
                     ValidAudience = request.GetAudience(),  // LotteryConstants.ValidAudience,
-                    ValidIssuer =  request.GetIssuer(),  // LotteryConstants.ValidIssuer,
+                    ValidIssuer = request.GetIssuer(),  // LotteryConstants.ValidIssuer,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     LifetimeValidator = this.LifetimeValidator,
@@ -114,10 +114,10 @@ namespace Lottery.WebApi.Authentication
                     throw new LotteryAuthorizationException("您已经登出,请重新登录");
                 }
                 var okResponse = await base.SendAsync(request, cancellationToken);
-                //extract and assign the user of the jwt           
+                //extract and assign the user of the jwt
                 if ((securityToken.ValidTo - DateTime.UtcNow).TotalMinutes <= 3)
                 {
-                    DateTime invalidTime;                 
+                    DateTime invalidTime;
                     var refreshToken =
                         _userManager.UpdateToken(_lotterySession.UserId, _lotterySession.SystemTypeId,
                             _lotterySession.ClientNo, out invalidTime);
@@ -133,7 +133,7 @@ namespace Lottery.WebApi.Authentication
                 try
                 {
                     var tokenInfo = ex.GetTokenInfo();
-                    var conLog = _conLogQueryService.GetUserConLog(tokenInfo.NameId,tokenInfo.SystemTypeId, tokenInfo.ClientNo,
+                    var conLog = _conLogQueryService.GetUserConLog(tokenInfo.NameId, tokenInfo.SystemTypeId, tokenInfo.ClientNo,
                         tokenInfo.Exp);
                     if (conLog != null)
                     {
@@ -146,7 +146,7 @@ namespace Lottery.WebApi.Authentication
                 {
                     errorCode = ErrorCode.InvalidToken;
                     errorMessage = e.Message;
-                }            
+                }
             }
             catch (SecurityTokenValidationException ex)
             {
@@ -169,9 +169,9 @@ namespace Lottery.WebApi.Authentication
                 errorMessage = "无效的Token,原因:" + ex.Message;
             }
 
-            var errorResponse = request.CreateResponse(HttpStatusCode.OK,new ResponseMessage(new ErrorInfo(errorCode, errorMessage),true));
+            var errorResponse = request.CreateResponse(HttpStatusCode.OK, new ResponseMessage(new ErrorInfo(errorCode, errorMessage), true));
             // 对无效token，错误的请求解决无法跨域的问题
-            errorResponse.Headers.Add("Access-Control-Allow-Origin","*");
+            errorResponse.Headers.Add("Access-Control-Allow-Origin", "*");
             return await Task<HttpResponseMessage>.Factory.StartNew(() => errorResponse);
         }
 
@@ -181,7 +181,7 @@ namespace Lottery.WebApi.Authentication
             {
                 if (DateTime.UtcNow < expires)
                     return true;
-            }         
+            }
             return false;
         }
     }

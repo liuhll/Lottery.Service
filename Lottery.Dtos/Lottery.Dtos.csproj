@@ -57,6 +57,7 @@
     <Compile Include="Activity\ActivityDto.cs" />
     <Compile Include="AppInfo\AppInfoOutput.cs" />
     <Compile Include="AuthRanks\AuthRankDto.cs" />
+    <Compile Include="Auths\AuthOrderInfo.cs" />
     <Compile Include="Auths\UserAuthDto.cs" />
     <Compile Include="Auths\UserAuthOutput.cs" />
     <Compile Include="ConLog\ConLogDto.cs" />
@@ -117,6 +118,16 @@
     <Compile Include="ScheduleTasks\ScheduleTaskDto.cs" />
     <Compile Include="Sells\GoodsInfoDto.cs" />
     <Compile Include="Sells\GoodsOutput.cs" />
+    <Compile Include="Sells\NotifyCallBackInput.cs" />
+    <Compile Include="Sells\OrderInfoDto.cs" />
+    <Compile Include="Sells\OrderInfoInfo.cs" />
+    <Compile Include="Sells\OrderInfoItem.cs" />
+    <Compile Include="Sells\OrderInput.cs" />
+    <Compile Include="Sells\OrderOutput.cs" />
+    <Compile Include="Sells\PayInput.cs" />
+    <Compile Include="Sells\PayOrderDto.cs" />
+    <Compile Include="Sells\PayOutput.cs" />
+    <Compile Include="Sells\PaysApiInfo.cs" />
     <Compile Include="Sells\SellTypeOutput.cs" />
     <Compile Include="UserInfo\EntryInfo.cs" />
     <Compile Include="UserInfo\LoginViewModel.cs" />

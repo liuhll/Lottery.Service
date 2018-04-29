@@ -1,13 +1,13 @@
-﻿using System.Threading.Tasks;
-using ECommon.Dapper;
+﻿using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
 using Lottery.Core.Domain.LogonLog;
 using Lottery.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Lottery.Denormalizers.Dapper.LogonLog
 {
-    public class ConlogDenomalizer : AbstractDenormalizer, 
+    public class ConlogDenomalizer : AbstractDenormalizer,
         IMessageHandler<AddConLogEvent>,
         IMessageHandler<LogoutEvent>,
         IMessageHandler<UpdateTokenEvent>
@@ -16,7 +16,6 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
         {
             return TryInsertRecordAsync(conn =>
             {
-
                 return conn.InsertAsync(new
                 {
                     Id = evnt.AggregateRootId,
@@ -29,8 +28,7 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
                     UpdateTokenCount = evnt.UpdateTokenCount,
                     Createby = evnt.UserId,
                     CreateTime = evnt.Timestamp,
-
-                },TableNameConstants.ConLogTable);
+                }, TableNameConstants.ConLogTable);
             });
         }
 
@@ -38,15 +36,13 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
         {
             return TryUpdateRecordAsync(conn =>
             {
-
                 return conn.UpdateAsync(new
                 {
                     evnt.UpdateTokenCount,
                     evnt.InvalidTime,
                     Updateby = evnt.UpdateBy,
                     UpdateTime = evnt.Timestamp,
-
-                }, new {Id = evnt.AggregateRootId,}, TableNameConstants.ConLogTable);
+                }, new { Id = evnt.AggregateRootId, }, TableNameConstants.ConLogTable);
             });
         }
 
@@ -54,14 +50,12 @@ namespace Lottery.Denormalizers.Dapper.LogonLog
         {
             return TryUpdateRecordAsync(conn =>
             {
-
                 return conn.UpdateAsync(new
                 {
                     LogoutTime = evnt.LogoutTime,
                     OnlineTime = evnt.OnlineTime,
                     Updateby = evnt.UserId,
                     UpdateTime = evnt.Timestamp,
-
                 }, new { Id = evnt.AggregateRootId, }, TableNameConstants.ConLogTable);
             });
         }

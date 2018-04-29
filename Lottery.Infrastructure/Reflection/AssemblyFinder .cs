@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ECommon.Components;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using ECommon.Components;
 
 namespace Lottery.Infrastructure.Reflection
 {
@@ -17,7 +17,7 @@ namespace Lottery.Infrastructure.Reflection
         private string assemblyRestrictToLoadingPattern = ".*";
         private IList<string> assemblyNames = new List<string>();
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -56,7 +56,7 @@ namespace Lottery.Infrastructure.Reflection
             set { assemblyRestrictToLoadingPattern = value; }
         }
 
-        #endregion
+        #endregion Properties
 
         public List<Assembly> GetAllAssemblies()
         {
@@ -68,8 +68,8 @@ namespace Lottery.Infrastructure.Reflection
             AddConfiguredAssemblies(addedAssemblyNames, assemblies);
 
             return assemblies;
-
         }
+
         #region Utilities
 
         /// <summary>
@@ -142,7 +142,6 @@ namespace Lottery.Infrastructure.Reflection
             return Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
-
         /// <summary>
         /// Does type implement generic?
         /// </summary>
@@ -170,8 +169,6 @@ namespace Lottery.Infrastructure.Reflection
             }
         }
 
-        #endregion
-
-
+        #endregion Utilities
     }
 }

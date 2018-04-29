@@ -21,7 +21,5 @@ namespace Lottery.Dtos.Lotteries
         public int PredictedResult { get; set; }
 
         public double CurrentScore { get; set; }
-
-
     }
 }

@@ -92,5 +92,6 @@
 
         public const string LOTTERY_PLANTRACK_DETAIL_KEY = "Lottery.PlanTrack.{0}.{1}.{2}";
 
+        public const string PAYSAPICONFIG = "PaysApi.Config";
     }
 }

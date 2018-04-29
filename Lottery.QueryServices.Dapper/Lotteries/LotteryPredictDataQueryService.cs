@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Dapper;
+﻿using Dapper;
 using ECommon.Components;
 using ECommon.Extensions;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure;
 using Lottery.QueryServices.Lotteries;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lottery.QueryServices.Dapper.Lotteries
 {
@@ -20,8 +20,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             _cacheManager = cacheManager;
         }
 
-
-        public PredictDataDto GetLastPredictData(string predictId, string predictTable,string lotteryCode)
+        public PredictDataDto GetLastPredictData(string predictId, string predictTable, string lotteryCode)
         {
             var sql =
                 $@"SELECT TOP 1 [Id],[NormConfigId],[CurrentPredictPeriod],[StartPeriod],[EndPeriod],[MinorCycle],[PredictedData],[PredictedResult],[CurrentScore]
@@ -30,16 +29,14 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 var redisKey = string.Format(RedisKeyConstants.LOTTERY_PREDICT_FINAL_DATA_KEY, predictTable, predictId);
                 conn.Open();
-                return _cacheManager.Get<PredictDataDto>(redisKey, 
+                return _cacheManager.Get<PredictDataDto>(redisKey,
                     () => conn.QueryFirstOrDefault<PredictDataDto>(sql, new { PredictId = predictId }));
-               
             }
-
         }
 
         public PredictDataDto GetPredictDataByStartPeriod(int startPeriod, string normId, string predictTable, string lotteryCode)
         {
-            var predictDatas = GetNormPredictDatas(normId, predictTable,lotteryCode);
+            var predictDatas = GetNormPredictDatas(normId, predictTable, lotteryCode);
             if (!predictDatas.Safe().Any())
             {
                 return null;
@@ -58,14 +55,13 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                 conn.Open();
                 return _cacheManager.Get<ICollection<PredictDataDto>>(redisKey,
                     () => conn.Query<PredictDataDto>(sql, new { NormConfigId = normId }).ToList());
-
             }
         }
 
         public ICollection<PredictDataDto> GetNormHostoryPredictDatas(string normId, string planNormTable, int lookupPeriodCount,
             string lotteryCode)
         {
-            return GetNormPredictDatas(normId, planNormTable, lotteryCode).Safe().Where(p=>p.PredictedResult != 2).Take(lookupPeriodCount).ToList();
+            return GetNormPredictDatas(normId, planNormTable, lotteryCode).Safe().Where(p => p.PredictedResult != 2).Take(lookupPeriodCount).ToList();
         }
 
         public ICollection<PredictDataDto> GetNormPredictDatas(string normId, string planNormTable, int count, string lotteryCode)
@@ -75,7 +71,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
 
         public PredictDataDto GetNormCurrentPredictData(string normId, string planNormTable, string lotteryCode)
         {
-            return GetNormPredictDatas(normId, planNormTable, lotteryCode).FirstOrDefault(p=>p.PredictedResult == 2);
+            return GetNormPredictDatas(normId, planNormTable, lotteryCode).FirstOrDefault(p => p.PredictedResult == 2);
         }
     }
 }

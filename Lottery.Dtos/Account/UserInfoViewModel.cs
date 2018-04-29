@@ -1,5 +1,4 @@
-﻿using System;
-using Lottery.Infrastructure.Enums;
+﻿using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Dtos.Account
 {

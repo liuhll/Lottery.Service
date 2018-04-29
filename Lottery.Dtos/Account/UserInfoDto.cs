@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper.Attributes;
+﻿using AutoMapper.Attributes;
 using Lottery.Dtos.UserInfo;
 using Lottery.Infrastructure.Enums;
 
@@ -39,6 +38,5 @@ namespace Lottery.Dtos.Account
         public int AmountCount { get; set; }
 
         public int TotalConsumePoint { get; set; }
-
     }
 }
