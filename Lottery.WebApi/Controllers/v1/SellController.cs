@@ -260,6 +260,11 @@ namespace Lottery.WebApi.Controllers.v1
             return _sellAppService.GetPayOrderInfo(payInfo, paysApiInfo.PaysApi);
         }
 
+        /// <summary>
+        /// 支付回调接口(PaysApi)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [Route("notify")]
         [HttpPost]
         [AllowAnonymous]
@@ -269,11 +274,14 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 throw  new HttpException("回调参数不允许为null");
             }
-            //var callKey = GetNotifyCallBackKey(input);
-            //if (!callKey.Equals(input.Key))
-            //{
-            //    throw  new HttpException("密钥不正确,回调可能不是由PaysApi发起");
-            //}
+#if DEBUG
+            var callKey = GetNotifyCallBackKey(input);
+            if (!callKey.Equals(input.Key))
+            {
+                throw new HttpException("密钥不正确,回调可能不是由PaysApi发起");
+            }
+
+#endif
 
             var userInfo = await _userManager.GetAccountBaseInfo(input.Orderuid);
             var result = _sellAppService.PayCallBack(input, userInfo);

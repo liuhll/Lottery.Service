@@ -251,7 +251,6 @@
   <ItemGroup>
     <Compile Include="Areas\BackOffice\BackOfficeAreaRegistration.cs" />
     <Compile Include="Areas\BackOffice\Controllers\BoBaseApiV1Controller.cs" />
-    <Compile Include="Areas\BackOffice\Controllers\v1\RoleController.cs" />
     <Compile Include="Authentication\AuthenticationHeaderFilter.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -271,7 +270,6 @@
     <Compile Include="Controllers\v1\BaseApiV1Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\v1\LotteryController.cs" />
-    <Compile Include="Controllers\v1\MenuController.cs" />
     <Compile Include="Controllers\v1\MessageController.cs" />
     <Compile Include="Controllers\v1\NormController.cs" />
     <Compile Include="Controllers\v1\PlanController.cs" />
@@ -321,6 +319,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\BackOffice\Controllers\v1\" />
     <Folder Include="Areas\BackOffice\Models\" />
   </ItemGroup>
   <ItemGroup>
