@@ -4,6 +4,8 @@
     {
         Order,
 
-        Pay
+        Pay,
+
+        Auth
     }
 }

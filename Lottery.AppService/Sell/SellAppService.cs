@@ -1,4 +1,5 @@
-﻿using ECommon.Components;
+﻿using System;
+using ECommon.Components;
 using Lottery.Dtos.Auths;
 using Lottery.Dtos.Sells;
 using Lottery.Infrastructure.Enums;
@@ -10,9 +11,12 @@ using Lottery.QueryServices.Lotteries;
 using System.Collections.Generic;
 using System.Diagnostics;
 using EasyHttp.Http;
+using ECommon.Logging;
+using Lottery.Dtos.Account;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.Json;
+using Lottery.Infrastructure.Logs;
 
 namespace Lottery.AppService.Sell
 {
@@ -24,16 +28,21 @@ namespace Lottery.AppService.Sell
         private readonly IActivityQueryService _activityQueryService;
         private readonly ILotteryQueryService _lotteryQueryService;
         private readonly HttpClient _httpClient;
+        private readonly ISellCallBackService _sellCallBackService;
+        private readonly ILogger _logger;
 
         public SellAppService(ISellQueryService sellQueryService,
             IActivityQueryService activityQueryService,
-            ILotteryQueryService lotteryQueryService)
+            ILotteryQueryService lotteryQueryService,
+            ISellCallBackService sellCallBackService)
         {
             _sellQueryService = sellQueryService;
             _activityQueryService = activityQueryService;
             _lotteryQueryService = lotteryQueryService;
+            _sellCallBackService = sellCallBackService;
             _lotterySession = NullLotterySession.Instance;
             _httpClient = new HttpClient();
+            _logger = NullLotteryLogger.Instance;
         }
 
         public ICollection<SellTypeOutput> GetSalesType(MemberRank memberRank)
@@ -56,7 +65,7 @@ namespace Lottery.AppService.Sell
                     break;
 
                 case MemberRank.Specialty:
-                case MemberRank.Team:
+                case MemberRank.Elite:
                     result.Add(new SellTypeOutput()
                     {
                         SellType = SellType.Rmb,
@@ -167,6 +176,7 @@ namespace Lottery.AppService.Sell
 
         public PayOutput GetPayOrderInfo(PayOrderDto payInfo, string payApi)
         {
+
             var formData = new Dictionary<string, object>();
             formData.Add("uid", payInfo.Uid);
             formData.Add("price", payInfo.Price);
@@ -178,18 +188,72 @@ namespace Lottery.AppService.Sell
             formData.Add("goodsname", payInfo.Goodsname);
             formData.Add("key", payInfo.Key);
 
-            var response = _httpClient.Post(payApi,formData,null, new { format = "json" });
-            
-            dynamic result = response.RawText.ToObject();
-            
+            dynamic result;
+            try
+            {
+                var response = _httpClient.Post(payApi, formData, null, new { format = "json" });
+                result = response.RawText.ToObject();
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+                string payType = string.Empty;
+                string recommendPaytype = string.Empty;
+                if (payInfo.Istype == 1)
+                {
+                    payType = "支付宝";
+                    recommendPaytype = "微信";
+                }
+                else
+                {
+                    payType = "微信";
+                    recommendPaytype = "支付宝";
+                }
+                throw new LotteryException(string.Format("{0}支付系统异常,推荐使用{1}支付,或稍后重试", payType, recommendPaytype));
+            }
+
+            string qrcodeLink = result.data.qrcode.ToString();
+            if (qrcodeLink.IsNullOrEmpty())
+            {
+                string payType = string.Empty;
+                string recommendPaytype = string.Empty;
+                if (payInfo.Istype == 1)
+                {
+                    payType = "支付宝";
+                    recommendPaytype = "微信";
+                }
+                else
+                {
+                    payType = "微信";
+                    recommendPaytype = "支付宝";
+                }
+                throw new LotteryException(string.Format("{0}支付系统异常,推荐使用{1}支付,或稍后重试",payType,recommendPaytype));
+            }
             var output = new PayOutput()
             {
                 IsType = result.data.istype,
                 Msg = payInfo.Goodsname,
-                QrCode = string.Format(LotteryConstants.QrCodeUrl,result.data.qrcode),
+                QrCodeImageAddress = string.Format(LotteryConstants.QrCodeUrl,result.data.qrcode),
+                QrCode = result.data.qrcode,
                 RealPrice = result.data.realprice
             };
             return output;
+        }
+
+        public bool PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo)
+        {
+            try
+            {
+                _logger.Debug("回调参数为:" + input.ToJsonString());
+                _sellCallBackService.PayCallBack(input, userInfo);
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e.Message);
+                return false;
+            }
+           
         }
 
 

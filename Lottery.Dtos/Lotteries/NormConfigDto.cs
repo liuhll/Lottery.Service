@@ -23,6 +23,8 @@
 
         public int MaxErrorSeries { get; set; }
 
+        public bool IsDefualt { get; set; }
+
         public double ExpectMaxScore { get; set; }
 
         public double ExpectMinScore { get; set; }

@@ -83,7 +83,7 @@ AND B.LotteryId=@LotteryId";
   ON B.Id = A.SaleRecordId
   LEFT JOIN dbo.L_LotteryInfo AS C
   ON C.Id = A.LotteryId
-  WHERE InvalidDate <  GETDATE() AND A.Status=0
+  WHERE InvalidDate >  GETDATE() AND A.Status=0
   AND A.LotteryId=@LotteryId
   AND A.AuthUserId=@UserId";
 

@@ -1,0 +1,10 @@
+﻿using Lottery.Dtos.Account;
+using Lottery.Dtos.Sells;
+
+namespace Lottery.QueryServices.Goods
+{
+    public interface ISellCallBackService
+    {
+        void PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo);
+    }
+}

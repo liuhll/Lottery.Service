@@ -239,7 +239,7 @@ namespace Lottery.AppService.Account
 
                 if (authRank != null && clientNo > authRank.PermitClientCount)
                 {
-                    if (memberRank == MemberRank.Team)
+                    if (memberRank == MemberRank.Elite)
                     {
                         throw new LotteryAuthorizationException("该账号登录的客户端超过运行登录的最大数量",
                             ErrorCode.OverloadPermitClientCount);

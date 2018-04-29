@@ -6,6 +6,8 @@ namespace Lottery.Dtos.Sells
     {
         public string Msg { get; set; }
 
+        public string QrCodeImageAddress { get; set; }
+
         public string QrCode { get; set; }
 
         public PayType IsType { get; set; }

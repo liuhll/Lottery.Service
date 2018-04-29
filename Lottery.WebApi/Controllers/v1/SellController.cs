@@ -9,8 +9,11 @@ using Lottery.Infrastructure.Tools;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using Lottery.AppService.Account;
 using Lottery.Infrastructure.Extensions;
+using Lottery.Infrastructure.Json;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -18,10 +21,14 @@ namespace Lottery.WebApi.Controllers.v1
     public class SellController : BaseApiV1Controller
     {
         private readonly ISellAppService _sellAppService;
+        private readonly IUserManager _userManager;
 
-        public SellController(ICommandService commandService, ISellAppService sellAppService) : base(commandService)
+        public SellController(ICommandService commandService,
+            ISellAppService sellAppService,
+            IUserManager userManager) : base(commandService)
         {
             _sellAppService = sellAppService;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -256,9 +263,33 @@ namespace Lottery.WebApi.Controllers.v1
         [Route("notify")]
         [HttpPost]
         [AllowAnonymous]
-        public string Notify()
+        public async Task<string> Notify(NotifyCallBackInput input)
         {
+            if (input == null)
+            {
+                throw  new HttpException("回调参数不允许为null");
+            }
+            //var callKey = GetNotifyCallBackKey(input);
+            //if (!callKey.Equals(input.Key))
+            //{
+            //    throw  new HttpException("密钥不正确,回调可能不是由PaysApi发起");
+            //}
+
+            var userInfo = await _userManager.GetAccountBaseInfo(input.Orderuid);
+            var result = _sellAppService.PayCallBack(input, userInfo);
+            if (!result)
+            {
+                throw new HttpException("执行回调失败");
+            }
             return "OK";
+        }
+
+        private string GetNotifyCallBackKey(NotifyCallBackInput input)
+        {
+            var paysApiInfo = _sellAppService.GetPaysApiInfo();
+            var keyLine = input.Orderid + input.Orderuid + input.Paysapi_id + input.Price + input.Realprice +
+                          paysApiInfo.Token;
+            return EncryptHelper.Md5(keyLine);
         }
 
         private string GetPayKey(PayOrderDto payInfo, string token)

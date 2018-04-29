@@ -1,16 +1,17 @@
 ﻿using System;
+using Lottery.Infrastructure.Enums;
 
-namespace Lottery.Dtos.Menbers
+namespace Lottery.Dtos.Auths
 {
-    public class MemberInfoDto : MemberInfoBase
+    public class AuthOrderInfo : UserAuthDto
     {
         public string Id { get; set; }
 
-        public string UserId { get; set; }
+        public string AuthUserId { get; set; }
 
-        public string LotteryId { get; set; }
+        public string AuthRankId { get; set; }
 
-        public string LastAuthOrderId { get; set; }
+        public AuthStatus Status { get; set; }
 
         public string CreateBy { get; set; }
 
@@ -19,5 +20,6 @@ namespace Lottery.Dtos.Menbers
         public string UpdateBy { get; set; }
 
         public DateTime? UpdateTime { get; set; }
+
     }
 }

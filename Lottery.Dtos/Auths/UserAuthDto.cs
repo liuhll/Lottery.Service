@@ -9,6 +9,8 @@ namespace Lottery.Dtos.Auths
 
         public string SaleRecordId { get; set; }
 
+        public string LotteryId { get; set; }
+
         public SellType AuthType { get; set; }
 
         public DateTime AuthTime { get; set; }

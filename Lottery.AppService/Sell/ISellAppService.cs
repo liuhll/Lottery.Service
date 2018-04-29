@@ -2,6 +2,7 @@
 using Lottery.Dtos.Sells;
 using Lottery.Infrastructure.Enums;
 using System.Collections.Generic;
+using Lottery.Dtos.Account;
 
 namespace Lottery.AppService.Sell
 {
@@ -21,5 +22,6 @@ namespace Lottery.AppService.Sell
 
         PaysApiInfo GetPaysApiInfo();
         PayOutput GetPayOrderInfo(PayOrderDto payInfo,string payApi);
+        bool PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo);
     }
 }

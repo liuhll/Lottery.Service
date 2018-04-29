@@ -44,6 +44,8 @@
 
         public const string PointTypeTable = "MS_PointType";
 
-        public const string OrderRecorTable = "S_OrderRecord";
+        public const string OrderdRecordTable = "S_OrderRecord";
+
+        public const string AuthorizeRecordTable = "S_AuthorizeRecord";
     }
 }

@@ -35,6 +35,10 @@ namespace Lottery.Infrastructure.Tools
                         break;
                 }
             }
+            else
+            {
+                prefix = "AU";
+            }
             var date = DateTime.Now.ToString("yyyyMMdd");
             var timestamp = (int)(DateTime.Now - DateTime.Today).TotalSeconds;
             var saltFigure = RandomHelper.GenerateIdentifyCode(4);

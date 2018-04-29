@@ -28,7 +28,7 @@ namespace Lottery.Denormalizers.Dapper.Orders
                     evt.OriginalCost,
                     evt.UnitPrice,
                     CreateTime = evt.Timestamp
-                }, TableNameConstants.OrderRecorTable);
+                }, TableNameConstants.OrderdRecordTable);
             });
         }
     }

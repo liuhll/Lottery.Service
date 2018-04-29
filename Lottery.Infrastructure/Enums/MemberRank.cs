@@ -23,9 +23,9 @@ namespace Lottery.Infrastructure.Enums
         Specialty,
 
         /// <summary>
-        /// 团队版本
+        /// 精英版
         /// </summary>
-        [EnumDescribe("团队版")]
-        Team,
+        [EnumDescribe("精英版")]
+        Elite,
     }
 }
