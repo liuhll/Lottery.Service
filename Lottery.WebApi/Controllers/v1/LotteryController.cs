@@ -20,6 +20,7 @@ using Lottery.WebApi.Filter;
 namespace Lottery.WebApi.Controllers.v1
 {
     [RoutePrefix("v1/lottery")]
+  
     public class LotteryController : BaseApiV1Controller
     {
         private readonly ILotteryDataAppService _lotteryDataAppService;
@@ -165,7 +166,7 @@ namespace Lottery.WebApi.Controllers.v1
         /// </summary>
         /// <returns>最后一期开奖数据</returns>
         [HttpGet]
-        [Route("finallotterydata")]
+        [Route("finallotterydata")]        
         public FinalLotteryDataOutput GetFinalLotteryData()
         {
             var lotteryId = _lotterySession.SystemTypeId;
