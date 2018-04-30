@@ -8,12 +8,18 @@ using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Tools;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Lottery.AppService.Account;
+using Lottery.AppService.LotteryData;
+using Lottery.AppService.Norm;
+using Lottery.AppService.Plan;
+using Lottery.Commands.Norms;
 using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.Json;
+using Lottery.QueryServices.Norms;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -22,13 +28,28 @@ namespace Lottery.WebApi.Controllers.v1
     {
         private readonly ISellAppService _sellAppService;
         private readonly IUserManager _userManager;
+        private readonly INormConfigAppService _normConfigAppService;
+        private readonly IPlanInfoAppService _planInfoAppService;
+        private readonly INormPlanConfigQueryService _normPlanConfigQueryService;
+        private readonly IUserNormDefaultConfigService _userNormDefaultConfigService;
+        private readonly ILotteryDataAppService _lotteryDataAppService;
 
         public SellController(ICommandService commandService,
             ISellAppService sellAppService,
-            IUserManager userManager) : base(commandService)
+            IUserManager userManager, 
+            INormConfigAppService normConfigAppService,
+            IPlanInfoAppService planInfoAppService, 
+            INormPlanConfigQueryService normPlanConfigQueryService,
+            IUserNormDefaultConfigService userNormDefaultConfigService,
+            ILotteryDataAppService lotteryDataAppService) : base(commandService)
         {
             _sellAppService = sellAppService;
             _userManager = userManager;
+            _normConfigAppService = normConfigAppService;
+            _planInfoAppService = planInfoAppService;
+            _normPlanConfigQueryService = normPlanConfigQueryService;
+            _userNormDefaultConfigService = userNormDefaultConfigService;
+            _lotteryDataAppService = lotteryDataAppService;
         }
 
         /// <summary>
@@ -274,7 +295,7 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 throw  new HttpException("回调参数不允许为null");
             }
-#if DEBUG
+#if !DEBUG
             var callKey = GetNotifyCallBackKey(input);
             if (!callKey.Equals(input.Key))
             {
@@ -284,10 +305,55 @@ namespace Lottery.WebApi.Controllers.v1
 #endif
 
             var userInfo = await _userManager.GetAccountBaseInfo(input.Orderuid);
-            var result = _sellAppService.PayCallBack(input, userInfo);
+            string lotteryId = string.Empty;
+            var result = _sellAppService.PayCallBack(input, userInfo, out lotteryId);
+
             if (!result)
             {
-                throw new HttpException("执行回调失败");
+                throw new HttpException("业务处理失败");
+            }
+
+            var defaultUserNorms = _normConfigAppService.GetNormConfigsByUserIdOrDefault(lotteryId);
+
+            var userNormConfigs = _normConfigAppService.GetUserNormConfig(lotteryId, userInfo.Id);
+            var userDefaultNormConfig =
+                _userNormDefaultConfigService.GetUserNormOrDefaultConfig(userInfo.Id, lotteryId);
+            var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(lotteryId);
+
+            foreach (var userNorm in defaultUserNorms)
+            {
+                // 如果用户选中的计划则忽略
+                if (userNormConfigs != null && userNormConfigs.Any(p => p.PlanId == userNorm.PlanId))
+                {
+                    continue;
+                }
+                var planInfo = _planInfoAppService.GetPlanInfoById(userNorm.PlanId);
+                var planNormConfigInfo =
+                    _normPlanConfigQueryService.GetNormPlanDefaultConfig(planInfo.LotteryInfo.LotteryCode,
+                        planInfo.PredictCode);
+                var planCycle = userNorm.PlanCycle;
+                var forecastCount = userNorm.ForecastCount;
+                if (planNormConfigInfo != null)
+                {
+                    if (planCycle > planNormConfigInfo.MaxPlanCycle)
+                    {
+                        planCycle = planNormConfigInfo.MaxPlanCycle;
+                    }
+                    if (forecastCount > planNormConfigInfo.MaxForecastCount)
+                    {
+                        forecastCount = planNormConfigInfo.MaxForecastCount;
+                    }
+                }
+
+                var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), userInfo.Id,
+                    lotteryId, planInfo.Id, planCycle,
+                    forecastCount, finalLotteryData.Period,
+                    userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.HistoryCount,
+                    userDefaultNormConfig.MinRightSeries,
+                    userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrorSeries,
+                    userDefaultNormConfig.MaxErrorSeries, userDefaultNormConfig.LookupPeriodCount,
+                    userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore, userNorm.Sort);
+                await SendCommandAsync(command);
             }
             return "OK";
         }

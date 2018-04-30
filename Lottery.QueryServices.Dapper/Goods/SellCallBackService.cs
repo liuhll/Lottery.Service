@@ -30,7 +30,7 @@ namespace Lottery.QueryServices.Dapper.Goods
             _cacheManager = cacheManager;
         }
 
-        public void PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo)
+        public void PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo, out string lotteryId)
         {
             using (var conn = GetLotteryConnection())
             {
@@ -136,28 +136,38 @@ namespace Lottery.QueryServices.Dapper.Goods
 
                         #region 指标配置
 
-                        var userNormConigs = conn.QueryList<NormConfigDto>(new { UserId = userInfo.Id, IsEnable = 1 }, TableNameConstants.NormConfigTable, transaction: transaction);
+                        //var userNormConigs = conn.QueryList<NormConfigDto>(new { UserId = userInfo.Id, IsEnable = 1 }, TableNameConstants.NormConfigTable, transaction: transaction);
 
-                        if (!userNormConigs.Safe().Any())
-                        {
-                            var normConfigs = conn.QueryList<NormConfigDto>(new { LotteryId = orderDto.LotteryId, IsDefualt = 1, IsEnable = 1 }, TableNameConstants.NormConfigTable, transaction: transaction);
+                        //if (!userNormConigs.Safe().Any())
+                        //{
+                        //    var normConfigs = conn.QueryList<NormConfigDto>(new { LotteryId = orderDto.LotteryId, IsDefualt = 1, IsEnable = 1 }, TableNameConstants.NormConfigTable, transaction: transaction);
 
-                            foreach (var normConfig in normConfigs)
-                            {
-                                normConfig.UserId = userInfo.Id;
-                                normConfig.Id = Guid.NewGuid().ToString();
-                                conn.Insert(normConfig, TableNameConstants.NormConfigTable, transaction);
-                            }
-                        }
+                        //    foreach (var normConfig in normConfigs)
+                        //    {
+                        //        normConfig.UserId = userInfo.Id;
+                        //        normConfig.Id = Guid.NewGuid().ToString();
+                        //        conn.Insert(normConfig, TableNameConstants.NormConfigTable, transaction);
+                        //    }
+                        //}
 
                         #endregion 指标配置
 
                         #region 清除相关缓存
 
-                        _cacheManager.RemoveByPattern("NormConfig");
-                        _cacheManager.RemoveByPattern("UserInfo");
-                        _cacheManager.RemoveByPattern("MemberInfo");
+                        var redisKey1 = string.Format(RedisKeyConstants.MEMBERRANK_MEMBERPOWER_KEY, orderDto.LotteryId,
+                            authRank.MemberRank);
+                        var redisKey2 = string.Format(RedisKeyConstants.MEMBERRANK_ROLE_KEY, orderDto.LotteryId,
+                            authRank.MemberRank);
+                        var redisKey3 = string.Format(RedisKeyConstants.USERINFO_KEY, userInfo.Id);
+                        var redisKey4 = string.Format(RedisKeyConstants.OPERATION_MEMBERINFO_KEY, orderDto.LotteryId);
+                        _cacheManager.RemoveByPattern(redisKey1);
+                        _cacheManager.RemoveByPattern(redisKey2);
+                        _cacheManager.RemoveByPattern(redisKey3);
+                        _cacheManager.RemoveByPattern(redisKey4);
                         transaction.Commit();
+
+                        lotteryId = orderDto.LotteryId;
+
                         #endregion 清除相关缓存
                     }
                     catch (Exception e)

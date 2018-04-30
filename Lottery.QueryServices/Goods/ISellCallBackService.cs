@@ -5,6 +5,6 @@ namespace Lottery.QueryServices.Goods
 {
     public interface ISellCallBackService
     {
-        void PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo);
+        void PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo,out string lotteryId);
     }
 }

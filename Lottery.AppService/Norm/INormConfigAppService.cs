@@ -6,7 +6,7 @@ namespace Lottery.AppService.Norm
 {
     public interface INormConfigAppService
     {
-        ICollection<NormConfigDto> GetNormConfigsByUserIdOrDefault(string userId = "");
+        ICollection<NormConfigDto> GetNormConfigsByUserIdOrDefault(string lotteryId, string userId = "");
 
         UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId);
 

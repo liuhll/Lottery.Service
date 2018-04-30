@@ -31,9 +31,9 @@ namespace Lottery.AppService.Norm
             _planInfoQueryService = planInfoQueryService;
         }
 
-        public ICollection<NormConfigDto> GetNormConfigsByUserIdOrDefault(string userId = "")
+        public ICollection<NormConfigDto> GetNormConfigsByUserIdOrDefault(string lotteryId,string userId = "")
         {
-            return _normConfigQueryService.GetUserOrDefaultNormConfigs(userId);
+            return _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryId,userId);
         }
 
         public UserNormDefaultConfigOutput GetUserNormDefaultConfig(string userId, string lotteryId)

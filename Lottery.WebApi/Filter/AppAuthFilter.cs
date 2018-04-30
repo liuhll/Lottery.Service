@@ -13,19 +13,20 @@ namespace Lottery.WebApi.Filter
         private readonly string _desc;
         private readonly ILotterySession _lotterySession;
         private readonly IMemberAppService _memberAppService;
-        private readonly MemberRank _userMemberRank;
+
 
         public AppAuthFilter(string desc)
         {
             _desc = desc;
             _lotterySession = NullLotterySession.Instance;
             _memberAppService = ObjectContainer.Resolve<IMemberAppService>();
-            _userMemberRank = _memberAppService.GetUserMemRank(_lotterySession.UserId, _lotterySession.SystemTypeId);
+          
         }
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            if (_userMemberRank == MemberRank.Ordinary)
+            var userMemberRank = _memberAppService.GetUserMemRank(_lotterySession.UserId, _lotterySession.SystemTypeId);
+            if (userMemberRank == MemberRank.Ordinary)
             {
                 throw new LotteryException(_desc);
             }

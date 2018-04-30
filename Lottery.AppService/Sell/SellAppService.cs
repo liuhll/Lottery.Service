@@ -240,17 +240,18 @@ namespace Lottery.AppService.Sell
             return output;
         }
 
-        public bool PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo)
+        public bool PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo,out string lotteryId)
         {
             try
             {
                 _logger.Debug("回调参数为:" + input.ToJsonString());
-                _sellCallBackService.PayCallBack(input, userInfo);
+                _sellCallBackService.PayCallBack(input, userInfo,out lotteryId);
                 return true;
             }
             catch (Exception e)
             {
                 _logger.Error(e.Message);
+                lotteryId = "";
                 return false;
             }
            
