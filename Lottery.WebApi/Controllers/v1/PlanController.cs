@@ -182,10 +182,10 @@ namespace Lottery.WebApi.Controllers.v1
         public UserPlanNormOutput GetUserPlanByPlanId(string planId)
         {
             var userPlanNorm = _normConfigAppService.GetUserNormConfigByPlanId(_lotterySession.UserId, LotteryInfo.Id, planId);
-            if (userPlanNorm.Id.IsNullOrEmpty())
-            {
-                throw new LotteryException("您没有修改计划指标权限,请先购买授权");
-            }
+            //if (userPlanNorm.Id.IsNullOrEmpty())
+            //{
+            //    throw new LotteryException("您没有修改计划指标权限,请先购买授权");
+            //}
             return userPlanNorm;
         }
 
@@ -198,7 +198,7 @@ namespace Lottery.WebApi.Controllers.v1
         [Route("userplannorm")]
         [AllowAnonymous]
         [AppAuthFilter("您没有修改该计划指标权限,是否购买授权?")]
-        public async Task<string> UpdateUserPlanNorm(UserNormPlanConfigInput input)
+        public async Task<UpdateUserPlanNormOutput> UpdateUserPlanNorm(UserNormPlanConfigInput input)
         {
             var validatorResult = await _userNormConfigInputValidator.ValidateAsync(input);
             if (!validatorResult.IsValid)
@@ -230,7 +230,21 @@ namespace Lottery.WebApi.Controllers.v1
                     input.ExpectMinScore, input.ExpectMaxScore, input.CustomNumbers);
                 await SendCommandAsync(command);
             }
-            return "设置公式指标成功";
+
+            var canSwitchFormula = _userMemberRank > MemberRank.Senior;
+            var tips = "设置公式指标成功";
+            if (canSwitchFormula)
+            {
+                tips += ",是否立即根据该指标计算追号数据？";
+            }
+
+            var result = new UpdateUserPlanNormOutput()
+            {
+                Tips = tips,
+                CanSwitchFormula = canSwitchFormula
+            };
+
+            return result;
         }
     }
 }

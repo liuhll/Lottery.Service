@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using ECommon.Extensions;
 using Lottery.AppService.Account;
 using Lottery.AppService.LotteryData;
 using Lottery.AppService.Norm;
@@ -320,40 +321,43 @@ namespace Lottery.WebApi.Controllers.v1
                 _userNormDefaultConfigService.GetUserNormOrDefaultConfig(userInfo.Id, lotteryId);
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(lotteryId);
 
-            foreach (var userNorm in defaultUserNorms)
+            if (!userNormConfigs.Safe().Any())
             {
-                // 如果用户选中的计划则忽略
-                if (userNormConfigs != null && userNormConfigs.Any(p => p.PlanId == userNorm.PlanId))
+                foreach (var userNorm in defaultUserNorms)
                 {
-                    continue;
-                }
-                var planInfo = _planInfoAppService.GetPlanInfoById(userNorm.PlanId);
-                var planNormConfigInfo =
-                    _normPlanConfigQueryService.GetNormPlanDefaultConfig(planInfo.LotteryInfo.LotteryCode,
-                        planInfo.PredictCode);
-                var planCycle = userNorm.PlanCycle;
-                var forecastCount = userNorm.ForecastCount;
-                if (planNormConfigInfo != null)
-                {
-                    if (planCycle > planNormConfigInfo.MaxPlanCycle)
+                    // 如果用户选中的计划则忽略
+                    if (userNormConfigs != null && userNormConfigs.Any(p => p.PlanId == userNorm.PlanId))
                     {
-                        planCycle = planNormConfigInfo.MaxPlanCycle;
+                        continue;
                     }
-                    if (forecastCount > planNormConfigInfo.MaxForecastCount)
+                    var planInfo = _planInfoAppService.GetPlanInfoById(userNorm.PlanId);
+                    var planNormConfigInfo =
+                        _normPlanConfigQueryService.GetNormPlanDefaultConfig(planInfo.LotteryInfo.LotteryCode,
+                            planInfo.PredictCode);
+                    var planCycle = userNorm.PlanCycle;
+                    var forecastCount = userNorm.ForecastCount;
+                    if (planNormConfigInfo != null)
                     {
-                        forecastCount = planNormConfigInfo.MaxForecastCount;
+                        if (planCycle > planNormConfigInfo.MaxPlanCycle)
+                        {
+                            planCycle = planNormConfigInfo.MaxPlanCycle;
+                        }
+                        if (forecastCount > planNormConfigInfo.MaxForecastCount)
+                        {
+                            forecastCount = planNormConfigInfo.MaxForecastCount;
+                        }
                     }
-                }
 
-                var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), userInfo.Id,
-                    lotteryId, planInfo.Id, planCycle,
-                    forecastCount, finalLotteryData.Period,
-                    userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.HistoryCount,
-                    userDefaultNormConfig.MinRightSeries,
-                    userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrorSeries,
-                    userDefaultNormConfig.MaxErrorSeries, userDefaultNormConfig.LookupPeriodCount,
-                    userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore, userNorm.Sort);
-                await SendCommandAsync(command);
+                    var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), userInfo.Id,
+                        lotteryId, planInfo.Id, planCycle,
+                        forecastCount, finalLotteryData.Period,
+                        userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.HistoryCount,
+                        userDefaultNormConfig.MinRightSeries,
+                        userDefaultNormConfig.MaxRightSeries, userDefaultNormConfig.MinErrorSeries,
+                        userDefaultNormConfig.MaxErrorSeries, userDefaultNormConfig.LookupPeriodCount,
+                        userDefaultNormConfig.ExpectMinScore, userDefaultNormConfig.ExpectMaxScore, userNorm.Sort);
+                    await SendCommandAsync(command);
+                }
             }
             return "OK";
         }

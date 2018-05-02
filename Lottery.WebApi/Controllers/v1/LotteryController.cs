@@ -92,7 +92,7 @@ namespace Lottery.WebApi.Controllers.v1
             var userId = _lotterySession.UserId;
             var data = _lotteryDataAppService.UpdateLotteryDataList(lotteryId, userId, input.NormId);
             GetPlanTrackNumberByPredictData(lotteryId, data);
-            return "计算当前计划预测数据成功";
+            return "重新计算追号数据成功";
         }
 
         /// <summary>
