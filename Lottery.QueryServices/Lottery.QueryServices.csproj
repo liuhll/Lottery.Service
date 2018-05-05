@@ -44,6 +44,7 @@
     <Compile Include="AppInfos\IAppInfoQueryService.cs" />
     <Compile Include="AuthRanks\IAuthRankQueryService.cs" />
     <Compile Include="Canlogs\IConLogQueryService.cs" />
+    <Compile Include="CustomService\ICustomServiceQueryService.cs" />
     <Compile Include="Goods\ISellCallBackService.cs" />
     <Compile Include="Goods\ISellQueryService.cs" />
     <Compile Include="IdentifyCodes\IIdentifyCodeQueryService.cs" />

@@ -4,6 +4,7 @@ using Lottery.AppService.Validations.Opinions;
 using Lottery.Commands.OpinionRecords;
 using Lottery.Commands.Points;
 using Lottery.Dtos.AppInfo;
+using Lottery.Dtos.CustomService;
 using Lottery.Dtos.OnlineHelp;
 using Lottery.Dtos.Opinions;
 using Lottery.Dtos.Points;
@@ -20,6 +21,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lottery.QueryServices.CustomService;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -31,13 +33,15 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly IAppInfoQueryService _appInfoQueryService;
         private readonly IPointQueryService _pointQueryService;
         private readonly IUserInfoService _userInfoService;
+        private readonly ICustomServiceQueryService _customServiceQueryService;
 
         public OperationController(ICommandService commandService,
             OpinionInputValidtor opinionInputValidtor,
             IOnlineHelpAppService onlineHelpAppService,
             IAppInfoQueryService appInfoQueryService,
             IPointQueryService pointQueryService,
-            IUserInfoService userInfoService)
+            IUserInfoService userInfoService,
+            ICustomServiceQueryService customServiceQueryService)
             : base(commandService)
         {
             _opinionInputValidtor = opinionInputValidtor;
@@ -45,6 +49,7 @@ namespace Lottery.WebApi.Controllers.v1
             _appInfoQueryService = appInfoQueryService;
             _pointQueryService = pointQueryService;
             _userInfoService = userInfoService;
+            _customServiceQueryService = customServiceQueryService;
         }
 
         [Route("activity")]
@@ -101,6 +106,18 @@ namespace Lottery.WebApi.Controllers.v1
         public async Task<AppInfoOutput> GetAppInfo(AppPlatform platform)
         {
             return _appInfoQueryService.GetAppInfo(platform);
+        }
+
+        /// <summary>
+        /// 获取客服信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("customservice")]
+        [AllowAnonymous]
+        public async Task<CustomServiceOutput> GetCustomService()
+        {
+            return _customServiceQueryService.GetCustomService(_lotterySession.SystemTypeId);
         }
 
         /// <summary>

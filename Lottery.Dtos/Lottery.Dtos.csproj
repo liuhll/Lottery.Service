@@ -61,6 +61,7 @@
     <Compile Include="Auths\UserAuthDto.cs" />
     <Compile Include="Auths\UserAuthOutput.cs" />
     <Compile Include="ConLog\ConLogDto.cs" />
+    <Compile Include="CustomService\CustomServiceOutput.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeDto.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeOutput.cs" />
     <Compile Include="IdentifyCodes\IdentifyCodeValidInput.cs" />

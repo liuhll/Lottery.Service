@@ -63,6 +63,8 @@
     <Compile Include="Bjpks\BjpksDataUpdateItem1.cs" />
     <Compile Include="BaseDataUpdateItem.cs" />
     <Compile Include="Bjpks\BjpksDataUpdateItem2.cs" />
+    <Compile Include="Bjpks\BjpksDataUpdateItem4.cs" />
+    <Compile Include="Bjpks\BjpksDataUpdateItem3.cs" />
     <Compile Include="DataUpdateContext.cs" />
     <Compile Include="IDataUpdateItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

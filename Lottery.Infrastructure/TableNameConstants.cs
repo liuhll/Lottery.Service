@@ -47,5 +47,7 @@
         public const string OrderdRecordTable = "S_OrderRecord";
 
         public const string AuthorizeRecordTable = "S_AuthorizeRecord";
+
+        public const string CustomServiceTable = "B_CustomService";
     }
 }
