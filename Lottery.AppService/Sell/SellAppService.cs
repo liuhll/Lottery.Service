@@ -267,6 +267,7 @@ namespace Lottery.AppService.Sell
             {
                 var output = new GoodsOutput()
                 {
+                    GoodsId = goods.Id,
                     GoodsName = goods.GoodName,
                     Count = 1,
                     Discount = GetDiscount(goods.AuthRankId, SellType.Point),
