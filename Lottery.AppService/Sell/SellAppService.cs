@@ -257,6 +257,22 @@ namespace Lottery.AppService.Sell
            
         }
 
+        public bool PointPay(PointPayInput input, out string lotteryId)
+        {
+            try
+            {
+                lotteryId = _sellCallBackService.PointPay(input, _lotterySession.UserId);
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e.Message);
+                lotteryId = "";
+                return false;
+            }
+            
+        }
+
 
         private IList<GoodsOutput> GetPointGoodInfos(MemberRank memberRank, string lotteryId)
         {

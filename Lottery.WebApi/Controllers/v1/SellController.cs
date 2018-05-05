@@ -18,9 +18,11 @@ using Lottery.AppService.LotteryData;
 using Lottery.AppService.Norm;
 using Lottery.AppService.Plan;
 using Lottery.Commands.Norms;
+using Lottery.Commands.Points;
 using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.Json;
 using Lottery.QueryServices.Norms;
+using Lottery.QueryServices.UserInfos;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -34,6 +36,7 @@ namespace Lottery.WebApi.Controllers.v1
         private readonly INormPlanConfigQueryService _normPlanConfigQueryService;
         private readonly IUserNormDefaultConfigService _userNormDefaultConfigService;
         private readonly ILotteryDataAppService _lotteryDataAppService;
+        private readonly IUserInfoService _userInfoService;
 
         public SellController(ICommandService commandService,
             ISellAppService sellAppService,
@@ -42,7 +45,8 @@ namespace Lottery.WebApi.Controllers.v1
             IPlanInfoAppService planInfoAppService, 
             INormPlanConfigQueryService normPlanConfigQueryService,
             IUserNormDefaultConfigService userNormDefaultConfigService,
-            ILotteryDataAppService lotteryDataAppService) : base(commandService)
+            ILotteryDataAppService lotteryDataAppService,
+            IUserInfoService userInfoService) : base(commandService)
         {
             _sellAppService = sellAppService;
             _userManager = userManager;
@@ -51,6 +55,7 @@ namespace Lottery.WebApi.Controllers.v1
             _normPlanConfigQueryService = normPlanConfigQueryService;
             _userNormDefaultConfigService = userNormDefaultConfigService;
             _lotteryDataAppService = lotteryDataAppService;
+            _userInfoService = userInfoService;
         }
 
         /// <summary>
@@ -283,6 +288,45 @@ namespace Lottery.WebApi.Controllers.v1
         }
 
         /// <summary>
+        /// 积分支付
+        /// </summary>
+        /// <param name="input">支付订单信息</param>
+        /// <returns></returns>
+        [Route("pointpay")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<string> PointPay(PointPayInput input)
+        {
+            var orderInfo = _sellAppService.GetOrderInfo(input.OrderId);
+            if (orderInfo == null)
+            {
+                throw new LotteryDataException("下单失败,请稍后重试");
+            }
+            if (!orderInfo.OrderCost.Equals(input.Price))
+            {
+                throw new LotteryDataException("订单金额错误,请核对订单信息");
+            }
+            var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
+            //if (userInfo.Points < input.Price)
+            //{
+            //    throw new LotteryDataException("积分余额不足,您可以通过分享App、签到等多种途径获取积分");
+            //}
+
+            string lotteryId;
+            if (!_sellAppService.PointPay(input,out lotteryId))
+            {
+                throw new HttpException("兑换失败,请稍后重试");
+            }
+            await AllotDefaultPlanNorm(userInfo.Id, lotteryId);
+
+            var notes = $"{DateTime.Now.ToString("yyyy-MM-dd")}日,积分兑换授权";
+            await SendCommandAsync(new AddPointRecordCommand(Guid.NewGuid().ToString(), -input.Price,
+                PointType.SignAdditional, PointOperationType.Increase, notes, _lotterySession.UserId));
+
+            return "兑换成功";
+        }
+
+        /// <summary>
         /// 支付回调接口(PaysApi)
         /// </summary>
         /// <param name="input"></param>
@@ -294,7 +338,7 @@ namespace Lottery.WebApi.Controllers.v1
         {
             if (input == null)
             {
-                throw  new HttpException("回调参数不允许为null");
+                throw new HttpException("回调参数不允许为null");
             }
 #if !DEBUG
             var callKey = GetNotifyCallBackKey(input);
@@ -314,11 +358,17 @@ namespace Lottery.WebApi.Controllers.v1
                 throw new HttpException("业务处理失败");
             }
 
+            await AllotDefaultPlanNorm(userInfo.Id, lotteryId);
+            return "OK";
+        }
+
+        private async Task AllotDefaultPlanNorm(string userId, string lotteryId)
+        {
             var defaultUserNorms = _normConfigAppService.GetNormConfigsByUserIdOrDefault(lotteryId);
 
-            var userNormConfigs = _normConfigAppService.GetUserNormConfig(lotteryId, userInfo.Id);
+            var userNormConfigs = _normConfigAppService.GetUserNormConfig(lotteryId, userId);
             var userDefaultNormConfig =
-                _userNormDefaultConfigService.GetUserNormOrDefaultConfig(userInfo.Id, lotteryId);
+                _userNormDefaultConfigService.GetUserNormOrDefaultConfig(userId, lotteryId);
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(lotteryId);
 
             if (!userNormConfigs.Safe().Any())
@@ -348,7 +398,7 @@ namespace Lottery.WebApi.Controllers.v1
                         }
                     }
 
-                    var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), userInfo.Id,
+                    var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), userId,
                         lotteryId, planInfo.Id, planCycle,
                         forecastCount, finalLotteryData.Period,
                         userDefaultNormConfig.UnitHistoryCount, userDefaultNormConfig.HistoryCount,
@@ -359,7 +409,6 @@ namespace Lottery.WebApi.Controllers.v1
                     await SendCommandAsync(command);
                 }
             }
-            return "OK";
         }
 
         private string GetNotifyCallBackKey(NotifyCallBackInput input)

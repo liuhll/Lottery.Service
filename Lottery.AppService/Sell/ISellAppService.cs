@@ -23,5 +23,6 @@ namespace Lottery.AppService.Sell
         PaysApiInfo GetPaysApiInfo();
         PayOutput GetPayOrderInfo(PayOrderDto payInfo,string payApi);
         bool PayCallBack(NotifyCallBackInput input, UserBaseDto userInfo, out string lotteryId);
+        bool PointPay(PointPayInput input, out string lotteryId);
     }
 }
