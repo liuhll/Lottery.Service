@@ -1,7 +1,99 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "关于";
+    ViewBag.ActiveMenu = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<section id="subintro">
 
-<p>Use this area to provide additional information.</p>
+    <div class="container">
+        <div class="row">
+            <div class="span4">
+                <h3>关于 <strong>彩乐盟工作室</strong></h3>
+            </div>
+            <div class="span8">
+                <ul class="breadcrumb notop">
+                    <li><a href="/">首页</a><span class="divider">/</span></li>
+                    <li class="active">关于我们</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section id="maincontent">
+    <div class="container">
+        <div class="row">
+            <div class="span4">
+                <div class="well">
+                    <div class="centered e_bounce">
+                        <i class="icon-bg-light icon-circled icon-group icon-3x active"></i>
+                        <h4><strong>优秀</strong>的团队</h4>
+                        <p>
+                            团队中的每个成员均高等教育,核心骨干在数据分析领域具有丰富的工作经验和研究心得,均是毕业于数学或计算机专业,对概率学具有深入的研究
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="well">
+                    <div class="centered e_bounce">
+                        <i class="icon-bg-light icon-circled icon-rocket icon-3x active"></i>
+                        <h4><strong>高效</strong>的数据引擎</h4>
+                        <p>
+                            优秀的成员促成的优秀的团队,最终打造出的高效的数据分析引擎,这也是我们产品的保证
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="well">
+                    <div class="centered e_bounce">
+                        <i class="icon-bg-light icon-circled icon-heart icon-3x active"></i>
+                        <h4><strong>用心</strong>的产品</h4>
+                        <p>
+                            为了使数据分析结果更准确、产品效果更好,团队进行了成百上千次的测试与设计,才最终打造出该产品
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <div class="solid_line">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h4>我们的服务</h4>
+                <!-- start: Accordion -->
+                <div class="accordion" id="accordion2">
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                                <i class="icon-minus"></i>彩票计划追号分析</a>
+                        </div>
+                        <div id="collapseOne" class="accordion-body collapse in">
+                            <div class="accordion-inner">
+                                内置高效的数据分析引擎，根据不同的彩种特点与用户配置的指标,计算出概率最高的开奖数据
+                            </div>
+                        </div>
+                    </div>
+           
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                                <i class="icon-plus"></i> 积分商城</a>
+                        </div>
+                        <div id="collapseThree" class="accordion-body collapse">
+                            <div class="accordion-inner">
+                                用户可通过注册、签到、分享APP等等途径获得积分,积分可以兑换授权、在计划市场(后续版本)中兑换高准确率的计划等等
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end: Accordion -->
+            </div>
+        </div>
+    </div>
+</section>

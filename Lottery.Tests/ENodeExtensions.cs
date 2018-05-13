@@ -124,7 +124,7 @@ namespace Lottery.Tests
             _eventPublisher.Start();
             _commandService.Start();
 
-            WaitAllConsumerLoadBalanceComplete();
+          //  WaitAllConsumerLoadBalanceComplete();
 
             return enodeConfiguration;
         }

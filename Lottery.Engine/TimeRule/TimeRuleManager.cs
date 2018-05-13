@@ -78,22 +78,51 @@ namespace Lottery.Engine.TimeRule
         {
             get
             {
+                //if (!IsLotteryDuration)
+                //{
+                //    return 0;
+                //}
+
+                //var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
+                //if (toadyTimeRule == null)
+                //{
+                //    return -1;
+                //}
+
+                //var startTimePoint = toadyTimeRule.StartTime.TotalSeconds;
+                //var endTimePoint = DateTime.Now.TimeOfDay.TotalSeconds;
+                //var interval = toadyTimeRule.Tick.TotalSeconds;
+
+                //return Convert.ToInt32(Math.Ceiling((endTimePoint - startTimePoint) / interval));
+
                 if (!IsLotteryDuration)
                 {
                     return 0;
                 }
 
-                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
-                if (toadyTimeRule == null)
+                var toadyTimeRules = TimeRules.Where(p => p.Weekday == (int)DateTime.Now.DayOfWeek).OrderBy(p=>p.StartTime).ToList();
+                var todayCurrentCount = 0;
+                foreach (var toadyTimeRule in toadyTimeRules)
                 {
-                    return -1;
+                    var interval = toadyTimeRule.Tick.TotalSeconds;
+                    var now = DateTime.Now.TimeOfDay;
+                    if (now >= toadyTimeRule.StartTime)
+                    {
+                        if (now <= toadyTimeRule.EndTime)
+                        {
+                            todayCurrentCount +=
+                                Convert.ToInt32(
+                                    Math.Ceiling((now.TotalSeconds - toadyTimeRule.StartTime.TotalSeconds) / interval));
+                        }
+                        else
+                        {
+                            todayCurrentCount +=
+                                Convert.ToInt32(
+                                    Math.Ceiling((toadyTimeRule.EndTime.TotalSeconds - toadyTimeRule.StartTime.TotalSeconds) / interval));
+                        }
+                    }
                 }
-
-                var startTimePoint = toadyTimeRule.StartTime.TotalSeconds;
-                var endTimePoint = DateTime.Now.TimeOfDay.TotalSeconds;
-                var interval = toadyTimeRule.Tick.TotalSeconds;
-
-                return Convert.ToInt32(Math.Ceiling((endTimePoint - startTimePoint) / interval));
+                return todayCurrentCount;
             }
         }
 
@@ -101,17 +130,35 @@ namespace Lottery.Engine.TimeRule
         {
             get
             {
-                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
-                if (toadyTimeRule == null)
+                //var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
+                //if (toadyTimeRule == null)
+                //{
+                //    return 0;
+                //}
+
+                //var startTimePoint = toadyTimeRule.StartTime.TotalSeconds;
+                //var endTimePoint = toadyTimeRule.EndTime.TotalSeconds;
+                //var interval = toadyTimeRule.Tick.TotalSeconds;
+
+                //return Convert.ToInt32((endTimePoint - startTimePoint + interval) / interval);
+
+                var toadyTimeRules = TimeRules.Where(p => p.Weekday == (int)DateTime.Now.DayOfWeek).ToList();
+
+                if (!toadyTimeRules.Any())
                 {
                     return 0;
                 }
+                var todayLotteryCount = 0;
+                foreach (var toadyTimeRule in toadyTimeRules)
+                {
+                    var startTimePoint = toadyTimeRule.StartTime.TotalSeconds;
+                    var endTimePoint = toadyTimeRule.EndTime.TotalSeconds;
+                    var interval = toadyTimeRule.Tick.TotalSeconds;
 
-                var startTimePoint = toadyTimeRule.StartTime.TotalSeconds;
-                var endTimePoint = toadyTimeRule.EndTime.TotalSeconds;
-                var interval = toadyTimeRule.Tick.TotalSeconds;
+                   todayLotteryCount += Convert.ToInt32((endTimePoint - startTimePoint + interval) / interval);
 
-                return Convert.ToInt32((endTimePoint - startTimePoint + interval) / interval);
+                }
+                return todayLotteryCount;
             }
         }
 
@@ -124,12 +171,19 @@ namespace Lottery.Engine.TimeRule
                     return false;
                 }
                 var halfTick = (long)TodayTimeRule.Tick.TotalMilliseconds / 2 * 10000;
-                var redundantEndtime = TodayTimeRule.EndTime.Add(new TimeSpan(halfTick)).ToString();
-                if (DateTime.Now.IsBetween(Time.Parse(TodayTimeRule.StartTime.ToString()),
-                    Time.Parse(redundantEndtime.ToString()))) // 设置多半个间隔
+                var redundantEndtime = TodayTimeRule.EndTime.Add(new TimeSpan(halfTick));
+
+                //if (DateTime.Now.IsBetween(TodayTimeRule.StartTime),
+                //    redundantEndtime.))) // 设置多半个间隔
+                //{
+                   
+                //}
+
+                if (DateTime.Now.TimeOfDay > TodayTimeRule.StartTime && DateTime.Now.TimeOfDay <= redundantEndtime)
                 {
                     return true;
                 }
+
                 return false;
             }
         }
@@ -138,7 +192,9 @@ namespace Lottery.Engine.TimeRule
         {
             get
             {
-                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek);
+                var toadyTimeRule = TimeRules.FirstOrDefault(p => p.Weekday == (int)DateTime.Now.DayOfWeek 
+                && DateTime.Now.TimeOfDay.TotalSeconds >= p.StartTime.TotalSeconds
+                && DateTime.Now.TimeOfDay.TotalSeconds <= p.EndTime.TotalSeconds);
                 return toadyTimeRule;
             }
         }

@@ -51,6 +51,7 @@ namespace Lottery.RunApp
                 .UseEQueue()
                 .UseRedisCache()
                 .BuildContainer()
+                .ClearCache()
                 .InitializeBusinessAssemblies(assemblies)
                 .SetUpDataUpdateItems()
                 .InitLotteryEngine();

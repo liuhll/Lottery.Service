@@ -21,7 +21,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lottery.Dtos.Wechat;
 using Lottery.QueryServices.CustomService;
+using Lottery.Infrastructure.Extensions;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -197,6 +199,29 @@ namespace Lottery.WebApi.Controllers.v1
         public ICollection<PointRecordOutput> SignedList()
         {
             return _pointQueryService.GetSignedList(_lotterySession.UserId);
+        }
+
+        /// <summary>
+        /// 获取微信分享配置
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("wechatconfig")]
+        [AllowAnonymous]
+        public WechatConfigOutput WechatConfig()
+        {
+            return new WechatConfigOutput()
+            {
+                Debug = true,
+                Appid = "wx24329604dda9121a",
+                Timestamp = DateTime.Now.ToTimeStamp(),
+                Signature = "9420aa6f3c3fd0a1c5dc10621c262ec1",
+                JsApiList = new List<string>()
+                {
+                    "onMenuShareTimeline",
+                    "onMenuShareAppMessage"
+                },
+            };
         }
     }
 }

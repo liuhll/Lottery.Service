@@ -8,6 +8,7 @@ using Lottery.Crawler;
 using Lottery.Engine;
 using Lottery.Infrastructure;
 using System.Reflection;
+using ECommon.Components;
 
 namespace Lottery.RunApp
 {
@@ -59,6 +60,13 @@ namespace Lottery.RunApp
             var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.SetDefault<ICacheManager, RedisCacheManager>(
                 new RedisCacheManager(new RedisConnectionWrapper(DataConfigSettings.RedisServiceAddress)));
+            return enodeConfiguration;
+        }
+
+        public static ENodeConfiguration ClearCache(this ENodeConfiguration enodeConfiguration)
+        {
+            var cacheManager = ObjectContainer.Resolve<ICacheManager>();
+            cacheManager.Clear();
             return enodeConfiguration;
         }
 

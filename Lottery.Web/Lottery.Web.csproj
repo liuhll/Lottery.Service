@@ -184,21 +184,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\IUserNavigationManager.cs" />
+    <Compile Include="Services\UserNavigationManager.cs" />
+    <Compile Include="Utils\UrlHelper.cs" />
     <Content Include="App_Data\Scripts\InitData.sql" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\TopMenuViewModel.cs" />
+    <Compile Include="Models\UserMenu.cs" />
+    <Compile Include="Models\UserMenuItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -207,9 +211,133 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="font\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="plato\color\default.css" />
+    <Content Include="plato\css\animate.css" />
+    <Content Include="plato\css\bootstrap-responsive.css" />
+    <Content Include="plato\css\bootstrap-responsive.min.css" />
+    <Content Include="plato\css\bootstrap.css" />
+    <Content Include="plato\css\bootstrap.min.css" />
+    <Content Include="plato\css\docs.css" />
+    <Content Include="plato\css\flexslider.css" />
+    <Content Include="plato\css\font-awesome-ie7.css" />
+    <Content Include="plato\css\font-awesome-ie7.min.css" />
+    <Content Include="plato\css\font-awesome.css" />
+    <Content Include="plato\css\font-awesome.min.css" />
+    <Content Include="plato\css\headerfix.css" />
+    <Content Include="plato\css\overwrite.css" />
+    <Content Include="plato\css\prettyPhoto.css" />
+    <Content Include="plato\css\refineslide-theme-dark.css" />
+    <Content Include="plato\css\refineslide.css" />
+    <Content Include="plato\css\style.css" />
+    <Content Include="plato\font\fontawesome\fontawesome-webfont.svg" />
+    <Content Include="plato\ico\apple-touch-icon-114-precomposed.png" />
+    <Content Include="plato\ico\apple-touch-icon-144-precomposed.png" />
+    <Content Include="plato\ico\apple-touch-icon-57-precomposed.png" />
+    <Content Include="plato\ico\apple-touch-icon-72-precomposed.png" />
+    <Content Include="plato\ico\favicon.ico" />
+    <Content Include="plato\img\avatar.png" />
+    <Content Include="plato\img\bg_direction_nav.png" />
+    <Content Include="plato\img\bs-docs-masthead-pattern.png" />
+    <Content Include="plato\img\bs-docs-responsive-illustrations.png" />
+    <Content Include="plato\img\dummies\blog1.jpg" />
+    <Content Include="plato\img\dummies\blog2.jpg" />
+    <Content Include="plato\img\dummies\blog3.jpg" />
+    <Content Include="plato\img\dummies\clients\client1.png" />
+    <Content Include="plato\img\dummies\clients\client2.png" />
+    <Content Include="plato\img\dummies\clients\client3.png" />
+    <Content Include="plato\img\dummies\post-50.jpg" />
+    <Content Include="plato\img\glyphicons-halflings-white.png" />
+    <Content Include="plato\img\glyphicons-halflings.png" />
+    <Content Include="plato\img\grid-baseline-20px.png" />
+    <Content Include="plato\img\icons\cream.svg" />
+    <Content Include="plato\img\icons\ordinary.svg" />
+    <Content Include="plato\img\icons\sec-next.png" />
+    <Content Include="plato\img\icons\sec-prev.png" />
+    <Content Include="plato\img\icons\senior.svg" />
+    <Content Include="plato\img\portfolio\big-1.jpg" />
+    <Content Include="plato\img\portfolio\img-1.jpg" />
+    <Content Include="plato\img\portfolio\img-2.jpg" />
+    <Content Include="plato\img\portfolio\img-3.jpg" />
+    <Content Include="plato\img\portfolio\img-4.jpg" />
+    <Content Include="plato\img\portfolio\img-5.jpg" />
+    <Content Include="plato\img\portfolio\img-6.jpg" />
+    <Content Include="plato\img\portfolio\img-7.jpg" />
+    <Content Include="plato\img\portfolio\img-8.jpg" />
+    <Content Include="plato\img\prettyPhoto\dark_rounded\btnNext.png" />
+    <Content Include="plato\img\prettyPhoto\dark_rounded\btnPrevious.png" />
+    <Content Include="plato\img\prettyPhoto\dark_rounded\contentPattern.png" />
+    <Content Include="plato\img\prettyPhoto\dark_rounded\default_thumbnail.gif" />
+    <Content Include="plato\img\prettyPhoto\dark_rounded\loader.gif" />
+    <Content Include="plato\img\prettyPhoto\dark_rounded\sprite.png" />
+    <Content Include="plato\img\prettyPhoto\dark_square\btnNext.png" />
+    <Content Include="plato\img\prettyPhoto\dark_square\btnPrevious.png" />
+    <Content Include="plato\img\prettyPhoto\dark_square\contentPattern.png" />
+    <Content Include="plato\img\prettyPhoto\dark_square\default_thumbnail.gif" />
+    <Content Include="plato\img\prettyPhoto\dark_square\loader.gif" />
+    <Content Include="plato\img\prettyPhoto\dark_square\sprite.png" />
+    <Content Include="plato\img\prettyPhoto\default\default_thumb.png" />
+    <Content Include="plato\img\prettyPhoto\default\loader.gif" />
+    <Content Include="plato\img\prettyPhoto\default\sprite.png" />
+    <Content Include="plato\img\prettyPhoto\default\sprite_next.png" />
+    <Content Include="plato\img\prettyPhoto\default\sprite_prev.png" />
+    <Content Include="plato\img\prettyPhoto\default\sprite_x.png" />
+    <Content Include="plato\img\prettyPhoto\default\sprite_y.png" />
+    <Content Include="plato\img\prettyPhoto\facebook\btnNext.png" />
+    <Content Include="plato\img\prettyPhoto\facebook\btnPrevious.png" />
+    <Content Include="plato\img\prettyPhoto\facebook\contentPatternBottom.png" />
+    <Content Include="plato\img\prettyPhoto\facebook\contentPatternLeft.png" />
+    <Content Include="plato\img\prettyPhoto\facebook\contentPatternRight.png" />
+    <Content Include="plato\img\prettyPhoto\facebook\contentPatternTop.png" />
+    <Content Include="plato\img\prettyPhoto\facebook\default_thumbnail.gif" />
+    <Content Include="plato\img\prettyPhoto\facebook\loader.gif" />
+    <Content Include="plato\img\prettyPhoto\facebook\sprite.png" />
+    <Content Include="plato\img\prettyPhoto\light_rounded\btnNext.png" />
+    <Content Include="plato\img\prettyPhoto\light_rounded\btnPrevious.png" />
+    <Content Include="plato\img\prettyPhoto\light_rounded\default_thumbnail.gif" />
+    <Content Include="plato\img\prettyPhoto\light_rounded\loader.gif" />
+    <Content Include="plato\img\prettyPhoto\light_rounded\sprite.png" />
+    <Content Include="plato\img\prettyPhoto\light_square\btnNext.png" />
+    <Content Include="plato\img\prettyPhoto\light_square\btnPrevious.png" />
+    <Content Include="plato\img\prettyPhoto\light_square\default_thumbnail.gif" />
+    <Content Include="plato\img\prettyPhoto\light_square\loader.gif" />
+    <Content Include="plato\img\prettyPhoto\light_square\sprite.png" />
+    <Content Include="plato\img\qrcode\qrcode.png" />
+    <Content Include="plato\img\responsive-illustrations.png" />
+    <Content Include="plato\img\slides\1.jpg" />
+    <Content Include="plato\img\slides\2.jpg" />
+    <Content Include="plato\img\slides\portfolio\img1.jpg" />
+    <Content Include="plato\img\slides\portfolio\img2.jpg" />
+    <Content Include="plato\img\slides\portfolio\img3.jpg" />
+    <Content Include="plato\img\slides\refine\black10.png" />
+    <Content Include="plato\img\slides\refine\black60.png" />
+    <Content Include="plato\img\slides\refine\slide1.png" />
+    <Content Include="plato\img\slides\refine\slide2.png" />
+    <Content Include="plato\img\slides\refine\slide3.png" />
+    <Content Include="plato\img\small-avatar.png" />
+    <Content Include="plato\img\ui.totop.png" />
+    <Content Include="plato\js\animate.js" />
+    <Content Include="plato\js\bootstrap.js" />
+    <Content Include="plato\js\bootstrap.min.js" />
+    <Content Include="plato\js\cbpAnimatedHeader.min.js" />
+    <Content Include="plato\js\classie.js" />
+    <Content Include="plato\js\custom.js" />
+    <Content Include="plato\js\google-code-prettify\prettify.css" />
+    <Content Include="plato\js\google-code-prettify\prettify.js" />
+    <Content Include="plato\js\hover\jquery-hover-effect.js" />
+    <Content Include="plato\js\jquery.contenthover.js" />
+    <Content Include="plato\js\jquery.easing.1.3.js" />
+    <Content Include="plato\js\jquery.elastislide.js" />
+    <Content Include="plato\js\jquery.flexslider.js" />
+    <Content Include="plato\js\jquery.js" />
+    <Content Include="plato\js\jquery.prettyPhoto.js" />
+    <Content Include="plato\js\jquery.refineslide.js" />
+    <Content Include="plato\js\jquery.ui.totop.js" />
+    <Content Include="plato\js\modernizr.js" />
+    <Content Include="plato\js\portfolio\jquery.quicksand.js" />
+    <Content Include="plato\js\portfolio\setting.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -218,7 +346,14 @@
     <Content Include="appSettings.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="connectionStrings.config" />
+    <Content Include="connectionStrings.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="plato\font\fontawesome\fontawesome-webfont.eot" />
+    <Content Include="plato\font\fontawesome\fontawesome-webfont.ttf" />
+    <Content Include="plato\font\fontawesome\fontawesome-webfont.woff" />
+    <Content Include="plato\font\fontawesome\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -246,36 +381,22 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
+      <Project>{1C7EA739-6F02-4955-8CCD-F0F03477C546}</Project>
+      <Name>Lottery.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="font\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="font\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="font\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,31 +1,234 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "快彩计划分析";
+    ViewBag.ActiveMenu = "Home";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<section id="intro">
+    <div class="container">
+        <div class="row">
+            <div class="span6">
+                <h2><strong><span class="highlight primary">简介</span></strong></h2>
+                <p class="lead">
+                    彩乐盟快彩分析App内置高效数据分析引擎,基于历史开奖数据和概率学，以历史开奖的数据为基准的冷热码、遗漏值、期望值、平均值、偏差值等等因子，根据不同的彩种特点进行分析,计算出下一期开奖时概率最高的数据，
+                    通过长时间测试与实践证明,通过该数据数据引擎确实有效的提高了开奖命中率
+                </p>
+                <ul class="list list-ok strong bigger">
+                    <li>内置多个彩种</li>
+                    <li>丰富的计划类型</li>
+                    <li>可自定义数据公式指标</li>
+                    <li>高效的数据引擎，切换计划时自动搜索准确率最高的计划公式</li>		  
+                </ul>
+            </div>
+            <!-- swapper img top-->
+            <div class="span6">
+                <div class="group section-wrap upper" id="upper">
+                    <div class="section-2 group">
+                        <ul id="images" class="rs-slider">
+                            <li class="group">
+                                <a href="#">
+                                    <img src="~/plato/img/slides/1.jpg" height="350" width="350" alt="" />
+                                </a>
+                            </li>
+                            <li class="group">
+                                <a href="#">
+                                    <img src="~/plato/img/slides/2.jpg" height="350" width="350" alt="" />
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- swapper img end-->
+        </div>
+    </div>
+    </div>
+</section>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<section id="maincontent">
+    <div class="container">
+    <div class="row">
+    <div class="span4">
+        <div class="features">
+            <div class="icon">
+                <!-- <i class="icon-circled icon-code icon-5x active"></i> -->
+                <i class="icon-bg-light icon-circled icon-5x active"> <img src="~/plato/img/icons/ordinary.svg" style="display:inline;"/></i>
+			 
+            </div>
+            <div class="features_content">
+                <h3>普通版</h3>
+                <ul>
+                    <li>内置计划追号</li>
+                    <li>查看追号详情</li>
+                    <li>查看开奖数据</li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div class="span4">
+        <div class="features">
+            <div class="icon">
+                <i class="icon-bg-light icon-circled icon-5x active"> <img src="~/plato/img/icons/senior.svg" style="display:inline;"/></i>
+            </div>
+            <div class="features_content">
+                <h3>高级版</h3>
+                <ul>
+                    <li>选择计划(至多可选择5个计划)</li>
+                    <li>自定义指标</li>
+                    <li>搜索/切换公式</li>
+                </ul>
+             
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+    <div class="span4">
+        <div class="features">
+            <div class="icon">
+                <i class="icon-bg-light icon-circled icon-5x active"> <img src="~/plato/img/icons/cream.svg" style="display:inline;"/></i>
+            </div>
+            <div class="features_content">
+                <h3>专业版</h3>
+                <ul>
+                    <li>可选择至多15个计划</li>
+                    <li>更详细的追号数据详情</li>
+                    <li>分享计划(后续版本...)</li>
+                </ul>              
+            </div>
+        </div>
     </div>
-</div>
+
+    <div>
+
+    <!-- blank divider -->
+    <div class="row">
+        <div class="span12">
+            <div class="blank10"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <div class="cta-box">
+                <div class="cta-text">
+                    <h2  style="float: left">彩乐盟快彩分析APP --- Android版本</h2>
+                    <span style="float: left;margin-left: 120px">
+                        <img src="~/plato/img/qrcode/qrcode.png" height="100" width="100"/>
+                    </span>
+                    <div style="clear: both"></div>
+                </div>
+                <div class="cta">
+                    <a class="btn btn-large btn-rounded btn-color" href="~/apk/android/clmeng-app_release_bate1.0.0.apk">
+                        <i class="icon-chevron-right"></i>下载</a>
+                </div>
+            </div>
+
+            <!-- end tagline -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <h4>用户评价/反馈</h4>
+            <div class="testmonial_slider">
+                <ul class="slides">
+                    <li>
+                        <div class="testimonial_item">
+                            <p>
+                                彩乐快彩分析APP内置的数据分析能够帮我有效的排除垃圾注,提高中彩率
+                            </p>
+                            <span class="author">张先生</span>
+                            <span class="occupation">账号:131xxxxx259</span>
+                            <!-- end testmonial -->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="testimonial_item">
+                            <p>
+                                很高兴能够成为彩乐快彩APP分析软件的首批用户,跟着数据分析购买,中奖率至少基本都能保证在80%以上
+                            </p>
+                            <span class="author">李先生</span>
+                            <span class="occupation">账号:181xxxxx561</span>
+                            <!-- end testmonial -->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="testimonial_item">
+                            <p>
+                                良心产品,不像市面上xx产品,未购买之前的预览版中奖率都是100%,购买后，中奖率立马就不行了,仔细观察后,发现他的预览版预测的是前一天的开奖数据
+                            </p>
+                            <span class="author">周先生</span>
+                            <span class="occupation">账号:132xxxxx472</span>
+                            <!-- end testmonial -->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="testimonial_item">
+                            <p>
+                                彩乐快彩分析APP授权可以通过积分兑换,还有这么高的准确率,授权版本也不贵,真的很值,给团队一个大大的赞!
+                            </p>
+                            <span class="author">苏先生</span>
+                            <span class="occupation">账号:10261xxxx@qq.com</span>
+                            <!-- end testmonial -->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="testimonial_item">
+                            <p>
+                                之前也用过一些彩票的分析软件,但都不是很靠谱,朋友推荐看到彩乐快彩分析APP,看卖的也不贵,就买了试试看,跟着计划买,真的很靠谱
+                            </p>
+                            <span class="author">令狐先生</span>
+                            <span class="occupation">账号:8963xxxx@qq.com</span>
+                            <!-- end testmonial -->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="span6">
+            <h4>产品特色</h4>
+            <!-- start: Accordion -->
+            <div class="accordion" id="accordion2">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                            <i class="icon-caret-down"></i>内置高效的数据分析引擎 </a>
+                    </div>
+                    <div id="collapseOne" class="accordion-body collapse in">
+                        <div class="accordion-inner">
+                            团队自从成立以来专注于数据分析,通过长时间研发,终于研发出基于概率学、统计学的数据分析引擎,彩乐快彩分析app就是基于该数据引擎上的产品,
+                            该数据引擎基于历史开奖数据和概率学，以历史开奖的数据为基准的冷热码、遗漏值、期望值、平均值、偏差值等等因子，计算出下一期开奖时概率最高的数据，
+                            通过长时间测试与实践证明,通过该数据数据引擎确实有效的提高了开奖命中率
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                            <i class="icon-caret-right"></i> 丰富的计划追号 </a>
+                    </div>
+                    <div id="collapseTwo" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            针对每个彩种的常见玩法，内置丰富的计划种类,您还可以根据意见反馈给我们提交更多的计划类型
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                            <i class="icon-caret-right"></i> 云端保存计划配置 </a>
+                    </div>
+                    <div id="collapseThree" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            用户的计划选择、指标配置等等数据保存在云端,您可以随时随地用账号登录获取一致性的体验
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end: Accordion -->
+
+        </div>
+
+    </div>
+</section

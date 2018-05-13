@@ -26,7 +26,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
             {
                 using (var conn = GetLotteryConnection())
                 {
-                    return conn.QueryList<DataSiteDto>(null, TableNameConstants.DataSiteTable).ToList();
+                    return conn.QueryList<DataSiteDto>(new { LotteryId = lotteryId }, TableNameConstants.DataSiteTable).ToList();
                 }
             });
         }

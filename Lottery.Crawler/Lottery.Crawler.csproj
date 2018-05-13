@@ -65,6 +65,7 @@
     <Compile Include="Bjpks\BjpksDataUpdateItem2.cs" />
     <Compile Include="Bjpks\BjpksDataUpdateItem4.cs" />
     <Compile Include="Bjpks\BjpksDataUpdateItem3.cs" />
+    <Compile Include="Cqssc\CqsscDataUpdateItem1.cs" />
     <Compile Include="DataUpdateContext.cs" />
     <Compile Include="IDataUpdateItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

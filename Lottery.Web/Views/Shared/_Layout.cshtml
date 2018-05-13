@@ -1,45 +1,128 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
+    <meta name="description" content="彩乐盟工作室成立于2017年年初,成立以来专注于数据分析引擎的开发与研究,致力于为国内彩民提供最优质的服务。经过长期研发,现已研发出计划最丰富、可自定义指标、自由切换公式拥有高效算法的数据分析引擎。该数据引擎基于历史开奖数据和概率学，以历史开奖的数据为基准的冷热码、遗漏值、期望值、平均值、偏差值等等因子，计算出下一期开奖时概率最高的数据，通过长时间测试与实践证明,通过该数据数据引擎确实有效的提高了开奖命中率。">
+    <meta name="author" content="彩乐盟">
+    <meta name="keywords" content="彩乐盟,彩乐盟快彩计划,彩乐计划,彩乐盟计划,彩乐盟快彩分析,彩乐盟计划分析App,彩票分析软件,北京PK10,时时彩,北京PK10,北京PK拾,北京赛车,重庆时时彩,彩票,彩市,彩票数据分析,彩票数据分析引擎">
+    <title>@ViewBag.Title - 彩乐盟工作室</title>
+    @Styles.Render("~/bundles/css")
+	
+    <!-- fav and touch icons -->
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/plato/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/plato/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/plato/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="~/plato/ico/apple-touch-icon-57-precomposed.png">
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https'){
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else{
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                    <li>@Html.ActionLink("关于", "About", "Home")</li>
-                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+<header>
+    <div class="cbp-af-header">
+        <div class=" cbp-af-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="span4">
+                        <!-- logo -->
+                        <div class="logo">
+                            <h1><a href="/">彩乐盟</a></h1>
+                        </div>
+                        <!-- end logo -->
+                    </div>
+                    <div class="span8">
+                        <!-- top menu -->
+                        <div class="navbar">
+                            <div class="navbar-inner">
+                                <nav>
+                                    <ul class="nav topnav">
+                                        @Html.Action("Menu","Home",new { activeMenu = ViewBag.ActiveMenu })
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <!-- end menu -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
-        </footer>
+</header>
+<div>
+    @RenderBody()
+</div>
+	
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="span6">
+                <div class="widget">
+                    <div class="footerlogo">
+                        <h6><a href="index.html">联系方式</a></h6>
+                    </div>
+                </div>
+                <address>
+                    <strong>联系地址</strong><br>
+                    深圳市宝安区西乡固戍雅居苑
+                </address>
+                <span>电子邮件:</span>
+                <ul class="list list-ok">
+                    <li>service@clmeng.com</li>
+                </ul>
+            </div>
+            <div class="span6">
+                <div class="widget">
+                    <h5>友情链接</h5>
+                    <ul class="list list-ok">
+                        <li><a href="#">中国福利彩票官网</a></li>
+                        <li><a href="#">重庆彩票网</a></li>
+                        <li><a href="#">北京福彩官网</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="subfooter">
+        <div class="container">
+            <div class="row">
+                <div class="span6">
+                    <p>
+                        &copy; 彩乐盟工作室 -版权所有
+                    </p>
+                </div>
+                <div class="span6">
+                    <div class="pull-right">
+                        <div class="credits">
+                            <!--
+                            All the links in the footer should remain intact.
+                            You can delete the links only if you purchased the pro version.
+                            Licensing information: https://bootstrapmade.com/license/
+                            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Plato
+                            -->
+                            Designed by <a href="https://bootstrapmade.com/">彩乐盟</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/plato")
+@RenderSection("scripts", required: false)
 </body>
 </html>

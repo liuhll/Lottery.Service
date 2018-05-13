@@ -34,7 +34,7 @@ namespace Lottery.Tests
 
             _commandService = ObjectContainer.Resolve<ICommandService>();
 
-            ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(LotteryData).Name);
+            //ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(LotteryData).Name);
         }
 
         protected CommandResult ExecuteCommand(ICommand command)
@@ -68,8 +68,34 @@ namespace Lottery.Tests
             };
             //var setting = new ConfigurationSetting(DataConfigSettings.ENodeConnectionString);
 
-            _enodeConfiguration = Configuration
-                .Create()
+            //_enodeConfiguration = Configuration
+            //    .Create()
+            //    .UseAutofac()
+            //    .RegisterCommonComponents()
+            //    .UseLog4Net()
+            //    .UseJsonNet()
+            //    .RegisterUnhandledExceptionHandler()
+            //    .CreateENode()
+            //    .RegisterENodeComponents()
+            //    .UseSqlServerEventStore()
+            //    .UseSqlServerPublishedVersionStore()
+            //    .UseSqlServerLockService()
+            //    .RegisterBusinessComponents(assemblies)
+            //    .UseEQueue()
+            //    .UseRedisCache()
+            //    .BuildContainer()
+            //    .InitializeSqlServerEventStore(DataConfigSettings.ENodeConnectionString)
+            //    .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)
+            //    .InitializeSqlServerLockService(DataConfigSettings.ENodeConnectionString)
+            //    .InitializeBusinessAssemblies(assemblies)
+            //    .SetUpDataUpdateItems()
+            //    .InitLotteryEngine()
+            //    .InitEmailSeting()
+            //    .StartEQueue()
+            //    .Start();
+
+            _enodeConfiguration =
+                Configuration.Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
                 .UseLog4Net()
@@ -77,22 +103,17 @@ namespace Lottery.Tests
                 .RegisterUnhandledExceptionHandler()
                 .CreateENode()
                 .RegisterENodeComponents()
-                .UseSqlServerEventStore()
-                .UseSqlServerPublishedVersionStore()
-                .UseSqlServerLockService()
                 .RegisterBusinessComponents(assemblies)
                 .UseEQueue()
                 .UseRedisCache()
                 .BuildContainer()
-                .InitializeSqlServerEventStore(DataConfigSettings.ENodeConnectionString)
-                .InitializeSqlServerPublishedVersionStore(DataConfigSettings.ENodeConnectionString)
-                .InitializeSqlServerLockService(DataConfigSettings.ENodeConnectionString)
                 .InitializeBusinessAssemblies(assemblies)
                 .SetUpDataUpdateItems()
                 .InitLotteryEngine()
-                .InitEmailSeting()
-                .StartEQueue()
-                .Start();
+                   // .InitEmailSeting()
+              .StartEQueue()
+               .Start();
+
         }
 
         private static void CleanupEnode()

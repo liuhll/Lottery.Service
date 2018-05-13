@@ -231,7 +231,9 @@ namespace Lottery.RunApp.Jobs
         /// <returns></returns>
         private Task<AsyncTaskResult> SendCommandAsync(ICommand command, int millisecondsDelay = 5000)
         {
-            return _commandService.SendAsync(command).TimeoutAfter(millisecondsDelay);
+            var result = _commandService.SendAsync(command).TimeoutAfter(millisecondsDelay);
+
+            return result;
         }
 
         /// <summary> 执行命令

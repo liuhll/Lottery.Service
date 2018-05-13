@@ -25,5 +25,12 @@ namespace Lottery.Infrastructure.Extensions
             DateTime dt = startTime.AddSeconds(timestamp);
             return dt;
         }
+
+        public static long ToTimeStamp(this DateTime dateTime)
+        {
+            var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
+            long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds; // 相差毫秒数
+            return timeStamp;
+        }
     }
 }

@@ -137,6 +137,7 @@
     <Compile Include="UserInfo\UserInfoInput.cs" />
     <Compile Include="UserInfo\UserInfoOutput.cs" />
     <Compile Include="UserInfo\UserProfileInput.cs" />
+    <Compile Include="Wechat\WechatConfigOutput.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lottery.Infrastructure\Lottery.Infrastructure.csproj">
