@@ -31,7 +31,7 @@ namespace Lottery.QueryServices.Dapper.Lotteries
                     using (var conn = GetLotteryConnection())
                     {
                         conn.Open();
-                        return conn.QueryList<NormConfigDto>(new { IsDefualt = true }, TableNameConstants.NormConfigTable).ToList();
+                        return conn.QueryList<NormConfigDto>(new { IsDefualt = true, LotteryId = lotteryId }, TableNameConstants.NormConfigTable).ToList();
                     }
                 });
         }

@@ -70,7 +70,7 @@ namespace Lottery.RunApp.Jobs
 
             var predictDatas = new List<PredictDataDto>();
             var userNorms = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryInfo.Id);
-            foreach (var userNorm in userNorms)
+            foreach (var userNorm in userNorms.Safe())
             {
                 predictDatas.AddRange(_lotteryPredictDataService.PredictNormData(lotteryInfo.Id, userNorm, predictPeroid, e.LotteryCode));
             }
