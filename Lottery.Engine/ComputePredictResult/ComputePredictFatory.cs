@@ -30,6 +30,12 @@ namespace Lottery.Engine.ComputePredictResult
                 case PredictCodeDefinition.SizeCode:
                     predictResult = new SizeComputePredictResult(predictedDataRate);
                     break;
+                case PredictCodeDefinition.ZhiHeCode:
+                    predictResult = new ZhiHeComputePredictResult(predictedDataRate);
+                    break;
+                case PredictCodeDefinition.HeZhiCode:
+                    predictResult = new ZhiHeComputePredictResult(predictedDataRate);
+                    break;
 
                 default:
                     throw new LotteryException("不存在该类型的数据结果计算器");

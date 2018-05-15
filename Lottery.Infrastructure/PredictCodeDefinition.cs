@@ -11,5 +11,13 @@
         public const string RankCode = "RANK";
 
         public const string LhCode = "LH";
+
+        public const string ZhiHeCode = "ZHIHE";
+
+        public const string JunZhiCode = "JUNZHI";
+
+        public const string HeZhiCode = "HEZHI";
+
+
     }
 }

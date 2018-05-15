@@ -5,6 +5,7 @@ using Lottery.Infrastructure.Collections;
 using Lottery.QueryServices.Lotteries;
 using System.Collections.Generic;
 using System.Linq;
+using ECommon.Extensions;
 
 namespace Lottery.AppService.Plan
 {
@@ -38,8 +39,7 @@ namespace Lottery.AppService.Plan
         {
             var userSelectedUserPlanInfo = new List<PlanInfoOutput>();
             var allPlanInfos = _normGroupQueryService.GetNormGroups(lotteryId);
-            var userPlanConfigs = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryId, userId);
-
+            var userPlanConfigs = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryId, userId).Safe();
             foreach (var normGroup in allPlanInfos)
             {
                 foreach (var planInfo in normGroup.PlanInfos)

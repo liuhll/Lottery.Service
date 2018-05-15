@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ECommon.Extensions;
 
 namespace Lottery.AppService.LotteryData
 {
@@ -61,7 +62,7 @@ namespace Lottery.AppService.LotteryData
 
             var predictDatas = new List<PredictDataDto>();
             var userNorms = _normConfigQueryService.GetUserOrDefaultNormConfigs(lotteryId, userId);
-            foreach (var userNorm in userNorms)
+            foreach (var userNorm in userNorms.Safe())
             {
                 predictDatas.AddRange(PredictNormData(lotteryInfo, userNorm, predictPeroid));
             }
