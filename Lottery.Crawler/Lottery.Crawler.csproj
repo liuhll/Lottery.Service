@@ -65,11 +65,15 @@
     <Compile Include="Bjpks\BjpksDataUpdateItem2.cs" />
     <Compile Include="Bjpks\BjpksDataUpdateItem4.cs" />
     <Compile Include="Bjpks\BjpksDataUpdateItem3.cs" />
+    <Compile Include="Bjpks\BjpksDataUpdateItem5.cs" />
     <Compile Include="Cqssc\CqsscDataUpdateItem3.cs" />
     <Compile Include="Cqssc\CqsscDataUpdateItem2.cs" />
     <Compile Include="Cqssc\CqsscDataUpdateItem1.cs" />
     <Compile Include="DataUpdateContext.cs" />
     <Compile Include="IDataUpdateItem.cs" />
+    <Compile Include="Jssyxw\JssyxwDataUpdateItem3.cs" />
+    <Compile Include="Jssyxw\JssyxwDataUpdateItem2.cs" />
+    <Compile Include="Jssyxw\JssyxwDataUpdateItem1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

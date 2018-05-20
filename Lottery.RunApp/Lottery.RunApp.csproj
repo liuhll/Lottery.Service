@@ -102,6 +102,7 @@
     <Compile Include="Jobs\AbstractJob.cs" />
     <Compile Include="Jobs\CqsscJob.cs" />
     <Compile Include="Jobs\ILotteryJob.cs" />
+    <Compile Include="Jobs\JssyxwJob.cs" />
     <Compile Include="Jobs\RunLotteryAbstractJob.cs" />
     <Compile Include="Jobs\BjpksJob.cs" />
     <Compile Include="Jobs\JobFactory.cs" />
@@ -122,6 +123,7 @@
     <None Include="..\Lottery.Web\appSettings.config">
       <Link>appSettings.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="..\Lottery.Web\connectionStrings.config">
       <Link>connectionStrings.config</Link>

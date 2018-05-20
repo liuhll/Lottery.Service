@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 using EasyHttp.Http;
+using ECommon.Extensions;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Extensions;
 
-namespace Lottery.Crawler.Cqssc
+namespace Lottery.Crawler.Jssyxw
 {
-    public class CqsscDataUpdateItem2 : BaseDataUpdateItem
+    public class JssyxwDataUpdateItem1 : BaseDataUpdateItem
     {
         private readonly string _site;
-        public CqsscDataUpdateItem2(DataSiteDto dataSite) : base(dataSite)
+        public JssyxwDataUpdateItem1(DataSiteDto dataSite) : base(dataSite)
         {
             _site = string.Format(dataSite.Url, DateTime.Now.ToString("yyyyMMdd"));
         }
@@ -32,7 +32,7 @@ namespace Lottery.Crawler.Cqssc
                 var resultList = new List<LotteryDataDto>();
                 foreach (XmlNode item in lotteryDatas)
                 {
-                    var periodStr = item.Attributes["expect"].Value.Substring(2);
+                    var periodStr = item.Attributes["expect"].Value.Replace("-", "");
                     var period = Convert.ToInt32(periodStr);
                     if (period > finalData)
                     {
@@ -41,7 +41,7 @@ namespace Lottery.Crawler.Cqssc
                             LotteryId = _dataSite.LotteryId,
                             Period = period,
                             LotteryTime = Convert.ToDateTime(item.Attributes["opentime"].Value),
-                            Data = item.Attributes["opencode"].Value
+                            Data = GetLotteryData(item.Attributes["opencode"].Value)
                         };
                         resultList.Add(lotteryData);
                     }
@@ -49,9 +49,20 @@ namespace Lottery.Crawler.Cqssc
                 }
                 return resultList;
             }
-           
+
             return null;
         }
 
+        private string GetLotteryData(string sopencode)
+        {
+            var datas = sopencode.Split(',');
+            var newDatas = new List<string>();
+            datas.ForEach(item =>
+            {
+                item = item.TrimStart('0');
+                newDatas.Add(item);
+            });
+            return newDatas.ToSplitString(",");
+        }
     }
 }
