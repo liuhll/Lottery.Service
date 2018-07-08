@@ -15,14 +15,17 @@ namespace Lottery.Web.Models
         // 摘要:
         //     Unique name of the menu in the application.
         public string Name { get; set; }
+
         //
         // 摘要:
         //     Display name of the menu.
         public string DisplayName { get; set; }
+
         //
         // 摘要:
         //     A custom object related to this menu item.
         public object CustomData { get; set; }
+
         //
         // 摘要:
         //     Menu items (first level).

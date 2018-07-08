@@ -11,7 +11,10 @@ namespace Lottery.Engine.ComputePredictResult
             IComputePredictResult predictResult;
             switch (predictCode)
             {
+                case PredictCodeDefinition.NopNumCode:
                 case PredictCodeDefinition.NumCode:
+                case PredictCodeDefinition.JzNumMiCode:
+                case PredictCodeDefinition.JzNumMxCode:
                     predictResult = new NumComputePredictResult(predictedDataRate);
                     break;
 
@@ -34,9 +37,20 @@ namespace Lottery.Engine.ComputePredictResult
                     predictResult = new ZhiHeComputePredictResult(predictedDataRate);
                     break;
                 case PredictCodeDefinition.HeZhiCode:
-                    predictResult = new ZhiHeComputePredictResult(predictedDataRate);
+                    predictResult = new HezhiComputePredictResult(predictedDataRate);
                     break;
-
+                case PredictCodeDefinition.RxNumCode:
+                    predictResult =new RxNumComputePredictResult(predictedDataRate);
+                    break;
+                //case PredictCodeDefinition.JzNumMiCode:
+                //    predictResult = new JzNumMiComputePredictResult(predictedDataRate);
+                //    break;
+                //case PredictCodeDefinition.JzNumMxCode:
+                //    predictResult =new JzNumMxComputePredictResult(predictedDataRate);
+                //    break;
+                case PredictCodeDefinition.ZuXuanCode:
+                    predictResult =new ZuXuanComputePredictResult(predictedDataRate);
+                    break;
                 default:
                     throw new LotteryException("不存在该类型的数据结果计算器");
             }

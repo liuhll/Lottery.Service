@@ -7,18 +7,18 @@ using Lottery.Commands.Norms;
 using Lottery.Core.Caching;
 using Lottery.Dtos.Norms;
 using Lottery.Dtos.Plans;
+using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
+using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
+using Lottery.QueryServices.AuthRanks;
 using Lottery.QueryServices.Norms;
+using Lottery.WebApi.Filter;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Lottery.Infrastructure;
-using Lottery.Infrastructure.Enums;
-using Lottery.QueryServices.AuthRanks;
-using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -46,7 +46,7 @@ namespace Lottery.WebApi.Controllers.v1
             INormConfigAppService normConfigAppService,
             UserNormConfigInputValidator userNormConfigInputValidator,
             INormPlanConfigQueryService normPlanConfigQueryService,
-            ICacheManager cacheManager, 
+            ICacheManager cacheManager,
             IAuthRankQueryService authRankQueryService) : base(commandService)
         {
             _planInfoAppService = planInfoAppService;
@@ -98,7 +98,7 @@ namespace Lottery.WebApi.Controllers.v1
             {
                 throw new LotteryException($"您至多允许选择{authRankInfo.PlanCount}个计划,如果需要选择更多计划,请先升级授权版本");
             }
-        
+
             _cacheManager.RemoveByPattern("Lottery.PlanTrack");
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
 
@@ -141,6 +141,13 @@ namespace Lottery.WebApi.Controllers.v1
                     {
                         forecastCount = planNormConfigInfo.MaxForecastCount;
                     }
+                }
+
+                if (planInfo.PredictCode == PredictCodeDefinition.RxNumCode)
+                {
+                    var rxCount = Convert.ToInt32(planInfo.PlanCode.Substring(planInfo.PlanCode.Length - 1));
+
+                    forecastCount = rxCount;
                 }
 
                 var command = new AddNormConfigCommand(Guid.NewGuid().ToString(), _lotterySession.UserId,

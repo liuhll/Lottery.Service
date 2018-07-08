@@ -13,6 +13,7 @@ using Lottery.QueryServices.Lotteries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lottery.Engine.JudgePredictDataResult;
 
 namespace Lottery.AppService.Predict
 {
@@ -259,177 +260,183 @@ namespace Lottery.AppService.Predict
             return result;
         }
 
-        private string GetPredictedDataByRate(IDictionary<int, double> predictedDataRate, PredictType dsType, NormConfigDto userNorm)
-        {
-            if (dsType == PredictType.Fix)
-            {
-                var predictedDataList = predictedDataRate.OrderByDescending(p => p.Value).Select(p => p.Key).ToList();
-                var result = predictedDataList.Take(userNorm.ForecastCount).ToString(",");
-                return result;
-            }
-            else
-            {
-                var predictedDataList = predictedDataRate.OrderBy(p => p.Value).Select(p => p.Key).ToList();
-                var result = predictedDataList.Take(userNorm.ForecastCount).ToString(",");
-                return result;
-            }
-        }
+        //private string GetPredictedDataByRate(IDictionary<int, double> predictedDataRate, PredictType dsType, NormConfigDto userNorm)
+        //{
+        //    if (dsType == PredictType.Fix)
+        //    {
+        //        var predictedDataList = predictedDataRate.OrderByDescending(p => p.Value).Select(p => p.Key).ToList();
+        //        var result = predictedDataList.Take(userNorm.ForecastCount).ToString(",");
+        //        return result;
+        //    }
+        //    else
+        //    {
+        //        var predictedDataList = predictedDataRate.OrderBy(p => p.Value).Select(p => p.Key).ToList();
+        //        var result = predictedDataList.Take(userNorm.ForecastCount).ToString(",");
+        //        return result;
+        //    }
+        //}
 
         private PredictedResult JudgePredictDataResult(string lotteryId, PredictDataDto startPeriodData, NormConfigDto userNormConfig)
         {
             var planInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
-            var lotteryData = _lotteryDataQueryService.GetPredictPeriodData(lotteryId, startPeriodData.CurrentPredictPeriod);
-            if (lotteryData == null)
-            {
-                return PredictedResult.Running;
-            }
-            var lotteryNumber = new LotteryNumber(lotteryData);
-            var normPlanInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
-            if (planInfo.PlanPosition == PlanPosition.Single)
-            {
-                var postion = planInfo.PositionInfos.First().Position;
+            var lotteryInfo = _lotteryQueryService.GetLotteryInfoById(lotteryId);
+            var judgeResult = JudgePredictDataResultFatory.CreateJudgePredictDataResult(planInfo.PredictCode);
+            
+            return judgeResult.JudgePredictDataResult(lotteryInfo, startPeriodData, userNormConfig);
 
-                var lotteryNumberData = GetLotteryNumberData(lotteryNumber, postion, normPlanInfo); //lotteryNumber[postion];
-                bool isRight;
-                if (normPlanInfo.PredictCode == PredictCodeDefinition.NumCode)
-                {
-                    var numPredictData = startPeriodData.PredictedData.Split(',').Select(p => Convert.ToInt32(p));
-                    var numLotteryNum = Convert.ToInt32(lotteryNumberData);
-                    if (normPlanInfo.DsType == PredictType.Fix)
-                    {
-                        isRight = numPredictData.Contains(numLotteryNum);
-                    }
-                    else
-                    {
-                        isRight = !numPredictData.Contains(numLotteryNum);
-                    }
-                }
-                else
-                {
-                    if (normPlanInfo.DsType == PredictType.Fix)
-                    {
-                        isRight = startPeriodData.PredictedData
-                            .Contains(lotteryNumberData.ToString());
-                    }
-                    else
-                    {
-                        isRight = !startPeriodData.PredictedData
-                            .Contains(lotteryNumberData.ToString());
-                    }
-                }
-                if (isRight) //:todo bug
-                {
-                    return PredictedResult.Right;
-                }
-                else
-                {
-                    if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
-                    {
-                        return PredictedResult.Error;
-                    }
-                    return PredictedResult.Running;
-                }
-            }
-            else if (planInfo.PlanPosition == PlanPosition.Multiple)
-            {
-                #region 不定位预测结果判定正错
+            //var planInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
+            //var lotteryData = _lotteryDataQueryService.GetPredictPeriodData(lotteryId, startPeriodData.CurrentPredictPeriod);
+            //if (lotteryData == null)
+            //{
+            //    return PredictedResult.Running;
+            //}
+            //var lotteryNumber = new LotteryNumber(lotteryData);
+            //var normPlanInfo = _planInfoQueryService.GetPlanInfoById(userNormConfig.PlanId);
+            //if (planInfo.PlanPosition == PlanPosition.Single)
+            //{
+            //    var postion = planInfo.PositionInfos.First().Position;
 
-                var positions = planInfo.PositionInfos.Select(p => p.Position).ToArray();
-                var lotteryNumbers = new List<object>(); // lotteryNumber.GetLotteryNumbers(positions);
-                foreach (var position in positions)
-                {
-                    lotteryNumbers.Add(GetLotteryNumberData(lotteryNumber, position, normPlanInfo));
-                }
-                if (normPlanInfo.PredictCode == PredictCodeDefinition.NumCode)
-                {
-                    var predictNumber = startPeriodData.PredictedData.Split(',').Select(p => Convert.ToInt32(p))
-                        .ToArray();
-                    if (planInfo.DsType == PredictType.Fix)
-                    {
-                        if (lotteryNumbers.Any(p => predictNumber.Contains(Convert.ToInt32(p))))
-                        {
-                            return PredictedResult.Right;
-                        }
-                        else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
-                        {
-                            return PredictedResult.Error;
-                        }
-                        return PredictedResult.Running;
-                    }
-                    else
-                    {
-                        if (!lotteryNumbers.Any(p => predictNumber.Contains(Convert.ToInt32(p))))
-                        {
-                            return PredictedResult.Right;
-                        }
-                        else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
-                        {
-                            return PredictedResult.Error;
-                        }
-                        return PredictedResult.Running;
-                    }
-                }
-                else
-                {
-                    var predictNumber = startPeriodData.PredictedData.Split(',').Select(p => p)
-                        .ToArray();
-                    if (planInfo.DsType == PredictType.Fix)
-                    {
-                        if (lotteryNumbers.Any(p => predictNumber.Contains(p)))
-                        {
-                            return PredictedResult.Right;
-                        }
-                        else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
-                        {
-                            return PredictedResult.Error;
-                        }
-                        return PredictedResult.Running;
-                    }
-                    else
-                    {
-                        if (!lotteryNumbers.Any(p => predictNumber.Contains(p)))
-                        {
-                            return PredictedResult.Right;
-                        }
-                        else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
-                        {
-                            return PredictedResult.Error;
-                        }
-                        return PredictedResult.Running;
-                    }
-                }
+            //    var lotteryNumberData = GetLotteryNumberData(lotteryNumber, postion, normPlanInfo); //lotteryNumber[postion];
+            //    bool isRight;
+            //    if (normPlanInfo.PredictCode == PredictCodeDefinition.NumCode)
+            //    {
+            //        var numPredictData = startPeriodData.PredictedData.Split(',').Select(p => Convert.ToInt32(p));
+            //        var numLotteryNum = Convert.ToInt32(lotteryNumberData);
+            //        if (normPlanInfo.DsType == PredictType.Fix)
+            //        {
+            //            isRight = numPredictData.Contains(numLotteryNum);
+            //        }
+            //        else
+            //        {
+            //            isRight = !numPredictData.Contains(numLotteryNum);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (normPlanInfo.DsType == PredictType.Fix)
+            //        {
+            //            isRight = startPeriodData.PredictedData
+            //                .Contains(lotteryNumberData.ToString());
+            //        }
+            //        else
+            //        {
+            //            isRight = !startPeriodData.PredictedData
+            //                .Contains(lotteryNumberData.ToString());
+            //        }
+            //    }
+            //    if (isRight) //:todo bug
+            //    {
+            //        return PredictedResult.Right;
+            //    }
+            //    else
+            //    {
+            //        if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
+            //        {
+            //            return PredictedResult.Error;
+            //        }
+            //        return PredictedResult.Running;
+            //    }
+            //}
+            //else if (planInfo.PlanPosition == PlanPosition.Multiple)
+            //{
+            //    #region 不定位预测结果判定正错
 
-                #endregion 不定位预测结果判定正错
-            }
-            else
-            {
-                var rank = planInfo.PositionInfos.First().Position;
-                var lotteryNumberData = lotteryNumber.GetRankNumber(rank);
-                if (startPeriodData.PredictedData.Contains(lotteryNumberData.ToString()))
-                {
-                    if (planInfo.DsType == PredictType.Fix)
-                    {
-                        return PredictedResult.Right;
-                    }
-                    else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
-                    {
-                        return PredictedResult.Error;
-                    }
-                    return PredictedResult.Running;
-                }
-                else
-                {
-                    if (planInfo.DsType == PredictType.Kill)
-                    {
-                        return PredictedResult.Right;
-                    }
-                    else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
-                    {
-                        return PredictedResult.Error;
-                    }
-                    return PredictedResult.Running;
-                }
-            }
+            //    var positions = planInfo.PositionInfos.Select(p => p.Position).ToArray();
+            //    var lotteryNumbers = new List<object>(); // lotteryNumber.GetLotteryNumbers(positions);
+            //    foreach (var position in positions)
+            //    {
+            //        lotteryNumbers.Add(GetLotteryNumberData(lotteryNumber, position, normPlanInfo));
+            //    }
+            //    if (normPlanInfo.PredictCode == PredictCodeDefinition.NumCode)
+            //    {
+            //        var predictNumber = startPeriodData.PredictedData.Split(',').Select(p => Convert.ToInt32(p))
+            //            .ToArray();
+            //        if (planInfo.DsType == PredictType.Fix)
+            //        {
+            //            if (lotteryNumbers.Any(p => predictNumber.Contains(Convert.ToInt32(p))))
+            //            {
+            //                return PredictedResult.Right;
+            //            }
+            //            else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
+            //            {
+            //                return PredictedResult.Error;
+            //            }
+            //            return PredictedResult.Running;
+            //        }
+            //        else
+            //        {
+            //            if (!lotteryNumbers.Any(p => predictNumber.Contains(Convert.ToInt32(p))))
+            //            {
+            //                return PredictedResult.Right;
+            //            }
+            //            else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
+            //            {
+            //                return PredictedResult.Error;
+            //            }
+            //            return PredictedResult.Running;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        var predictNumber = startPeriodData.PredictedData.Split(',').Select(p => p)
+            //            .ToArray();
+            //        if (planInfo.DsType == PredictType.Fix)
+            //        {
+            //            if (lotteryNumbers.Any(p => predictNumber.Contains(p)))
+            //            {
+            //                return PredictedResult.Right;
+            //            }
+            //            else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
+            //            {
+            //                return PredictedResult.Error;
+            //            }
+            //            return PredictedResult.Running;
+            //        }
+            //        else
+            //        {
+            //            if (!lotteryNumbers.Any(p => predictNumber.Contains(p)))
+            //            {
+            //                return PredictedResult.Right;
+            //            }
+            //            else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
+            //            {
+            //                return PredictedResult.Error;
+            //            }
+            //            return PredictedResult.Running;
+            //        }
+            //    }
+
+            //    #endregion 不定位预测结果判定正错
+            //}
+            //else
+            //{
+            //    var rank = planInfo.PositionInfos.First().Position;
+            //    var lotteryNumberData = lotteryNumber.GetRankNumber(rank);
+            //    if (startPeriodData.PredictedData.Contains(lotteryNumberData.ToString()))
+            //    {
+            //        if (planInfo.DsType == PredictType.Fix)
+            //        {
+            //            return PredictedResult.Right;
+            //        }
+            //        else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
+            //        {
+            //            return PredictedResult.Error;
+            //        }
+            //        return PredictedResult.Running;
+            //    }
+            //    else
+            //    {
+            //        if (planInfo.DsType == PredictType.Kill)
+            //        {
+            //            return PredictedResult.Right;
+            //        }
+            //        else if (startPeriodData.CurrentPredictPeriod >= startPeriodData.EndPeriod)
+            //        {
+            //            return PredictedResult.Error;
+            //        }
+            //        return PredictedResult.Running;
+            //    }
+            //}
         }
 
         private object GetLotteryNumberData(LotteryNumber lotteryNumber, int postion, PlanInfoDto planInfo)

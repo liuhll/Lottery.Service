@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Lottery.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Owin;
-using Lottery.Web.Models;
+using System;
 
 namespace Lottery.Web
 {
@@ -34,7 +33,7 @@ namespace Lottery.Web
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // 使应用程序可以在双重身份验证过程中验证第二因素时暂时存储用户信息。

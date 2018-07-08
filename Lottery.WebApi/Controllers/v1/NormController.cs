@@ -3,18 +3,20 @@ using Lottery.AppService.Norm;
 using Lottery.AppService.Validations;
 using Lottery.Commands.Norms;
 using Lottery.Core.Caching;
+using Lottery.Dtos.Lotteries;
 using Lottery.Dtos.Norms;
+using Lottery.Infrastructure;
 using Lottery.Infrastructure.Collections;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.Lotteries;
 using Lottery.QueryServices.Norms;
+using Lottery.WebApi.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -107,16 +109,26 @@ namespace Lottery.WebApi.Controllers.v1
         {
             var lotterInfo = _lotteryQueryService.GetLotteryInfoById(_lotterySession.SystemTypeId);
             var predictCode = string.Empty;
-
+            PlanInfoDto planInfo = null;
             if (!planId.IsNullOrEmpty())
             {
-                var planInfo = _planInfoQueryService.GetPlanInfoById(planId);
+                planInfo = _planInfoQueryService.GetPlanInfoById(planId);
                 predictCode = planInfo.PredictCode;
             }
             _cacheManager.RemoveByPattern("Lottery.PlanTrack");
             var normPlanDefaultConfig = _normPlanConfigQueryService.GetNormPlanDefaultConfig(lotterInfo.LotteryCode, predictCode);
             var output = new NormPlanDefaultConfigOutput();
-            output.ForecastCounts = GetOutputCounts(normPlanDefaultConfig.MinForecastCount, normPlanDefaultConfig.MaxForecastCount);
+            if (planInfo != null && planInfo.PredictCode == PredictCodeDefinition.RxNumCode)
+            {
+                var rxCount = Convert.ToInt32(planInfo.PlanCode.Substring(planInfo.PlanCode.Length - 1));
+
+                output.ForecastCounts = GetOutputCounts(rxCount, rxCount);
+            }
+            else
+            {
+                output.ForecastCounts = GetOutputCounts(normPlanDefaultConfig.MinForecastCount, normPlanDefaultConfig.MaxForecastCount);
+            }
+
             output.PlanCycles = GetOutputCounts(normPlanDefaultConfig.MinPlanCycle, normPlanDefaultConfig.MaxPlanCycle);
             return output;
         }

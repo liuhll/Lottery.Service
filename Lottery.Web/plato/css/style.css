@@ -5,7 +5,6 @@
   Author URL: https://bootstrapmade.com
 */
 
-
 /* ==== overwrite bootstrap standard ==== */
 
 @import url('overwrite.css');
@@ -64,7 +63,6 @@ img.left {
     margin: 0 10px 10px 0;
 }
 
-
 /* custom template style */
 
 .well {
@@ -91,7 +89,6 @@ img.left {
     color: #fff;
 }
 
-
 /* home */
 
 #intro h2 {
@@ -99,7 +96,6 @@ img.left {
     line-height: 1;
     letter-spacing: -2px;
 }
-
 
 /* logo */
 
@@ -112,7 +108,6 @@ img.left {
 .logo h1 {
     font-weight: 700;
 }
-
 
 /* header */
 
@@ -270,9 +265,7 @@ select.selectmenu {
     display: none;
 }
 
-
 /* ================ */
-
 
 /* main content */
 
@@ -285,7 +278,6 @@ select.selectmenu {
 #maincontent .page-header h3 {
     font-weight: 700;
 }
-
 
 /* intro */
 
@@ -328,7 +320,6 @@ section#subintro {
     background: none;
 }
 
-
 /* --- features ----*/
 
 .features {
@@ -351,7 +342,6 @@ section#subintro {
 .features .features_content {
     padding-left: 150px;
 }
-
 
 /* divider */
 
@@ -383,7 +373,6 @@ section#subintro {
     border-bottom: 1px dotted #eeeeee;
 }
 
-
 /* cta box */
 
 .cta-box {
@@ -408,7 +397,6 @@ section#subintro {
     padding: 30px 20px 20px 20px;
 }
 
-
 /*--- highlight ---*/
 
 .highlight {
@@ -423,14 +411,12 @@ section#subintro {
     background: #09828c;
 }
 
-
 /* */
 
 .carousel .item img {
     max-width: 100%;
     height: auto;
 }
-
 
 /* portfolio */
 
@@ -582,7 +568,6 @@ ul.filter li.active a {
     color: #737373;
 }
 
-
 /* portfolio desc */
 
 .portfolio-item .desc {
@@ -601,7 +586,6 @@ ul.filter li.active a {
 .portfolio-area li:hover .desc i {
     color: #fff;
 }
-
 
 /* Portolio Hover */
 
@@ -647,7 +631,6 @@ ul.filter li.active a {
     text-decoration: none;
 }
 
-
 /* === Initial state classes === */
 
 .da-slideFromTop {
@@ -670,7 +653,6 @@ ul.filter li.active a {
     right: -102%;
 }
 
-
 /* === Final state classes === */
 
 .da-slideTop {
@@ -689,13 +671,11 @@ ul.filter li.active a {
     display: inline-block;
 }
 
-
 /* accordion */
 
 .accordion-inner {
     padding: 20px 15px;
 }
-
 
 /* pagination */
 
@@ -716,7 +696,6 @@ ul.filter li.active a {
     color: #fff;
     border: 1px solid #444;
 }
-
 
 /* Blog */
 
@@ -757,7 +736,6 @@ aside .widget h4 {
     margin-bottom: 15px;
 }
 
-
 /* categories */
 
 aside .widget ul.cat {
@@ -784,7 +762,6 @@ aside .widget ul.cat li a {
 aside .widget ul.cat li a:hover {
     text-decoration: none;
 }
-
 
 /* recent posts */
 
@@ -822,13 +799,11 @@ aside .widget ul.recent-posts li span.comment {
     margin-top: 10px;
 }
 
-
 /* portfolio */
 
 aside .widget ul.project-detail li label {
     font-weight: 700;
 }
-
 
 /* tags */
 
@@ -917,7 +892,6 @@ article.blog-post img.thumbnail {
     margin-bottom: 0;
 }
 
-
 /* ====== post format ================ */
 
 .post-quote blockquote {
@@ -926,7 +900,6 @@ article.blog-post img.thumbnail {
     font-family: Georgia, Arial, sans-serif;
     font-style: italic;
 }
-
 
 /* last post article */
 
@@ -1125,14 +1098,12 @@ ul.post-meta li span {
     display: block;
 }
 
-
 /* Google Map */
 
 #google-map {
     height: 300px;
     margin-bottom: 20px;
 }
-
 
 /* 404 */
 
@@ -1170,7 +1141,6 @@ ul.post-meta li span {
     background: #f5f5f5;
 }
 
-
 /* social links icon */
 
 .widget .social-links {
@@ -1188,9 +1158,7 @@ ul.post-meta li span {
     text-decoration: none;
 }
 
-
 /*============= more custom buttons ============*/
-
 
 /* button flat */
 
@@ -1200,7 +1168,6 @@ ul.post-meta li span {
     border-radius: 0;
 }
 
-
 /* button rounded */
 
 .btn-rounded {
@@ -1209,9 +1176,7 @@ ul.post-meta li span {
     border-radius: 20px;
 }
 
-
 /*============= font awesome icons ============*/
-
 
 /* icon styles */
 
@@ -1313,9 +1278,7 @@ i.icon-bg-dark {
     -ms-border-radius: 1000px !important;
 }
 
-
 /***********************************************/
-
 
 /* twitter */
 
@@ -1344,7 +1307,6 @@ i.icon-bg-dark {
 .twitter li:last-child {
     border: none;
 }
-
 
 /* Subhead (other pages)
 ------------------------- */
@@ -1375,7 +1337,6 @@ i.icon-bg-dark {
     margin: 15px 0 0 0;
     padding: 0;
 }
-
 
 /* accordion */
 
@@ -1494,7 +1455,6 @@ i.icon-bg-dark {
     border: none;
 }
 
-
 /* tabs */
 
 .tabbable .nav {
@@ -1597,7 +1557,6 @@ i.icon-bg-dark {
     display: block;
 }
 
-
 /* breadcrumb */
 
 #breadcrumb .breadcrumb {
@@ -1628,7 +1587,6 @@ i.icon-bg-dark {
     padding: 0 5px;
     color: #ccc;
 }
-
 
 /* styled list */
 
@@ -1718,7 +1676,6 @@ ul.list-share-alt li:before {
     content: "\f064";
 }
 
-
 /* --- Clients style --- */
 
 ul.clients {
@@ -1756,7 +1713,6 @@ ul.clients li img:hover {
     transition: all 1s ease-in-out;
 }
 
-
 /* testimonial */
 
 .flex-container a:active,
@@ -1785,7 +1741,6 @@ ul.clients li img:hover {
     position: relative;
 }
 
-
 /* Hide the slides before the JS is loaded. Avoids image jumping */
 
 .testmonial_slider .slides img {
@@ -1796,7 +1751,6 @@ ul.clients li img:hover {
 .testmonial_slider .flex-pauseplay span {
     text-transform: capitalize;
 }
-
 
 /* Clearfix for the .slides element */
 
@@ -1898,13 +1852,11 @@ html[xmlns] .slides {
     position: relative;
 }
 
-
 /* 404 */
 
 h2.error {
     font-size: 78px;
 }
-
 
 /* pricing box */
 
@@ -1989,7 +1941,6 @@ h2.error {
 .priceBox.item3 {
     width: 100%;
 }
-
 
 /* list */
 
@@ -2079,13 +2030,11 @@ ul.circle li a {
     color: #3c4249;
 }
 
-
 /* blockquote */
 
 blockquote p {
     line-height: 1.6em;
 }
-
 
 /* footer */
 
@@ -2183,7 +2132,6 @@ footer .logo img {
     margin-bottom: 20px;
 }
 
-
 /* --- flickr --- */
 
 .widget .flickr_badge {
@@ -2209,13 +2157,11 @@ footer .widget .flickr_badge img {
     margin: 0 9px 20px 0;
 }
 
-
 /* footer list */
 
 footer ul li a {
     color: #bbb;
 }
-
 
 /* footer social */
 
@@ -2247,7 +2193,6 @@ ul.social-network li a:focus i {
 ul.social-network li a:focus {
     outline: 0;
 }
-
 
 /* misc */
 
@@ -2291,7 +2236,6 @@ ul.social-network li a:focus {
     outline: none;
 }
 
-
 /* img */
 
 img.icon {
@@ -2302,7 +2246,6 @@ img.max-img {
     max-width: 100%;
     height: auto;
 }
-
 
 /* effects */
 
@@ -2319,7 +2262,6 @@ img.max-img {
     opacity: 0.7;
 }
 
-
 /*================================== doc , overview bootstrap features ========================*/
 
 .doctitle h2 {
@@ -2327,10 +2269,8 @@ img.max-img {
     padding-bottom: 20px;
 }
 
-
 /* Sections
 -------------------------------------------------- */
-
 
 /* padding for in-page bookmarks and fixed navbar */
 
@@ -2346,7 +2286,6 @@ section>.lead {
 section>ul li {
     margin-bottom: 5px;
 }
-
 
 /* position */
 
@@ -2397,7 +2336,6 @@ img.alignright {
     border: none;
 }
 
-
 /*margin top */
 
 .spacer-10 {
@@ -2443,7 +2381,6 @@ img.alignright {
 .spacer50 {
     margin-top: 50px;
 }
-
 
 /*margin bottom*/
 
@@ -2495,7 +2432,6 @@ img.alignright {
     margin-bottom: 50px;
 }
 
-
 /* padding */
 
 .padding30 {
@@ -2505,7 +2441,6 @@ img.alignright {
 .botpadding20 {
     padding-bottom: 20px;
 }
-
 
 /*margin left & right */
 
@@ -2525,7 +2460,6 @@ img.alignright {
     margin-left: 5px;
 }
 
-
 /*margin vary*/
 
 .mtopbottom20 {
@@ -2543,7 +2477,6 @@ img.alignright {
 .marginlr10 {
     margin: 0 10px 0 10px;
 }
-
 
 /* ==== media screen queries ==== */
 

@@ -1,10 +1,10 @@
-﻿using System.Web.Http.Controllers;
-using System.Web.Http.Filters;
-using ECommon.Components;
+﻿using ECommon.Components;
 using Lottery.AppService.Operations;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.RunTime.Session;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
 
 namespace Lottery.WebApi.Filter
 {
@@ -14,13 +14,11 @@ namespace Lottery.WebApi.Filter
         private readonly ILotterySession _lotterySession;
         private readonly IMemberAppService _memberAppService;
 
-
         public AppAuthFilter(string desc)
         {
             _desc = desc;
             _lotterySession = NullLotterySession.Instance;
             _memberAppService = ObjectContainer.Resolve<IMemberAppService>();
-          
         }
 
         public override void OnActionExecuting(HttpActionContext actionContext)

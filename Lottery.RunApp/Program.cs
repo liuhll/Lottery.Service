@@ -26,7 +26,7 @@ namespace Lottery.RunApp
                     x.Service<LotteryAppCrier>(s =>
                     {
                         Bootstrap.InitializeFramework();
-                       
+
                         JobManager.Initialize(new JobFactory());
 
                         s.ConstructUsing(() => new LotteryAppCrier());
@@ -49,7 +49,7 @@ namespace Lottery.RunApp
                 JobManager.Initialize(new JobFactory());
                 Bootstrap.Start();
                 Bootstrap.InitializePredictTable();
-              
+
                 Console.WriteLine("Press enter to exit...");
                 var line = Console.ReadLine();
                 while (line != "exit")

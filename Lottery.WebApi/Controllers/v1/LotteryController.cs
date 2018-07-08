@@ -10,17 +10,16 @@ using Lottery.Dtos.PageList;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.QueryServices.Lotteries;
+using Lottery.WebApi.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web.Http;
-using Lottery.WebApi.Filter;
 
 namespace Lottery.WebApi.Controllers.v1
 {
     [RoutePrefix("v1/lottery")]
-  
     public class LotteryController : BaseApiV1Controller
     {
         private readonly ILotteryDataAppService _lotteryDataAppService;
@@ -121,7 +120,9 @@ namespace Lottery.WebApi.Controllers.v1
                 _normConfigQueryService.GetUserOrDefaultNormConfigs(LotteryInfo.Id, _lotterySession.UserId);
             var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
 
-            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_PLANTRACK_DETAIL_KEY, LotteryInfo.Id, _userMemberRank == MemberRank.Ordinary ? LotteryConstants.SystemUser : _lotterySession.UserId, finalLotteryData.Period);
+            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_PLANTRACK_DETAIL_KEY,
+                LotteryInfo.Id, _userMemberRank == MemberRank.Ordinary ?
+                LotteryConstants.SystemUser : _lotterySession.UserId, finalLotteryData.Period);
             return _cacheManager.Get<ICollection<PlanTrackDetail>>(cacheKey, () =>
             {
                 var predictDetailDatas = new List<PlanTrackDetail>();
@@ -166,7 +167,7 @@ namespace Lottery.WebApi.Controllers.v1
         /// </summary>
         /// <returns>最后一期开奖数据</returns>
         [HttpGet]
-        [Route("finallotterydata")]        
+        [Route("finallotterydata")]
         public FinalLotteryDataOutput GetFinalLotteryData()
         {
             var lotteryId = _lotterySession.SystemTypeId;
@@ -240,6 +241,15 @@ namespace Lottery.WebApi.Controllers.v1
         private ICollection<PlanTrackNumber> GetPlanTrackNumberByPredictData(string lotteryId, IList<PredictDataDto> data)
         {
             var planTrackNumbers = new List<PlanTrackNumber>();
+
+            var finalLotteryData = _lotteryDataAppService.GetFinalLotteryData(LotteryInfo.Id);
+
+            var cacheKey = string.Format(RedisKeyConstants.LOTTERY_PLANTRACK_DETAIL_KEY,
+                LotteryInfo.Id, _userMemberRank == MemberRank.Ordinary ?
+                    LotteryConstants.SystemUser : _lotterySession.UserId, finalLotteryData.Period);
+
+            _cacheManager.Remove(cacheKey);
+
             data.GroupBy(p => p.NormConfigId).ForEach(item =>
             {
                 var planInfo = _normConfigQueryService.GetNormPlanInfoByNormId(item.Key, lotteryId);

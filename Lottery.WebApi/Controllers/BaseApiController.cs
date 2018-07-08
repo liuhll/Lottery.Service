@@ -3,6 +3,7 @@ using ECommon.Extensions;
 using ECommon.IO;
 using ECommon.Logging;
 using ENode.Commanding;
+using Lottery.AppService.Operations;
 using Lottery.Dtos.Lotteries;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
@@ -11,8 +12,6 @@ using Lottery.Infrastructure.RunTime.Session;
 using Lottery.QueryServices.Lotteries;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Lottery.AppService.Operations;
-using Lottery.QueryServices.AuthRanks;
 
 namespace Lottery.WebApi.Controllers
 {

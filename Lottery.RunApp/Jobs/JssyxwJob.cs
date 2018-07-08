@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lottery.RunApp.Jobs
+﻿namespace Lottery.RunApp.Jobs
 {
     public class JssyxwJob : RunLotteryAbstractJob
     {
@@ -15,7 +9,6 @@ namespace Lottery.RunApp.Jobs
 
         protected override void PostinItialize()
         {
-            
         }
     }
 }

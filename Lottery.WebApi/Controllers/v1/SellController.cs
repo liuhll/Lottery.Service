@@ -1,28 +1,27 @@
-﻿using ENode.Commanding;
+﻿using ECommon.Extensions;
+using ENode.Commanding;
+using Lottery.AppService.Account;
+using Lottery.AppService.LotteryData;
+using Lottery.AppService.Norm;
+using Lottery.AppService.Plan;
 using Lottery.AppService.Sell;
+using Lottery.Commands.Norms;
+using Lottery.Commands.Points;
 using Lottery.Commands.Sells;
 using Lottery.Dtos.Auths;
 using Lottery.Dtos.Sells;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
+using Lottery.Infrastructure.Extensions;
 using Lottery.Infrastructure.Tools;
+using Lottery.QueryServices.Norms;
+using Lottery.QueryServices.UserInfos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using ECommon.Extensions;
-using Lottery.AppService.Account;
-using Lottery.AppService.LotteryData;
-using Lottery.AppService.Norm;
-using Lottery.AppService.Plan;
-using Lottery.Commands.Norms;
-using Lottery.Commands.Points;
-using Lottery.Infrastructure.Extensions;
-using Lottery.Infrastructure.Json;
-using Lottery.QueryServices.Norms;
-using Lottery.QueryServices.UserInfos;
 
 namespace Lottery.WebApi.Controllers.v1
 {
@@ -40,9 +39,9 @@ namespace Lottery.WebApi.Controllers.v1
 
         public SellController(ICommandService commandService,
             ISellAppService sellAppService,
-            IUserManager userManager, 
+            IUserManager userManager,
             INormConfigAppService normConfigAppService,
-            IPlanInfoAppService planInfoAppService, 
+            IPlanInfoAppService planInfoAppService,
             INormPlanConfigQueryService normPlanConfigQueryService,
             IUserNormDefaultConfigService userNormDefaultConfigService,
             ILotteryDataAppService lotteryDataAppService,
@@ -103,7 +102,7 @@ namespace Lottery.WebApi.Controllers.v1
         [AllowAnonymous]
         public async Task<OrderOutput> Order(OrderInput input)
         {
-            var goods = _sellAppService.GetGoodsInfoById(input.GoodId,input.SellType);
+            var goods = _sellAppService.GetGoodsInfoById(input.GoodId, input.SellType);
             var discount = _sellAppService.GetDiscount(goods.AuthRankId, input.SellType);
             if (goods.Term.HasValue)
             {
@@ -166,7 +165,6 @@ namespace Lottery.WebApi.Controllers.v1
                     Value = discount.ToString("0.00"),
                     Key = "discount"
                 });
-
             }
 
             var output = new OrderOutput()
@@ -233,7 +231,6 @@ namespace Lottery.WebApi.Controllers.v1
                     Value = discount.ToString("0.00"),
                     Key = "discount"
                 });
-
             }
 
             var output = new OrderOutput()
@@ -243,7 +240,6 @@ namespace Lottery.WebApi.Controllers.v1
                 OrderNo = orderInfo.SalesOrderNo,
             };
             return output;
-
         }
 
         /// <summary>
@@ -275,12 +271,11 @@ namespace Lottery.WebApi.Controllers.v1
                 Uid = paysApiInfo.Uid,
                 Price = input.Price.ToString("#0.00"),
                 Istype = (int)input.IsType,
-              //  Goodsname = input.GoodsName,
+                //  Goodsname = input.GoodsName,
                 Notify_url = paysApiInfo.NotifyUrl,
                 Return_url = paysApiInfo.ReturnUrl,
                 Orderid = input.OrderId,
                 Orderuid = _lotterySession.UserName,
-
             };
             payInfo.Key = GetPayKey(payInfo, paysApiInfo.Token);
 
@@ -307,13 +302,13 @@ namespace Lottery.WebApi.Controllers.v1
                 throw new LotteryDataException("订单金额错误,请核对订单信息");
             }
             var userInfo = await _userInfoService.GetUserInfoById(_lotterySession.UserId);
-            //if (userInfo.Points < input.Price)
-            //{
-            //    throw new LotteryDataException("积分余额不足,您可以通过分享App、签到等多种途径获取积分");
-            //}
+            if (userInfo.Points < input.Price)
+            {
+                throw new LotteryDataException("积分余额不足,您可以通过分享App、签到等多种途径获取积分");
+            }
 
             string lotteryId;
-            if (!_sellAppService.PointPay(input,out lotteryId))
+            if (!_sellAppService.PointPay(input, out lotteryId))
             {
                 throw new HttpException("兑换失败,请稍后重试");
             }
@@ -421,7 +416,6 @@ namespace Lottery.WebApi.Controllers.v1
 
         private string GetPayKey(PayOrderDto payInfo, string token)
         {
-
             var keyLine = string.Empty; // payInfo.Goodsname + payInfo.Istype + payInfo.Notify_url + payInfo.Orderid + payInfo.Orderuid
                                         //+ payInfo.Price + payInfo.Return_url + token + payInfo.Uid;
             if (!payInfo.Goodsname.IsNullOrEmpty())
@@ -462,7 +456,7 @@ namespace Lottery.WebApi.Controllers.v1
             var orderNo = OrderHelper.GenerateOrderNo(OrderType.Order, input.SellType);
             var orderOriginCost = input.Count * input.UnitPrice;
             var orderCost = orderOriginCost * discount;
-            return new AddOrderRecordCommand(Guid.NewGuid().ToString(), orderNo,goods.Id, goods.AuthRankId, _lotterySession.SystemTypeId, OrderSourceType.V1,
+            return new AddOrderRecordCommand(Guid.NewGuid().ToString(), orderNo, goods.Id, goods.AuthRankId, _lotterySession.SystemTypeId, OrderSourceType.V1,
                 input.Count, input.UnitPrice, orderOriginCost, orderCost, input.SellType, _lotterySession.UserId);
         }
     }

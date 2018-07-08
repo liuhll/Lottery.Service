@@ -9,7 +9,6 @@
   text-shadow: none;
 }
 
-
 a {
 	color: #4eb478;
 }
@@ -40,7 +39,7 @@ footer .nav-list li a:hover,footer ul.regular li a:hover  {
 
 /* portfolio */
 ul.filter li.active a{
-    background: #4eb478;	
+    background: #4eb478;
 }
 
 ul.filter li a:hover {
@@ -48,10 +47,8 @@ ul.filter li a:hover {
 }
 
 .portfolio-area li:hover .desc {
-    background: #4eb478;	
+    background: #4eb478;
 }
-
-
 
 /* fontawesome icons */
 .icon-square:hover,
@@ -67,12 +64,11 @@ ul.filter li a:hover {
 /* header */
 
 .navbar .nav li.active a {
-	color:#4eb478;	
+	color:#4eb478;
 }
 
 .navbar .nav li ul.dropdown-menu li a:hover, .navbar .nav li.active ul.dropdown-menu li a:hover  {
 	background:#4eb478;
-	
 }
 .color {
 	background: #4eb478;
@@ -99,7 +95,6 @@ input[type="color"]:focus,
   outline: 0;
   outline: thin dotted \9;
   /* IE6-9 */
-
 }
 
 /* sequence slider */
@@ -109,9 +104,7 @@ input[type="color"]:focus,
 
 /* breadcrumb */
 .breadcrumb {
-
 }
-
 
 /* accordion */
 .accordion-heading a:hover {
@@ -131,12 +124,10 @@ input[type="color"]:focus,
 	border-bottom:5px solid #4eb478;
 }
 
-
 /* styled list */
 ul.list.colored li:before {
 	color: #4eb478;
 }
-
 
 /* button */
 .btn-link {
@@ -148,8 +139,6 @@ ul.list.colored li:before {
   border-top-color: #4eb478;
   border-bottom-color: #4eb478;
 }
-
-
 
 /* tabs */
 .tabbable .nav > li > a:hover,
@@ -171,21 +160,17 @@ ul.list.colored li:before {
 	background:#4eb478;
 }
 
-
-
 /* label */
 .label-orange,
 .badge-orange {
   background-color: #4eb478;
 }
 
-
 /* nav */
 .nav-list > .active > a,
 .nav-list > .active > a:hover {
   background: #4eb478;
 }
-
 
 .nav-pills > .active > a,
 .nav-pills > .active > a:hover {
@@ -215,7 +200,6 @@ ul.list.colored li:before {
   border-color:#4eb478;
 }
 
-
 /* widget */
 aside .widget ul.cat li a:hover {
 	color: #4eb478;
@@ -228,7 +212,6 @@ aside .widget ul.recent-posts li a:hover {
 aside .widget ul.tags li a {
   background: #4eb478;
 }
-
 
 /* article */
 
@@ -249,7 +232,6 @@ ul.time-post li.year{
 }
 
  /* 404 */
- 
 
 .error-body{
 	background:#4eb478;

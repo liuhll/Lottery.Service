@@ -17,21 +17,15 @@
  * limitations under the License.
  * ========================================================== */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
   /* CSS TRANSITION SUPPORT (http://www.modernizr.com/)
    * ======================================================= */
 
   $(function () {
-
     $.support.transition = (function () {
-
       var transitionEnd = (function () {
-
         var el = document.createElement('bootstrap')
           , transEndEventNames = {
                'WebkitTransition' : 'webkitTransitionEnd'
@@ -46,17 +40,13 @@
             return transEndEventNames[name]
           }
         }
-
       }())
 
       return transitionEnd && {
         end: transitionEnd
       }
-
     })()
-
   })
-
 }(window.jQuery);/* ==========================================================
  * bootstrap-alert.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#alerts
@@ -76,11 +66,8 @@
  * limitations under the License.
  * ========================================================== */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* ALERT CLASS DEFINITION
   * ====================== */
@@ -123,7 +110,6 @@
       removeElement()
   }
 
-
  /* ALERT PLUGIN DEFINITION
   * ======================= */
 
@@ -140,7 +126,6 @@
 
   $.fn.alert.Constructor = Alert
 
-
  /* ALERT NO CONFLICT
   * ================= */
 
@@ -149,12 +134,10 @@
     return this
   }
 
-
  /* ALERT DATA-API
   * ============== */
 
   $(document).on('click.alert.data-api', dismiss, Alert.prototype.close)
-
 }(window.jQuery);/* ============================================================
  * bootstrap-button.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#buttons
@@ -174,11 +157,8 @@
  * limitations under the License.
  * ============================================================ */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* BUTTON PUBLIC CLASS DEFINITION
   * ============================== */
@@ -217,7 +197,6 @@
     this.$element.toggleClass('active')
   }
 
-
  /* BUTTON PLUGIN DEFINITION
   * ======================== */
 
@@ -240,7 +219,6 @@
 
   $.fn.button.Constructor = Button
 
-
  /* BUTTON NO CONFLICT
   * ================== */
 
@@ -248,7 +226,6 @@
     $.fn.button = old
     return this
   }
-
 
  /* BUTTON DATA-API
   * =============== */
@@ -258,7 +235,6 @@
     if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
     $btn.button('toggle')
   })
-
 }(window.jQuery);/* ==========================================================
  * bootstrap-carousel.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#carousel
@@ -278,11 +254,8 @@
  * limitations under the License.
  * ========================================================== */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* CAROUSEL CLASS DEFINITION
   * ========================= */
@@ -297,7 +270,6 @@
   }
 
   Carousel.prototype = {
-
     cycle: function (e) {
       if (!e) this.paused = false
       if (this.interval) clearInterval(this.interval);
@@ -409,9 +381,7 @@
 
       return this
     }
-
   }
-
 
  /* CAROUSEL PLUGIN DEFINITION
   * ========================== */
@@ -438,7 +408,6 @@
 
   $.fn.carousel.Constructor = Carousel
 
-
  /* CAROUSEL NO CONFLICT
   * ==================== */
 
@@ -464,7 +433,6 @@
 
     e.preventDefault()
   })
-
 }(window.jQuery);/* =============================================================
  * bootstrap-collapse.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#collapse
@@ -484,11 +452,8 @@
  * limitations under the License.
  * ============================================================ */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* COLLAPSE PUBLIC CLASS DEFINITION
   * ================================ */
@@ -505,7 +470,6 @@
   }
 
   Collapse.prototype = {
-
     constructor: Collapse
 
   , dimension: function () {
@@ -583,9 +547,7 @@
   , toggle: function () {
       this[this.$element.hasClass('in') ? 'hide' : 'show']()
     }
-
   }
-
 
  /* COLLAPSE PLUGIN DEFINITION
   * ========================== */
@@ -608,7 +570,6 @@
 
   $.fn.collapse.Constructor = Collapse
 
-
  /* COLLAPSE NO CONFLICT
   * ==================== */
 
@@ -616,7 +577,6 @@
     $.fn.collapse = old
     return this
   }
-
 
  /* COLLAPSE DATA-API
   * ================= */
@@ -630,7 +590,6 @@
     $this[$(target).hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
     $(target).collapse(option)
   })
-
 }(window.jQuery);/* ============================================================
  * bootstrap-dropdown.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#dropdowns
@@ -650,11 +609,8 @@
  * limitations under the License.
  * ============================================================ */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* DROPDOWN CLASS DEFINITION
   * ========================= */
@@ -668,7 +624,6 @@
       }
 
   Dropdown.prototype = {
-
     constructor: Dropdown
 
   , toggle: function (e) {
@@ -737,7 +692,6 @@
         .eq(index)
         .focus()
     }
-
   }
 
   function clearMenus() {
@@ -763,7 +717,6 @@
     return $parent
   }
 
-
   /* DROPDOWN PLUGIN DEFINITION
    * ========================== */
 
@@ -780,7 +733,6 @@
 
   $.fn.dropdown.Constructor = Dropdown
 
-
  /* DROPDOWN NO CONFLICT
   * ==================== */
 
@@ -788,7 +740,6 @@
     $.fn.dropdown = old
     return this
   }
-
 
   /* APPLY TO STANDARD DROPDOWN ELEMENTS
    * =================================== */
@@ -798,7 +749,6 @@
     .on('click.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
     .on('click.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
     .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
-
 }(window.jQuery);
 /* =========================================================
  * bootstrap-modal.js v2.3.2
@@ -819,11 +769,8 @@
  * limitations under the License.
  * ========================================================= */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* MODAL CLASS DEFINITION
   * ====================== */
@@ -836,7 +783,6 @@
   }
 
   Modal.prototype = {
-
       constructor: Modal
 
     , toggle: function () {
@@ -877,7 +823,6 @@
           transition ?
             that.$element.one($.support.transition.end, function () { that.$element.focus().trigger('shown') }) :
             that.$element.focus().trigger('shown')
-
         })
       }
 
@@ -979,20 +924,17 @@
           doAnimate ?
             this.$backdrop.one($.support.transition.end, callback) :
             callback()
-
         } else if (!this.isShown && this.$backdrop) {
           this.$backdrop.removeClass('in')
 
           $.support.transition && this.$element.hasClass('fade')?
             this.$backdrop.one($.support.transition.end, callback) :
             callback()
-
         } else if (callback) {
           callback()
         }
       }
   }
-
 
  /* MODAL PLUGIN DEFINITION
   * ======================= */
@@ -1018,7 +960,6 @@
 
   $.fn.modal.Constructor = Modal
 
-
  /* MODAL NO CONFLICT
   * ================= */
 
@@ -1026,7 +967,6 @@
     $.fn.modal = old
     return this
   }
-
 
  /* MODAL DATA-API
   * ============== */
@@ -1045,7 +985,6 @@
         $this.focus()
       })
   })
-
 }(window.jQuery);
 /* ===========================================================
  * bootstrap-tooltip.js v2.3.2
@@ -1067,11 +1006,8 @@
  * limitations under the License.
  * ========================================================== */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* TOOLTIP PUBLIC CLASS DEFINITION
   * =============================== */
@@ -1081,7 +1017,6 @@
   }
 
   Tooltip.prototype = {
-
     constructor: Tooltip
 
   , init: function (type, element, options) {
@@ -1365,9 +1300,7 @@
   , destroy: function () {
       this.hide().$element.off('.' + this.type).removeData(this.type)
     }
-
   }
-
 
  /* TOOLTIP PLUGIN DEFINITION
   * ========================= */
@@ -1398,7 +1331,6 @@
   , container: false
   }
 
-
  /* TOOLTIP NO CONFLICT
   * =================== */
 
@@ -1406,7 +1338,6 @@
     $.fn.tooltip = old
     return this
   }
-
 }(window.jQuery);
 /* ===========================================================
  * bootstrap-popover.js v2.3.2
@@ -1427,11 +1358,8 @@
  * limitations under the License.
  * =========================================================== */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* POPOVER PUBLIC CLASS DEFINITION
   * =============================== */
@@ -1440,12 +1368,10 @@
     this.init('popover', element, options)
   }
 
-
   /* NOTE: POPOVER EXTENDS BOOTSTRAP-TOOLTIP.js
      ========================================== */
 
   Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype, {
-
     constructor: Popover
 
   , setContent: function () {
@@ -1484,9 +1410,7 @@
   , destroy: function () {
       this.hide().$element.off('.' + this.type).removeData(this.type)
     }
-
   })
-
 
  /* POPOVER PLUGIN DEFINITION
   * ======================= */
@@ -1512,7 +1436,6 @@
   , template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
   })
 
-
  /* POPOVER NO CONFLICT
   * =================== */
 
@@ -1520,7 +1443,6 @@
     $.fn.popover = old
     return this
   }
-
 }(window.jQuery);
 /* =============================================================
  * bootstrap-scrollspy.js v2.3.2
@@ -1541,11 +1463,8 @@
  * limitations under the License.
  * ============================================================== */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* SCROLLSPY CLASS DEFINITION
   * ========================== */
@@ -1565,7 +1484,6 @@
   }
 
   ScrollSpy.prototype = {
-
       constructor: ScrollSpy
 
     , refresh: function () {
@@ -1638,9 +1556,7 @@
 
         active.trigger('activate')
       }
-
   }
-
 
  /* SCROLLSPY PLUGIN DEFINITION
   * =========================== */
@@ -1663,7 +1579,6 @@
     offset: 10
   }
 
-
  /* SCROLLSPY NO CONFLICT
   * ===================== */
 
@@ -1671,7 +1586,6 @@
     $.fn.scrollspy = old
     return this
   }
-
 
  /* SCROLLSPY DATA-API
   * ================== */
@@ -1682,7 +1596,6 @@
       $spy.scrollspy($spy.data())
     })
   })
-
 }(window.jQuery);/* ========================================================
  * bootstrap-tab.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#tabs
@@ -1702,11 +1615,8 @@
  * limitations under the License.
  * ======================================================== */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* TAB CLASS DEFINITION
   * ==================== */
@@ -1716,7 +1626,6 @@
   }
 
   Tab.prototype = {
-
     constructor: Tab
 
   , show: function () {
@@ -1791,7 +1700,6 @@
     }
   }
 
-
  /* TAB PLUGIN DEFINITION
   * ===================== */
 
@@ -1808,7 +1716,6 @@
 
   $.fn.tab.Constructor = Tab
 
-
  /* TAB NO CONFLICT
   * =============== */
 
@@ -1817,7 +1724,6 @@
     return this
   }
 
-
  /* TAB DATA-API
   * ============ */
 
@@ -1825,7 +1731,6 @@
     e.preventDefault()
     $(this).tab('show')
   })
-
 }(window.jQuery);/* =============================================================
  * bootstrap-typeahead.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#typeahead
@@ -1845,11 +1750,8 @@
  * limitations under the License.
  * ============================================================ */
 
-
 !function($){
-
   "use strict"; // jshint ;_;
-
 
  /* TYPEAHEAD PUBLIC CLASS DEFINITION
   * ================================= */
@@ -1868,7 +1770,6 @@
   }
 
   Typeahead.prototype = {
-
     constructor: Typeahead
 
   , select: function () {
@@ -2112,9 +2013,7 @@
       this.mousedover = false
       if (!this.focused && this.shown) this.hide()
     }
-
   }
-
 
   /* TYPEAHEAD PLUGIN DEFINITION
    * =========================== */
@@ -2141,7 +2040,6 @@
 
   $.fn.typeahead.Constructor = Typeahead
 
-
  /* TYPEAHEAD NO CONFLICT
   * =================== */
 
@@ -2149,7 +2047,6 @@
     $.fn.typeahead = old
     return this
   }
-
 
  /* TYPEAHEAD DATA-API
   * ================== */
@@ -2159,7 +2056,6 @@
     if ($this.data('typeahead')) return
     $this.typeahead($this.data())
   })
-
 }(window.jQuery);
 /* ==========================================================
  * bootstrap-affix.js v2.3.2
@@ -2180,11 +2076,8 @@
  * limitations under the License.
  * ========================================================== */
 
-
 !function ($) {
-
   "use strict"; // jshint ;_;
-
 
  /* AFFIX CLASS DEFINITION
   * ====================== */
@@ -2227,7 +2120,6 @@
     this.$element.removeClass(reset).addClass('affix' + (affix ? '-' + affix : ''))
   }
 
-
  /* AFFIX PLUGIN DEFINITION
   * ======================= */
 
@@ -2249,7 +2141,6 @@
     offset: 0
   }
 
-
  /* AFFIX NO CONFLICT
   * ================= */
 
@@ -2257,7 +2148,6 @@
     $.fn.affix = old
     return this
   }
-
 
  /* AFFIX DATA-API
   * ============== */
@@ -2275,6 +2165,4 @@
       $spy.affix(data)
     })
   })
-
-
 }(window.jQuery);

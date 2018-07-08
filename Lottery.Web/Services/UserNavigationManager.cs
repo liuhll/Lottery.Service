@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Lottery.Web.Models;
+﻿using Lottery.Web.Models;
+using System.Collections.Generic;
 
 namespace Lottery.Web.Services
 {
@@ -31,7 +30,5 @@ namespace Lottery.Web.Services
             };
             return menu;
         }
-
-
     }
 }

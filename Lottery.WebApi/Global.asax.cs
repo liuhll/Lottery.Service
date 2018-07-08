@@ -9,6 +9,7 @@ using ENode.SqlServer;
 using Lottery.Infrastructure;
 using Lottery.WebApi.Extensions;
 using System.Reflection;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -21,6 +22,14 @@ namespace Lottery.WebApi
 
         protected void Application_Start()
         {
+            int minWorker, minIOC;
+            // Get the current settings.
+            ThreadPool.GetMinThreads(out minWorker, out minIOC);
+            // Change the minimum number of worker threads to four, but
+            // keep the old setting for minimum asynchronous I/O
+            // completion threads.
+            ThreadPool.SetMinThreads(500, minIOC);
+
             InitializeENode();
 
             AreaRegistration.RegisterAllAreas();

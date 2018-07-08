@@ -5,50 +5,50 @@
  * MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
- ;(function ($, window, document) {
+; (function ($, window, document) {
     'use strict';
 
-	// Baked-in settings for extension
-	var defaults = {
-        maxWidth              : 800,      // Max slider width - should be set to image width
-        transition            : 'sliceH',  // String (default 'cubeV'): Transition type ('custom', random', 'cubeH', 'cubeV', 'fade', 'sliceH', 'sliceV', 'slideH', 'slideV', 'scale', 'blockScale', 'kaleidoscope', 'fan', 'blindH', 'blindV')
-        customTransitions     : [],
-        fallback3d            : 'sliceV', // String (default 'sliceV'): Fallback for browsers that support transitions, but not 3d transforms (only used if primary transition makes use of 3d-transforms)
-        perspective           : 1000,     // Perspective (used for 3d transforms)
-        useThumbs             : true,     // Bool (default true): Navigation type thumbnails
-        useArrows             : false,    // Bool (default false): Navigation type previous and next arrows
-        thumbMargin           : 3,        // Int (default 3): Percentage width of thumb margin
-        autoPlay              : false,    // Int (default false): Auto-cycle slider
-        delay                 : 5000,     // Int (default 5000) Time between slides in ms
-        transitionDuration    : 800,      // Int (default 800): Transition length in ms
-        startSlide            : 0,        // Int (default 0): First slide
-        keyNav                : true,     // Bool (default true): Use left/right arrow keys to switch slide
-        captionWidth          : 50,       // Int (default 50): Percentage of slide taken by caption
-        arrowTemplate         : '<div class="rs-arrows"><a href="#" class="rs-prev"></a><a href="#" class="rs-next"></a></div>', // String: The markup used for arrow controls (if arrows are used). Must use classes '.rs-next' & '.rs-prev'
-        onInit                : function () {}, // Func: User-defined, fires with slider initialisation
-        onChange              : function () {}, // Func: User-defined, fires with transition start
-        afterChange           : function () {}  // Func: User-defined, fires after transition end
-	};
+    // Baked-in settings for extension
+    var defaults = {
+        maxWidth: 800,      // Max slider width - should be set to image width
+        transition: 'sliceH',  // String (default 'cubeV'): Transition type ('custom', random', 'cubeH', 'cubeV', 'fade', 'sliceH', 'sliceV', 'slideH', 'slideV', 'scale', 'blockScale', 'kaleidoscope', 'fan', 'blindH', 'blindV')
+        customTransitions: [],
+        fallback3d: 'sliceV', // String (default 'sliceV'): Fallback for browsers that support transitions, but not 3d transforms (only used if primary transition makes use of 3d-transforms)
+        perspective: 1000,     // Perspective (used for 3d transforms)
+        useThumbs: true,     // Bool (default true): Navigation type thumbnails
+        useArrows: false,    // Bool (default false): Navigation type previous and next arrows
+        thumbMargin: 3,        // Int (default 3): Percentage width of thumb margin
+        autoPlay: false,    // Int (default false): Auto-cycle slider
+        delay: 5000,     // Int (default 5000) Time between slides in ms
+        transitionDuration: 800,      // Int (default 800): Transition length in ms
+        startSlide: 0,        // Int (default 0): First slide
+        keyNav: true,     // Bool (default true): Use left/right arrow keys to switch slide
+        captionWidth: 50,       // Int (default 50): Percentage of slide taken by caption
+        arrowTemplate: '<div class="rs-arrows"><a href="#" class="rs-prev"></a><a href="#" class="rs-next"></a></div>', // String: The markup used for arrow controls (if arrows are used). Must use classes '.rs-next' & '.rs-prev'
+        onInit: function () { }, // Func: User-defined, fires with slider initialisation
+        onChange: function () { }, // Func: User-defined, fires with transition start
+        afterChange: function () { }  // Func: User-defined, fires after transition end
+    };
 
-	// RS (RefineSlide) object constructor
-	function RS(elem, settings) {
-		this.$slider            = $(elem).addClass('rs-slider');      // Elem: Slider element
-		this.settings           = $.extend({}, defaults, settings);    // Obj: Merged user settings/defaults
-		this.$slides            = this.$slider.find('> li');           // Elem Arr: Slide elements
-		this.totalSlides        = this.$slides.length;                 // Int: Number of slides
-		this.cssTransitions     = testBrowser.cssTransitions();        // Bool: Test for CSS transition support
-		this.cssTransforms3d    = testBrowser.cssTransforms3d();       // Bool: Test for 3D transform support
-		this.currentPlace       = this.settings.startSlide;         // Int: Index of current slide (starts at 0)
-		this.$currentSlide      = this.$slides.eq(this.currentPlace);  // Elem: Starting slide
-		this.inProgress         = false;                               // Bool: Prevents overlapping transitions
-		this.$sliderWrap        = this.$slider.wrap('<div class="rs-wrap" />').parent();      // Elem: Slider wrapper div
-		this.$sliderBG          = this.$slider.wrap('<div class="rs-slide-bg" />').parent();  // Elem: Slider background (useful for styling & essential for cube transitions)
-		this.settings.slider = this;  // Make slider object accessible to client call code with 'this.slider' (there's probably a better way to do this)
+    // RS (RefineSlide) object constructor
+    function RS(elem, settings) {
+        this.$slider = $(elem).addClass('rs-slider');      // Elem: Slider element
+        this.settings = $.extend({}, defaults, settings);    // Obj: Merged user settings/defaults
+        this.$slides = this.$slider.find('> li');           // Elem Arr: Slide elements
+        this.totalSlides = this.$slides.length;                 // Int: Number of slides
+        this.cssTransitions = testBrowser.cssTransitions();        // Bool: Test for CSS transition support
+        this.cssTransforms3d = testBrowser.cssTransforms3d();       // Bool: Test for 3D transform support
+        this.currentPlace = this.settings.startSlide;         // Int: Index of current slide (starts at 0)
+        this.$currentSlide = this.$slides.eq(this.currentPlace);  // Elem: Starting slide
+        this.inProgress = false;                               // Bool: Prevents overlapping transitions
+        this.$sliderWrap = this.$slider.wrap('<div class="rs-wrap" />').parent();      // Elem: Slider wrapper div
+        this.$sliderBG = this.$slider.wrap('<div class="rs-slide-bg" />').parent();  // Elem: Slider background (useful for styling & essential for cube transitions)
+        this.settings.slider = this;  // Make slider object accessible to client call code with 'this.slider' (there's probably a better way to do this)
 
-		this.init();
-	}
+        this.init();
+    }
 
-	RS.prototype = {
+    RS.prototype = {
         cycling: null,
         $slideImages: null,
 
@@ -59,7 +59,7 @@
             // Setup captions
             this.captions();
 
-            if(this.settings.transition === 'custom') {
+            if (this.settings.transition === 'custom') {
                 this.nextAnimIndex = -1; // Set animation index for custom animation
             }
 
@@ -95,7 +95,7 @@
             this.setup();
         }
 
-        ,setup: function () {
+        , setup: function () {
             this.$sliderWrap.css('width', this.settings.maxWidth);
 
             if (this.settings.useThumbs) {
@@ -103,10 +103,10 @@
             }
 
             // Display first slide
-            this.$currentSlide.css({'opacity' : 1, 'z-index' : 2});
+            this.$currentSlide.css({ 'opacity': 1, 'z-index': 2 });
         }
 
-        ,setArrows:function () {
+        , setArrows: function () {
             var that = this;
 
             // Append user-defined arrow template (elems) to '.rs-wrap' elem
@@ -125,7 +125,7 @@
             });
         }
 
-        ,next: function () {
+        , next: function () {
             if (this.settings.transition === 'custom') {
                 this.nextAnimIndex++;
             }
@@ -138,7 +138,7 @@
             }
         }
 
-        ,prev: function () {
+        , prev: function () {
             if (this.settings.transition === 'custom') {
                 this.nextAnimIndex--;
             }
@@ -151,7 +151,7 @@
             }
         }
 
-        ,setKeys: function () {
+        , setKeys: function () {
             var that = this;
 
             // Bind keyboard left/right arrows to next/prev methods
@@ -164,7 +164,7 @@
             });
         }
 
-        ,setAutoPlay: function () {
+        , setAutoPlay: function () {
             var that = this;
 
             // Set timeout to object property so it can be accessed/cleared externally
@@ -173,7 +173,7 @@
             }, this.settings.delay);
         }
 
-        ,setThumbs: function () {
+        , setThumbs: function () {
             var that = this,
                 // Set percentage width (minus user-defined margin) to span width of slider
                 width = (100 - ((this.totalSlides - 1) * this.settings.thumbMargin)) / this.totalSlides + '%';
@@ -185,8 +185,8 @@
             for (var i = 0; i < this.totalSlides; i++) {
                 var $thumb = $('<a />')
                     .css({
-                        width : width,
-                        marginLeft : this.settings.thumbMargin + '%'
+                        width: width,
+                        marginLeft: this.settings.thumbMargin + '%'
                     })
                     .attr('href', '#')
                     .data('rs-num', i);
@@ -213,7 +213,7 @@
             });
         }
 
-        ,captions: function() {
+        , captions: function () {
             var that = this,
                 $captions = this.$slides.find('.rs-caption');
 
@@ -226,7 +226,7 @@
             // Display starting slide's caption
             this.$currentSlide.find('.rs-caption').css('opacity', 1);
 
-            $captions.each(function() {
+            $captions.each(function () {
                 $(this).css({
                     transition: 'opacity ' + that.settings.transitionDuration + 'ms linear',
                     backfaceVisibility: 'hidden'
@@ -234,14 +234,14 @@
             });
         }
 
-        ,transition: function (slideNum, forward) {
+        , transition: function (slideNum, forward) {
             // If inProgress flag is not set (i.e. if not mid-transition)
             if (!this.inProgress) {
                 // If not already on requested slide
                 if (slideNum !== this.currentPlace) {
                     // Check whether the requested slide index is ahead or behind in the array (if not passed in as param)
                     if (typeof forward === 'undefined') {
-                    	forward = slideNum > this.currentPlace ? true : false;
+                        forward = slideNum > this.currentPlace ? true : false;
                     }
 
                     // If thumbnails exist, revise active class states
@@ -266,12 +266,12 @@
         }
     };
 
-	// Transition object constructor
-	function Transition(RS, transition, forward) {
-		this.RS = RS; // RS (RefineSlide) object
-		this.RS.inProgress = true; // Set RS inProgress flag to prevent additional Transition objects being instantiated until transition end
-		this.forward = forward; // Bool: true for forward, false for backward
-		this.transition = transition; // String: name of transition requested
+    // Transition object constructor
+    function Transition(RS, transition, forward) {
+        this.RS = RS; // RS (RefineSlide) object
+        this.RS.inProgress = true; // Set RS inProgress flag to prevent additional Transition objects being instantiated until transition end
+        this.forward = forward; // Bool: true for forward, false for backward
+        this.transition = transition; // String: name of transition requested
 
         if (this.transition === 'custom') {
             this.customAnims = this.RS.settings.customTransitions;
@@ -290,38 +290,38 @@
 
         this.fallback3d = this.RS.settings.fallback3d; // String: fallback to use when 3D transforms aren't supported
 
-		this.init(); // Call Transition initialisation method
-	}
+        this.init(); // Call Transition initialisation method
+    }
 
-	// Transition object Prototype
-	Transition.prototype = {
+    // Transition object Prototype
+    Transition.prototype = {
         // Fallback to use if CSS transitions are unsupported
         fallback: 'fade'
 
         // Array of possible animations
-        ,anims: ['cubeH', 'cubeV', 'fade', 'sliceH', 'sliceV', 'slideH', 'slideV', 'scale', 'blockScale', 'kaleidoscope', 'fan', 'blindH', 'blindV']
+        , anims: ['cubeH', 'cubeV', 'fade', 'sliceH', 'sliceV', 'slideH', 'slideV', 'scale', 'blockScale', 'kaleidoscope', 'fan', 'blindH', 'blindV']
 
-        ,customAnims: []
+        , customAnims: []
 
-        ,init: function () {
+        , init: function () {
             // Call requested transition method
             this[this.transition]();
         }
 
-        ,before: function (callback) {
+        , before: function (callback) {
             var that = this;
 
             // Prepare slide opacity & z-index
             this.RS.$currentSlide.css('z-index', 2);
-            this.RS.$nextSlide.css({'opacity' : 1, 'z-index' : 1});
+            this.RS.$nextSlide.css({ 'opacity': 1, 'z-index': 1 });
 
             // Fade out/in captions with CSS/JS depending on browser capability
             if (this.RS.cssTransitions) {
                 this.RS.$currentSlide.find('.rs-caption').css('opacity', 0);
                 this.RS.$nextSlide.find('.rs-caption').css('opacity', 1);
             } else {
-                this.RS.$currentSlide.find('.rs-caption').animate({'opacity' : 0}, that.RS.settings.transitionDuration);
-                this.RS.$nextSlide.find('.rs-caption').animate({'opacity' : 1}, that.RS.settings.transitionDuration);
+                this.RS.$currentSlide.find('.rs-caption').animate({ 'opacity': 0 }, that.RS.settings.transitionDuration);
+                this.RS.$nextSlide.find('.rs-caption').animate({ 'opacity': 1 }, that.RS.settings.transitionDuration);
             }
 
             // Check if transition describes a setup method
@@ -343,7 +343,7 @@
             }
         }
 
-        ,after: function () {
+        , after: function () {
             // Reset transition CSS
             this.RS.$sliderBG.removeAttr('style');
             this.RS.$slider.removeAttr('style');
@@ -355,7 +355,7 @@
             });
             this.RS.$nextSlide.css({
                 zIndex: 2,
-                opacity : 1
+                opacity: 1
             });
 
             // Additional reset steps required by transition (if any exist)
@@ -379,7 +379,7 @@
             this.RS.settings.afterChange();
         }
 
-        ,fade: function () {
+        , fade: function () {
             var that = this;
 
             // If CSS transitions are supported by browser
@@ -399,7 +399,7 @@
                 }
             } else { // JS animation fallback
                 this.execute = function () {
-                    that.RS.$currentSlide.animate({'opacity' : 0}, that.RS.settings.transitionDuration, function () {
+                    that.RS.$currentSlide.animate({ 'opacity': 0 }, that.RS.settings.transitionDuration, function () {
                         // Reset steps
                         that.after();
                     });
@@ -410,7 +410,7 @@
         }
 
         // cube() method is used by cubeH() & cubeV() - not for calling directly
-        ,cube: function (tz, ntx, nty, nrx, nry, wrx, wry) { // Args: translateZ, (next slide) translateX, (next slide) translateY, (next slide) rotateX, (next slide) rotateY, (wrap) rotateX, (wrap) rotateY
+        , cube: function (tz, ntx, nty, nrx, nry, wrx, wry) { // Args: translateZ, (next slide) translateX, (next slide) translateY, (next slide) rotateX, (next slide) rotateY, (wrap) rotateX, (wrap) rotateY
             // Fallback if browser does not support 3d transforms/CSS transitions
             if (!this.RS.cssTransitions || !this.RS.cssTransforms3d) {
                 return this[this['fallback3d']](); // User-defined transition
@@ -427,15 +427,15 @@
 
                 // props for slide <li>s
                 that.RS.$currentSlide.css({
-                    transform : 'translateZ(' + tz + 'px)',
-                    backfaceVisibility : 'hidden'
+                    transform: 'translateZ(' + tz + 'px)',
+                    backfaceVisibility: 'hidden'
                 });
 
                 // props for next slide <li>
                 that.RS.$nextSlide.css({
-                    opacity : 1,
-                    backfaceVisibility : 'hidden',
-                    transform : 'translateY(' + nty + 'px) translateX(' + ntx + 'px) rotateY('+ nry +'deg) rotateX('+ nrx +'deg)'
+                    opacity: 1,
+                    backfaceVisibility: 'hidden',
+                    transform: 'translateY(' + nty + 'px) translateX(' + ntx + 'px) rotateY(' + nry + 'deg) rotateX(' + nrx + 'deg)'
                 });
 
                 // props for slider <ul>
@@ -449,14 +449,14 @@
             this.execute = function () {
                 that.RS.$slider.css({
                     transition: 'all ' + that.RS.settings.transitionDuration + 'ms ease-in-out',
-                    transform: 'translateZ(-' + tz + 'px) rotateX('+ wrx +'deg) rotateY('+ wry +'deg)'
+                    transform: 'translateZ(-' + tz + 'px) rotateX(' + wrx + 'deg) rotateY(' + wry + 'deg)'
                 });
             };
 
             this.before($.proxy(this.execute, this));
         }
 
-        ,cubeH: function () {
+        , cubeH: function () {
             // Set to half of slide width
             var dimension = $(this.RS.$slides).width() / 2;
 
@@ -468,7 +468,7 @@
             }
         }
 
-        ,cubeV: function () {
+        , cubeV: function () {
             // Set to half of slide height
             var dimension = $(this.RS.$slides).height() / 2;
 
@@ -482,7 +482,7 @@
 
         // grid() method is used by many transitions - not for calling directly
         // Grid calculations are based on those in the awesome flux slider (joelambert.co.uk/flux)
-        ,grid: function (cols, rows, ro, tx, ty, sc, op) { // Args: columns, rows, rotate, translateX, translateY, scale, opacity
+        , grid: function (cols, rows, ro, tx, ty, sc, op) { // Args: columns, rows, rotate, translateX, translateY, scale, opacity
             // Fallback if browser does not support CSS transitions
             if (!this.RS.cssTransitions) {
                 return this[this['fallback']]();
@@ -501,15 +501,15 @@
 
                     // Return a gridlet elem with styles for specific transition
                     return $('<div class="rs-gridlet" />').css({
-                        width : width,
-                        height : height,
-                        top : top,
-                        left : left,
-                        backgroundImage : 'url(' + src + ')',
-                        backgroundPosition : '-' + left + 'px -' + top + 'px',
-                        backgroundSize : imgWidth + 'px ' + imgHeight + 'px',
-                        transition : 'all ' + that.RS.settings.transitionDuration + 'ms ease-in-out ' + delay + 'ms',
-                        transform : 'none'
+                        width: width,
+                        height: height,
+                        top: top,
+                        left: left,
+                        backgroundImage: 'url(' + src + ')',
+                        backgroundPosition: '-' + left + 'px -' + top + 'px',
+                        backgroundSize: imgWidth + 'px ' + imgHeight + 'px',
+                        transition: 'all ' + that.RS.settings.transitionDuration + 'ms ease-in-out ' + delay + 'ms',
+                        transform: 'none'
                     });
                 }
 
@@ -553,7 +553,7 @@
                     }
 
                     // Nested loop to create row gridlets for each col
-                    for (var j = 0; j < rows; j++)  {
+                    for (var j = 0; j < rows; j++) {
                         var newRowHeight = rowHeight,
                             newRowRemainder = rowRemainder;
 
@@ -591,7 +591,7 @@
             this.execute = function () {
                 that.$grid.children().css({
                     opacity: op,
-                    transform: 'rotate('+ ro +'deg) translateX('+ tx +'px) translateY('+ ty +'px) scale('+ sc +')'
+                    transform: 'rotate(' + ro + 'deg) translateX(' + tx + 'px) translateY(' + ty + 'px) scale(' + sc + ')'
                 });
             };
 
@@ -604,15 +604,15 @@
             }
         }
 
-        ,sliceH: function () {
+        , sliceH: function () {
             this.grid(1, 8, 0, 'min-auto', 0, 1, 0);
         }
 
-        ,sliceV: function () {
+        , sliceV: function () {
             this.grid(10, 1, 0, 0, 'auto', 1, 0);
         }
 
-        ,slideV: function () {
+        , slideV: function () {
             var dir = this.forward ?
                 'min-auto' :
                 'auto';
@@ -620,7 +620,7 @@
             this.grid(1, 1, 0, 0, dir, 1, 1);
         }
 
-        ,slideH: function () {
+        , slideH: function () {
             var dir = this.forward ?
                 'min-auto' :
                 'auto';
@@ -628,36 +628,36 @@
             this.grid(1, 1, 0, dir, 0, 1, 1);
         }
 
-        ,scale: function () {
+        , scale: function () {
             this.grid(1, 1, 0, 0, 0, 1.5, 0);
         }
 
-        ,blockScale: function () {
+        , blockScale: function () {
             this.grid(8, 6, 0, 0, 0, .6, 0);
         }
 
-        ,kaleidoscope: function () {
+        , kaleidoscope: function () {
             this.grid(10, 8, 0, 0, 0, 1, 0);
         }
 
-        ,fan: function () {
+        , fan: function () {
             this.grid(1, 10, 45, 100, 0, 1, 0);
         }
 
-        ,blindV: function () {
+        , blindV: function () {
             this.grid(1, 8, 0, 0, 0, .7, 0);
         }
 
-        ,blindH: function () {
+        , blindH: function () {
             this.grid(10, 1, 0, 0, 0, .7, 0);
         }
 
-        ,random: function () {
+        , random: function () {
             // Pick a random transition from the anims array (obj prop)
             this[this.anims[Math.floor(Math.random() * this.anims.length)]]();
         }
 
-        ,custom: function() {
+        , custom: function () {
             if (this.RS.nextAnimIndex < 0) {
                 this.RS.nextAnimIndex = this.customAnims.length - 1;
             }
@@ -670,17 +670,17 @@
         }
     };
 
-	// Obj to check browser capabilities
-	var testBrowser = {
+    // Obj to check browser capabilities
+    var testBrowser = {
         // Browser vendor CSS prefixes
         browserVendors: ['', '-webkit-', '-moz-', '-ms-', '-o-', '-khtml-']
 
         // Browser vendor DOM prefixes
-        ,domPrefixes: ['', 'Webkit', 'Moz', 'ms', 'O', 'Khtml']
+        , domPrefixes: ['', 'Webkit', 'Moz', 'ms', 'O', 'Khtml']
 
         // Method to iterate over a property (using all DOM prefixes)
         // Returns true if prop is recognised by browser (else returns false)
-        ,testDom: function (prop) {
+        , testDom: function (prop) {
             var i = this.domPrefixes.length;
 
             while (i--) {
@@ -692,7 +692,7 @@
             return false;
         }
 
-        ,cssTransitions: function () {
+        , cssTransitions: function () {
             // Use Modernizr if available & implements csstransitions test
             if (typeof window.Modernizr !== 'undefined' && Modernizr.csstransitions !== 'undefined') {
                 return Modernizr.csstransitions;
@@ -702,7 +702,7 @@
             return this.testDom('Transition');
         }
 
-        ,cssTransforms3d: function () {
+        , cssTransforms3d: function () {
             // Use Modernizr if available & implements csstransforms3d test
             if (typeof window.Modernizr !== 'undefined' && Modernizr.csstransforms3d !== 'undefined') {
                 return Modernizr.csstransforms3d;
@@ -718,14 +718,14 @@
         }
     };
 
-	// jQuery plugin wrapper
-	$.fn['refineSlide'] = function (settings) {
-		return this.each(function () {
+    // jQuery plugin wrapper
+    $.fn['refineSlide'] = function (settings) {
+        return this.each(function () {
             // Check if already instantiated on this elem
-			if (!$.data(this, 'refineSlide')) {
+            if (!$.data(this, 'refineSlide')) {
                 // Instantiate & store elem + string
-				$.data(this, 'refineSlide', new RS(this, settings));
-			}
-		});
-	}
+                $.data(this, 'refineSlide', new RS(this, settings));
+            }
+        });
+    }
 })(window.jQuery, window, window.document);

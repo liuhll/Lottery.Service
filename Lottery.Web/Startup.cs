@@ -2,6 +2,7 @@
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(Lottery.Web.Startup))]
+
 namespace Lottery.Web
 {
     public partial class Startup

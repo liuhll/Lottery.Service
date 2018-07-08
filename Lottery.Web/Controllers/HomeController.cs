@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Lottery.Web.Models;
+﻿using Lottery.Web.Models;
 using Lottery.Web.Services;
+using System.Web.Mvc;
 
 namespace Lottery.Web.Controllers
 {

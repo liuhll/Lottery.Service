@@ -23,7 +23,6 @@
     position: relative;
 }
 
-
 /* We just have one-lined elements, so we'll center the elements with the line-height set to the height of the header */
 
 .cbp-af-header h1,
@@ -43,7 +42,6 @@
 .cbp-af-header nav {
     float: right;
 }
-
 
 /* Transitions and class for reduced height */
 

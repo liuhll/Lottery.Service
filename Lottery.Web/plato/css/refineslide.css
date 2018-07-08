@@ -152,7 +152,6 @@
     opacity: 1;
 }
 
-
 /* theme skin */
 
 /*
@@ -420,8 +419,6 @@
     -webkit-border-bottom-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-
-
 
 /* Optional - remove captions at smaller screen widths
 @media screen and (max-width: 480px) {

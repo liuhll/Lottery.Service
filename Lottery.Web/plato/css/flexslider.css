@@ -9,7 +9,6 @@
  * Contributing author: Tyler Smith (@mbmufffin)
  */
 
- 
 /* Browser Resets */
 .flex-container a:active,
 .flexslider a:active,
@@ -17,18 +16,18 @@
 .flexslider a:focus  {outline: none;}
 .slides,
 .flex-control-nav,
-.flex-direction-nav {margin: 0; padding: 0; list-style: none;} 
+.flex-direction-nav {margin: 0; padding: 0; list-style: none;}
 
 /* FlexSlider Necessary Styles
-*********************************/ 
+*********************************/
 .flexslider { margin: 0; padding: 0;}
 .flexslider .slides > li {display: none; -webkit-backface-visibility: hidden; position: relative;} /* Hide the slides before the JS is loaded. Avoids image jumping */
 .flexslider .slides img { width: 100%; display: block;}
 .flex-pauseplay span {text-transform: capitalize;}
 
 /* Clearfix for the .slides element */
-.flexslider .slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} 
-html[xmlns] .slides {display: block;} 
+.flexslider .slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
+html[xmlns] .slides {display: block;}
 * html .slides {height: 1%;}
 
 /* No JavaScript Fallback */
@@ -36,24 +35,23 @@ html[xmlns] .slides {display: block;}
  * include js that eliminates this class on page load */
 .no-js .slides > li:first-child {display: block;}
 
-
 /* FlexSlider Default Theme
 *********************************/
-.flexslider {background:none; position: relative; 
+.flexslider {background:none; position: relative;
 zoom: 1;}
 
 .flexslider {
 	margin: 0 0 0px 0;
-	min-height: 350px; 
-	border: none; 
-	position: relative; 
-	-webkit-border-radius: 0; 
-	-moz-border-radius: 0; 
-	-o-border-radius: 0; 
-	border-radius: 0; 
-	box-shadow: none; 
-	-webkit-box-shadow: none; 
-	-moz-box-shadow: none; 
+	min-height: 350px;
+	border: none;
+	position: relative;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-o-border-radius: 0;
+	border-radius: 0;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
 	-o-box-shadow: none;
 	overflow: visible !important;
 }
@@ -67,7 +65,7 @@ zoom: 1;}
 /* Caption style */
 
 .flex-caption { background: rgba(0,0,0,.8); margin-left:5px;bottom:5px; position:absolute;padding:20px; z-index:99;}
-.flex-caption p{ font-size: 14px !important; line-height: 22px; 
+.flex-caption p{ font-size: 14px !important; line-height: 22px;
 font-weight:300; color: #fff }
 .flex-caption h2, .flex-caption h4 {
 	color:#fff;

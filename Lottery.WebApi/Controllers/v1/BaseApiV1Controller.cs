@@ -1,5 +1,5 @@
-﻿using System.Web.Http;
-using ENode.Commanding;
+﻿using ENode.Commanding;
+using System.Web.Http;
 
 namespace Lottery.WebApi.Controllers.v1
 {

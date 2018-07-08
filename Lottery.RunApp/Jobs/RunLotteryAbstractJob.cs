@@ -196,6 +196,11 @@ namespace Lottery.RunApp.Jobs
                 return false;
             }
 
+            if (Math.Abs(TodayActualLotteryCount - todayCurrentCount) >= 2)
+            {
+                return false;
+            }
+
             // 当前期数还未开奖
             if (TodayActualLotteryCount < todayCurrentCount)
             {

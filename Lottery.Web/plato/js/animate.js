@@ -1,7 +1,5 @@
 jQuery(document).ready(function($) {
-
-							
-	//animate effect	
+	//animate effect
 	$(".e_flash").hover(
 		function () {
 		$(this).addClass("animated flash");
@@ -18,7 +16,7 @@ jQuery(document).ready(function($) {
 		$(this).removeClass("animated bounce");
 		}
 	);
-	
+
 	$(".e_shake").hover(
 		function () {
 		$(this).addClass("animated shake");
@@ -67,8 +65,7 @@ jQuery(document).ready(function($) {
 		$(this).removeClass("animated pulse");
 		}
 	);
-	
-	
+
 	$(".e_flip").hover(
 		function () {
 		$(this).addClass("animated flip");
@@ -108,8 +105,8 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated flipOutY");
 		}
-	);	
-	
+	);
+
 	//Fading entrances
 	$(".e_fadeIn").hover(
 		function () {
@@ -118,7 +115,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeIn");
 		}
-	);		
+	);
 	$(".e_fadeInUp").hover(
 		function () {
 		$(this).addClass("animated fadeInUp");
@@ -126,7 +123,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeInUp");
 		}
-	);	
+	);
 	$(".e_fadeInDown").hover(
 		function () {
 		$(this).addClass("animated fadeInDown");
@@ -150,7 +147,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeInRight");
 		}
-	);	
+	);
 	$(".e_fadeInUpBig").hover(
 		function () {
 		$(this).addClass("animated fadeInUpBig");
@@ -158,7 +155,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeInUpBig");
 		}
-	);		
+	);
 	$(".e_fadeInUpBig").hover(
 		function () {
 		$(this).addClass("animated fadeInUpBig");
@@ -166,7 +163,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeInUpBig");
 		}
-	);		
+	);
 	$(".e_fadeInDownBig").hover(
 		function () {
 		$(this).addClass("animated fadeInDownBig");
@@ -174,7 +171,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeInDownBig");
 		}
-	);	
+	);
 	$(".e_fadeInLeftBig").hover(
 		function () {
 		$(this).addClass("animated fadeInLeftBig");
@@ -182,7 +179,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeInLeftBig");
 		}
-	);	
+	);
 	$(".e_fadeInRightBig").hover(
 		function () {
 		$(this).addClass("animated fadeInRightBig");
@@ -190,9 +187,8 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeInRightBig");
 		}
-	);	
-	
-	
+	);
+
 	//Fading exits
 	$(".e_fadeOut").hover(
 		function () {
@@ -201,7 +197,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeOut");
 		}
-	);	
+	);
 	$(".e_fadeOutUp").hover(
 		function () {
 		$(this).addClass("animated fadeOutUp");
@@ -209,7 +205,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeOutUp");
 		}
-	);	
+	);
 	$(".e_fadeOutDown").hover(
 		function () {
 		$(this).addClass("animated fadeOutDown");
@@ -217,7 +213,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeOutDown");
 		}
-	);		
+	);
 	$(".e_fadeOutLeft").hover(
 		function () {
 		$(this).addClass("animated fadeOutLeft");
@@ -225,7 +221,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeOutLeft");
 		}
-	);		
+	);
 	$(".e_fadeOutRight").hover(
 		function () {
 		$(this).addClass("animated fadeOutRight");
@@ -233,7 +229,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeOutRight");
 		}
-	);	
+	);
 	$(".e_fadeOutUpBig").hover(
 		function () {
 		$(this).addClass("animated fadeOutUpBig");
@@ -241,7 +237,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeOutUpBig");
 		}
-	);	
+	);
 	$(".e_fadeOutDownBig").hover(
 		function () {
 		$(this).addClass("animated fadeOutDownBig");
@@ -249,7 +245,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeOutDownBig");
 		}
-	);	
+	);
 	$(".e_fadeOutLeftBig").hover(
 		function () {
 		$(this).addClass("animated fadeOutLeftBig");
@@ -257,7 +253,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeOutLeftBig");
 		}
-	);	
+	);
 	$(".e_fadeOutRightBig").hover(
 		function () {
 		$(this).addClass("animated fadeOutRightBig");
@@ -265,9 +261,8 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated fadeOutRightBig");
 		}
-	);	
-	
-	
+	);
+
 	//Bouncing entrances
 	$(".e_bounceIn").hover(
 		function () {
@@ -292,7 +287,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated bounceInUp");
 		}
-	);	
+	);
 	$(".e_bounceInLeft").hover(
 		function () {
 		$(this).addClass("animated bounceInLeft");
@@ -309,8 +304,7 @@ jQuery(document).ready(function($) {
 		$(this).removeClass("animated bounceInRight");
 		}
 	);
-	
-	
+
 	//Bouncing exits
 	$(".e_bounceOut").hover(
 		function () {
@@ -335,7 +329,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated bounceOutUp");
 		}
-	);	
+	);
 	$(".e_bounceOutLeft").hover(
 		function () {
 		$(this).addClass("animated bounceOutLeft");
@@ -352,9 +346,8 @@ jQuery(document).ready(function($) {
 		$(this).removeClass("animated bounceOutRight");
 		}
 	);
-	
-	
-	//Rotating entrances	
+
+	//Rotating entrances
 	$(".e_rotateIn").hover(
 		function () {
 		$(this).addClass("animated rotateIn");
@@ -395,8 +388,7 @@ jQuery(document).ready(function($) {
 		$(this).removeClass("animated rotateInUpLeft");
 		}
 	);
-	
-	
+
 	//Rotating exits
 	$(".e_rotateOut").hover(
 		function () {
@@ -421,7 +413,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated rotateOutDownRight");
 		}
-	);	
+	);
 	$(".e_rotateOutUpLeft").hover(
 		function () {
 		$(this).addClass("animated rotateOutUpLeft");
@@ -438,8 +430,7 @@ jQuery(document).ready(function($) {
 		$(this).removeClass("animated rotateOutUpRight");
 		}
 	);
-	
-	
+
 	//Lightspeed
 	$(".e_lightSpeedIn").hover(
 		function () {
@@ -457,7 +448,7 @@ jQuery(document).ready(function($) {
 		$(this).removeClass("animated lightSpeedOut");
 		}
 	);
-	
+
 	//specials
 	$(".e_hinge").hover(
 		function () {
@@ -474,7 +465,7 @@ jQuery(document).ready(function($) {
 		function () {
 		$(this).removeClass("animated rollIn");
 		}
-	);	
+	);
 	$(".e_rollOut").hover(
 		function () {
 		$(this).addClass("animated rollOut");
@@ -483,7 +474,4 @@ jQuery(document).ready(function($) {
 		$(this).removeClass("animated rollOut");
 		}
 	);
-
-
-
 });

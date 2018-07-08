@@ -1,4 +1,5 @@
-﻿using ENode.Commanding;
+﻿using ECommon.Components;
+using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
 using EQueue.Clients.Producers;
@@ -8,7 +9,6 @@ using Lottery.Crawler;
 using Lottery.Engine;
 using Lottery.Infrastructure;
 using System.Reflection;
-using ECommon.Components;
 
 namespace Lottery.RunApp
 {

@@ -67,15 +67,36 @@
     <Compile Include="ComputePredictResult\ComputePredictFatory.cs" />
     <Compile Include="ComputePredictResult\HezhiComputePredictResult.cs" />
     <Compile Include="ComputePredictResult\JunzhiComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\JzNumMiComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\JzNumMxComputePredictResult.cs" />
     <Compile Include="ComputePredictResult\LhComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\NoNumComputePredictResult.cs" />
     <Compile Include="ComputePredictResult\NumComputePredictResult.cs" />
     <Compile Include="ComputePredictResult\RankComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\RxNumComputePredictResult.cs" />
     <Compile Include="ComputePredictResult\ShapeComputePredictResult.cs" />
     <Compile Include="ComputePredictResult\SizeComputePredictResult.cs" />
     <Compile Include="ComputePredictResult\ZhiHeComputePredictResult.cs" />
+    <Compile Include="ComputePredictResult\ZuXuanComputePredictResult.cs" />
     <Compile Include="DiscreteMarkov\DiscreteMarkov.cs" />
     <Compile Include="EngineContext.cs" />
     <Compile Include="ILotterEngine.cs" />
+    <Compile Include="JudgePredictDataResult\BaseJudgePerdictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\HeZhiJudgePerdictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\IJudgePredictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\JudgePredictDataResultFatory.cs" />
+    <Compile Include="JudgePredictDataResult\JunzhiJudgePredictResult.cs" />
+    <Compile Include="JudgePredictDataResult\JzNumMiJudgePredictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\JzNumMxJudgePredictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\LhJudgePerdictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\NopNumJudgePredictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\NumberJudgePerdictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\RankJudgePerdictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\RxNumJudgePredictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\ShapeJudgePerdictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\SizeJudgePerdictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\ZhiHeJudgePerdictDataResult.cs" />
+    <Compile Include="JudgePredictDataResult\ZuXuanJudgePredictDataResult.cs" />
     <Compile Include="LotterEngine.cs" />
     <Compile Include="LotteryData\ILotteryDataList.cs" />
     <Compile Include="LotteryData\ILotteryNumber.cs" />
@@ -119,7 +140,6 @@
   <ItemGroup>
     <Folder Include="AlgorithmPolicy\" />
     <Folder Include="Extensions\" />
-    <Folder Include="JudgePredictDataResult\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Lottery.Dtos.Lotteries;
+using Lottery.Infrastructure.Collections;
+using Lottery.Infrastructure.Enums;
 
 namespace Lottery.Engine.ComputePredictResult
 {
@@ -11,7 +15,20 @@ namespace Lottery.Engine.ComputePredictResult
 
         protected override ICollection<string> GetPredictedDataList(PlanInfoDto normPlanInfo, NormConfigDto userNorm)
         {
-            throw new System.NotImplementedException();
+            var count = normPlanInfo.PositionInfos.Count;
+
+            var minVal = _predictedDataRate.Keys.Min() * count;
+            var maxVal = _predictedDataRate.Keys.Max() * count;
+
+            var rd = new Random();
+
+            var result = new List<string>();
+
+            while (result.Count < userNorm.ForecastCount)
+            {
+                result.AddIfNotContains(rd.Next(minVal, maxVal).ToString());
+            }
+            return result;
         }
     }
 }

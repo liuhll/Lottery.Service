@@ -96,8 +96,8 @@ namespace Lottery.WebApi.Authentication
                 JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
                 TokenValidationParameters validationParameters = new TokenValidationParameters()
                 {
-                    ValidAudience = request.GetAudience(),  // LotteryConstants.ValidAudience,
-                    ValidIssuer = request.GetIssuer(),  // LotteryConstants.ValidIssuer,
+                    ValidAudience = LotteryConstants.ValidAudience,  // LotteryConstants.ValidAudience,
+                    ValidIssuer = LotteryConstants.ValidIssuer,  // LotteryConstants.ValidIssuer,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     LifetimeValidator = this.LifetimeValidator,
@@ -110,7 +110,7 @@ namespace Lottery.WebApi.Authentication
 
                 var conLog = _conLogQueryService.GetUserConLog(_lotterySession.UserId, _lotterySession.SystemTypeId, _lotterySession.ClientNo,
                     securityToken.ValidTo.ToLocalTime());
-                if (conLog.LogoutTime.HasValue)
+                if (conLog != null && conLog.LogoutTime.HasValue)
                 {
                     throw new LotteryAuthorizationException("您已经登出,请重新登录");
                 }

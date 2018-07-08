@@ -8,11 +8,13 @@ using Lottery.Dtos.CustomService;
 using Lottery.Dtos.OnlineHelp;
 using Lottery.Dtos.Opinions;
 using Lottery.Dtos.Points;
+using Lottery.Dtos.Wechat;
 using Lottery.Infrastructure;
 using Lottery.Infrastructure.Enums;
 using Lottery.Infrastructure.Exceptions;
 using Lottery.Infrastructure.Extensions;
 using Lottery.QueryServices.AppInfos;
+using Lottery.QueryServices.CustomService;
 using Lottery.QueryServices.Points;
 using Lottery.QueryServices.UserInfos;
 using System;
@@ -21,9 +23,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Lottery.Dtos.Wechat;
-using Lottery.QueryServices.CustomService;
-using Lottery.Infrastructure.Extensions;
 
 namespace Lottery.WebApi.Controllers.v1
 {

@@ -18,6 +18,14 @@
 
         public const string HeZhiCode = "HEZHI";
 
+        public const string NopNumCode = "NOPNUM";
 
+        public const string RxNumCode = "RXNUM";
+
+        public const string JzNumMxCode = "JIZHIMX";
+
+        public const string JzNumMiCode = "JIZHIMI";
+
+        public const string ZuXuanCode = "ZUXUAN";
     }
 }
